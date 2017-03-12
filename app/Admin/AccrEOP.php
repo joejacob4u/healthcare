@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,11 +12,11 @@ class AccrEOP extends Model
 
     public function accrRequirement()
     {
-      return $this->belongsTo('App\AccrRequirement','accr_req_id');
+      return $this->belongsTo('App\Admin\AccrRequirement','accr_req_id');
     }
 
     public function referenceEops()
     {
-      return $this->belongsToMany('App\AccrEOP','eop_id-eop_reference_id','eop_reference_id','eop_id');
+      return $this->belongsToMany('App\Admin\AccrEOP','eop_id-eop_reference_id','eop_reference_id','eop_id');
     }
 }

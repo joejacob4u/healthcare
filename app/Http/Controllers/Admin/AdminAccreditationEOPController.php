@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\AccrEOP;
-use App\AccrRequirement;
+use App\Admin\AccrEOP;
+use App\Admin\AccrRequirement;
+use App\Http\Controllers\Controller;
+
 
 class AdminAccreditationEOPController extends Controller
 {

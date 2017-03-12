@@ -51,6 +51,7 @@
 
     <li class="header text-yellow"><strong>ADMIN</strong></li>
     <li><a href="{{url('admin/clients')}}"><i class="fa fa-hospital-o" aria-hidden="true"></i> <span>Clients</span></a></li>
+    <li><a href="{{url('admin/cop')}}"><i class="fa fa-road" aria-hidden="true"></i> <span>COP</span></a></li>
     <li><a href="{{url('admin/accreditation')}}"><i class="fa fa-sticky-note-o" aria-hidden="true"></i> <span>Accreditation Requirements</span></a></li>
   </ul>
 </section>

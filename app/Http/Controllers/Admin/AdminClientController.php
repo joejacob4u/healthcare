@@ -1,10 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Department;
-use App\Client;
+use App\Admin\Department;
+use App\Admin\Client;
+use App\Admin\AccrType;
+use App\Http\Controllers\Controller;
+
 
 class AdminClientController extends Controller
 {
@@ -49,7 +52,7 @@ class AdminClientController extends Controller
 
       if($client = Client::create($request->all()))
       {
-          if($client->accrTypes()->saveMany($aDepartments))
+          if($client->departments()->saveMany($aDepartments))
           {
              return redirect('admin/clients')->with('success','The client has been added!');
           }

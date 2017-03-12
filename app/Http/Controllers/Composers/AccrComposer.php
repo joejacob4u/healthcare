@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Composers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\View\View;
-use App\Client;
-use App\AccrType;
+use App\Admin\Client;
+use App\Admin\AccrType;
 use Auth;
 
 class AccrComposer extends Controller

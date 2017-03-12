@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,7 @@ class Client extends Model
 
     public function departments()
     {
-        return $this->belongsToMany('App\Department','client_department','client_id','department_id');
+        return $this->belongsToMany('App\Admin\Department','client_department','client_id','department_id');
     }
+
 }

@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use App\Department;
-use App\AccrRequirement;
+use App\Admin\Department;
+use App\Admin\AccrRequirement;
+use App\Http\Controllers\Controller;
+
 
 class AdminAccreditationController extends Controller
 {
