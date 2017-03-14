@@ -52,7 +52,7 @@
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                         {{ link_to('admin/cop/edit/'.$cop->id.'/subcop/', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
-                        <button type="button" onclick="deleteSubCOP('{{$sub_cop->id}}','{{cop->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                        <button type="button" onclick="deleteSubCOP('{{$sub_cop->id}}','{{$cop->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                         {!! Form::submit('Save SubCOP', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
