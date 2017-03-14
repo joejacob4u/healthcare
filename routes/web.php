@@ -41,6 +41,12 @@ Route::group(['middleware' => ['auth','admin'],'prefix' => 'admin'], function ()
     Route::get('cop/{id}/subcop', 'Admin\SubCOPController@index');
     Route::get('cop/{id}/subcop/add', 'Admin\SubCOPController@addView');
     Route::post('cop/{id}/subcop/add', 'Admin\SubCOPController@create');
+    Route::get('cop/{cop_id}/subcop/edit/{sub_cop_id}', 'Admin\SubCOPController@editView');
+    Route::post('cop/{cop_id}/subcop/edit/{sub_cop_id}', 'Admin\SubCOPController@edit');
+    Route::post('subcop/delete', 'Admin\SubCOPController@delete');
+
+
+
 
 
 

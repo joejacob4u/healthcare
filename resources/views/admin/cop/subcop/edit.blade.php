@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/cop/edit/'.$cop->id, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/cop/edit/'.$cop->id.'/subcop/'.$sub_cop->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -24,29 +24,36 @@
               <div class="form-group">
                   {!! Form::label('label', 'Section Label:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('label', $cop->label, ['class' => 'form-control', 'placeholder' => 'Section Label']) !!}
+                      {!! Form::text('label', $sub_cop->label, ['class' => 'form-control', 'placeholder' => 'Section Label']) !!}
                   </div>
               </div>
 
                 <div class="form-group">
                     {!! Form::label('title', 'Section Title:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::text('title', $cop->title, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
+                        {!! Form::text('title', $sub_cop->title, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('accr_types[]', 'ESC:',['class' => 'col-lg-2 control-label'] )  !!}
+                    <div class="col-lg-10">
+                        {!!  Form::select('accr_types[]', $accr_types, $sub_cop->accrTypes->pluck('id')->toArray(), ['class' => 'form-control selectpicker', 'multiple' => 'multiple']) !!}
                     </div>
                 </div>
 
                 <div class="form-group">
                     {!! Form::label('compliant', 'Compliant:',['class' => 'col-lg-2 control-label'] )  !!}
                     <div class="col-lg-10">
-                        {!!  Form::select('compliant', [0 => 'No',1 => 'Yes'], $cop->compliant, ['class' => 'form-control selectpicker']) !!}
+                        {!!  Form::select('compliant', [0 => 'No',1 => 'Yes'], $sub_cop->compliant, ['class' => 'form-control selectpicker']) !!}
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/cop', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
-                        <button type="button" onclick="deleteCOP('{{$cop->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
-                        {!! Form::submit('Save COP', ['class' => 'btn btn-success pull-right'] ) !!}
+                        {{ link_to('admin/cop/edit/'.$cop->id.'/subcop/', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        <button type="button" onclick="deleteSubCOP('{{$sub_cop->id}}','{{cop->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
+                        {!! Form::submit('Save SubCOP', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
 
@@ -64,7 +71,7 @@
 
     <script>
 
-    function deleteCOP(id)
+    function deleteSubCOP(id,cop_id)
     {
         bootbox.confirm("Do you really want to delete?", function(result)
         {
@@ -72,7 +79,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('admin/cop/delete') }}',
+              url: '{{ asset('admin/subcop/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {
@@ -82,7 +89,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = "{{url('admin/cop')}}";
+                    window.location = "{{url('admin/cop/')}}/"+cop_id+"/subcop/";
                   }
                   else {
                     bootbox.alert("Something went wrong, try again later");

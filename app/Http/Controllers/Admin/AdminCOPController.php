@@ -47,7 +47,9 @@ class AdminCOPController extends Controller
       'compliant' => 'required'
     ]);
 
-    if(COP::save($request->all()))
+    $cop = COP::find($id);
+
+    if($cop->save($request->all()))
     {
       return redirect('admin/cop')->with('success','COP has been updated!');
     }

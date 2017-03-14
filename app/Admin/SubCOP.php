@@ -11,7 +11,7 @@ class SubCOP extends Model
 
     public function accrTypes()
     {
-      return $this->belongsToMany('App\Admin\AccrEOP','subcop_accrtypes','subcop_id','accrtype_id');
+      return $this->belongsToMany('App\Admin\AccrType','subcop_accrtype','subcop_id','accrtype_id');
     }
 
     public function cop()
