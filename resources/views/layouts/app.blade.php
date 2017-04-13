@@ -16,8 +16,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        {{$page_title or ''}}
-        <small>{{$page_description or ''}}</small>
+        @yield('page_title')
+        <small>@yield('page_description')</small>
       </h1>
     </section>
 

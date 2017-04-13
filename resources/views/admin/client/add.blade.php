@@ -54,7 +54,7 @@
 
                 <!-- Joint Commission Types Multiple -->
                 <div class="form-group">
-                    {!! Form::label('departments[]', 'Departments:', ['class' => 'col-lg-2 control-label'] )  !!}
+                    {!! Form::label('departments[]', 'TJC Accrediation:', ['class' => 'col-lg-2 control-label'] )  !!}
                     <div class="col-lg-10">
                         {!!  Form::select('departments[]', $departments, $selected = null, ['class' => 'form-control selectpicker', 'multiple' => 'multiple']) !!}
                     </div>

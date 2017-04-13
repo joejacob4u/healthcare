@@ -212,7 +212,7 @@
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <img src="/images/contact-128.png" class="user-image" alt="User Image">
-            <span class="hidden-xs">{{Auth::user()->name}}</span>
+            <span class="hidden-xs">Admin</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
@@ -220,7 +220,7 @@
               <img src="/images/contact-128.png" class="img-circle" alt="User Image">
 
               <p>
-                {{Auth::user()->name}}
+                Admin
                 <small>Member since Nov. 2012</small>
               </p>
             </li>

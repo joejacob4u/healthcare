@@ -13,10 +13,6 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-      view()->composer(
-          'layouts.sidebar',
-          'App\Http\Controllers\Composers\AccrComposer'
-      );
     }
 
     /**
