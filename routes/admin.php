@@ -26,4 +26,8 @@ Route::post('standard-label/add','StandardLabelController@store');
 Route::get('standard-label/edit/{id}','StandardLabelController@edit');
 Route::post('standard-label/edit/{id}','StandardLabelController@save');
 
-Route::get('standard-label/{standard_label}/eop','EOPController@edit');
+Route::get('standard-label/{standard-label}/eop','EOPController@index');
+Route::get('standard-label/{standard-label}/eop/add','EOPController@create');
+Route::post('standard-label/{standard-label}/eop/add','EOPController@store');
+Route::get('standard-label/{standard-label}/eop/edit/{eop}','EOPController@edit');
+Route::post('standard-label/{standard-label}/eop/edit/{eop}','EOPController@save');
