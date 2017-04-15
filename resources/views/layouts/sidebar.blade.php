@@ -36,11 +36,11 @@
            <li><a href="{{url('admin/accrediation')}}"><i class="fa fa-circle-o"></i>Accrediation</a></li>
            <li><a href="{{url('admin/accrediation-requirements')}}"><i class="fa fa-circle-o"></i>Accrediation Requirements</a></li>
            <li><a href="{{url('admin/standard-label')}}"><i class="fa fa-circle-o"></i>Elements of Performance</a></li>
+           <li><a href="{{url('admin/cop')}}"><i class="fa fa-circle-o"></i>COP</a></li>
          </ul>
      </li>
 
     <li><a href="{{url('admin/clients')}}"><i class="fa fa-hospital-o" aria-hidden="true"></i> <span>Clients</span></a></li>
-    <li><a href="{{url('admin/cop')}}"><i class="fa fa-road" aria-hidden="true"></i> <span>COP</span></a></li>
   </ul>
 </section>
 </aside>

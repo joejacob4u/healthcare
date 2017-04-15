@@ -56,8 +56,37 @@ class StandardLabelController extends Controller
     }
 
 
-    public function save(Request $request)
+    public function save(Request $request,$id)
     {
+        $this->validate($request,[
+          'label' => 'required',
+          'text' => 'required',
+          'description' => 'required',
+          'accrediation_requirements' => 'required'
+        ]);
 
+        $standard_label = StandardLabel::find($id);
+
+        foreach($request->accrediation_requirements as $accrediation_requirement)
+        {
+          $aAccrediationRequirements[] = AccrediationRequirement::find($accrediation_requirement)->id;
+        }
+
+        if($standard_label->save($request->all()))
+        {
+            if($standard_label->accrediationRequirements()->sync($aAccrediationRequirements))
+            {
+               return redirect('admin/standard-label')->with('success','Standard Label updated!');
+            }
+        }
+
+    }
+
+    public function delete($id)
+    {
+        if(StandardLabel::destroy($id))
+        {
+            return redirect('admin/standard-label')->with('success','Standard Label deleted!');
+        }
     }
 }

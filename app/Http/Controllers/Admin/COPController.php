@@ -4,9 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Admin\COP;
+use App\Regulatory\COP;
 
-class AdminCOPController extends Controller
+class COPController extends Controller
 {
   public function index()
   {

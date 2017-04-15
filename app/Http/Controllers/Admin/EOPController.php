@@ -33,11 +33,11 @@ class EOPController extends Controller
           'risk_assessment' => 'required'
         ]);
 
-        $standard_label = StandardLabel::find($standard_label);
+        $standardLabel = StandardLabel::find($standard_label);
 
-        if($standard_label->eops()->create($request->all()))
+        if($standardLabel->eops()->create($request->all()))
         {
-           return redirect('admin/standard_label/'.$standard_label.'/eop')->with('success','EOP created successfully');
+           return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
         }
 
     }
@@ -52,7 +52,7 @@ class EOPController extends Controller
     public function save(Request $request,$standard_label,$eop)
     {
         $this->validate($request,[
-          'name' => 'required|unique:eop,name',
+          'name' => 'required',
           'text' => 'required',
           'documentation' => 'required',
           'frequency' => 'required',
@@ -60,13 +60,23 @@ class EOPController extends Controller
           'risk_assessment' => 'required'
         ]);
 
-        $standard_label = StandardLabel::find($standard_label);
+        $standardLabel = StandardLabel::find($standard_label);
+        $eop = EOP::find($eop);
+        $eop->update($request->all());
 
-        if($standard_label->eops()->associate(EOP::find($eop))->save($request->all()))
+        if($standardLabel->eops()->save($eop))
         {
-           return redirect('admin/standard_label/'.$standard_label.'/eop')->with('success','EOP created successfully');
+           return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP saved successfully');
         }
 
+    }
+
+    public function delete($standard_label,$eop)
+    {
+      if(EOP::destroy($eop))
+      {
+        return redirect('admin/standard-label/'.$standard_label.'/eop')->with('error','EOP deleted successfully');
+      }
     }
 
 }

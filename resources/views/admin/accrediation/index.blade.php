@@ -9,6 +9,8 @@
 
 @section('content')
 @include('layouts.partials.success')
+@include('layouts.partials.errors')
+
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Accreditation</h3>
@@ -23,12 +25,16 @@
                     <tr>
                         <th>Id</th>
                         <th>Accrediation</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                       <th>Id</th>
                       <th>Accrediation</th>
+                      <th>Edit</th>
+                      <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -36,6 +42,8 @@
                     <tr>
                       <td>{{$accrediation->id}}</td>
                       <td>{{$accrediation->name}}</td>
+                      <td>{!! link_to('admin/accrediation/edit/'.$accrediation->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                      <td>{!! link_to('admin/accrediation/delete/'.$accrediation->id,'Delete',['class' => 'btn-xs btn-danger']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>

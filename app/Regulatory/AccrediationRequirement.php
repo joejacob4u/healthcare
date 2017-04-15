@@ -13,4 +13,5 @@ class AccrediationRequirement extends Model
     {
       return $this->belongsToMany('App\Regulatory\Accrediation','accr_accr-requirement','accrediation-requirement_id','accrediation_id');
     }
+
 }

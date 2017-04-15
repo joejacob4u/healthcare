@@ -24,6 +24,7 @@
                         <th>Id</th>
                         <th>Accrediation Requirement</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -31,6 +32,7 @@
                       <th>Id</th>
                       <th>Accrediation Requirement</th>
                       <th>Edit</th>
+                      <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -39,6 +41,7 @@
                       <td>{{$accrediation_requirement->id}}</td>
                       <td>{{$accrediation_requirement->name}}</td>
                       <td><a href="{{url('admin/accrediation-requirements/edit/'.$accrediation_requirement->id)}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
+                      <td>{!! link_to('admin/accrediation-requirements/delete/'.$accrediation_requirement->id,'Delete',['class' => 'btn btn-danger btn-xs']); !!}</td>
                     </tr>
                   @endforeach
                 </tbody>

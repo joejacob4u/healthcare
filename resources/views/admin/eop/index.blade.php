@@ -9,12 +9,14 @@
 
 @section('content')
 @include('layouts.partials.success')
+@include('layouts.partials.errors')
+
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Elements of Performance for {{$standard_label->name}}</h3>
+        <h3 class="box-title">Elements of Performance for {{$standard_label->label}}</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('standard-label/'.$standard_label->id.'/eop/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add EOP</a>
+          <a href="{{url('admin/standard-label/'.$standard_label->id.'/eop/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add EOP</a>
         </div>
       </div>
       <div class="box-body">
@@ -23,6 +25,7 @@
                     <tr>
                         <th>Id</th>
                         <th>Name</th>
+                        <th>Text</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -30,6 +33,7 @@
                     <tr>
                       <th>Id</th>
                       <th>Name</th>
+                      <th>Text</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -38,7 +42,9 @@
                     <tr>
                       <td>{{$eop->id}}</td>
                       <td>{{$eop->name}}</td>
-                      <td>{{link_to('admin/standard_label/'.$standard_label->id.'eop/edit/'.$eop->id,'Edit', ['class' => 'btn btn-warning'] )}}</td>
+                      <td>{{link_to('#', 'Text',['class' => 'btn-xs btn-info','data-toggle' => 'popover', 'title' => 'Text Preview','data-content' => $eop->text] )}}</td>
+                      <td>{{link_to('admin/standard-label/'.$standard_label->id.'/eop/edit/'.$eop->id,'Edit', ['class' => 'btn-xs btn-warning'] )}}</td>
+                      <td>{{link_to('admin/standard-label/'.$standard_label->id.'/eop/delete/'.$eop->id,'Delete', ['class' => 'btn-xs btn-danger'] )}}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -50,5 +56,11 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+  <script>
+  $(document).ready(function(){
+      $('[data-toggle="popover"]').popover();
+  });
+  </script>
 
 @endsection

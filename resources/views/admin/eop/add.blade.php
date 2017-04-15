@@ -12,13 +12,13 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in Elements of Performance for {{$standard_label->name}}</h3>
+        <h3 class="box-title">Add in Elements of Performance for {{$standard_label->label}}</h3>
 
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/standard_label/'.$standard_label->id.'/eop/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/standard-label/'.$standard_label->id.'/eop/add', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -26,7 +26,7 @@
               <div class="form-group">
                   {!! Form::label('name', 'Name:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('name', Request::old('name'), ['class' => 'form-control', 'placeholder' => 'Client Name']) !!}
+                      {!! Form::text('name', Request::old('name'), ['class' => 'form-control', 'placeholder' => 'EC 01.01.01 - ep1']) !!}
                   </div>
               </div>
 
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','yearly' => 'Yearly'], Request::old('frequency'), ['class' => 'form-control', 'placeholder' => 'text']) !!}
+                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','yearly' => 'Yearly'], Request::old('frequency'), ['class' => 'form-control']) !!}
                     </div>
                 </div>
 

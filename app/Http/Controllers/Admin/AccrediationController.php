@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\Accrediation;
+use App\Regulatory\SubCOP;
+
 
 class AccrediationController extends Controller
 {
@@ -16,18 +18,42 @@ class AccrediationController extends Controller
 
     public function create()
     {
-      return view('admin.accrediation.add');
+      $cops = SubCOP::orderBy('label','asc')->pluck('label','id');
+      return view('admin.accrediation.add',['cops' => $cops]);
     }
 
     public function store(Request $request)
     {
-      $this->validate($request,['name' => 'required|unique:accrediation,name']);
+      $this->validate($request,['name' => 'required|unique:accrediation,name','cop' => 'required']);
       $request->request->add(['slug' => $this->create_slug($request->name)]);
 
-      if(Accrediation::create($request->all()))
+      foreach($request->cop as $cop)
       {
-        return redirect('admin/accrediation')->with('success','Accrediation created!');
+         $cops [] = SubCOP::find($cop);
       }
+
+      if($accrediation = Accrediation::create($request->all()))
+      {
+        if($accrediation->subCOPs()->saveMany($cops))
+        {
+          return redirect('admin/accrediation')->with('success','Accrediation created!');
+        }
+      }
+    }
+
+    public function edit($id)
+    {
+        $accrediation = Accrediation::find($id);
+        $cops = SubCOP::orderBy('label','asc')->pluck('label','id');
+        return view('admin.accrediation.edit',['accrediation' => $accrediation,'cops' => $cops]);
+    }
+
+    public function delete($id)
+    {
+        if(Accrediation::destroy($id))
+        {
+          return redirect('admin/accrediation')->with('errors','Accrediation deleted!');
+        }
     }
 
     private function create_slug($string)

@@ -76,4 +76,12 @@ class AccrediationRequirementsController extends Controller
             }
         }
     }
+
+    public function delete($id)
+    {
+        if(AccrediationRequirement::destroy($id))
+        {
+            return redirect('admin/accrediation-requirements')->with('success','Accrediation Requirement deleted!');
+        }
+    }
 }

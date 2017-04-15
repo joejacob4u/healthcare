@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Admin\COP;
-use App\Admin\SubCOP;
-use App\Admin\AccrType;
-use DB;
+use App\Regulatory\COP;
+use App\Regulatory\SubCOP;
+use App\Regulatory\AccrediationRequirement;
 
 
 class SubCOPController extends Controller
@@ -21,8 +20,7 @@ class SubCOPController extends Controller
     public function addView($id)
     {
       $cop = COP::find($id);
-      $accr_types = AccrType::pluck('name','id');
-      return view('admin.cop.subcop.add',['cop' => $cop,'accr_types' => $accr_types]);
+      return view('admin.cop.subcop.add',['cop' => $cop]);
     }
 
     public function create(Request $request,$id)
@@ -36,17 +34,10 @@ class SubCOPController extends Controller
 
       $cop = COP::find($id);
 
-      foreach($request->accr_types as $accr_type)
-      {
-        $aAccrTypes[] = AccrType::find($accr_type);
-      }
 
       if($sub_cop = $cop->subCOPs()->create($request->all()))
       {
-        if($sub_cop->accrTypes()->saveMany($aAccrTypes))
-        {
-          return redirect('admin/cop/'.$cop->id.'/subcop/')->with('success','SubCOP has been created!');
-        }
+        return redirect('admin/cop/'.$cop->id.'/subcop/')->with('success','SubCOP has been created!');
       }
     }
 
@@ -54,8 +45,7 @@ class SubCOPController extends Controller
     {
         $sub_cop = SubCOP::find($sub_cop_id);
         $cop = COP::find($cop_id);
-        $accr_types = AccrType::pluck('name','id');
-        return view('admin.cop.subcop.edit',['sub_cop' => $sub_cop,'accr_types' => $accr_types,'cop' => $cop ]);
+        return view('admin.cop.subcop.edit',['sub_cop' => $sub_cop,'cop' => $cop ]);
     }
 
     public function save($cop_id,$sub_cop_id)

@@ -23,6 +23,7 @@
                     <tr>
                         <th>Label</th>
                         <th>Edit</th>
+                        <th>Delete</th>
                         <th>EOP</th>
                     </tr>
                 </thead>
@@ -30,6 +31,7 @@
                     <tr>
                       <th>Label</th>
                       <th>Edit</th>
+                      <th>Delete</th>
                       <th>EOP</th>
                     </tr>
                 </tfoot>
@@ -38,6 +40,7 @@
                     <tr>
                       <td>{{$standard_label->label}}</td>
                       <td>{!! link_to('admin/standard-label/edit/'.$standard_label->id,'Edit',['class' => 'btn btn-warning btn-xs']); !!}</td>
+                      <td>{!! link_to('admin/standard-label/delete/'.$standard_label->id,'Delete',['class' => 'btn btn-danger btn-xs']); !!}</td>
                       <td>{!! link_to('admin/standard-label/'.$standard_label->id.'/eop','EOP',['class' => 'btn btn-primary btn-xs']); !!}</td>
                     </tr>
                   @endforeach
