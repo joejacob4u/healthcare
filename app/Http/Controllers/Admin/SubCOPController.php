@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\COP;
 use App\Regulatory\SubCOP;
-use App\Regulatory\AccrediationRequirement;
+use App\Regulatory\Accrediation;
 
 
 class SubCOPController extends Controller
@@ -28,7 +28,7 @@ class SubCOPController extends Controller
       $this->validate($request,[
         'label' => 'required|unique:sub_cop',
         'title' => 'required',
-        'accr_types' => 'required',
+        'description' => 'required',
         'compliant' => 'required'
       ]);
 
@@ -53,6 +53,7 @@ class SubCOPController extends Controller
       $this->validate($request,[
         'label' => 'required',
         'title' => 'required',
+        'description' => 'required',
         'compliant' => 'required'
       ]);
 

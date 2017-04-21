@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\StandardLabel;
 use App\Regulatory\EOP;
+use App\Regulatory\SubCOP;
+
 
 
 class EOPController extends Controller
@@ -19,7 +21,8 @@ class EOPController extends Controller
     public function create($standard_label)
     {
         $standard_label = StandardLabel::find($standard_label);
-        return view('admin.eop.add',['standard_label' => $standard_label]);
+        $cops = SubCOP::pluck('label','id');
+        return view('admin.eop.add',['standard_label' => $standard_label,'cops' => $cops]);
     }
 
     public function store(Request $request,$standard_label)
@@ -30,14 +33,23 @@ class EOPController extends Controller
           'documentation' => 'required',
           'frequency' => 'required',
           'risk' => 'required',
-          'risk_assessment' => 'required'
+          'risk_assessment' => 'required',
+          'cops' => 'required'
         ]);
 
         $standardLabel = StandardLabel::find($standard_label);
 
-        if($standardLabel->eops()->create($request->all()))
+        foreach($request->cops as $cop)
         {
-           return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
+          $aCops[] = SubCOP::find($cop);
+        }
+
+        if($eop = $standardLabel->eops()->create($request->all()))
+        {
+           if($eop->subCOPs()->saveMany($aCops))
+           {
+             return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
+           }
         }
 
     }

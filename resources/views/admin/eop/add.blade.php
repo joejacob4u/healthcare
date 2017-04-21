@@ -24,9 +24,9 @@
 
               <!-- Name -->
               <div class="form-group">
-                  {!! Form::label('name', 'Name:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('name', 'EP Number:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('name', Request::old('name'), ['class' => 'form-control', 'placeholder' => 'EC 01.01.01 - ep1']) !!}
+                      {!! Form::text('name', Request::old('name'), ['class' => 'form-control', 'placeholder' => 'eg like EC 01.01.01 - ep1']) !!}
                   </div>
               </div>
 
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','yearly' => 'Yearly'], Request::old('frequency'), ['class' => 'form-control']) !!}
+                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','annually' => 'Anually','semi-annually' => 'Semi-anually', 'two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], Request::old('frequency'), ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
@@ -64,6 +64,13 @@
                     {!! Form::label('risk_assessment', 'Risk Assessment:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('risk_assessment', ['0' => 'No','1' => 'Yes'], Request::old('risk'), ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('cops', 'COPS:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('cops[]', $cops, Request::old('cops'), ['class' => 'form-control selectpicker','multiple' => 'true']) !!}
                     </div>
                 </div>
 

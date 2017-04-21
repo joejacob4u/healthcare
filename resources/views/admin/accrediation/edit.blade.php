@@ -27,13 +27,6 @@
                       {!! Form::text('name', $accrediation->name, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
                   </div>
               </div>
-                <!-- Email -->
-                <div class="form-group">
-                    {!! Form::label('COP', 'COPs:',['class' => 'col-lg-2 control-label'] )  !!}
-                    <div class="col-lg-10">
-                        {!!  Form::select('cop[]', $cops, $accrediation->subCOPs()->pluck('id')->toArray(), ['class' => 'form-control selectpicker', 'multiple' => 'multiple']) !!}
-                    </div>
-                </div>
 
 
                 <!-- Submit Button -->

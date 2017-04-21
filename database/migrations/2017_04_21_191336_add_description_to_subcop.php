@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableStandardLabel extends Migration
+class AddDescriptionToSubcop extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateTableStandardLabel extends Migration
      */
     public function up()
     {
-        Schema::create('standard_label', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('label');
-            $table->string('text');
-            $table->text('description');
-            $table->timestamps();
+        Schema::table('sub_cop', function (Blueprint $table) {
+            $table->text('description')->after('title');
         });
     }
 
@@ -29,6 +25,8 @@ class CreateTableStandardLabel extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('standard_label');
+        Schema::table('sub_cop', function (Blueprint $table) {
+            //
+        });
     }
 }

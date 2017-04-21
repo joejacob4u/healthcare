@@ -13,4 +13,10 @@ class EOP extends Model
     {
       return $this->belongsTo('App\Regulatory\StandardLabel','standard_label_id','id');
     }
+
+    public function subCOPs()
+    {
+      return $this->belongsToMany('App\Regulatory\SubCOP','eop_sub-cop','eop_id','sub_cop_id');
+    }
+
 }
