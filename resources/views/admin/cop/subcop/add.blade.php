@@ -29,7 +29,7 @@
               </div>
 
                 <div class="form-group">
-                    {!! Form::label('title', 'Section Title:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('title', 'Section Subject:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::text('title', $value = null, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
                     </div>
@@ -41,16 +41,6 @@
                         {!! Form::textarea('description', $value = null, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
                     </div>
                 </div>
-
-
-                <div class="form-group">
-                    {!! Form::label('compliant', 'Compliant:',['class' => 'col-lg-2 control-label'] )  !!}
-                    <div class="col-lg-10">
-                        {!!  Form::select('compliant', [0 => 'Not Applicable',1 => 'Applicable'], $selected = null, ['class' => 'form-control selectpicker']) !!}
-                    </div>
-                </div>
-
-
 
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">

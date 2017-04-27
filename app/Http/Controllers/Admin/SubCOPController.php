@@ -29,7 +29,6 @@ class SubCOPController extends Controller
         'label' => 'required|unique:sub_cop',
         'title' => 'required',
         'description' => 'required',
-        'compliant' => 'required'
       ]);
 
       $cop = COP::find($id);
@@ -54,7 +53,6 @@ class SubCOPController extends Controller
         'label' => 'required',
         'title' => 'required',
         'description' => 'required',
-        'compliant' => 'required'
       ]);
 
       $sub_cop = SubCOP::find($sub_cop_id);

@@ -35,7 +35,7 @@
          <ul class="treeview-menu">
            <li><a href="{{url('admin/accrediation')}}"><i class="fa fa-circle-o"></i>Accrediation</a></li>
            <li><a href="{{url('admin/accrediation-requirements')}}"><i class="fa fa-circle-o"></i>Accrediation Requirements</a></li>
-           <li><a href="{{url('admin/standard-label')}}"><i class="fa fa-circle-o"></i>Elements of Performance</a></li>
+           <li><a href="{{url('admin/standard-label')}}"><i class="fa fa-circle-o"></i>TJC Standards & EP's</a></li>
            <li><a href="{{url('admin/cop')}}"><i class="fa fa-circle-o"></i>COP</a></li>
          </ul>
      </li>

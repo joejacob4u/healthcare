@@ -34,22 +34,31 @@ class EOPController extends Controller
           'frequency' => 'required',
           'risk' => 'required',
           'risk_assessment' => 'required',
-          'cops' => 'required'
         ]);
 
         $standardLabel = StandardLabel::find($standard_label);
 
-        foreach($request->cops as $cop)
-        {
-          $aCops[] = SubCOP::find($cop);
-        }
+
 
         if($eop = $standardLabel->eops()->create($request->all()))
         {
-           if($eop->subCOPs()->saveMany($aCops))
-           {
-             return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
-           }
+          if(!empty($request->cops))
+          {
+              foreach($request->cops as $cop)
+              {
+                $aCops[] = SubCOP::find($cop);
+              }
+
+              if($eop->subCOPs()->saveMany($aCops))
+              {
+                return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
+              }
+          }
+          else
+          {
+              return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
+          }
+
         }
 
     }
@@ -78,7 +87,22 @@ class EOPController extends Controller
 
         if($standardLabel->eops()->save($eop))
         {
-           return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP saved successfully');
+            if(!empty($request->cops))
+            {
+                foreach($request->cops as $cop)
+                {
+                  $aCops[] = SubCOP::find($cop)->id;
+                }
+
+                if($eop->subCOPs()->sync($aCops))
+                {
+                  return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP saved successfully');
+                }
+            }
+            else
+            {
+                return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP saved successfully');
+            }
         }
 
     }
