@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Add Accrediation Requirements')
+@section('page_title','Edit Accreditation Requirements')
 @section('page_description','Fill in form below.')
 @section('content')
 @include('layouts.partials.success')
@@ -12,13 +12,13 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in Accreditation Requirement</h3>
+        <h3 class="box-title">Edit Accreditation Requirement</h3>
 
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/accrediation-requirements/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/accreditation-requirements/edit/'.$accreditation_requirement->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -26,14 +26,14 @@
               <div class="form-group">
                   {!! Form::label('name', 'Name:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('name', $value = null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                      {!! Form::text('name', $accreditation_requirement->name, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
                   </div>
               </div>
                 <!-- Email -->
                 <div class="form-group">
-                    {!! Form::label('accrediations', 'Accrediation:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('accreditations', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('accrediations[]', $accrediations, '', ['class' => 'form-control selectpicker','multiple' => 'true']); !!}
+                        {!! Form::select('accreditations[]', $accreditations, $accreditation_requirement->accreditations->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true']); !!}
                     </div>
                 </div>
 
@@ -41,8 +41,8 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {!! Form::button('Cancel', ['class' => 'btn btn-warning','href' => 'admin/accrediation-requirements'] ) !!}
-                        {!! Form::submit('Add Accrediation Requirement', ['class' => 'btn btn-success pull-right'] ) !!}
+                        {!! Form::button('Cancel', ['class' => 'btn btn-warning','href' => 'admin/accreditation-requirements'] ) !!}
+                        {!! Form::submit('Save Accreditation Requirement', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
 

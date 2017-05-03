@@ -47,9 +47,9 @@
 
                 <!-- Email -->
                 <div class="form-group">
-                    {!! Form::label('accrediation_requirements', 'Accrediation Requirement:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('accreditation_requirements', 'Accreditation Requirement:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('accrediation_requirements[]', $accrediation_requirements, '', ['class' => 'form-control selectpicker','multiple' => 'true']); !!}
+                        {!! Form::select('accreditation_requirements[]', $accreditation_requirements, '', ['class' => 'form-control selectpicker','multiple' => 'true']); !!}
                     </div>
                 </div>
 

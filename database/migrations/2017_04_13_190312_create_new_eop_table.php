@@ -16,7 +16,7 @@ class CreateNewEopTable extends Migration
         Schema::create('eop', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('accrediation_requirement_id');
+            $table->integer('accreditation_requirement_id');
             $table->boolean('documentation');
             $table->enum('frequency',['daily','weekly','monthly','yearly']);
             $table->boolean('risk');

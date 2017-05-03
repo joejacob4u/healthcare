@@ -13,10 +13,10 @@ class CreatePivotSubcopAccrRequirement extends Migration
      */
     public function up()
     {
-        Schema::create('accrediation-req_sub-cop', function (Blueprint $table) {
-          $table->integer('accrediation_requirement_id')->unsigned()->nullable();
-          $table->foreign('accrediation_requirement_id','accr_req_id')->references('id')
-                ->on('accrediation_requirements')->onDelete('cascade');
+        Schema::create('accreditation-req_sub-cop', function (Blueprint $table) {
+          $table->integer('accreditation_requirement_id')->unsigned()->nullable();
+          $table->foreign('accreditation_requirement_id','accr_req_id')->references('id')
+                ->on('accreditation_requirements')->onDelete('cascade');
 
           $table->integer('sub_cop_id')->unsigned()->nullable();
           $table->foreign('sub_cop_id')->references('id')
@@ -32,6 +32,6 @@ class CreatePivotSubcopAccrRequirement extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accrediation-req_sub-cop');
+        Schema::dropIfExists('accreditation-req_sub-cop');
     }
 }

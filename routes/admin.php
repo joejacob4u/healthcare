@@ -10,22 +10,23 @@ Route::get('/home', function () {
     return view('home');
 })->name('home');
 
-Route::get('accrediation','AccrediationController@index');
-Route::get('accrediation/add','AccrediationController@create');
-Route::post('accrediation/add','AccrediationController@store');
-Route::get('accrediation/edit/{id}','AccrediationController@edit');
-Route::post('accrediation/edit/{id}','AccrediationController@save');
-Route::get('accrediation/delete/{id}','AccrediationController@delete');
+Route::get('accreditation','AccreditationController@index');
+Route::get('accreditation/add','AccreditationController@create');
+Route::post('accreditation/add','AccreditationController@store');
+Route::get('accreditation/edit/{id}','AccreditationController@edit');
+Route::post('accreditation/edit/{id}','AccreditationController@save');
+Route::get('accreditation/delete/{id}','AccreditationController@delete');
+Route::post('accreditation/info','AccreditationController@info');
 
 
 
 
-Route::get('accrediation-requirements','AccrediationRequirementsController@index');
-Route::get('accrediation-requirements/add','AccrediationRequirementsController@create');
-Route::post('accrediation-requirements/add','AccrediationRequirementsController@store');
-Route::get('accrediation-requirements/edit/{id}','AccrediationRequirementsController@edit');
-Route::post('accrediation-requirements/edit/{id}','AccrediationRequirementsController@save');
-Route::get('accrediation-requirements/delete/{id}','AccrediationRequirementsController@delete');
+Route::get('accreditation-requirements','AccreditationRequirementsController@index');
+Route::get('accreditation-requirements/add','AccreditationRequirementsController@create');
+Route::post('accreditation-requirements/add','AccreditationRequirementsController@store');
+Route::get('accreditation-requirements/edit/{id}','AccreditationRequirementsController@edit');
+Route::post('accreditation-requirements/edit/{id}','AccreditationRequirementsController@save');
+Route::get('accreditation-requirements/delete/{id}','AccreditationRequirementsController@delete');
 
 
 Route::get('standard-label','StandardLabelController@index');

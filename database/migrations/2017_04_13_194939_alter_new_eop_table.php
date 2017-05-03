@@ -14,7 +14,7 @@ class AlterNewEopTable extends Migration
     public function up()
     {
         Schema::table('eop', function (Blueprint $table) {
-            $table->dropColumn('accrediation_requirement_id');
+            $table->dropColumn('accreditation_requirement_id');
             $table->integer('standard_label_id')->after('name');
         });
     }

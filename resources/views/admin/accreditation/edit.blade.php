@@ -10,13 +10,13 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in Accreditation</h3>
+        <h3 class="box-title">Edit Accreditation</h3>
 
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/accrediation/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/accreditation/edit/'.$accreditation->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -24,15 +24,16 @@
               <div class="form-group">
                   {!! Form::label('name', 'Name:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('name', $value = null, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
+                      {!! Form::text('name', $accreditation->name, ['class' => 'form-control', 'placeholder' => 'Name']) !!}
                   </div>
               </div>
+
 
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {!! Form::button('Cancel', ['class' => 'btn btn-warning','href' => 'admin/accrediation'] ) !!}
-                        {!! Form::submit('Add Accrediation', ['class' => 'btn btn-success pull-right'] ) !!}
+                        {!! Form::button('Cancel', ['class' => 'btn btn-warning','href' => 'admin/accreditation'] ) !!}
+                        {!! Form::submit('Save Accreditation', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
 

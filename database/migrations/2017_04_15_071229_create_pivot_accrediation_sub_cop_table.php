@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreatePivotAccrediationSubCopTable extends Migration
+class CreatePivotAccreditationSubCopTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreatePivotAccrediationSubCopTable extends Migration
      */
     public function up()
     {
-        Schema::create('accrediation_sub-cop', function (Blueprint $table) {
-          $table->integer('accrediation_id')->unsigned()->nullable();
-          $table->foreign('accrediation_id','accr_id')->references('id')
-                ->on('accrediation')->onDelete('cascade');
+        Schema::create('accreditation_sub-cop', function (Blueprint $table) {
+          $table->integer('accreditation_id')->unsigned()->nullable();
+          $table->foreign('accreditation_id','accr_id')->references('id')
+                ->on('accreditation')->onDelete('cascade');
 
           $table->integer('sub_cop_id')->unsigned()->nullable();
           $table->foreign('sub_cop_id')->references('id')
@@ -32,6 +32,6 @@ class CreatePivotAccrediationSubCopTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accrediation_sub-cop');
+        Schema::dropIfExists('accreditation_sub-cop');
     }
 }

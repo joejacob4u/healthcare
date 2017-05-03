@@ -24,7 +24,7 @@ class AlterCopAndEop extends Migration
         });
 
 
-        Schema::drop('accrediation_sub-cop');
+        Schema::drop('accreditation_sub-cop');
 
         Schema::create('eop_sub-cop', function (Blueprint $table) {
           $table->integer('eop_id')->unsigned()->nullable();

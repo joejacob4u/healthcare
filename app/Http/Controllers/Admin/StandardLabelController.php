@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\StandardLabel;
-use App\Regulatory\AccrediationRequirement;
+use App\Regulatory\AccreditationRequirement;
 
 class StandardLabelController extends Controller
 {
@@ -17,8 +17,8 @@ class StandardLabelController extends Controller
 
     public function create()
     {
-      $accrediation_requirements = AccrediationRequirement::pluck('name','id');
-      return view('admin.standard-label.add',['accrediation_requirements' => $accrediation_requirements]);
+      $accreditation_requirements = AccreditationRequirement::pluck('name','id');
+      return view('admin.standard-label.add',['accreditation_requirements' => $accreditation_requirements]);
     }
 
     public function store(Request $request)
@@ -27,17 +27,17 @@ class StandardLabelController extends Controller
           'label' => 'required|unique:standard_label,label',
           'text' => 'required',
           'description' => 'required',
-          'accrediation_requirements' => 'required'
+          'accreditation_requirements' => 'required'
         ]);
 
-        foreach($request->accrediation_requirements as $accrediation_requirement)
+        foreach($request->accreditation_requirements as $accreditation_requirement)
         {
-          $aAccrediationRequirements[] = AccrediationRequirement::find($accrediation_requirement);
+          $aAccreditationRequirements[] = AccreditationRequirement::find($accreditation_requirement);
         }
 
         if($standard_label = StandardLabel::create($request->all()))
         {
-            if($standard_label->accrediationRequirements()->saveMany($aAccrediationRequirements))
+            if($standard_label->accreditationRequirements()->saveMany($aAccreditationRequirements))
             {
                return redirect('admin/standard-label')->with('success','Standard Label created!');
             }
@@ -46,11 +46,11 @@ class StandardLabelController extends Controller
 
     public function edit($id)
     {
-      $accrediation_requirements = AccrediationRequirement::pluck('name','id');
+      $accreditation_requirements = AccreditationRequirement::pluck('name','id');
       $standard_label = StandardLabel::find($id);
 
       return view('admin.standard-label.edit',[
-        'accrediation_requirements' => $accrediation_requirements,
+        'accreditation_requirements' => $accreditation_requirements,
         'standard_label' => $standard_label
       ]);
     }
@@ -62,19 +62,19 @@ class StandardLabelController extends Controller
           'label' => 'required',
           'text' => 'required',
           'description' => 'required',
-          'accrediation_requirements' => 'required'
+          'accreditation_requirements' => 'required'
         ]);
 
         $standard_label = StandardLabel::find($id);
 
-        foreach($request->accrediation_requirements as $accrediation_requirement)
+        foreach($request->accreditation_requirements as $accreditation_requirement)
         {
-          $aAccrediationRequirements[] = AccrediationRequirement::find($accrediation_requirement)->id;
+          $aAccreditationRequirements[] = AccreditationRequirement::find($accreditation_requirement)->id;
         }
 
         if($standard_label->save($request->all()))
         {
-            if($standard_label->accrediationRequirements()->sync($aAccrediationRequirements))
+            if($standard_label->accreditationRequirements()->sync($aAccreditationRequirements))
             {
                return redirect('admin/standard-label')->with('success','Standard Label updated!');
             }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\COP;
 use App\Regulatory\SubCOP;
-use App\Regulatory\Accrediation;
+use App\Regulatory\Accreditation;
 
 
 class SubCOPController extends Controller

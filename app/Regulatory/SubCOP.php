@@ -9,9 +9,9 @@ class SubCOP extends Model
     protected $table = 'sub_cop';
     protected $fillable = ['cop_id','label','title','compliant','description'];
 
-    public function accrediationRequirements()
+    public function accreditationRequirements()
     {
-      return $this->belongsToMany('App\Regulatory\AccrediationRequirement','accrediation-req_sub-cop','sub_cop_id','accrediation_requirement_id');
+      return $this->belongsToMany('App\Regulatory\AccreditationRequirement','accreditation-req_sub-cop','sub_cop_id','accreditation_requirement_id');
     }
 
     public function cop()
