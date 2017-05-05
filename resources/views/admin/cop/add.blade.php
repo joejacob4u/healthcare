@@ -35,12 +35,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('compliant', 'Compliant:',['class' => 'col-lg-2 control-label'] )  !!}
-                    <div class="col-lg-10">
-                        {!!  Form::select('compliant', [0 => 'No',1 => 'Yes'], $selected = null, ['class' => 'form-control selectpicker']) !!}
-                    </div>
-                </div>
 
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">

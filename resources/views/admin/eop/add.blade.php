@@ -39,7 +39,7 @@
 
                 <!-- Email -->
                 <div class="form-group">
-                    {!! Form::label('documentation', 'Documentation:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('documentation', 'Documentation Required:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('documentation', ['0' => 'No','1' => 'Yes'], Request::old('documentation'), ['class' => 'form-control']) !!}
                     </div>
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','annually' => 'Anually','semi-annually' => 'Semi-anually', 'two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], Request::old('frequency'), ['class' => 'form-control']) !!}
+                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','annually' => 'Annually','semi-annually' => 'Semi-anually', 'two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], Request::old('frequency'), ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
@@ -68,7 +68,7 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('cops', 'COPS:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('cops', 'CMS COPS:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('cops[]', $cops, Request::old('cops'), ['class' => 'form-control selectpicker','multiple' => 'true']) !!}
                     </div>
@@ -77,7 +77,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {!! link_to('admin/standard_label/'.$standard_label->id.'/eop','Cancel', ['class' => 'btn btn-warning'] ) !!}
+                        {!! link_to('admin/standard-label/'.$standard_label->id.'/eop','Cancel', ['class' => 'btn btn-warning'] ) !!}
                         {!! Form::submit('Add EOP', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>

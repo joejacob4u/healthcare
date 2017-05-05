@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Elements of Performance')
-@section('page_description','Manage elements of performance here.')
+@section('page_title','Standard Labels')
+@section('page_description','Manage standard labels here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -24,7 +24,7 @@
                         <th>Label</th>
                         <th>Edit</th>
                         <th>Delete</th>
-                        <th>EOP</th>
+                        <th>Manage EOP</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -32,7 +32,7 @@
                       <th>Label</th>
                       <th>Edit</th>
                       <th>Delete</th>
-                      <th>EOP</th>
+                      <th>Manage EOP</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -41,7 +41,7 @@
                       <td>{{$standard_label->label}}</td>
                       <td>{!! link_to('admin/standard-label/edit/'.$standard_label->id,'Edit',['class' => 'btn btn-warning btn-xs']); !!}</td>
                       <td>{!! link_to('admin/standard-label/delete/'.$standard_label->id,'Delete',['class' => 'btn btn-danger btn-xs']); !!}</td>
-                      <td>{!! link_to('admin/standard-label/'.$standard_label->id.'/eop','EOP',['class' => 'btn btn-primary btn-xs']); !!}</td>
+                      <td>{!! link_to('admin/standard-label/'.$standard_label->id.'/eop','Manage EOP',['class' => 'btn btn-primary btn-xs']); !!}</td>
                     </tr>
                   @endforeach
                 </tbody>

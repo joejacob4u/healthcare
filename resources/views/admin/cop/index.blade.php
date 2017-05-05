@@ -8,10 +8,10 @@
 @include('layouts.partials.success')
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">COP</h3>
+        <h3 class="box-title">CMS COP</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('admin/cop/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add COP</a>
+          <a href="{{url('admin/cop/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add CMS COP</a>
         </div>
       </div>
       <div class="box-body">

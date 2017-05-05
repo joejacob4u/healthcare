@@ -84,4 +84,10 @@ class AccreditationRequirementsController extends Controller
             return redirect('admin/accreditation-requirements')->with('success','Accreditation Requirement deleted!');
         }
     }
+
+    public function info(Request $request)
+    {
+        $accreditationRequirement = AccreditationRequirement::find($request->id);
+        return $accreditationRequirement->standardLabels;
+    }
 }

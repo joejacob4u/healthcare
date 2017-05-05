@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class COP extends Model
 {
     protected $table = 'cop';
-    protected $fillable = ['label','title','compliant'];
+    protected $fillable = ['label','title'];
 
     public function subCOPs()
     {

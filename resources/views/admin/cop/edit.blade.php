@@ -36,13 +36,6 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('compliant', 'Compliant:',['class' => 'col-lg-2 control-label'] )  !!}
-                    <div class="col-lg-10">
-                        {!!  Form::select('compliant', [0 => 'No',1 => 'Yes'], $cop->compliant, ['class' => 'form-control selectpicker', 'multiple' => 'multiple']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                         {{ link_to('admin/cop', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         <button type="button" onclick="deleteCOP('{{$cop->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>

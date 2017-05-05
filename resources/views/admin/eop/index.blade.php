@@ -23,16 +23,14 @@
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Name</th>
+                        <th>EOP #</th>
                         <th>Text</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                      <th>Id</th>
-                      <th>Name</th>
+                      <th>EOP #</th>
                       <th>Text</th>
                       <th>Edit</th>
                     </tr>
@@ -40,7 +38,6 @@
                 <tbody>
                   @foreach($standard_label->eops as $eop)
                     <tr>
-                      <td>{{$eop->id}}</td>
                       <td>{{$eop->name}}</td>
                       <td>{{link_to('#', 'Text',['class' => 'btn-xs btn-info','data-toggle' => 'popover', 'title' => 'Text Preview','data-content' => $eop->text] )}}</td>
                       <td>{{link_to('admin/standard-label/'.$standard_label->id.'/eop/edit/'.$eop->id,'Edit', ['class' => 'btn-xs btn-warning'] )}}</td>

@@ -27,6 +27,7 @@ Route::post('accreditation-requirements/add','AccreditationRequirementsControlle
 Route::get('accreditation-requirements/edit/{id}','AccreditationRequirementsController@edit');
 Route::post('accreditation-requirements/edit/{id}','AccreditationRequirementsController@save');
 Route::get('accreditation-requirements/delete/{id}','AccreditationRequirementsController@delete');
+Route::post('accreditation-requirements/info','AccreditationRequirementsController@info');
 
 
 Route::get('standard-label','StandardLabelController@index');

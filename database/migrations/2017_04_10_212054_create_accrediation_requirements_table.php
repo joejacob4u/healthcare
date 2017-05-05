@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAccreditationRequirementsTable extends Migration
+class CreateAccrediationRequirementsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateAccreditationRequirementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('accreditation_requirements', function (Blueprint $table) {
+        Schema::create('accrediation_requirements', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->timestamps();
@@ -21,13 +21,13 @@ class CreateAccreditationRequirementsTable extends Migration
 
         Schema::create('accr_accr-requirement', function(Blueprint $table)
         {
-            $table->integer('accreditation_id')->unsigned()->nullable();
-            $table->foreign('accreditation_id')->references('id')
-                  ->on('accreditation')->onDelete('cascade');
+            $table->integer('accrediation_id')->unsigned()->nullable();
+            $table->foreign('accrediation_id')->references('id')
+                  ->on('accrediation')->onDelete('cascade');
 
-            $table->integer('accreditation-requirement_id')->unsigned()->nullable();
-            $table->foreign('accreditation-requirement_id')->references('id')
-                  ->on('accreditation_requirements')->onDelete('cascade');
+            $table->integer('accrediation-requirement_id')->unsigned()->nullable();
+            $table->foreign('accrediation-requirement_id')->references('id')
+                  ->on('accrediation_requirements')->onDelete('cascade');
 
         });
     }
@@ -39,6 +39,6 @@ class CreateAccreditationRequirementsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accreditation_requirements');
+        Schema::dropIfExists('accrediation_requirements');
     }
 }

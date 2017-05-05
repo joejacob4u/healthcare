@@ -39,7 +39,7 @@
 
                 <!-- Email -->
                 <div class="form-group">
-                    {!! Form::label('documentation', 'Documentation:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('documentation', 'Documentation Required:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('documentation', ['0' => 'No','1' => 'Yes'], $eop->documentation, ['class' => 'form-control']) !!}
                     </div>
@@ -49,7 +49,7 @@
                 <div class="form-group">
                     {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','yearly' => 'Yearly'], $eop->frequency, ['class' => 'form-control']) !!}
+                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','annually' => 'Annually','semi-annually' => 'Semi-anually', 'two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], $eop->frequency, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
@@ -64,6 +64,13 @@
                     {!! Form::label('risk_assessment', 'Risk Assessment:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('risk_assessment', ['0' => 'No','1' => 'Yes'], $eop->risk_assessment, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('cops', 'CMS COPS:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('cops[]', $cops, $eop->subCOPs->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true']) !!}
                     </div>
                 </div>
 

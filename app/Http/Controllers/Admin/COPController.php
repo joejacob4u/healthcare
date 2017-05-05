@@ -24,7 +24,6 @@ class COPController extends Controller
     $this->validate($request,[
       'label' => 'required|unique:cop',
       'title' => 'required',
-      'compliant' => 'required'
     ]);
 
     if(COP::create($request->all()))
@@ -44,7 +43,6 @@ class COPController extends Controller
     $this->validate($request,[
       'label' => 'required',
       'title' => 'required',
-      'compliant' => 'required'
     ]);
 
     $cop = COP::find($id);
