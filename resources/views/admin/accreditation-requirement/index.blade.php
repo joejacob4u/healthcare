@@ -96,7 +96,7 @@
           var html = '';
 
           $.each(data, function(index, value) {
-              html += '<li><a href="standard-label/edit/'+value.id+'">'+value.name+'</a></li>';
+              html += '<li><a href="standard-label/edit/'+value.id+'">'+value.label+'</a></li>';
           });
 
           $('#standardLabelsModal ul').append(html);
