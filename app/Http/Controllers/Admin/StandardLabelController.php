@@ -12,7 +12,22 @@ class StandardLabelController extends Controller
     public function index()
     {
       $standard_labels = StandardLabel::get();
-      return view('admin.standard-label.index',['standard_labels' => $standard_labels]);
+      $accreditation_requirements = AccreditationRequirement::pluck('name','id');
+      return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements,'accreditation_requirement' => '']);
+    }
+
+    public function filter(Request $request)
+    {
+      
+      if(!is_numeric ($request->accreditation_requirement))
+      {
+        return redirect('admin/standard-label');
+      }
+
+      $accrediation_requirement = AccreditationRequirement::find($request->accreditation_requirement);
+      $standard_labels = $accrediation_requirement->standardLabels;
+      $accreditation_requirements = AccreditationRequirement::pluck('name','id');
+      return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements, 'accreditation_requirement' => $request->accreditation_requirement]);
     }
 
     public function create()

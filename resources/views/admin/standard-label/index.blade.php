@@ -10,6 +10,23 @@
 @section('content')
 @include('layouts.partials.success')
     <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Filter by Accreditation Requirement</h3>
+
+        </div>
+        <div class="box-body">
+          {!! Form::open(['url' => 'admin/standard-label/filter', 'class' => 'form-inline']) !!}
+            <div class="form-group">
+                {!! Form::select('accreditation_requirement', $accreditation_requirements, $accreditation_requirement, ['class' => 'form-control','placeholder' => 'All']); !!}
+            </div>
+            <button type="submit" class="btn btn-default">Filter</button>
+          {!! Form::close()  !!}
+        </div>
+        <!-- /.box-body -->
+      </div>
+
+
+    <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Standard Labels</h3>
 
