@@ -11,13 +11,18 @@
 @include('layouts.partials.success')
     <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Filter by Accreditation Requirement</h3>
+          <h3 class="box-title">Filter</h3>
 
         </div>
         <div class="box-body">
           {!! Form::open(['url' => 'admin/standard-label/filter', 'class' => 'form-inline']) !!}
+          <div class="form-group">
+              {!! Form::label('accreditation', 'Accreditation:', ['class' => 'control-label']) !!}
+              {!! Form::select('accreditation', $accreditations, $accreditation, ['class' => 'form-control','placeholder' => 'All','id' => 'accreditation']); !!}
+          </div>
             <div class="form-group">
-                {!! Form::select('accreditation_requirement', $accreditation_requirements, $accreditation_requirement, ['class' => 'form-control','placeholder' => 'All']); !!}
+                {!! Form::label('accreditation_requirement', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
+                {!! Form::select('accreditation_requirement', $accreditation_requirements, $accreditation_requirement, ['class' => 'form-control','placeholder' => 'All','disabled' => 'true','id' => 'accreditation_requirement']); !!}
             </div>
             <button type="submit" class="btn btn-default">Filter</button>
           {!! Form::close()  !!}
@@ -70,5 +75,46 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+    <script>
+
+    $( "#accreditation" ).change(function() {
+      if($(this).val())
+      {
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('admin/standard-label/fetch/accreditation-requirements') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'accreditation': $(this).val() },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            $('#accreditation_requirement').html("");
+
+            var html = '';
+
+            $.each(data, function(index, value) {
+              html += '<option value="'+value.id+'">'+value.name+'</option>'
+            });
+
+            $('#accreditation_requirement').append(html);
+            $('#accreditation_requirement').prop("disabled",false);
+
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+      }
+    });
+
+    </script>
 
 @endsection

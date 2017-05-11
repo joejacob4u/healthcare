@@ -6,28 +6,31 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\StandardLabel;
 use App\Regulatory\AccreditationRequirement;
+use App\Regulatory\Accreditation;
 
 class StandardLabelController extends Controller
 {
     public function index()
     {
       $standard_labels = StandardLabel::get();
+      $accreditations = Accreditation::pluck('name','id');
       $accreditation_requirements = AccreditationRequirement::pluck('name','id');
-      return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements,'accreditation_requirement' => '']);
+      return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements,'accreditation_requirement' => '','accreditations' => $accreditations,'accreditation' => '']);
     }
 
     public function filter(Request $request)
     {
-      
+
       if(!is_numeric ($request->accreditation_requirement))
       {
         return redirect('admin/standard-label');
       }
 
       $accrediation_requirement = AccreditationRequirement::find($request->accreditation_requirement);
+      $accreditations = Accreditation::pluck('name','id');
       $standard_labels = $accrediation_requirement->standardLabels;
       $accreditation_requirements = AccreditationRequirement::pluck('name','id');
-      return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements, 'accreditation_requirement' => $request->accreditation_requirement]);
+      return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements, 'accreditation_requirement' => $request->accreditation_requirement,'accreditations' => $accreditations,'accreditation' => $request->accreditation]);
     }
 
     public function create()
@@ -103,5 +106,11 @@ class StandardLabelController extends Controller
         {
             return redirect('admin/standard-label')->with('success','Standard Label deleted!');
         }
+    }
+
+    public function fetchAccreditationRequirements(request $request)
+    {
+        $accreditation= Accreditation::find($request->accreditation);
+        return $accreditation->accreditationRequirements;
     }
 }
