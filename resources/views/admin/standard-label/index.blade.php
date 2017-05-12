@@ -22,7 +22,7 @@
           </div>
             <div class="form-group">
                 {!! Form::label('accreditation_requirement', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
-                {!! Form::select('accreditation_requirement', $accreditation_requirements, $accreditation_requirement, ['class' => 'form-control','placeholder' => 'All','disabled' => 'true','id' => 'accreditation_requirement']); !!}
+                {!! Form::select('accreditation_requirement', $accreditation_requirements, $accreditation_requirement, ['class' => 'form-control','placeholder' => 'All','id' => 'accreditation_requirement']); !!}
             </div>
             <button type="submit" class="btn btn-default">Filter</button>
           {!! Form::close()  !!}
