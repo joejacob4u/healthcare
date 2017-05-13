@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Accreditation extends Model
 {
-    protected $table = 'accrediation';
+    protected $table = 'accreditation';
     protected $fillable = ['name','slug'];
 
     public function accreditationRequirements()
