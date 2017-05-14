@@ -57,3 +57,8 @@ Route::post('cop/delete','COPController@delete');
 Route::get('cop/{id}/subcop','SubCOPController@index');
 Route::get('cop/{id}/subcop/add','SubCOPController@addView');
 Route::post('cop/{id}/subcop/add','SubCOPController@create');
+
+Route::get('work/assignees','WorkOrders\AssigneesController@index');
+Route::get('work/assignees/add','WorkOrders\AssigneesController@create');
+Route::post('work/assignees/add','WorkOrders\AssigneesController@store');
+Route::get('work/assignees/edit/{id}','WorkOrders\AssigneesController@edit');
