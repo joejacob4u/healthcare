@@ -61,13 +61,6 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('risk_assessment', 'Risk Assessment:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('risk_assessment', ['0' => 'No','1' => 'Yes'], $eop->risk_assessment, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
                     {!! Form::label('cops', 'CMS COPS:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('cops[]', $cops, $eop->subCOPs->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true']) !!}

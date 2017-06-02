@@ -44,8 +44,13 @@
                   </div>
               </div>
 
+              <div class="form-group">
+                  {!! Form::label('accreditation', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('accreditation_id', $accreditations, '', ['class' => 'form-control selectpicker']); !!}
+                  </div>
+              </div>
 
-                <!-- Email -->
                 <div class="form-group">
                     {!! Form::label('accreditation_requirements', 'Accreditation Requirement:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">

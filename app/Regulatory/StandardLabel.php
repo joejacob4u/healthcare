@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class StandardLabel extends Model
 {
     protected $table = 'standard_label';
-    protected $fillable = ['label','text','description'];
+    protected $fillable = ['label','text','description','accreditation_id'];
 
     public function accreditationRequirements()
     {
@@ -17,5 +17,10 @@ class StandardLabel extends Model
     public function eops()
     {
       return $this->hasMany('App\Regulatory\EOP','standard_label_id');
+    }
+
+    public function accreditation()
+    {
+      return $this->belongsTo('App\Regulatory\Accreditation','accreditation_id');
     }
 }

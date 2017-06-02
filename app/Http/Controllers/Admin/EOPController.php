@@ -33,7 +33,6 @@ class EOPController extends Controller
           'documentation' => 'required',
           'frequency' => 'required',
           'risk' => 'required',
-          'risk_assessment' => 'required',
         ]);
 
         $standardLabel = StandardLabel::find($standard_label);
@@ -79,7 +78,6 @@ class EOPController extends Controller
           'documentation' => 'required',
           'frequency' => 'required',
           'risk' => 'required',
-          'risk_assessment' => 'required'
         ]);
 
         $standardLabel = StandardLabel::find($standard_label);
