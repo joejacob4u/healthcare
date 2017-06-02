@@ -67,11 +67,13 @@ class StandardLabelController extends Controller
     public function edit($id)
     {
       $accreditation_requirements = AccreditationRequirement::pluck('name','id');
+      $accreditations = Accreditation::pluck('name','id');
       $standard_label = StandardLabel::find($id);
 
       return view('admin.standard-label.edit',[
         'accreditation_requirements' => $accreditation_requirements,
-        'standard_label' => $standard_label
+        'standard_label' => $standard_label,
+        'accreditations' => $accreditations
       ]);
     }
 
