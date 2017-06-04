@@ -28,8 +28,19 @@ class StandardLabelController extends Controller
 
       $accreditations = Accreditation::pluck('name','id');
       $accreditation_requirements = AccreditationRequirement::pluck('name','id');
-      $standard_labels = StandardLabel::where('accreditation_id',$request->accreditation)->get();
-      $filtered_standard_labels = $standard_labels->accreditationRequirements->contains($request->accreditation_requirement);
+
+      $accreditation = Accreditation::find($request->accreditation);
+      $standard_labels = $accreditation->standardLabels;
+      $accreditation_requirement = AccreditationRequirement::find($request->accreditation_requirement);
+
+      foreach($standard_labels as $key => $standard_label)
+      {
+        if($standard_label->accreditationRequirements->contains($request->accreditation_requirement))
+        {
+          $filtered_standard_labels[] = $standard_labels->pull($key);
+        }
+      }
+
       return view('admin.standard-label.index',['standard_labels' => $filtered_standard_labels,'accreditation_requirements' => $accreditation_requirements, 'accreditation_requirement' => $request->accreditation_requirement,'accreditations' => $accreditations,'accreditation' => $request->accreditation]);
     }
 

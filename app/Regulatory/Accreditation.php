@@ -14,4 +14,9 @@ class Accreditation extends Model
       return $this->belongsToMany('App\Regulatory\AccreditationRequirement','accr_accr-requirement','accrediation_id','accrediation-requirement_id');
     }
 
+    public function standardLabels()
+    {
+      return $this->hasMany('App\Regulatory\StandardLabel','accreditation_id');
+    }
+
 }
