@@ -22,13 +22,13 @@ class EOPController extends Controller
     {
         $standard_label = StandardLabel::find($standard_label);
         $cops = SubCOP::pluck('label','id');
-        return view('admin.eop.add',['standard_label' => $standard_label,'cops' => $cops]);
+        return view('admin.eop.add',['standard_label' => $standard_label,'cops' => $cops->prepend('No COPs','no_cops')]);
     }
 
     public function store(Request $request,$standard_label)
     {
         $this->validate($request,[
-          'name' => 'required|unique:eop,name',
+          'name' => 'required',
           'text' => 'required',
           'documentation' => 'required',
           'frequency' => 'required',

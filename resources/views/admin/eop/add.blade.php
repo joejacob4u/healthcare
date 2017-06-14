@@ -9,6 +9,7 @@
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
+@include('layouts.partials.warning')
 
     <div class="box">
       <div class="box-header with-border">
@@ -49,7 +50,7 @@
                 <div class="form-group">
                     {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                      {!! Form::select('frequency', ['daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','annually' => 'Annually','semi-annually' => 'Semi-anually', 'two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], Request::old('frequency'), ['class' => 'form-control']) !!}
+                      {!! Form::select('frequency', ['no_frequency' => 'No Frequency','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','annually' => 'Annually','semi-annually' => 'Semi-anually', 'two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], Request::old('frequency'), ['class' => 'form-control']) !!}
                     </div>
                 </div>
 

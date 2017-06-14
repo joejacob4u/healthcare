@@ -9,6 +9,8 @@
 
 @section('content')
 @include('layouts.partials.success')
+@include('layouts.partials.errors')
+@include('layouts.partials.warning')
     <div class="box">
         <div class="box-header with-border">
           <h3 class="box-title">Filter</h3>

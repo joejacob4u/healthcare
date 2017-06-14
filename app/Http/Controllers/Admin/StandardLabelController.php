@@ -12,7 +12,7 @@ class StandardLabelController extends Controller
 {
     public function index()
     {
-      $standard_labels = StandardLabel::get();
+      $standard_labels = StandardLabel::orderBy('label','asc')->get();
       $accreditations = Accreditation::pluck('name','id');
       $accreditation_requirements = AccreditationRequirement::pluck('name','id');
       return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements,'accreditation_requirement' => '','accreditations' => $accreditations,'accreditation' => '']);
@@ -41,6 +41,11 @@ class StandardLabelController extends Controller
         }
       }
 
+      if(!isset($filtered_standard_labels))
+      {
+        return redirect('admin/standard-label')->with('warning','Filter returned no matches.');
+      }
+
       return view('admin.standard-label.index',['standard_labels' => $filtered_standard_labels,'accreditation_requirements' => $accreditation_requirements, 'accreditation_requirement' => $request->accreditation_requirement,'accreditations' => $accreditations,'accreditation' => $request->accreditation]);
     }
 
@@ -54,7 +59,7 @@ class StandardLabelController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-          'label' => 'required|unique:standard_label,label',
+          'label' => 'required',
           'text' => 'required',
           'description' => 'required',
           'accreditation_requirements' => 'required',

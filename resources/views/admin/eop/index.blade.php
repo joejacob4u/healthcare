@@ -36,7 +36,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($standard_label->eops as $eop)
+                  @foreach($standard_label->eops->sortBy('name') as $eop)
                     <tr>
                       <td>{{$eop->name}}</td>
                       <td>{{link_to('#', 'Text',['class' => 'btn-xs btn-info','data-toggle' => 'popover', 'title' => 'Text Preview','data-content' => $eop->text] )}}</td>
