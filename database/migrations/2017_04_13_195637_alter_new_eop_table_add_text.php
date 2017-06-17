@@ -14,7 +14,7 @@ class AlterNewEopTableAddText extends Migration
     public function up()
     {
         Schema::table('eop', function (Blueprint $table) {
-            $table->string('text')->after('standard_label_id');
+            $table->text('text')->after('standard_label_id');
         });
     }
 

@@ -47,7 +47,7 @@ class SubCOPController extends Controller
         return view('admin.cop.subcop.edit',['sub_cop' => $sub_cop,'cop' => $cop ]);
     }
 
-    public function save($cop_id,$sub_cop_id)
+    public function save(Request $request,$cop_id,$sub_cop_id)
     {
       $this->validate($request,[
         'label' => 'required',

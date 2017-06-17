@@ -61,7 +61,7 @@
     {
         bootbox.confirm("Do you really want to delete?", function(result)
         {
-          if(result == 'true'){
+          if(result){
 
             $.ajax({
               type: 'POST',

@@ -67,7 +67,7 @@ class EOPController extends Controller
         $standard_label = StandardLabel::find($standard_label);
         $eop = EOP::find($eop);
         $cops = SubCOP::pluck('label','id');
-        return view('admin.eop.edit',['standard_label' => $standard_label, 'eop' => $eop,'cops' => $cops]);
+        return view('admin.eop.edit',['standard_label' => $standard_label, 'eop' => $eop,'cops' => $cops->prepend('No COPs','no_cops')]);
     }
 
     public function save(Request $request,$standard_label,$eop)

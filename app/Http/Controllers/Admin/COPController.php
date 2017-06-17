@@ -38,7 +38,7 @@ class COPController extends Controller
       return view('admin.cop.edit',['cop' => $cop]);
   }
 
-  public function save($id)
+  public function save(Request $request,$id)
   {
     $this->validate($request,[
       'label' => 'required',

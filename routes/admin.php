@@ -57,6 +57,10 @@ Route::post('cop/delete','COPController@delete');
 Route::get('cop/{id}/subcop','SubCOPController@index');
 Route::get('cop/{id}/subcop/add','SubCOPController@addView');
 Route::post('cop/{id}/subcop/add','SubCOPController@create');
+Route::get('cop/{cop_id}/subcop/edit/{sub_cop_id}','SubCOPController@editView');
+Route::post('cop/{cop_id}/subcop/edit/{sub_cop_id}','SubCOPController@save');
+Route::post('subcop/delete','SubCOPController@delete');
+
 
 Route::get('aorn','COPController@index');
 

@@ -61,7 +61,6 @@ class StandardLabelController extends Controller
         $this->validate($request,[
           'label' => 'required',
           'text' => 'required',
-          'description' => 'required',
           'accreditation_requirements' => 'required',
           'accreditation_id' => 'required'
         ]);
@@ -99,7 +98,6 @@ class StandardLabelController extends Controller
         $this->validate($request,[
           'label' => 'required',
           'text' => 'required',
-          'description' => 'required',
           'accreditation_requirements' => 'required',
           'accreditation_id' => 'required'
 

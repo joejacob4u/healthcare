@@ -10,7 +10,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Edit COP Info for {{$cop->label}}</h3>
+        <h3 class="box-title">Edit SubCOP Info for {{$sub_cop->label}}</h3>
 
         <div class="box-tools pull-right">
         </div>
@@ -62,7 +62,7 @@
     {
         bootbox.confirm("Do you really want to delete?", function(result)
         {
-          if(result == 'true'){
+          if(result){
 
             $.ajax({
               type: 'POST',

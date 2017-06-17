@@ -46,6 +46,7 @@
                 <thead>
                     <tr>
                         <th>Label</th>
+                        <th>Text</th>
                         <th>Edit</th>
                         <th>Delete</th>
                         <th>Manage EOP</th>
@@ -54,6 +55,7 @@
                 <tfoot>
                     <tr>
                       <th>Label</th>
+                      <th>Text</th>
                       <th>Edit</th>
                       <th>Delete</th>
                       <th>Manage EOP</th>
@@ -63,6 +65,7 @@
                   @foreach($standard_labels as $standard_label)
                     <tr>
                       <td>{{$standard_label->label}}</td>
+                      <td>{{link_to('#', 'Text',['class' => 'btn-xs btn-info','data-toggle' => 'popover', 'title' => 'Text Preview','data-content' => $standard_label->text] )}}</td>
                       <td>{!! link_to('admin/standard-label/edit/'.$standard_label->id,'Edit',['class' => 'btn btn-warning btn-xs']); !!}</td>
                       <td>{!! link_to('admin/standard-label/delete/'.$standard_label->id,'Delete',['class' => 'btn btn-danger btn-xs']); !!}</td>
                       <td>{!! link_to('admin/standard-label/'.$standard_label->id.'/eop','Manage EOP',['class' => 'btn btn-primary btn-xs']); !!}</td>
@@ -116,6 +119,11 @@
         });
       }
     });
+
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+
 
     </script>
 
