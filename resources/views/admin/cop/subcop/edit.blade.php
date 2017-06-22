@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/cop/edit/'.$cop->id.'/subcop/'.$sub_cop->id, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/cop/'.$cop->id.'/subcop/edit/'.$sub_cop->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -34,6 +34,14 @@
                         {!! Form::text('title', $sub_cop->title, ['class' => 'form-control', 'placeholder' => 'Title']) !!}
                     </div>
                 </div>
+
+                <div class="form-group">
+                    {!! Form::label('description', 'Description:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::textarea('description', $sub_cop->description, ['class' => 'form-control', 'placeholder' => 'Description']) !!}
+                    </div>
+                </div>
+
 
 
                 <div class="form-group">

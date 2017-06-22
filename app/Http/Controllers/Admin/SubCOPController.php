@@ -26,7 +26,7 @@ class SubCOPController extends Controller
     public function create(Request $request,$id)
     {
       $this->validate($request,[
-        'label' => 'required|unique:sub_cop',
+        'label' => 'required',
         'title' => 'required',
         'description' => 'required',
       ]);

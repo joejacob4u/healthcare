@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class SubCOP extends Model
 {
     protected $table = 'sub_cop';
-    protected $fillable = ['cop_id','label','title','compliant'];
+    protected $fillable = ['cop_id','label','title','compliant','description'];
 
     public function accrTypes()
     {

@@ -21,7 +21,6 @@
                     <tr>
                         <th>Section Label</th>
                         <th>Section Text</th>
-                        <th>Compliant</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -29,7 +28,6 @@
                     <tr>
                       <th>Section Label</th>
                       <th>Section Text</th>
-                      <th>Compliant</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -38,7 +36,6 @@
                     <tr>
                         <td>{{$sub_cop->label}}</td>
                         <td>{{$sub_cop->title}}</td>
-                        <td>{{$sub_cop->compliant}}</td>
                         <td><a href="{{url('admin/cop/'.$cop->id.'/subcop/edit/'.$sub_cop->id)}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
                     </tr>
                     @endforeach
