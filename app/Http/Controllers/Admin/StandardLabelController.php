@@ -110,7 +110,7 @@ class StandardLabelController extends Controller
           $aAccreditationRequirements[] = AccreditationRequirement::find($accreditation_requirement)->id;
         }
 
-        if($standard_label->save($request->all()))
+        if($standard_label->update($request->all()))
         {
             if($standard_label->accreditationRequirements()->sync($aAccreditationRequirements))
             {
