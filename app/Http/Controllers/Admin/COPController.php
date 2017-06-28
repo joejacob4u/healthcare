@@ -47,7 +47,7 @@ class COPController extends Controller
 
     $cop = COP::find($id);
 
-    if($cop->save($request->all()))
+    if($cop->update($request->all()))
     {
       return redirect('admin/cop')->with('success','COP has been updated!');
     }

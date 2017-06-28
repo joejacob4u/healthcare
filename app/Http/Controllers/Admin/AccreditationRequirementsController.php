@@ -68,7 +68,7 @@ class AccreditationRequirementsController extends Controller
           $aAccreditation[] = Accreditation::find($accreditation)->id;
         }
 
-        if($accreditation_requirement->save($request->all()))
+        if($accreditation_requirement->update($request->all()))
         {
             if($accreditation_requirement->accreditations()->sync($aAccreditation))
             {

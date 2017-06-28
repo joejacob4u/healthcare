@@ -57,7 +57,7 @@ class SubCOPController extends Controller
 
       $sub_cop = SubCOP::find($sub_cop_id);
 
-      if($sub_cop->save($request->all()))
+      if($sub_cop->update($request->all()))
       {
         return redirect('admin/cop/'.$cop_id.'/subcop')->with('success','SubCOP has been updated!');
       }
