@@ -63,7 +63,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {!! Form::button('Cancel', ['class' => 'btn btn-warning','href' => 'admin/standard-label'] ) !!}
+                        {!! link_to('admin/standard-label','Cancel',['class' => 'btn btn-warning']) !!}
                         {!! Form::submit('Save Standard Label', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>

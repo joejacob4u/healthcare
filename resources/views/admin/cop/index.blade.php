@@ -20,7 +20,6 @@
                     <tr>
                         <th>Section Label</th>
                         <th>Section Text</th>
-                        <th>Compliant</th>
                         <th>Edit</th>
                         <th>Sub COP</th>
                     </tr>
@@ -29,7 +28,6 @@
                     <tr>
                       <th>Section Label</th>
                       <th>Section Text</th>
-                      <th>Compliant</th>
                       <th>Edit</th>
                       <th>Sub COP</th>
                     </tr>
@@ -39,7 +37,6 @@
                     <tr>
                         <td>{{$cop->label}}</td>
                         <td>{{$cop->title}}</td>
-                        <td>{{$cop->compliant}}</td>
                         <td><a href="{{url('admin/cop/edit/'.$cop->id)}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit</a></td>
                         <td><a href="{{url('admin/cop/'.$cop->id.'/subcop')}}" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-list-alt"></span> Sub COP</a></td>
                     </tr>

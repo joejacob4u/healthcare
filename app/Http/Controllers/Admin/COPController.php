@@ -10,7 +10,7 @@ class COPController extends Controller
 {
   public function index()
   {
-    $cops = COP::get();
+    $cops = COP::orderBy('label','asc')->get();
     return view('admin.cop.index',['cops' => $cops]);
   }
 
