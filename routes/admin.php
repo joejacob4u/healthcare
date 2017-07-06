@@ -1,12 +1,7 @@
 <?php
 
 Route::get('/home', function () {
-    $users[] = Auth::user();
-    $users[] = Auth::guard()->user();
     $users[] = Auth::guard('admin')->user();
-
-    //dd($users);
-
     return view('home');
 })->name('home');
 
@@ -63,6 +58,9 @@ Route::post('subcop/delete','SubCOPController@delete');
 
 
 Route::get('aorn','COPController@index');
+
+Route::get('hco','WorkOrders\AssigneesController@index');
+
 
 
 Route::get('work/assignees','WorkOrders\AssigneesController@index');
