@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9f059b9b5d9788b59a22d362a74c1f47",
+    "content-hash": "1bd49b656ee7133e66ea1058ef6e4832",
     "packages": [
+        {
+            "name": "adrianmejias/laravel-states",
+            "version": "1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/adrianmejias/laravel-states.git",
+                "reference": "d0e3f53f53c64804f7ccbe52c94cccb322fb1d1d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/adrianmejias/laravel-states/zipball/d0e3f53f53c64804f7ccbe52c94cccb322fb1d1d",
+                "reference": "d0e3f53f53c64804f7ccbe52c94cccb322fb1d1d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "laravel-library",
+            "autoload": {
+                "psr-0": {
+                    "AdrianMejias\\States": "src/"
+                },
+                "classmap": [
+                    "src/commands"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adrian Mejias",
+                    "email": "adrianmejias@gmail.com",
+                    "homepage": "https://adrianmejias.com",
+                    "role": "developer"
+                }
+            ],
+            "description": "Laravel States is a bundle for Laravel, providing abbreviation, name and country code for US states.",
+            "homepage": "https://github.com/adrianmejias/laravel-states",
+            "keywords": [
+                "laravel",
+                "states",
+                "united states",
+                "us states",
+                "usa"
+            ],
+            "time": "2017-03-27T21:13:02+00:00"
+        },
         {
             "name": "barryvdh/laravel-debugbar",
             "version": "v2.3.2",

@@ -56,6 +56,13 @@ Route::get('cop/{cop_id}/subcop/edit/{sub_cop_id}','SubCOPController@editView');
 Route::post('cop/{cop_id}/subcop/edit/{sub_cop_id}','SubCOPController@save');
 Route::post('subcop/delete','SubCOPController@delete');
 
+Route::get('clients','AdminClientController@index');
+Route::get('clients/add','AdminClientController@addView');
+Route::post('clients/add','AdminClientController@create');
+Route::get('clients/edit/{client_id}','AdminClientController@edit');
+Route::post('clients/edit/{client_id}','AdminClientController@save');
+
+
 
 Route::get('aorn','COPController@index');
 

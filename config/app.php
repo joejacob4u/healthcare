@@ -180,7 +180,8 @@ return [
         App\Providers\ComposerServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        Hesto\MultiAuth\MultiAuthServiceProvider::class
+        Hesto\MultiAuth\MultiAuthServiceProvider::class,
+        AdrianMejias\States\StatesServiceProvider::class
 
     ],
 
@@ -231,7 +232,8 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
-        'Debugbar' => Barryvdh\Debugbar\Facade::class
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
+        'States' => AdrianMejias\States\StatesFacade::class
 
     ],
 
