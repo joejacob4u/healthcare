@@ -10,7 +10,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in Client Info</h3>
+        <h3 class="box-title">Add in Healthcare System</h3>
 
         <div class="box-tools pull-right">
         </div>
@@ -28,28 +28,6 @@
                   </div>
               </div>
                 <!-- Email -->
-                <div class="form-group">
-                    {!! Form::label('facility_name', 'Facility Name:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('facility_name', $value = null, ['class' => 'form-control', 'placeholder' => 'Facility Name']) !!}
-                    </div>
-                </div>
-
-                <!-- Phone -->
-                <div class="form-group">
-                    {!! Form::label('address', 'Address:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::textarea('address', $value = null, ['class' => 'form-control', 'placeholder' => 'address']) !!}
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    {!! Form::label('hco_id', 'HCO ID', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('hco_id', $value = null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
 
                 <div class="form-group">
                     {!! Form::label('admin_name', 'Admin Name', ['class' => 'col-lg-2 control-label']) !!}

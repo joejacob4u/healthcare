@@ -8,18 +8,18 @@
 @include('layouts.partials.success')
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">HCO Clients</h3>
+        <h3 class="box-title">Healthcare System</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('admin/clients/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add HCO Client</a>
+          <a href="{{url('admin/healthsystem/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Healthcare System</a>
         </div>
       </div>
       <div class="box-body">
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>HCO ID</th>
-                        <th>Facility Name</th>
+                        <th>Healthcare System</th>
+                        <th>State</th>
                         <th>Phone</th>
                         <th>Admin</th>
                         <th>Edit</th>
@@ -27,21 +27,21 @@
                 </thead>
                 <tfoot>
                     <tr>
-                      <th>HCO ID</th>
-                      <th>Facility Name</th>
+                      <th>Healthcare System</th>
+                      <th>State</th>
                       <th>Phone</th>
                       <th>Admin</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach($clients as $client)
+                    @foreach($healthsystems as $healthsystem)
                     <tr>
-                        <td>{{$client->hco_id}}</td>
-                        <td>{{$client->facility_name}}</td>
-                        <td>{{$client->admin_phone}}</td>
-                        <td>{{$client->admin_email}}</td>
-                        <td>{!! link_to('admin/clients/edit/'.$client->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                        <td>{{$healthsystem->healthcare_system}}</td>
+                        <td>{{$healthsystem->state}}</td>
+                        <td>{{$healthsystem->admin_phone}}</td>
+                        <td>{{$healthsystem->admin_email}}</td>
+                        <td>{!! link_to('admin/clients/edit/'.$healthsystem->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                     @endforeach
                 </tbody>
