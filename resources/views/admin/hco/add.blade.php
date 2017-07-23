@@ -10,50 +10,43 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in Healthcare System</h3>
+        <h3 class="box-title">Add in HCO</h3>
 
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/clients/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/hco/add', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
-              <!-- Name -->
               <div class="form-group">
-                  {!! Form::label('healthcare_system', 'Healthcare System:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('facility_name', 'Facility Name:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('healthcare_system', $value = null, ['class' => 'form-control', 'placeholder' => 'Healthcare System']) !!}
+                      {!! Form::text('facility_name', $value = '', ['class' => 'form-control', 'placeholder' => 'Facility Name']) !!}
                   </div>
               </div>
-                <!-- Email -->
+
+              <!-- Phone -->
+              <div class="form-group">
+                  {!! Form::label('address', 'Address:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('address', $value = '', ['class' => 'form-control', 'placeholder' => 'address']) !!}
+                  </div>
+              </div>
+
+
+              <div class="form-group">
+                  {!! Form::label('hco_id', 'HCO ID', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('hco_id', $value = '', ['class' => 'form-control']) !!}
+                  </div>
+              </div>
 
                 <div class="form-group">
-                    {!! Form::label('admin_name', 'Admin Name', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('healthsystem_id', 'Health System', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::text('admin_name', $value = null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('admin_email', 'Admin Email', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('admin_email', $value = null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('admin_phone', 'Admin Phone', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('admin_phone', $value = null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('state', 'State', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('state', States::whereCountryCode('US')->pluck('name','name'),null,['class' => 'form-control']); !!}
+                        {!! Form::select('healthsystem_id', $healthcare_systems,null,['class' => 'form-control']); !!}
                     </div>
                 </div>
 

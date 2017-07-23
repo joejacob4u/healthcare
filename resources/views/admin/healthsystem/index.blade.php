@@ -41,7 +41,7 @@
                         <td>{{$healthsystem->state}}</td>
                         <td>{{$healthsystem->admin_phone}}</td>
                         <td>{{$healthsystem->admin_email}}</td>
-                        <td>{!! link_to('admin/clients/edit/'.$healthsystem->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                        <td>{!! link_to('admin/healthsystem/edit/'.$healthsystem->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                     @endforeach
                 </tbody>

@@ -62,8 +62,8 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/clients', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
-                        {!! Form::submit('Add HCO Client', ['class' => 'btn btn-success pull-right'] ) !!}
+                        {{ link_to('admin/healthsystem', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {!! Form::submit('Add Health System', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
 

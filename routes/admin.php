@@ -56,17 +56,26 @@ Route::get('cop/{cop_id}/subcop/edit/{sub_cop_id}','SubCOPController@editView');
 Route::post('cop/{cop_id}/subcop/edit/{sub_cop_id}','SubCOPController@save');
 Route::post('subcop/delete','SubCOPController@delete');
 
-Route::get('healthsystem','AdminClientController@index');
-Route::get('healthsystem/add','AdminClientController@addView');
-Route::post('healthsystem/add','AdminClientController@create');
-Route::get('healthsystem/edit/{client_id}','AdminClientController@edit');
-Route::post('healthsystem/edit/{healthsystem_id}','AdminClientController@save');
+Route::get('healthsystem','HealthsystemController@index');
+Route::get('healthsystem/add','HealthsystemController@add');
+Route::post('healthsystem/add','HealthsystemController@create');
+Route::get('healthsystem/edit/{id}','HealthsystemController@edit');
+Route::post('healthsystem/edit/{id}','HealthsystemController@save');
+Route::post('healthsystem/delete','HealthsystemController@delete');
+
+Route::get('hco','HCOController@index');
+Route::get('hco/add','HCOController@add');
+Route::post('hco/add','HCOController@create');
+Route::get('hco/edit/{id}','HCOController@edit');
+Route::post('hco/edit/{id}','HCOController@save');
+Route::post('hco/delete','HCOController@delete');
+
 
 
 
 Route::get('aorn','COPController@index');
 
-Route::get('hco','WorkOrders\AssigneesController@index');
+
 
 
 

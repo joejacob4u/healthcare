@@ -15,6 +15,7 @@ class CreateHcoTable extends Migration
     {
         Schema::create('hco', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('healthsystem_id');
             $table->string('facility_name');
             $table->string('address');
             $table->string('hco_id');
