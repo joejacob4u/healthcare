@@ -63,12 +63,12 @@ Route::get('healthsystem/edit/{id}','HealthsystemController@edit');
 Route::post('healthsystem/edit/{id}','HealthsystemController@save');
 Route::post('healthsystem/delete','HealthsystemController@delete');
 
-Route::get('hco','HCOController@index');
-Route::get('hco/add','HCOController@add');
-Route::post('hco/add','HCOController@create');
-Route::get('hco/edit/{id}','HCOController@edit');
-Route::post('hco/edit/{id}','HCOController@save');
-Route::post('hco/delete','HCOController@delete');
+Route::get('healthsystem/{healthsystem_id}/hco','HCOController@index');
+Route::get('healthsystem/{healthsystem_id}/hco/add','HCOController@add');
+Route::post('healthsystem/{healthsystem_id}/hco/add','HCOController@create');
+Route::get('healthsystem/{healthsystem_id}/hco/edit/{id}','HCOController@edit');
+Route::post('healthsystem/{healthsystem_id}/hco/edit/{id}','HCOController@save');
+Route::post('healthsystem/hco/delete','HCOController@delete');
 
 
 

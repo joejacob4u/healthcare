@@ -16,6 +16,10 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index');
 
+Route::get('/welcome', function(){
+  return view('welcome');
+});
+
 /***************************Admin Route groups*******************************/
 
 

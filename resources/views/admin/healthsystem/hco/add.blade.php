@@ -10,13 +10,13 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in HCO</h3>
+        <h3 class="box-title">Add in HCO for {{$healthsystem->healthcare_system}}</h3>
 
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/hco/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/healthsystem/'.$healthsystem->id.'/hco/add', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -43,19 +43,10 @@
                   </div>
               </div>
 
-                <div class="form-group">
-                    {!! Form::label('healthsystem_id', 'Health System', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('healthsystem_id', $healthcare_systems,null,['class' => 'form-control']); !!}
-                    </div>
-                </div>
-
-
-
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/clients', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('admin/healthsystem/'.$healthsystem->id.'/hco', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         {!! Form::submit('Add HCO Client', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>

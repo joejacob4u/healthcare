@@ -22,6 +22,7 @@
                         <th>State</th>
                         <th>Phone</th>
                         <th>Admin</th>
+                        <th>HCO</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -31,6 +32,7 @@
                       <th>State</th>
                       <th>Phone</th>
                       <th>Admin</th>
+                      <th>HCO</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -41,6 +43,7 @@
                         <td>{{$healthsystem->state}}</td>
                         <td>{{$healthsystem->admin_phone}}</td>
                         <td>{{$healthsystem->admin_email}}</td>
+                        <td>{!! link_to('admin/healthsystem/'.$healthsystem->id.'/hco','HCO',['class' => 'btn-xs btn-info']) !!}</td>
                         <td>{!! link_to('admin/healthsystem/edit/'.$healthsystem->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                     @endforeach

@@ -64,7 +64,6 @@
            </a>
            <ul class="treeview-menu">
              <li><a href="{{url('admin/healthsystem')}}"><i class="fa fa-circle-o"></i>Health System</a></li>
-             <li><a href="{{url('admin/hco')}}"><i class="fa fa-circle-o"></i>HCO</a></li>
            </ul>
        </li>
   </ul>

@@ -9,56 +9,53 @@ use App\Admin\HealthSystem;
 
 class HCOController extends Controller
 {
-    public function index()
+    public function index($healthsystem_id)
     {
-      $hcos = HCO::get();
-      return view('admin.hco.index',['hcos' => $hcos]);
+      $health_system = HealthSystem::find($healthsystem_id);
+      $hcos = $health_system->HCOs;
+      return view('admin.healthsystem.hco.index',['hcos' => $hcos,'health_system' => $health_system]);
     }
 
-    public function add()
+    public function add($healthsystem_id)
     {
-      $healthcare_systems = HealthSystem::pluck('healthcare_system','id');
-      return view('admin.hco.add',['healthcare_systems' => $healthcare_systems]);
+      return view('admin.healthsystem.hco.add',['healthsystem' => HealthSystem::find($healthsystem_id)]);
     }
 
-    public function create(Request $request)
+    public function create(Request $request,$healthsystem_id)
     {
         $this->validate($request,[
-          'healthsystem_id' => 'required',
           'facility_name' => 'required',
           'address' => 'required',
           'hco_id' => 'required|unique:hco'
         ]);
 
-        $healthsystem = HealthSystem::find($request->healthsystem_id);
+        $healthsystem = HealthSystem::find($healthsystem_id);
 
         if($healthsystem->HCOs()->create($request->all()))
         {
-            return redirect('admin/hco')->with('success','HCO created successfully.');
+            return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO created successfully.');
         }
     }
 
-    public function edit($id)
+    public function edit($healthsystem_id,$id)
     {
         $hco = HCO::find($id);
-        $healthcare_systems = HealthSystem::pluck('healthcare_system','id');
-        return view('admin.hco.edit',['healthcare_systems' => $healthcare_systems, 'hco' => $hco]);
+        return view('admin.healthsystem.hco.edit',['healthsystem' => HealthSystem::find($healthsystem_id), 'hco' => $hco]);
     }
 
-    public function save(Request $request,$id)
+    public function save(Request $request,$healthsystem_id,$id)
     {
         $this->validate($request,[
-          'healthsystem_id' => 'required',
           'facility_name' => 'required',
           'address' => 'required',
           'hco_id' => 'required'
         ]);
 
-        $hco = HCO::find($id);
+        $healthsystem = HealthSystem::find($healthsystem_id);
 
-        if($hco->update($request->all()))
+        if($healthsystem->HCOs()->update(request()->except(['_token'])))
         {
-          return redirect('admin/hco')->with('success','HCO updated successfully.');
+          return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO updated successfully.');
         }
 
     }

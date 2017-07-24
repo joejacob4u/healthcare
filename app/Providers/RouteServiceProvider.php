@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminRoutes()
     {
         Route::group([
-            'middleware' => ['web','admin'],
+            'middleware' => ['web','master'],
             'prefix' => 'admin',
             'as' => 'admin.',
             'namespace' => $this->namespace.'\Admin',

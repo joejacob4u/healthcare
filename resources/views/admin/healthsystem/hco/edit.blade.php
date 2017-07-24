@@ -10,13 +10,13 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in HCO Info</h3>
+        <h3 class="box-title">Edit HCO Info for {{$healthsystem->healthcare_system}}</h3>
 
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/hco/edit/'.$hco->id, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/healthsystem/'.$healthsystem->id.'/hco/edit/'.$hco->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -44,18 +44,11 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('healthsystem_id', 'Health System', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('healthsystem_id', $healthcare_systems,$hco->healthsystem_id,['class' => 'form-control']); !!}
-                    </div>
-                </div>
-
 
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/hco', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('admin/healthsystem/'.$healthsystem->id.'/hco', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         <button type="button" onclick="deleteHCO('{{$hco->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                         {!! Form::submit('Update HCO Client', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
@@ -82,7 +75,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('admin/hco/delete') }}',
+              url: '{{ asset('admin/healthsystem/hco/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {
@@ -92,7 +85,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = "{{url('admin/hco')}}";
+                    window.location = "{{url('admin/healthsystem/'.$healthsystem->id.'/hco')}}";
                   }
                   else {
                     bootbox.alert("Something went wrong, try again later");
