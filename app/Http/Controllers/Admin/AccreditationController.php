@@ -9,6 +9,7 @@ use App\Regulatory\Accreditation;
 
 class AccreditationController extends Controller
 {
+
     public function index()
     {
       $accreditations = Accreditation::get();
