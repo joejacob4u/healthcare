@@ -41,7 +41,8 @@ class SiteController extends Controller
     public function edit($hco_id,$id)
     {
       $site = Site::find($id);
-      return view('admin.healthsystem.sites.edit',['site' => $site]);
+      $hco = HCO::find($hco_id);
+      return view('admin.healthsystem.sites.edit',['site' => $site,'hco' => $hco]);
     }
 
     public function save(Request $request,$hco_id,$id)
