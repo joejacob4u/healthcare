@@ -24,6 +24,7 @@
                     <tr>
                         <th>HCO ID #</th>
                         <th>HCO Name</th>
+                        <th>Sites</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -31,6 +32,7 @@
                     <tr>
                       <th>HCO ID #</th>
                       <th>HCO Name</th>
+                      <th>Sites</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -39,6 +41,7 @@
                     <tr>
                       <td>{{$hco->hco_id}}</td>
                       <td>{{$hco->facility_name}}</td>
+                      <td>{!! link_to('admin/hco/'.$hco->id.'/sites','Sites',['class' => 'btn-xs btn-info']) !!}</td>
                       <td>{!! link_to('admin/healthsystem/'.$health_system->id.'/hco/edit/'.$hco->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach

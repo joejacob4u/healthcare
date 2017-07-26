@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Admin\HealthSystem;
+use App\Regulatory\HealthSystem;
 
 class HealthsystemController extends Controller
 {

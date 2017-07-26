@@ -70,6 +70,14 @@ Route::get('healthsystem/{healthsystem_id}/hco/edit/{id}','HCOController@edit');
 Route::post('healthsystem/{healthsystem_id}/hco/edit/{id}','HCOController@save');
 Route::post('healthsystem/hco/delete','HCOController@delete');
 
+Route::get('hco/{hco_id}/sites','SiteController@index');
+Route::get('hco/{hco_id}/sites/add','SiteController@add');
+Route::post('hco/{hco_id}/sites/add','SiteController@create');
+Route::get('hco/{hco_id}/sites/edit/{id}','SiteController@edit');
+Route::post('hco/{hco_id}/sites/edit/{id}','SiteController@save');
+Route::post('hco/sites/delete','SiteController@delete');
+
+
 
 
 

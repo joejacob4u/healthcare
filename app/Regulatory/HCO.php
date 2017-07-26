@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Admin;
+namespace App\Regulatory;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,5 +13,11 @@ class HCO extends Model
   {
     return $this->belongsTo('App\Admin\HealthSystem','healthsystem_id');
   }
+
+  public function sites()
+  {
+    return $this->hasMany('App\Regulatory\Site','hco_id');
+  }
+
 
 }

@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Admin\HCO;
-use App\Admin\HealthSystem;
+use App\Regulatory\HCO;
+use App\Regulatory\HealthSystem;
 
 class HCOController extends Controller
 {
@@ -53,7 +53,7 @@ class HCOController extends Controller
 
         $healthsystem = HealthSystem::find($healthsystem_id);
 
-        if($healthsystem->HCOs()->update(request()->except(['_token'])))
+        if($healthsystem->HCOs()->where('id',$id)->update(request()->except(['_token'])))
         {
           return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO updated successfully.');
         }
