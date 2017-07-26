@@ -61,4 +61,12 @@ class SiteController extends Controller
       }
     }
 
+    public function delete($id)
+    {
+      if(Site::destroy($id))
+      {
+        return 'true';
+      }
+    }
+
 }
