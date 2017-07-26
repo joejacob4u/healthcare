@@ -61,9 +61,9 @@ class SiteController extends Controller
       }
     }
 
-    public function delete($id)
+    public function delete(Request $request)
     {
-      if(Site::destroy($id))
+      if(Site::destroy($request->id))
       {
         return 'true';
       }
