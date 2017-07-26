@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'/sites/add', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -43,27 +43,6 @@
                   {!! Form::label('address', 'Address', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::textarea('address', $value = '', ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('zip', 'Zip:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('zip', $value = '', ['class' => 'form-control', 'placeholder' => 'zip']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('city', 'City:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('city', $value = '', ['class' => 'form-control', 'placeholder' => 'city']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('state', 'State', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::select('state', States::whereCountryCode('US')->pluck('name','name'),null,['class' => 'form-control']); !!}
                   </div>
               </div>
 

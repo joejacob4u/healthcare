@@ -28,9 +28,6 @@ class SiteController extends Controller
         'name' => 'required',
         'site_id' => 'required|unique:sites',
         'address' => 'required',
-        'zip' => 'required',
-        'city' => 'required',
-        'state' => 'required',
       ]);
 
       $hco = HCO::find($hco_id);
@@ -51,11 +48,8 @@ class SiteController extends Controller
     {
       $this->validate($request,[
         'name' => 'required',
-        'site_id' => 'required|unique:sites',
+        'site_id' => 'required',
         'address' => 'required',
-        'zip' => 'required',
-        'city' => 'required',
-        'state' => 'required',
       ]);
 
       $hco = HCO::find($hco_id);

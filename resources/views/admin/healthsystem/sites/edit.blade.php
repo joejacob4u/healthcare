@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'/edit/'.$site->id, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'sites/edit/'.$site->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -45,29 +45,6 @@
                       {!! Form::textarea('address', $value = $site->address, ['class' => 'form-control']) !!}
                   </div>
               </div>
-
-              <div class="form-group">
-                  {!! Form::label('zip', 'Zip:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('zip', $value = $site->zip, ['class' => 'form-control', 'placeholder' => 'zip']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('city', 'City:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('city', $value = $site->city, ['class' => 'form-control', 'placeholder' => 'city']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('state', 'State', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::select('state', States::whereCountryCode('US')->pluck('name','name'),$site->state,['class' => 'form-control']); !!}
-                  </div>
-              </div>
-
-
 
                 <!-- Submit Button -->
                 <div class="form-group">

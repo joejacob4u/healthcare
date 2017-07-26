@@ -19,9 +19,6 @@ class CreateSitesTable extends Migration
             $table->string('name');
             $table->string('site_id');
             $table->string('address');
-            $table->string('zip');
-            $table->string('city');
-            $table->string('state');
             $table->timestamps();
         });
     }

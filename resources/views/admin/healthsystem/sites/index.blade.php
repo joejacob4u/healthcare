@@ -24,9 +24,7 @@
                     <tr>
                         <th>Site ID #</th>
                         <th>Site Name</th>
-                        <th>Site State</th>
-                        <th>Site City</th>
-                        <th>Site Zip</th>
+                        <th>Site Address</th>
                         <th>Buildings</th>
                         <th>Edit</th>
                     </tr>
@@ -35,9 +33,7 @@
                     <tr>
                       <th>Site ID #</th>
                       <th>Site Name</th>
-                      <th>Site State</th>
-                      <th>Site City</th>
-                      <th>Site Zip</th>
+                      <th>Site Address</th>
                       <th>Buildings</th>
                       <th>Edit</th>
                     </tr>
@@ -47,9 +43,7 @@
                     <tr>
                       <td>{{$site->site_id}}</td>
                       <td>{{$site->name}}</td>
-                      <td>{{$site->state}}</td>
-                      <td>{{$site->city}}</td>
-                      <td>{{$site->zip}}</td>
+                      <td>{{$site->address}}</td>
                       <td>{!! link_to('','Buildings',['class' => 'btn-xs btn-info']) !!}</td>
                       <td>{!! link_to('hco/'.$hco->id.'/sites/edit/'.$site->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
