@@ -44,7 +44,7 @@
                       <td>{{$site->site_id}}</td>
                       <td>{{$site->name}}</td>
                       <td>{{$site->address}}</td>
-                      <td>{!! link_to('','Buildings',['class' => 'btn-xs btn-info']) !!}</td>
+                      <td>{!! link_to('admin/sites/'.$site->id.'/buildings','Buildings',['class' => 'btn-xs btn-info']) !!}</td>
                       <td>{!! link_to('admin/hco/'.$hco->id.'/sites/edit/'.$site->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach

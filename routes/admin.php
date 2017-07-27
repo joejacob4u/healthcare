@@ -77,6 +77,14 @@ Route::get('hco/{hco_id}/sites/edit/{id}','SiteController@edit');
 Route::post('hco/{hco_id}/sites/edit/{id}','SiteController@save');
 Route::post('hco/sites/delete','SiteController@delete');
 
+Route::get('sites/{site_id}/buildings','BuildingController@index');
+Route::get('sites/{site_id}/buildings/add','BuildingController@add');
+Route::post('sites/{site_id}/buildings/add','BuildingController@create');
+Route::get('sites/{site_id}/buildings/edit/{id}','BuildingController@edit');
+Route::post('sites/{site_id}/buildings/edit/{id}','BuildingController@save');
+Route::post('sites/buildings/delete','BuildingController@delete');
+
+
 
 
 
