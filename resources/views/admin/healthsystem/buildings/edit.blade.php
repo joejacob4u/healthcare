@@ -39,6 +39,14 @@
               </div>
 
               <div class="form-group">
+                  {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                    {!! Form::select('accreditation_id', $accreditations, $building->accreditation_id, ['class' => 'form-control','placeholder' => 'Please select']) !!}
+                  </div>
+              </div>
+
+
+              <div class="form-group">
                   {!! Form::label('occupancy_type', 'Occupancy Type:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::select('occupancy_type', $occupancy_types, $building->occupancy_type, ['class' => 'form-control']) !!}

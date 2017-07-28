@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\Site;
 use App\Regulatory\Building;
+use App\Regulatory\Accreditation;
+
 
 class BuildingController extends Controller
 {
@@ -18,7 +20,8 @@ class BuildingController extends Controller
     public function add($site_id)
     {
       $site = Site::find($site_id);
-      return view('admin.healthsystem.buildings.add',['site' => $site,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types()]);
+      $accreditations = Accreditation::get();
+      return view('admin.healthsystem.buildings.add',['site' => $site,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
     }
 
     public function create(Request $request,$site_id)
@@ -27,6 +30,7 @@ class BuildingController extends Controller
         'name' => 'required',
         'building_id' => 'required|unique:buildings',
         'occupancy_type' => 'required',
+        'accreditation_id' => 'required',
         'square_ft' => 'required',
         'roof_sq_ft' => 'required',
         'ownership' => 'required',
@@ -46,7 +50,8 @@ class BuildingController extends Controller
     {
         $site = Site::find($site_id);
         $building = Building::find($id);
-        return view('admin.healthsystem.buildings.edit',['site' => $site,'building' => $building,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types()]);
+        $accreditations = Accreditation::pluck('name','id');
+        return view('admin.healthsystem.buildings.edit',['site' => $site,'building' => $building,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
     }
 
     public function save(Request $request,$site_id,$id)
@@ -55,6 +60,7 @@ class BuildingController extends Controller
           'name' => 'required',
           'building_id' => 'required',
           'occupancy_type' => 'required',
+          'accreditation_id' => 'required',
           'square_ft' => 'required',
           'roof_sq_ft' => 'required',
           'ownership' => 'required',
@@ -120,7 +126,8 @@ class BuildingController extends Controller
         'n_lease' => 'N Lease',
         'absolute_nnn_lease' => 'Absolute NNN Lease',
         'modified_grose_lease' => 'Modified Gross Lease',
-        'full_service_lease' => 'Full Service Lease'
+        'full_service_lease' => 'Full Service Lease',
+        'sold' => 'Sold'
       ];
     }
 

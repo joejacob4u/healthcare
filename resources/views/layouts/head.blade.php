@@ -20,6 +20,8 @@
 
   <link rel="stylesheet" href="/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
   <link rel="stylesheet" href="/bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css">
+  <link rel="stylesheet" href="/bower_components/datatables/media/css/jquery.dataTables.css">
+
 
   <script src="{{ asset ("/bower_components/jquery/dist/jquery.min.js") }}" type="text/javascript"></script>
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
@@ -28,6 +30,8 @@
   <script src="{{ asset ("/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/bootbox.js/bootbox.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.js") }}" type="text/javascript"></script>
+  <script src="{{ asset ("/bower_components/datatables/media/js/jquery.dataTables.js") }}" type="text/javascript"></script>
+
 
   @yield('head')
 </head>

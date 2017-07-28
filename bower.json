@@ -20,7 +20,7 @@
     "AdminLTE": "admin-lte#~2.3.8",
     "jquery": "~3.1.1",
     "bootstrap": "~3.3.7",
-    "datatables": "~1.10.12",
+    "datatables": "DataTables#^1.10.15",
     "bootstrap-select": "~1.12.1",
     "bootbox.js": "~4.4.0",
     "seiyria-bootstrap-slider": "^9.8.1"
