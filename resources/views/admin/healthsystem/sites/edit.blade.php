@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'sites/edit/'.$site->id, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'/sites/edit/'.$site->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
