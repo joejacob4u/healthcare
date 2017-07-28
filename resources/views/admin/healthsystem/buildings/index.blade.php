@@ -26,6 +26,7 @@
                         <th>Building Name</th>
                         <th>Building Type</th>
                         <th>Building SqFt</th>
+                        <th>Ownership</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -35,6 +36,7 @@
                       <th>Building Name</th>
                       <th>Building Type</th>
                       <th>Building SqFt</th>
+                      <th>Ownership</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -45,6 +47,7 @@
                       <td>{{$building->name}}</td>
                       <td>{{$building->occupancy_type}}</td>
                       <td>{{$building->square_ft}}</td>
+                      <td>{{$building->ownership}}</td>
                       <td>{!! link_to('admin/sites/'.$site->id.'/buildings/edit/'.$building->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach

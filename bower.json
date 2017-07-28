@@ -22,6 +22,7 @@
     "bootstrap": "~3.3.7",
     "datatables": "~1.10.12",
     "bootstrap-select": "~1.12.1",
-    "bootbox.js": "~4.4.0"
+    "bootbox.js": "~4.4.0",
+    "seiyria-bootstrap-slider": "^9.8.1"
   }
 }

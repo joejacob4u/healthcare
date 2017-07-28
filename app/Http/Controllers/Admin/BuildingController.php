@@ -18,7 +18,7 @@ class BuildingController extends Controller
     public function add($site_id)
     {
       $site = Site::find($site_id);
-      return view('admin.healthsystem.buildings.add',['site' => $site,'occupancy_types' => $this->occupancy_types()]);
+      return view('admin.healthsystem.buildings.add',['site' => $site,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types()]);
     }
 
     public function create(Request $request,$site_id)
@@ -27,7 +27,11 @@ class BuildingController extends Controller
         'name' => 'required',
         'building_id' => 'required|unique:buildings',
         'occupancy_type' => 'required',
-        'square_ft' => 'required'
+        'square_ft' => 'required',
+        'roof_sq_ft' => 'required',
+        'ownership' => 'required',
+        'sprinkled_pct' => 'required',
+        'beds' => 'required'
       ]);
 
         $site = Site::find($site_id);
@@ -42,7 +46,7 @@ class BuildingController extends Controller
     {
         $site = Site::find($site_id);
         $building = Building::find($id);
-        return view('admin.healthsystem.buildings.edit',['site' => $site,'building' => $building,'occupancy_types' => $this->occupancy_types()]);
+        return view('admin.healthsystem.buildings.edit',['site' => $site,'building' => $building,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types()]);
     }
 
     public function save(Request $request,$site_id,$id)
@@ -51,7 +55,11 @@ class BuildingController extends Controller
           'name' => 'required',
           'building_id' => 'required',
           'occupancy_type' => 'required',
-          'square_ft' => 'required'
+          'square_ft' => 'required',
+          'roof_sq_ft' => 'required',
+          'ownership' => 'required',
+          'sprinkled_pct' => 'required',
+          'beds' => 'required'
         ]);
 
         $site = Site::find($site_id);
@@ -100,6 +108,19 @@ class BuildingController extends Controller
         'storage_s1' => 'Storage s1',
         'storage_s2' => 'Storage s2',
         'utility_misc' => 'Utility and Misc'
+      ];
+    }
+
+    public function lease_types()
+    {
+      return [
+        'owned' => 'Owned',
+        'nnn_lease' => 'NNN Lease',
+        'nn_lease' => 'NN Lease',
+        'n_lease' => 'N Lease',
+        'absolute_nnn_lease' => 'Absolute NNN Lease',
+        'modified_grose_lease' => 'Modified Gross Lease',
+        'full_service_lease' => 'Full Service Lease'
       ];
     }
 

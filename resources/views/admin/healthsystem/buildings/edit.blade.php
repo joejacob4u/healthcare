@@ -52,6 +52,42 @@
                   </div>
               </div>
 
+              <div class="form-group">
+                  {!! Form::label('roof_sq_ft', 'Roof Square Ft', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('roof_sq_ft', $building->roof_sq_ft, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('ownership', 'Ownership Type:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('ownership', $ownership_types, $building->ownership, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('ownership_comments', 'Ownership Comments', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('ownership_comments', $building->ownership_comments, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('sprinkled_pct', 'Sprinkled Percentage', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('sprinkled_pct', $building->sprinkled_pct, ['class' => 'form-control','data-provide' => 'slider','data-slider-min' => '0','data-slider-max' => '100','data-slider-step' => '5','data-slider-value' => $building->sprinkled_pct]) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('beds', 'Beds', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('beds', $building->beds, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
