@@ -11,7 +11,7 @@ class HCO extends Model
 
   public function healthcareSystem()
   {
-    return $this->belongsTo('App\Admin\HealthSystem','healthsystem_id');
+    return $this->belongsTo('App\Regulatory\HealthSystem','healthsystem_id');
   }
 
   public function sites()

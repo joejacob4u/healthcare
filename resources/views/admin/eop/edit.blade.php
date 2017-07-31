@@ -61,6 +61,14 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('occupancy_type', 'Occupancy Type:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('occupancy_type', $occupancy_types,  $eop->occupancy_type, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+
+                <div class="form-group">
                     {!! Form::label('cops', 'CMS COPS:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('cops[]', $cops, $eop->subCOPs->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true']) !!}

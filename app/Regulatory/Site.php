@@ -14,5 +14,10 @@ class Site extends Model
     return $this->hasMany('App\Regulatory\Building','site_id');
   }
 
+  public function hco()
+  {
+    return $this->belongsTo('App\Regulatory\HCO','hco_id');
+  }
+
 
 }

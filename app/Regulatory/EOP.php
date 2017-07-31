@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class EOP extends Model
 {
     protected $table = 'eop';
-    protected $fillable = ['name','standard_label_id','documentation','frequency','risk','risk_assessment','text'];
+    protected $fillable = ['name','standard_label_id','documentation','frequency','risk','risk_assessment','text','occupancy_type'];
 
     public function standardLabel()
     {

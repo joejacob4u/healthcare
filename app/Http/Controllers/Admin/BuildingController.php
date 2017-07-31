@@ -20,29 +20,29 @@ class BuildingController extends Controller
     public function add($site_id)
     {
       $site = Site::find($site_id);
-      $accreditations = Accreditation::get();
+      $accreditations = Accreditation::pluck('name','id');
       return view('admin.healthsystem.buildings.add',['site' => $site,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
     }
 
     public function create(Request $request,$site_id)
     {
-      $this->validate($request,[
-        'name' => 'required',
-        'building_id' => 'required|unique:buildings',
-        'occupancy_type' => 'required',
-        'accreditation_id' => 'required',
-        'square_ft' => 'required',
-        'roof_sq_ft' => 'required',
-        'ownership' => 'required',
-        'sprinkled_pct' => 'required',
-        'beds' => 'required'
-      ]);
+        $this->validate($request,[
+          'name' => 'required',
+          'building_id' => 'required|unique:buildings',
+          'occupancy_type' => 'required',
+          'accreditation_id' => 'required',
+          'square_ft' => 'required',
+          'roof_sq_ft' => 'required',
+          'ownership' => 'required',
+          'sprinkled_pct' => 'required',
+          'beds' => 'required'
+        ]);
 
         $site = Site::find($site_id);
 
         if($site->buildings()->create($request->all()))
         {
-          return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Buliding added!');
+          return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building added!');
         }
     }
 

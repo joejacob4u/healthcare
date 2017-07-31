@@ -53,7 +53,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        Footer
+        <a href="{{url('admin/healthsystem/'.$hco->healthcareSystem->id.'/hco')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
       </div>
       <!-- /.box-footer-->
     </div>
