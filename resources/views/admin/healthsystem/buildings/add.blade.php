@@ -97,6 +97,21 @@
                   </div>
               </div>
 
+              <div class="form-group">
+                  {!! Form::label('operating_rooms', 'Operating Rooms', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('operating_rooms', Request::old('operating_rooms'), ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('unused_space', 'Unused Space', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('unused_space', Request::old('unused_space'), ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
