@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Health Card Organizations Buildings')
+@section('page_title','Health Care Organizations Buildings')
 @section('page_description','Manage buildings here.')
 
 @section('content')
@@ -30,6 +30,8 @@
                         <th>Ownership</th>
                         <th>Sprinkled %</th>
                         <th>Beds</th>
+                        <th>Unused Space</th>
+                        <th>Operating Rooms</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -43,6 +45,8 @@
                       <th>Ownership</th>
                       <th>Sprinkled %</th>
                       <th>Beds</th>
+                      <th>Unused Space</th>
+                      <th>Operating Rooms</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -57,6 +61,8 @@
                       <td>{{$building->ownership}}</td>
                       <td>{{$building->sprinkled_pct}}</td>
                       <td>{{$building->beds}}</td>
+                      <td>{{$building->unused_space}}</td>
+                      <td>{{$building->operating_rooms}}</td>
                       <td>{!! link_to('admin/sites/'.$site->id.'/buildings/edit/'.$building->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach

@@ -35,7 +35,9 @@ class BuildingController extends Controller
           'roof_sq_ft' => 'required',
           'ownership' => 'required',
           'sprinkled_pct' => 'required',
-          'beds' => 'required'
+          'beds' => 'required',
+          'unused_space' => 'required',
+          'operating_rooms' => 'required'
         ]);
 
         $site = Site::find($site_id);
@@ -65,7 +67,9 @@ class BuildingController extends Controller
           'roof_sq_ft' => 'required',
           'ownership' => 'required',
           'sprinkled_pct' => 'required',
-          'beds' => 'required'
+          'beds' => 'required',
+          'unused_space' => 'required',
+          'operating_rooms' => 'required'
         ]);
 
         $site = Site::find($site_id);
