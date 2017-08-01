@@ -24,9 +24,12 @@
                     <tr>
                         <th>Building ID #</th>
                         <th>Building Name</th>
-                        <th>Building Type</th>
+                        <th>Occupancy Type</th>
                         <th>Building SqFt</th>
+                        <th>Roofing SqFt</th>
                         <th>Ownership</th>
+                        <th>Sprinkled %</th>
+                        <th>Beds</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -34,9 +37,12 @@
                     <tr>
                       <th>Building ID #</th>
                       <th>Building Name</th>
-                      <th>Building Type</th>
+                      <th>Occupancy Type</th>
                       <th>Building SqFt</th>
+                      <th>Roofing SqFt</th>
                       <th>Ownership</th>
+                      <th>Sprinkled %</th>
+                      <th>Beds</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -47,7 +53,10 @@
                       <td>{{$building->name}}</td>
                       <td>{{$building->occupancy_type}}</td>
                       <td>{{$building->square_ft}}</td>
+                      <td>{{$building->roof_sq_ft}}</td>
                       <td>{{$building->ownership}}</td>
+                      <td>{{$building->sprinkled_pct}}</td>
+                      <td>{{$building->beds}}</td>
                       <td>{!! link_to('admin/sites/'.$site->id.'/buildings/edit/'.$building->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach
