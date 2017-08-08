@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name' ,'email', 'password','role','healthsystem_id'
+        'name' ,'email', 'password','healthsystem_id','phone','address','status'
     ];
 
     /**
@@ -26,5 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function roles()
+    {
+       return $this->belongsToMany('App\Role','user_role','user_id','role_id');
+    }
+
+    public function healthSystem()
+    {
+      return $this->belongsTo('App\Regulatory\HealthSystem','healthsystem_id');
+    }
 
 }
