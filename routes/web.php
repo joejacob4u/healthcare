@@ -20,6 +20,9 @@ Route::get('/welcome', function(){
   return view('welcome');
 });
 
+Route::get('prospects/register','ProspectsController@index');
+Route::post('prospects/register','ProspectsController@create');
+
 /***************************Admin Route groups*******************************/
 
 

@@ -12,9 +12,6 @@ class UserTradesSeeder extends Seeder
     public function run()
     {
       DB::table('trades')->insert([
-        ['name' => 'Master'],
-        ['name' => 'Super Admin'],
-        ['name' => 'Admin'],
         ['name' => 'Construction Manager, Project Manager, Program Manager'],
         ['name' => 'Materials Testing Agency'],
         ['name' => 'Specialty Testing/Inspection Agency'],

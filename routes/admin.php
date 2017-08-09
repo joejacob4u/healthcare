@@ -77,6 +77,10 @@ Route::get('healthsystem/users/edit/{id}','UsersController@edit');
 Route::post('healthsystem/users/edit/{id}','UsersController@save');
 Route::post('healthsystem/users/delete','UsersController@delete');
 
+Route::get('healthsystem/prospects','ProspectsController@index');
+Route::get('healthsystem/prospects/details/{id}','ProspectsController@details');
+
+
 
 Route::get('hco/{hco_id}/sites','SiteController@index');
 Route::get('hco/{hco_id}/sites/add','SiteController@add');
