@@ -30,10 +30,13 @@ Route::post('prospects/register','ProspectsController@create');
 
 Route::group(['middleware' => ['auth']], function ()
 {
-
+    Route::get('users', 'UsersController@index');
 
 
 });
+
+
+
 
 Route::group(['prefix' => 'admin'], function () {
   Route::get('/login', 'AdminAuth\LoginController@showLoginForm');

@@ -13,7 +13,7 @@ class UserRolesSeeder extends Seeder
     {
       DB::table('roles')->insert([
         ['name' => 'Master'],
-        ['name' => 'Super Admin'],
+        ['name' => 'System Admin'],
         ['name' => 'Admin'],
         ['name' => 'Facility Manager/Director'],
         ['name' => 'Maintenance Technician'],
@@ -22,7 +22,8 @@ class UserRolesSeeder extends Seeder
         ['name' => 'Infection Prevention'],
         ['name' => 'Safety'],
         ['name' => 'Accreditation'],
-        ['name' => 'Administration']]
-      );
+        ['name' => 'Administration'],
+        ['name' => 'Prospect']
+      ]);
     }
   }

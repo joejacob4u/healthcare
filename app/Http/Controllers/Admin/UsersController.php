@@ -34,13 +34,15 @@ class UsersController extends Controller
           'healthsystem_id' => 'required'
         ]);
 
-        $request->request->add(['password' => Hash::make(str_random(8))]);
+        $password = str_random(8);
+
+        $request->request->add(['password' => Hash::make($password)]);
 
         if($user = User::create($request->all()))
         {
           $user->roles()->attach($request->role_id);
 
-          Mail::send('email.systemadmin.welcome', ['user' => $user,'password' => $request->password], function ($m) use ($user) {
+          Mail::send('email.systemadmin.welcome', ['user' => $user,'password' => $password], function ($m) use ($user) {
             $m->from('hello@healthcare360.com', 'HealthCare360');
             $m->to($user->email, $user->name)->subject('Welcome to HealthCare360');
           });

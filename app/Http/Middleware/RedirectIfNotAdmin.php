@@ -3,9 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use App\User;
 
-class RedirectIfNotSystemAdmin
+class RedirectIfNotAdmin
 {
     /**
      * Handle an incoming request.
@@ -14,19 +13,18 @@ class RedirectIfNotSystemAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next,$guard = 'web')
+    public function handle($request, Closure $next, $guard = 'web')
     {
       if (Auth::guard($guard)->check())
       {
          $user = User::find(Auth::guard($guard)->user()->id);
 
-         if($user->roles->contains('name','System Admin'))
+         if($user->roles->contains('name','System Admin') || $user->roles->contains('name','Admin'))
          {
             return $next($request);
          }
       }
 
       return redirect('/login');
-
     }
 }
