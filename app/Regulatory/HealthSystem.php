@@ -14,4 +14,9 @@ class HealthSystem extends Model
       return $this->hasMany('App\Regulatory\HCO','healthsystem_id');
     }
 
+    public function users()
+    {
+      return $this->hasMany('App\User','healthsystem_id');
+    }
+
 }

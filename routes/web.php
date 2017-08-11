@@ -31,8 +31,11 @@ Route::post('prospects/register','ProspectsController@create');
 Route::group(['middleware' => ['auth']], function ()
 {
     Route::get('users', 'UsersController@index');
-
-
+    Route::get('users/add', 'UsersController@create');
+    Route::post('users/add', 'UsersController@store');
+    Route::get('users/edit/{id}', 'UsersController@edit');
+    Route::post('users/edit/{id}', 'UsersController@save');
+    Route::post('users/delete', 'UsersController@delete');
 });
 
 
