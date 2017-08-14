@@ -19,4 +19,10 @@ class HealthSystem extends Model
       return $this->hasMany('App\User','healthsystem_id');
     }
 
+    public function prequalifyConfigs()
+    {
+      return $this->hasMany('App\PrequalifyConfig','healthsystem_id');
+    }
+
+
 }

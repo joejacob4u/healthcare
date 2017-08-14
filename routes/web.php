@@ -36,6 +36,12 @@ Route::group(['middleware' => ['auth']], function ()
     Route::get('users/edit/{id}', 'UsersController@edit');
     Route::post('users/edit/{id}', 'UsersController@save');
     Route::post('users/delete', 'UsersController@delete');
+
+    Route::get('prequalify', 'PrequalifyController@index');
+    Route::post('prequalify/configure', 'PrequalifyController@store');
+    Route::get('prequalify/configure', 'PrequalifyController@create');
+    Route::post('prequalify/upload', 'PrequalifyController@upload');
+
 });
 
 

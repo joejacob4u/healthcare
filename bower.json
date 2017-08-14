@@ -23,6 +23,7 @@
     "datatables": "DataTables#^1.10.15",
     "bootstrap-select": "~1.12.1",
     "bootbox.js": "~4.4.0",
-    "seiyria-bootstrap-slider": "^9.8.1"
+    "seiyria-bootstrap-slider": "^9.8.1",
+    "simple-ajax-uploader": "^2.6.2"
   }
 }
