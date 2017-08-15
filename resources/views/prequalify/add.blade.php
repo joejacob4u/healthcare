@@ -66,7 +66,7 @@
       </div>
       <!-- /.box-footer-->
     </div>
-    <input type="submit" class="btn btn-success" value="Save"/>
+    <button class="btn btn-success" type="button" onclick="savePrequalify()"><span class="glyphicon glyphicon-ok"></span> Save Prequalify Form</button>
       {!! Form::close()  !!}
 
 
@@ -90,7 +90,7 @@
             '</div>'+
             '<div class="form-group col-xs-8">'+
               '<button type="button" class="btn btn-primary btn-sm" name="file_'+file_counter+'" id="file_'+file_counter+'"><span class="glyphicon glyphicon-upload"></span>Upload File</button>'+
-              '<input type="hidden" name="file_'+file_counter+'_path" id="file_'+file_counter+'_path" value="">'+
+              '<input type="hidden" name="file_path_'+file_counter+'" id="file_path_'+file_counter+'" value="">'+
             '</div>'+
             '<div class="form-group col-xs-12">'+
               '<label id="file_path_'+file_counter+'_label"></label>'+
@@ -102,6 +102,8 @@
           '<div class="box-footer">'+
             '<button class="btn btn-danger btn-sm" onclick="removeFile('+file_counter+')"><span class="glyphicon glyphicon-remove"></span>Remove</button>'+
           '</div>'+
+          '<input type="hidden" name="file_input_type_'+file_counter+'" id="file_input_type_'+file_counter+'" value="file">'+
+          '<input type="hidden" name="file_action_type_'+file_counter+'" id="file_action_type_'+file_counter+'" value="output">'+
       '</div>';
 
 
@@ -147,19 +149,34 @@
           '<div class="box-body">'+
             '<div class="form-group col-xs-8">'+
               '<label for="comment">Description:</label>'+
-              '<textarea class="form-control" rows="3" id="requirement_description_'+requirement_counter+'"></textarea>'+
+              '<textarea class="form-control" rows="3" id="requirement_description_'+requirement_counter+'" file_number="'+requirement_counter+'"></textarea>'+
             '</div>'+
             '<div class="form-group col-xs-8">'+
-              '<label><input type="checkbox" value="acknowledged" id="requirement_acknowledged_'+requirement_counter+'"> Required</label>'+
+              '<label><input type="checkbox" value="acknowledged" id="requirement_acknowledged_'+requirement_counter+'" file_number="'+requirement_counter+'"> Required</label>'+
             '</div>'+
           '</div>'+
           '<div class="box-footer">'+
             '<button class="btn btn-danger btn-sm" onclick="removeRequirement('+requirement_counter+')"><span class="glyphicon glyphicon-remove"></span>Remove</button>'+
           '</div>'+
+          '<input type="hidden" name="requirement_input_type_'+requirement_counter+'" id="requirement_input_type_'+requirement_counter+'" value="file" file_number="'+requirement_counter+'">'+
+          '<input type="hidden" name="requirement_action_type_'+requirement_counter+'" id="requirement_action_type_'+requirement_counter+'" value="input" file_number="'+requirement_counter+'">'+
+
       '</div>';
 
         $('#user_requirement').append(html_code);
 
+      }
+
+      function savePrequalify()
+      {
+        var files = [];
+        var requirements = [];
+
+        $( "textarea[id^='file_'],input[id^='file_']" ).each(function( index ) {
+          files[$( this ).attr('name') ] = $( this ).val();
+        });
+
+        console.log(files);
       }
     </script>
 
