@@ -53,11 +53,11 @@
         <div class="form-group">
             {!! Form::label('acknowledgement_statement', 'Acknowledgement Statement', ['class' => 'col-lg-2 control-label']) !!}
             <div class="col-lg-10">
-                {!! Form::textarea('acknowledgement_statement',null,['class' => 'form-control']); !!}
+                {!! Form::textarea('acknowledgement_statement',null,['class' => 'form-control','id' => 'acknowledgement_statement']); !!}
             </div>
         </div>
         <div class="checkbox col-lg-10">
-            <label><input type="checkbox" value="" checked>Prompt the User to Acknowledge</label>
+            <label><input type="checkbox" id="acknowledgement_statement_acknowledge" value="" checked>Prompt the User to Acknowledge</label>
         </div>
       </div>
       <!-- /.box-body -->
@@ -74,6 +74,7 @@
     <script>
       var file_counter = 0;
       var requirement_counter = 0;
+      
 
       function addFiles()
       {
@@ -122,7 +123,7 @@
             },         
             onComplete: function(filename, response) {
               dialog.modal('hide');
-              $('#file_'+file_counter+'_path').val(response);
+              $('#file_path_'+file_counter).val(response);
               $('#file_path_'+file_counter+'_label').html(response);
             }
           });        
@@ -149,10 +150,10 @@
           '<div class="box-body">'+
             '<div class="form-group col-xs-8">'+
               '<label for="comment">Description:</label>'+
-              '<textarea class="form-control" rows="3" id="requirement_description_'+requirement_counter+'" file_number="'+requirement_counter+'"></textarea>'+
+              '<textarea class="form-control" rows="3" id="requirement_description_'+requirement_counter+'" name="requirement_description_'+requirement_counter+'" file_number="'+requirement_counter+'"></textarea>'+
             '</div>'+
             '<div class="form-group col-xs-8">'+
-              '<label><input type="checkbox" value="acknowledged" id="requirement_acknowledged_'+requirement_counter+'" file_number="'+requirement_counter+'"> Required</label>'+
+              '<label><input type="checkbox" value="acknowledged" id="requirement_acknowledged_'+requirement_counter+'" name="requirement_acknowledged_'+requirement_counter+'" file_number="'+requirement_counter+'"> Required</label>'+
             '</div>'+
           '</div>'+
           '<div class="box-footer">'+
@@ -169,15 +170,80 @@
 
       function savePrequalify()
       {
-        var files = [];
-        var requirements = [];
+        var files = {};
+        var requirements = {};
 
         $( "textarea[id^='file_'],input[id^='file_']" ).each(function( index ) {
-          files[$( this ).attr('name') ] = $( this ).val();
+          
+          if($( this ).attr('type') == 'checkbox')
+          {
+              if($( this ).is(':checked'))
+              {
+                files[$( this ).attr('name') ] = 1;
+              }
+              else
+              {
+                files[$( this ).attr('name') ] = 0;
+              }
+          }
+          else
+          {
+            files[$( this ).attr('name') ] = $( this ).val();
+          }          
         });
 
-        console.log(files);
-      }
+        $( "textarea[id^='requirement_'],input[id^='requirement_']" ).each(function( index ) {
+          
+          if($( this ).attr('type') == 'checkbox')
+          {
+              if($( this ).is(':checked'))
+              {
+                requirements[$( this ).attr('name') ] = 1;
+              }
+              else
+              {
+                requirements[$( this ).attr('name') ] = 0;
+              }
+          }
+          else
+          {
+            requirements[$( this ).attr('name') ] = $( this ).val();
+          }          
+        });
+
+        var acknowledgement_statement = $('#acknowledgement_statement').val();
+        var acknowledgement_statement_acknowledge = ($('#acknowledgement_statement_acknowledge').is(':checked')) ? 1 : 0;
+
+        $.ajax({
+              type: 'POST',
+              url: '{{ asset('prequalify/configure') }}',
+              dataType: "json",
+              data: { '_token' : '{{ csrf_token() }}', 
+                      'files': JSON.stringify(files), 'requirements' : JSON.stringify(requirements), 
+                      'acknowledgement_statement' :  acknowledgement_statement, 
+                      'acknowledgement_statement_acknowledge' : acknowledgement_statement_acknowledge
+                    },
+              beforeSend:function()
+              {
+                $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+              },
+              success:function(data)
+              {
+                  if(data == 'true')
+                  {
+                    window.location = '/prequalify';
+                  }
+              },
+              error:function()
+              {
+                // failed request; give feedback to user
+              },
+              complete: function(data)
+              {
+                  $('.overlay').remove();
+              }
+            });
+        }
     </script>
 
 
