@@ -42,7 +42,7 @@
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
                         <td>{{$user->phone}}</td>
-                        <td>{{$user->healthSystem->healthcare_system}}</td>
+                        <td>{{$user->healthSystems->first()->healthcare_system}}</td>
                         <td>{!! link_to('admin/healthsystem/users/edit/'.$user->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                     @endforeach

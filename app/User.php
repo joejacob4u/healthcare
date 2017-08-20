@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name' ,'email', 'password','healthsystem_id','phone','address','status'
+        'name' ,'email', 'password','phone','address','status'
     ];
 
     /**
@@ -32,9 +32,9 @@ class User extends Authenticatable
        return $this->belongsToMany('App\Role','user_role','user_id','role_id');
     }
 
-    public function healthSystem()
+    public function healthSystems()
     {
-      return $this->belongsTo('App\Regulatory\HealthSystem','healthsystem_id');
+      return $this->belongsToMany('App\Regulatory\HealthSystem','user_healthsystem','user_id','healthsystem_id');
     }
 
 }

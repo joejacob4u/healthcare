@@ -6,6 +6,57 @@
   reserved.
 </footer>
 
+<!-- Modal -->
+<div id="changePasswordModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change your temporary password</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal">
+            <fieldset>
+
+            <!-- Password input-->
+            <div class="form-group">
+            <label class="col-md-4 control-label" for="passwordinput">Temporary Password</label>
+            <div class="col-md-6">
+                <input id="oldpassword" name="oldpassword" type="password" placeholder="old password" class="form-control input-md">
+            </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="form-group">
+            <label class="col-md-4 control-label" for="passwordinput">New Password</label>
+            <div class="col-md-6">
+                <input id="newpassword" name="newpassword" type="password" placeholder="new password" class="form-control input-md">
+            </div>
+            </div>
+
+            <!-- Password input-->
+            <div class="form-group">
+            <label class="col-md-4 control-label" for="passwordinput">Confirm Password</label>
+            <div class="col-md-6">
+                <input id="confirmpassword" name="confirmpassword" type="password" placeholder="confirm password" class="form-control input-md">
+            </div>
+            </div>
+
+            </fieldset>
+            </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Not Now</button>
+        <button type="button" onclick="changePassword()" class="btn btn-primary">Change Password</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 <script>
 $(document).ready(function(){
     $('table').DataTable({
@@ -25,10 +76,86 @@ $(document).ready(function(){
                   } );
 
               column.data().unique().sort().each( function ( d, j ) {
-                  select.append( '<option value="'+d+'">'+d+'</option>' )
+                  if(d.length < 30)
+                  {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                  }
               } );
           } );
       }
     });
+
+
 });
+
+$(function() {
+    $.ajax({
+            type: 'POST',
+            url: '{{ asset('user/password/temporary/check') }}',
+            data: { '_token' : '{{ csrf_token() }}' },
+            beforeSend:function()
+            {
+                
+            },
+            success:function(data)
+            {
+                if(data == 'pending')
+                {
+                    $('#changePasswordModal').modal('show');
+                }
+            },
+            error:function()
+            {
+                // failed request; give feedback to user
+            },
+            complete: function(data)
+            {
+                $('.overlay').remove();
+            }
+        });
+});
+
+function changePassword()
+{
+        var old_password = $('#changePasswordModal #oldpassword').val();
+        var new_password = $('#changePasswordModal #newpassword').val();
+        var confirm_password = $('#changePasswordModal #confirmpassword').val();
+
+        if(new_password != confirm_password)
+        {
+            bootbox.alert("Passwords do not match!");
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ url('user/password/temporary/change') }}',
+            data: { '_token' : '{{ csrf_token() }}','old_password' : old_password,'new_password' : new_password,'confirm_password' : confirm_password },
+            beforeSend:function()
+            {
+                
+            },
+            success:function(data)
+            {
+                if(data == 'true')
+                {
+                    $('#changePasswordModal').modal('hide');
+                    bootbox.alert("Password has been successfully changed");
+                }
+                else if(data == 'false')
+                {
+                    bootbox.alert("Old password incorrect, try again");
+                }
+            },
+            error:function(data)
+            {
+
+            },
+            complete: function(data)
+            {
+                $('.overlay').remove();
+            }
+        });
+
+}
+
 </script>

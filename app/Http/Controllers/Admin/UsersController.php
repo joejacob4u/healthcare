@@ -41,6 +41,7 @@ class UsersController extends Controller
         if($user = User::create($request->all()))
         {
           $user->roles()->attach($request->role_id);
+          $user->healthSystems()->attach($request->healthsystem_id);
 
           Mail::send('email.systemadmin.welcome', ['user' => $user,'password' => $password], function ($m) use ($user) {
             $m->from('hello@healthcare360.com', 'HealthCare360');
@@ -73,6 +74,9 @@ class UsersController extends Controller
 
         if($user->update($request->all()))
         {
+          $user->roles()->syncWithoutDetaching($request->role_id);
+          $user->healthSystems()->syncWithoutDetaching($request->healthsystem_id);
+
           return redirect('admin/healthsystem/users/')->with('success','System admin has been updated!');
         }
     }

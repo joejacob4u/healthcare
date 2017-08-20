@@ -20,6 +20,7 @@
       </div>
       
       <div class="box-body" id="user_reference">
+      
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
@@ -27,6 +28,7 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
 
     <div class="box box-solid box-warning">
       <div class="box-header with-border">
@@ -44,6 +46,25 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+    <div class="box box-solid box-danger">
+      <div class="box-header with-border">
+        <h3 class="box-title">Prequalify Delivery</h3>
+
+        <div class="box-tools pull-right">
+            <button class="btn btn-success" type="button" onclick="addEmail()"><span class="glyphicon glyphicon-plus"></span> Add E-Mail</button>
+        </div>
+      </div>
+      <div class="box-body" id="email_box">
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+
+      </div>
+      <!-- /.box-footer-->
+    </div>
+
+
 
     <div class="box box-solid box-info">
       <div class="box-header with-border">
@@ -74,6 +95,7 @@
     <script>
       var file_counter = 0;
       var requirement_counter = 0;
+      var email_counter = 0;
       
 
       function addFiles()
@@ -168,10 +190,34 @@
 
       }
 
+      function addEmail()
+      {
+          email_counter++;
+          var html_code = '<div class="box box-solid box-info" id="email_box_'+email_counter+'">'+
+          '<div class="box-header with-border">'+
+            '<h3 class="box-title">E-Mail '+email_counter+'</h3>'+
+          '</div>'+
+            '<div class="box-body">'+
+              '<div class="form-group col-xs-8">'+
+                '<label for="comment">E-Mail Address:</label>'+
+                '<input class="form-control" type="email"  id="email_address_value_'+email_counter+'" name="email_address_value_'+email_counter+'" file_number="'+email_counter+'"></input>'+
+              '</div>'+
+            '</div>'+
+            '<div class="box-footer">'+
+              '<button class="btn btn-danger btn-sm" onclick="removeEmail('+email_counter+')"><span class="glyphicon glyphicon-remove"></span>Remove</button>'+
+            '</div>'+
+            '<input type="hidden" name="email_address_input_type_'+email_counter+'" id="email_address_input_type_'+email_counter+'" value="email" file_number="'+email_counter+'">'+
+            '<input type="hidden" name="email_address_action_type_'+email_counter+'" id="email_address_action_type_'+email_counter+'" value="system" file_number="'+email_counter+'">'+
+        '</div>';
+
+        $('#email_box').append(html_code);
+      }
+
       function savePrequalify()
       {
         var files = {};
         var requirements = {};
+        var emails = {};
 
         $( "textarea[id^='file_'],input[id^='file_']" ).each(function( index ) {
           
@@ -211,6 +257,13 @@
           }          
         });
 
+        $( "input[id^='email_address_']" ).each(function( index ) {
+          
+            emails[$( this ).attr('name') ] = $( this ).val();        
+        });
+
+
+
         var acknowledgement_statement = $('#acknowledgement_statement').val();
         var acknowledgement_statement_acknowledge = ($('#acknowledgement_statement_acknowledge').is(':checked')) ? 1 : 0;
 
@@ -220,7 +273,7 @@
               dataType: "json",
               data: { '_token' : '{{ csrf_token() }}', 
                       'files': JSON.stringify(files), 'requirements' : JSON.stringify(requirements), 
-                      'acknowledgement_statement' :  acknowledgement_statement, 
+                      'acknowledgement_statement' :  acknowledgement_statement, 'emails' : JSON.stringify(emails),
                       'acknowledgement_statement_acknowledge' : acknowledgement_statement_acknowledge
                     },
               beforeSend:function()
@@ -231,7 +284,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = '/prequalify';
+                    window.location.href= '/prequalify';
                   }
               },
               error:function()

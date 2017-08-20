@@ -98,7 +98,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('users')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
+            <li><a href="{{url('prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
           </ul>
       </li>
   </ul>

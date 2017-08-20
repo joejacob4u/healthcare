@@ -24,7 +24,7 @@
               <div class="form-group">
                   {!! Form::label('healthsystem_id', 'Healthcare System:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::select('healthsystem_id', $healthcare_systems, $user->healthsystem_id, ['class' => 'form-control','placeholder' => 'Please select']) !!}
+                      {!! Form::select('healthsystem_id', $healthcare_systems, $user->healthSystems()->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true','placeholder' => 'Please select']) !!}
                   </div>
               </div>
                 <!-- Email -->

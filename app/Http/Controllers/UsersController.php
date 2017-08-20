@@ -22,6 +22,7 @@ class UsersController extends Controller
     public function index()
     {
       $users = HealthSystem::find(Auth::guard('web')->user()->healthsystem_id)->users;
+      $users = User::whereHas('healthSystem', function($q) { $q->where('healthsystem_id',2); })->get();
       return view('users.index',['users' => $users]);
     }
 
@@ -93,6 +94,27 @@ class UsersController extends Controller
       {
           return 'true';
       }
+    }
+
+    public function temporaryCheck()
+    {
+      return Auth::guard('web')->user()->status;
+    }
+
+    public function temporaryChange(Request $request)
+    {
+
+        if (Hash::check($request->old_password, Auth::guard('web')->user()->password)) {
+            Auth::guard('web')->user()->fill([
+              'password' => Hash::make($request->new_password),
+              'status' => 'active',
+            ])->save();
+            return 'true';
+        }
+        else
+        {
+          return 'false';
+        }
     }
 
 

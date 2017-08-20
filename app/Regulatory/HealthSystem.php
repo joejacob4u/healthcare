@@ -16,7 +16,7 @@ class HealthSystem extends Model
 
     public function users()
     {
-      return $this->hasMany('App\User','healthsystem_id');
+      return $this->belongsToMany('App\User','user_healthsystem','healthsystem_id','user_id');
     }
 
     public function prequalifyConfigs()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ProspectUser;
 use App\Trade;
+use App\User;
 
 class ProspectsController extends Controller
 {
@@ -18,13 +19,33 @@ class ProspectsController extends Controller
     {
       $this->validate($request, [
           'name' => 'required|max:255',
-          'email' => 'required|email|max:255|unique:prospect_users',
+          'email' => 'required|email|max:255|unique:users',
           'password' => 'required|min:6|confirmed',
           'phone' => 'required'
       ]);
 
+      $user = User::create([
+        'name' => $request->name,
+        'email' => $request->email,
+        'phone' => $request->phone,
+        'address' => $request->address,
+        'password' => bcrypt($request->password),
+        'status' => 'active'
+      ]);
 
-      if($prospect_user = ProspectUser::create($request->all()))
+      $user->roles()->attach(12);
+
+
+      if($prospect_user = ProspectUser::create([
+        'user_id' => $user->id,
+        'title' => $request->title,
+        'corporation' => $request->corporation,
+        'partnership' => $request->partnership,
+        'company_owner' => $request->company_owner,
+        'sole_prop' => $request->sole_prop,
+        'contract_license_number' => $request->contract_license_number,
+        'status' => 'available'
+      ]))
       {
         if(!empty($request->trades))
         {

@@ -2,58 +2,154 @@
 
 @section('head')
 @parent
-@section('page_title','Health Care System Admins')
-@section('page_description','Manage Health Care System Admins here.')
+@section('page_title','Health System Prequalify Form')
+@section('page_description','Health System Prequalify Forms here.')
 
 @endsection
 @section('content')
 @include('layouts.partials.success')
-    <div class="box">
-      <div class="box-header with-border">
-        <h3 class="box-title">System Admins</h3>
+<div class="box box-solid box-primary">
+<div class="box-header with-border">
+  <h3 class="box-title">User Reference Files</h3>
 
-        <div class="box-tools pull-right">
-          <a href="{{url('admin/healthsystem/users/add')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add System Admin</a>
-        </div>
+  <div class="box-tools pull-right">
+      <button class="btn btn-warning" onclick="configure()" type="button"><span class="glyphicon glyphicon-pencil"></span> Configure</button>
+  </div>
+</div>
+
+<div class="box-body" id="user_reference">
+    @foreach($prequalify_configs->where('input_type','file')->where('action_type','output') as $file)
+    <div class="box box-solid box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">File</h3>
+            </div>
+            <div class="box-body">
+              <div class="form-group">
+                  <label>Description</label>
+                  <textarea class="form-control" rows="3" placeholder="Enter ..." disabled>{{$file->description}} </textarea>
+                </div>
+              <div class="form-group">
+                  <label>File</label>
+                  <input type="text" class="form-control" value="{{$file->value}}" placeholder="" disabled="">
+                </div>
+              <div class="form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" @if($file->is_required) checked @endif disabled> Required
+                      </label>
+                    </div>
+                  </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    @endforeach
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+
+</div>
+<!-- /.box-footer-->
+</div>
+
+<div class="box box-solid box-warning">
+<div class="box-header with-border">
+  <h3 class="box-title">Required User Files</h3>
+
+</div>
+<div class="box-body" id="user_requirement">
+  @foreach($prequalify_configs->where('input_type','file')->where('action_type','input') as $file)
+    <div class="box box-solid box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">File Requirement</h3>
+            </div>
+            <div class="box-body">
+              <div class="form-group">
+                  <label>Description</label>
+                  <textarea class="form-control" rows="3" placeholder="Enter ..." disabled>{{$file->description}}</textarea>
+                </div>
+              <div class="form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input type="checkbox" @if($file->is_required) checked @endif disabled> Required
+                      </label>
+                    </div>
+                  </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    @endforeach
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+
+</div>
+<!-- /.box-footer-->
+</div>
+
+<div class="box box-solid box-warning">
+<div class="box-header with-border">
+  <h3 class="box-title">E-Mail Delivery</h3>
+
+</div>
+<div class="box-body" id="user_requirement">
+  @foreach($prequalify_configs->where('input_type','email')->where('action_type','system') as $email)
+    <div class="box box-solid box-danger">
+            <div class="box-header with-border">
+              <h3 class="box-title">E-Mail</h3>
+            </div>
+            <div class="box-body">
+              <div class="form-group col-xs-8">
+                <label for="comment">E-Mail Address:</label>
+                <input class="form-control" type="email" value="{{$email->value}}" disabled></input>
+              </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    @endforeach
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+
+</div>
+<!-- /.box-footer-->
+</div>
+
+
+<div class="box box-solid box-info">
+<div class="box-header with-border">
+  <h3 class="box-title">Acknowledgement</h3>
+</div>
+<div class="box-body">
+@foreach($prequalify_configs->where('input_type','textarea') as $acknowledgement)
+  <div class="form-group">
+      {!! Form::label('acknowledgement_statement', 'Acknowledgement Statement', ['class' => 'col-lg-2 control-label']) !!}
+      <div class="col-lg-10">
+          {!! Form::textarea('acknowledgement_statement',$acknowledgement->value,['class' => 'form-control','id' => 'acknowledgement_statement','disabled' => true]); !!}
       </div>
-      <div class="box-body">
-        <table id="example" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>E-Mail</th>
-                        <th>Phone</th>
-                        <th>Health System</th>
-                        <th>Edit</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                      <th>Name</th>
-                      <th>E-Mail</th>
-                      <th>Phone</th>
-                      <th>Health System</th>
-                      <th>Edit</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                    @foreach($users as $user)
-                    <tr>
-                        <td>{{$user->name}}</td>
-                        <td>{{$user->email}}</td>
-                        <td>{{$user->phone}}</td>
-                        <td>{{$user->healthSystem->healthcare_system}}</td>
-                        <td>{!! link_to('admin/healthsystem/users/edit/'.$user->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-      </div>
-      <!-- /.box-body -->
-      <div class="box-footer">
-        Footer
-      </div>
-      <!-- /.box-footer-->
-    </div>
+  </div>
+  <div class="checkbox col-lg-10">
+      <label><input type="checkbox" id="acknowledgement_statement_acknowledge" value="" @if($acknowledgement->is_required) checked @endif disabled>Prompt the User to Acknowledge</label>
+  </div>
+  @endforeach
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+
+</div>
+<!-- /.box-footer-->
+</div>
+
+<script>
+function configure()
+{
+  bootbox.confirm("To configure, you will loose all current configuration and start from scratch. Continue?", function(result){ 
+      if(result)
+      {
+        window.location = "{{url('prequalify/configure')}}";
+      }
+    });
+}
+</script>
+
 
 @endsection
