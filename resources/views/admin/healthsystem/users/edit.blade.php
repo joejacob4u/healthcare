@@ -30,30 +30,9 @@
                 <!-- Email -->
 
                 <div class="form-group">
-                    {!! Form::label('name', 'Admin Name', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('prospect_id', 'Prospect:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::text('name', $user->name, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('email', 'Email', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('email', $user->email, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('phone', 'Phone', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('phone', $user->phone, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('address', 'Address', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::textarea('address',$user->address,['class' => 'form-control']); !!}
+                        {!! Form::select('prospect_id', $prospects, $user->roles()->pluck('id')->toArray(), ['class' => 'form-control','placeholder' => 'Please select']) !!}
                     </div>
                 </div>
 

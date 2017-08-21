@@ -33,9 +33,10 @@ class PrequalifyController extends Controller
         $files = json_decode($_REQUEST['files']);
         $requirements = json_decode($_REQUEST['requirements']);
         $emails = json_decode($_REQUEST['emails']);
+        $welcome_files = json_decode($_REQUEST['welcome_files']);
 
         PrequalifyConfig::where('healthsystem_id',Auth::guard('web')->user()->healthSystems->first()->id)->delete();
-        
+
 
         foreach($files as $key => $file)
         {
@@ -51,6 +52,22 @@ class PrequalifyController extends Controller
         {
             PrequalifyConfig::create($file);
         }
+
+        foreach($welcome_files as $key => $file)
+        {
+            $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('web')->user()->healthSystems->first()->id;
+            (strpos($key, 'input_type') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['input_type'] = $file : '';
+            (strpos($key, 'action_type') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['action_type'] = $file : '';
+            (strpos($key, 'file_path') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['value'] =  $file : '';
+            $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['is_required'] = 0;
+            $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['description'] = 'Welcome abroad file';
+        }
+
+        foreach($aWelcomeFiles as $file)
+        {
+            PrequalifyConfig::create($file);
+        }
+
 
         foreach($requirements as $key => $requirement)
         {
@@ -94,6 +111,17 @@ class PrequalifyController extends Controller
 
 
         PrequalifyConfig::create($aAcknowledgement);
+
+        $aWelcomeMessage = [
+            'healthsystem_id' => Auth::guard('web')->user()->healthSystems->first()->id,
+            'input_type' => 'textarea',
+            'action_type' => 'email',
+            'value' => $request->welcome_message,
+            'is_required' => 0,
+            'description' => 'Welcome email message'
+        ];
+
+        PrequalifyConfig::create($aWelcomeMessage);
 
         return 'true';
 

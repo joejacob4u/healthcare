@@ -18,9 +18,9 @@
             <button class="btn btn-success" onclick="addFiles()" type="button"><span class="glyphicon glyphicon-plus"></span> Add File</button>
         </div>
       </div>
-      
+
       <div class="box-body" id="user_reference">
-      
+
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
@@ -87,6 +87,47 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+    <div class="box box-solid box-info">
+      <div class="box-header with-border">
+        <h3 class="box-title">Welcome Email Message</h3>
+      </div>
+      <div class="box-body">
+        <div class="form-group">
+            {!! Form::label('welcome_message', 'Welcome Email Message', ['class' => 'col-lg-2 control-label']) !!}
+            <div class="col-lg-10">
+                {!! Form::textarea('welcome_message',null,['class' => 'form-control','id' => 'welcome_message']); !!}
+            </div>
+        </div>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+
+      </div>
+      <!-- /.box-footer-->
+    </div>
+
+    <div class="box box-solid box-primary">
+      <div class="box-header with-border">
+        <h3 class="box-title">Welcome E-Mail Files</h3>
+
+        <div class="box-tools pull-right">
+            <button class="btn btn-success" onclick="addFiles()" type="button"><span class="glyphicon glyphicon-plus"></span> Add Attachment</button>
+        </div>
+      </div>
+
+      <div class="box-body" id="welcome_email_box">
+
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+
+      </div>
+      <!-- /.box-footer-->
+    </div>
+
+
+
     <button class="btn btn-success" type="button" onclick="savePrequalify()"><span class="glyphicon glyphicon-ok"></span> Save Prequalify Form</button>
       {!! Form::close()  !!}
 
@@ -96,7 +137,8 @@
       var file_counter = 0;
       var requirement_counter = 0;
       var email_counter = 0;
-      
+      var welcome_email_counter = 0;
+
 
       function addFiles()
       {
@@ -142,13 +184,13 @@
                     message: '<p class="text-center">Uploading file to server...</p>',
                     closeButton: false
                 });
-            },         
+            },
             onComplete: function(filename, response) {
               dialog.modal('hide');
               $('#file_path_'+file_counter).val(response);
               $('#file_path_'+file_counter+'_label').html(response);
             }
-          });        
+          });
       }
 
       function removeFile(id)
@@ -213,14 +255,67 @@
         $('#email_box').append(html_code);
       }
 
+      function addWelcomeFiles()
+      {
+        welcome_file_counter++;
+
+        var html_code = '<div class="box box-solid box-success" id="welcome_file_box_'+welcome_file_counter+'">'+
+        '<div class="box-header with-border">'+
+          '<h3 class="box-title">Welcome File '+welcome_file_counter+'</h3>'+
+        '</div>'+
+          '<div class="box-body">'+
+            '<div class="form-group col-xs-8">'+
+              '<button type="button" class="btn btn-primary btn-sm" name="welcome_file_'+welcome_file_counter+'" id="welcome_file_'+welcome_file_counter+'"><span class="glyphicon glyphicon-upload"></span>Upload File</button>'+
+              '<input type="hidden" name="welcome_file_path_'+welcome_file_counter+'" id="welcome_file_path_'+welcome_file_counter+'" value="">'+
+            '</div>'+
+            '<div class="form-group col-xs-12">'+
+              '<label id="welcome_file_path_'+welcome_file_counter+'_label"></label>'+
+            '</div>'+
+          '</div>'+
+          '<div class="box-footer">'+
+            '<button class="btn btn-danger btn-sm" onclick="removeWelcomeFile('+welcome_file_counter+')"><span class="glyphicon glyphicon-remove"></span>Remove</button>'+
+          '</div>'+
+          '<input type="hidden" name="welcome_file_input_type_'+welcome_file_counter+'" id="welcome_file_input_type_'+welcome_file_counter+'" value="file">'+
+          '<input type="hidden" name="welcome_file_action_type_'+welcome_file_counter+'" id="welcome_file_action_type_'+welcome_file_counter+'" value="email">'+
+      '</div>';
+
+
+        $('#welcome_email_box').append(html_code);
+
+        new ss.SimpleUpload({
+            button: 'welcome_file_'+welcome_file_counter, // HTML element used as upload button
+            url: '{{url('prequalify/upload')}}', // URL of server-side upload handler
+            name: 'uploadfile',
+            customHeaders: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+            onSubmit: function(filename, extension) {
+              dialog = bootbox.dialog({
+                    message: '<p class="text-center">Uploading file to server...</p>',
+                    closeButton: false
+                });
+            },
+            onComplete: function(filename, response) {
+              dialog.modal('hide');
+              $('#welcome_file_'+welcome_file_counter).val(response);
+              $('#welcome_file_'+welcome_file_counter+'_label').html(response);
+            }
+          });
+      }
+
+      function removeWelcomeFile(id)
+      {
+        $('#welcome_file_box_'+id).remove();
+      }
+
+
       function savePrequalify()
       {
         var files = {};
         var requirements = {};
         var emails = {};
+        var welcome_files = {};
 
         $( "textarea[id^='file_'],input[id^='file_']" ).each(function( index ) {
-          
+
           if($( this ).attr('type') == 'checkbox')
           {
               if($( this ).is(':checked'))
@@ -235,11 +330,11 @@
           else
           {
             files[$( this ).attr('name') ] = $( this ).val();
-          }          
+          }
         });
 
         $( "textarea[id^='requirement_'],input[id^='requirement_']" ).each(function( index ) {
-          
+
           if($( this ).attr('type') == 'checkbox')
           {
               if($( this ).is(':checked'))
@@ -254,13 +349,19 @@
           else
           {
             requirements[$( this ).attr('name') ] = $( this ).val();
-          }          
+          }
         });
 
         $( "input[id^='email_address_']" ).each(function( index ) {
-          
-            emails[$( this ).attr('name') ] = $( this ).val();        
+
+            emails[$( this ).attr('name') ] = $( this ).val();
         });
+
+        $( "input[id^='welcome_file_']" ).each(function( index ) {
+
+            welcome_files[$( this ).attr('name') ] = $( this ).val();
+        });
+
 
 
 
@@ -271,10 +372,10 @@
               type: 'POST',
               url: '{{ asset('prequalify/configure') }}',
               dataType: "json",
-              data: { '_token' : '{{ csrf_token() }}', 
-                      'files': JSON.stringify(files), 'requirements' : JSON.stringify(requirements), 
-                      'acknowledgement_statement' :  acknowledgement_statement, 'emails' : JSON.stringify(emails),
-                      'acknowledgement_statement_acknowledge' : acknowledgement_statement_acknowledge
+              data: { '_token' : '{{ csrf_token() }}',
+                      'files': JSON.stringify(files), 'requirements' : JSON.stringify(requirements),
+                      'acknowledgement_statement' :  acknowledgement_statement, 'emails' : JSON.stringify(emails), 'welcome_message' : welcome_message,
+                      'acknowledgement_statement_acknowledge' : acknowledgement_statement_acknowledge,'welcome_files' : JSON.stringify(welcome_files)
                     },
               beforeSend:function()
               {
@@ -284,7 +385,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location.href= '/prequalify';
+                    window.location = '/prequalify';
                   }
               },
               error:function()

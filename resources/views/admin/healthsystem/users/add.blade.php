@@ -30,35 +30,15 @@
                 <!-- Email -->
 
                 <div class="form-group">
-                    {!! Form::label('name', 'Admin Name', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('prospect_id', 'Prospect:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::text('name', $value = null, ['class' => 'form-control']) !!}
+                        {!! Form::select('prospect_id', $prospects, Request::old('prospect_id'), ['class' => 'form-control','placeholder' => 'Please select']) !!}
                     </div>
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('email', 'Email', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('email', $value = null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('phone', 'Phone', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::text('phone', $value = null, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('address', 'Address', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::textarea('address',null,['class' => 'form-control']); !!}
-                    </div>
-                </div>
 
                 {!! Form::hidden('role_id', '2'); !!}
-                {!! Form::hidden('status', 'pending'); !!}
+                {!! Form::hidden('status', 'active'); !!}
 
                 <!-- Submit Button -->
                 <div class="form-group">

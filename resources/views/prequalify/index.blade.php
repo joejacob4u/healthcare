@@ -139,10 +139,64 @@
 <!-- /.box-footer-->
 </div>
 
+<div class="box box-solid box-info">
+<div class="box-header with-border">
+  <h3 class="box-title">Acknowledgement</h3>
+</div>
+<div class="box-body">
+@foreach($prequalify_configs->where('input_type','file')->where('action_type','email') as $welcome_email)
+  <div class="form-group">
+      {!! Form::label('welcome_email', 'Welcome E-Mail Message', ['class' => 'col-lg-2 control-label']) !!}
+      <div class="col-lg-10">
+          {!! Form::textarea('welcome_email',$welcome_email->value,['class' => 'form-control','id' => 'welcome_email','disabled' => true]); !!}
+      </div>
+  </div>
+  @endforeach
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+
+</div>
+<!-- /.box-footer-->
+</div>
+
+<div class="box box-solid box-primary">
+<div class="box-header with-border">
+  <h3 class="box-title">Welcome E-Mail Files</h3>
+
+  <div class="box-tools pull-right">
+  </div>
+</div>
+
+<div class="box-body" id="user_reference">
+    @foreach($prequalify_configs->where('input_type','textarea')->where('action_type','email') as $file)
+    <div class="box box-solid box-success">
+            <div class="box-header with-border">
+              <h3 class="box-title">File</h3>
+            </div>
+            <div class="box-body">
+              <div class="form-group">
+                  <label>Welcome File</label>
+                  <input type="text" class="form-control" value="{{$file->value}}" placeholder="" disabled="">
+                </div>
+            </div>
+            <!-- /.box-body -->
+          </div>
+    @endforeach
+</div>
+<!-- /.box-body -->
+<div class="box-footer">
+
+</div>
+<!-- /.box-footer-->
+</div>
+
+
+
 <script>
 function configure()
 {
-  bootbox.confirm("To configure, you will loose all current configuration and start from scratch. Continue?", function(result){ 
+  bootbox.confirm("To configure, you will loose all current configuration and start from scratch. Continue?", function(result){
       if(result)
       {
         window.location = "{{url('prequalify/configure')}}";
