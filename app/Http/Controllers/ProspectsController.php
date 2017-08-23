@@ -54,7 +54,7 @@ class ProspectsController extends Controller
             $aTrades[] = Trade::find($trade);
           }
 
-          $prospect_user->trades()->saveMany($aTrades);
+          $user->trades()->saveMany($aTrades);
 
         }
         
