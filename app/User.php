@@ -39,7 +39,7 @@ class User extends Authenticatable
 
     public function trades()
     {
-      return $this->belongsToMany('App\Trade','users-trades','user_id','trade_id');
+      return $this->belongsToMany('App\Trade','users_trades','user_id','trade_id');
     }
   
 

@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
         'user' => \Illuminate\Routing\Middleware\UsersMiddleware::class,
         'system_admin' => \App\Http\Middleware\RedirectIfNotSystemAdmin::class,
         'admin' => \App\Http\Middleware\RedirectIfNotAdmin::class,
-        'contractor' => \App\Http\Middleware\RedirectIfNotContractors::class
+        'contractor' => \App\Http\Middleware\RedirectIfNotContractors::class,
+        'prospect_contractor' => \App\Http\Middleware\RedirectIfNotProspectContractor::class
     ];
 }

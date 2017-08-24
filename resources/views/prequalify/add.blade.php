@@ -112,7 +112,7 @@
         <h3 class="box-title">Welcome E-Mail Files</h3>
 
         <div class="box-tools pull-right">
-            <button class="btn btn-success" onclick="addFiles()" type="button"><span class="glyphicon glyphicon-plus"></span> Add Attachment</button>
+            <button class="btn btn-success" onclick="addWelcomeFiles()" type="button"><span class="glyphicon glyphicon-plus"></span> Add Attachment</button>
         </div>
       </div>
 
@@ -138,6 +138,7 @@
       var requirement_counter = 0;
       var email_counter = 0;
       var welcome_email_counter = 0;
+      var welcome_file_counter = 0;
 
 
       function addFiles()
@@ -174,6 +175,8 @@
 
         $('#user_reference').append(html_code);
 
+        var s3_url = '{{config('filesystems.disks.s3.url')}}';
+
         new ss.SimpleUpload({
             button: 'file_'+file_counter, // HTML element used as upload button
             url: '{{url('prequalify/upload')}}', // URL of server-side upload handler
@@ -188,7 +191,7 @@
             onComplete: function(filename, response) {
               dialog.modal('hide');
               $('#file_path_'+file_counter).val(response);
-              $('#file_path_'+file_counter+'_label').html(response);
+              $('#file_path_'+file_counter+'_label').html(s3_url + response);
             }
           });
       }
@@ -282,6 +285,8 @@
 
         $('#welcome_email_box').append(html_code);
 
+        var s3_url = '{{config('filesystems.disks.s3.url')}}';
+
         new ss.SimpleUpload({
             button: 'welcome_file_'+welcome_file_counter, // HTML element used as upload button
             url: '{{url('prequalify/upload')}}', // URL of server-side upload handler
@@ -295,8 +300,8 @@
             },
             onComplete: function(filename, response) {
               dialog.modal('hide');
-              $('#welcome_file_'+welcome_file_counter).val(response);
-              $('#welcome_file_'+welcome_file_counter+'_label').html(response);
+              $('#welcome_file_path_'+welcome_file_counter).val(response);
+              $('#welcome_file_path_'+welcome_file_counter+'_label').html(s3_url + response);
             }
           });
       }
@@ -333,6 +338,7 @@
           }
         });
 
+
         $( "textarea[id^='requirement_'],input[id^='requirement_']" ).each(function( index ) {
 
           if($( this ).attr('type') == 'checkbox')
@@ -352,15 +358,19 @@
           }
         });
 
+
         $( "input[id^='email_address_']" ).each(function( index ) {
 
             emails[$( this ).attr('name') ] = $( this ).val();
         });
 
+
         $( "input[id^='welcome_file_']" ).each(function( index ) {
 
             welcome_files[$( this ).attr('name') ] = $( this ).val();
         });
+
+        var welcome_message = $('#welcome_message').val();
 
 
 

@@ -104,5 +104,26 @@
   </ul>
   @endif
 @endif
+
+@if(Auth::guard('web')->check())
+  @if(Auth::guard('web')->user()->isContractorProspect())
+  <ul class="sidebar-menu">
+    <li class="header text-yellow"><strong>PROSPECT</strong></li>
+    <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>Application</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+           <li><a href="{{url('contractor/prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify</a></li>
+         </ul>
+     </li>
+  </ul>
+
+  @endif
+@endif
 </section>
 </aside>

@@ -15,6 +15,7 @@
 Auth::routes();
 
 Route::get('/', 'HomeController@index');
+Route::get('/logout', 'HomeController@logout');
 
 Route::get('/welcome', function(){
   return view('welcome');
@@ -43,6 +44,12 @@ Route::group(['middleware' => ['auth']], function ()
     Route::post('prequalify/configure', 'PrequalifyController@store');
     Route::get('prequalify/configure', 'PrequalifyController@create');
     Route::post('prequalify/upload', 'PrequalifyController@upload');
+
+    Route::get('contractor/prequalify', 'ContractorPrequalifyController@index');
+    Route::get('contractor/prequalify/apply/{id}', 'ContractorPrequalifyController@create');
+    Route::get('contractor/prequalify/download/{id}', 'ContractorPrequalifyController@download');
+    Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@upload');
+    Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@upload');
 
 });
 

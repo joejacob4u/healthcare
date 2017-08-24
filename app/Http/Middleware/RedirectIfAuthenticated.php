@@ -17,15 +17,7 @@ class RedirectIfAuthenticated
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if (Auth::guard($guard)->check())
-        {
-            $user = User::find(Auth::guard($guard)->user()->id);
-            
-            if($user->roles->contains('name','Business Partner'))
-            {
-                return $next($request);
-            } 
-             
+        if (Auth::guard($guard)->check()) {
             return redirect('/home');
         }
 

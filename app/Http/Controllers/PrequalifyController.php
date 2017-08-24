@@ -130,7 +130,7 @@ class PrequalifyController extends Controller
 
     public function upload(Request $request)
     {
-        $path = $request->file('uploadfile')->store('prequalify','s3');
-        return Storage::disk('s3')->url($path);
+        $path = $request->file('uploadfile')->store('prequalify/config','s3');
+        return $path;
     }
 }
