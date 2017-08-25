@@ -120,7 +120,7 @@
   <h3 class="box-title">Acknowledgement</h3>
 </div>
 <div class="box-body">
-@foreach($prequalify_configs->where('input_type','textarea') as $acknowledgement)
+@foreach($prequalify_configs->where('input_type','textarea')->where('action_type','output') as $acknowledgement)
   <div class="form-group">
       {!! Form::label('acknowledgement_statement', 'Acknowledgement Statement', ['class' => 'col-lg-2 control-label']) !!}
       <div class="col-lg-10">
@@ -141,10 +141,10 @@
 
 <div class="box box-solid box-info">
 <div class="box-header with-border">
-  <h3 class="box-title">Acknowledgement</h3>
+  <h3 class="box-title">Welcome E-Mail</h3>
 </div>
 <div class="box-body">
-@foreach($prequalify_configs->where('input_type','file')->where('action_type','email') as $welcome_email)
+@foreach($prequalify_configs->where('input_type','textarea')->where('action_type','email') as $welcome_email)
   <div class="form-group">
       {!! Form::label('welcome_email', 'Welcome E-Mail Message', ['class' => 'col-lg-2 control-label']) !!}
       <div class="col-lg-10">
@@ -169,7 +169,7 @@
 </div>
 
 <div class="box-body" id="user_reference">
-    @foreach($prequalify_configs->where('input_type','textarea')->where('action_type','email') as $file)
+    @foreach($prequalify_configs->where('input_type','file')->where('action_type','email') as $file)
     <div class="box box-solid box-success">
             <div class="box-header with-border">
               <h3 class="box-title">File</h3>

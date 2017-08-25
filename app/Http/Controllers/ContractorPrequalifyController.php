@@ -6,6 +6,7 @@ use App\Regulatory\HealthSystem;
 use App\PrequalifyConfig;
 use Illuminate\Http\Request;
 use Storage;
+use Mail;
 use Auth;
 
 class ContractorPrequalifyController extends Controller
@@ -49,7 +50,46 @@ class ContractorPrequalifyController extends Controller
 
     public function apply(Request $request)
     {
+        $philanthropy_emails = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','email')->where('action_type','system')->get();
+        $files = Storage::disk('s3')->files('prequalify/user_files/'.Auth::guard('web')->user()->id);
+        $welcome_files = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','file')->where('action_type','email')->get();
+        $welcome_message = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','textarea')->where('action_type','email')->get();
+
+        $healthsystem = HealthSystem::find($request->healthsystem_id);
+
+        foreach($philanthropy_emails as $emails)
+        {
+            Mail::send('email.philanthropy', ['healthsystem' => $healthsystem->healthcare_system,'user' => Auth::guard('web')->user()->email], function($message) use ($files,$emails) 
+            {
+                $message->from('donotreply@healthcare365.com', 'HealthCare Compliance 365');
+            
+                $message->to($emails->value);
+                $message->subject('New prequalify application');
+                
+                foreach($files as $file)
+                {
+                    $message->attach($file->value);
+                }
+                
+            });
+    
+        }
+
+        Mail::send('email.welcome', ['message' => $welcome_message->value], function($message) use ($welcome_files) 
+        {
+            $message->from('donotreply@healthcare365.com', 'HealthCare Compliance 365');
         
+            $message->to(Auth::guard('web')->user()->email);
+            $message->subject('Welcome to HealthCare Compliance 365');
+            
+            foreach($welcome_files as $file)
+            {
+                $message->attach($file->value);
+            }
+            
+        });
+
+
     }
 
 }

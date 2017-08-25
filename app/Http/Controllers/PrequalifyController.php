@@ -56,11 +56,11 @@ class PrequalifyController extends Controller
         foreach($welcome_files as $key => $file)
         {
             $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('web')->user()->healthSystems->first()->id;
-            (strpos($key, 'input_type') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['input_type'] = $file : '';
-            (strpos($key, 'action_type') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['action_type'] = $file : '';
-            (strpos($key, 'file_path') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['value'] =  $file : '';
-            $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['is_required'] = 0;
-            $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['description'] = 'Welcome abroad file';
+            (strpos($key, 'input_type') !== false) ? $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['input_type'] = $file : '';
+            (strpos($key, 'action_type') !== false) ? $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['action_type'] = $file : '';
+            (strpos($key, 'file_path') !== false) ? $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['value'] =  $file : '';
+            $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['is_required'] = 0;
+            $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['description'] = 'Welcome abroad file';
         }
 
         foreach($aWelcomeFiles as $file)
@@ -123,7 +123,7 @@ class PrequalifyController extends Controller
 
         PrequalifyConfig::create($aWelcomeMessage);
 
-        return 'true';
+        echo 'true';
 
 
     }

@@ -393,10 +393,7 @@
               },
               success:function(data)
               {
-                  if(data == 'true')
-                  {
-                    window.location = '/prequalify';
-                  }
+                window.location = '/prequalify';
               },
               error:function()
               {
