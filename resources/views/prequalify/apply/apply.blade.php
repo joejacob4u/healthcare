@@ -119,7 +119,7 @@
   <h3 class="box-title">Acknowledgement</h3>
 </div>
 <div class="box-body">
-@foreach($prequalify_form->where('input_type','textarea') as $acknowledgement)
+@foreach($prequalify_form->where('input_type','textarea')->where('action_type','output') as $acknowledgement)
   <div class="form-group">
       {!! Form::label('acknowledgement_statement', 'Acknowledgement Statement', ['class' => 'col-lg-2 control-label']) !!}
       <div class="col-lg-10">
@@ -149,9 +149,23 @@ function submitPrequalify()
       type: "POST",
       url: "{{url('contractor/prequalify/apply')}}",
       data: {'_token' : '{{ csrf_token() }}','healthsystem_id' : '{{$healthsystem_id}}'},
-      success: function (response) {
-        
+      beforeSend:function()
+      {
+        $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+      },
+      success:function(data)
+      {
+        window.location = '{{url('contractor/prequalify')}}';
+      },
+      error:function()
+      {
+        // failed request; give feedback to user
+      },
+      complete: function(data)
+      {
+          $('.overlay').remove();
       }
+
     });
 }
 

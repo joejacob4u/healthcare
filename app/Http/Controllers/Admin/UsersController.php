@@ -34,7 +34,7 @@ class UsersController extends Controller
 
         $user = User::find($request->prospect_id);
 
-        $user->roles()->sync([$request->role_id]);
+        $user->roles()->sync([$request->role_id => ['healthsystem_id' => $request->healthsystem_id]]);
         $user->healthSystems()->attach($request->healthsystem_id);
 
         Mail::send('email.systemadmin.welcome', [], function ($m) use ($user) {
@@ -61,7 +61,7 @@ class UsersController extends Controller
 
         $user = User::find($id);
 
-        $user->roles()->syncWithoutDetaching([$request->role_id]);
+        $user->roles()->syncWithoutDetaching([$request->role_id => ['healthsystem_id' => $request->healthsystem_id]]);
         $user->healthSystems()->syncWithoutDetaching([$request->healthsystem_id]);
 
         return redirect('admin/healthsystem/users/')->with('success','System admin has been updated!');

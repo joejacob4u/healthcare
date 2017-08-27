@@ -22,7 +22,7 @@
                     <tr>
                         <th>Health System</th>
                         <th>State</th>
-                        <th>Apply</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -33,11 +33,16 @@
                 </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($healthsystems as $healthsystem)
+                  @foreach($applications as $application)
                     <tr>
-                      <td>{{$healthsystem->healthcare_system}}</td>
-                      <td>{{$healthsystem->state}}</td>
-                      <td>{!! link_to('contractor/prequalify/apply/'.$healthsystem->id,'Apply',['class' => 'btn-xs btn-warning']) !!}</td>
+                      <td>{{$application->healthSystem->healthcare_system}}</td>
+                      <td>{{$application->healthSystem->state}}</td>
+                      @if($application->status == 'pending')
+                        <td><span class="label label-warning">pending</span></td>
+                      @endif
+                      @if($application->status == 'approved')
+                        <td><span class="label label-success">approved</span></td>
+                      @endif
                     </tr>
                   @endforeach
                 </tbody>
@@ -78,7 +83,7 @@
                     <tr>
                       <td>{{$healthsystem->healthcare_system}}</td>
                       <td>{{$healthsystem->state}}</td>
-                      <td>{!! link_to('contractor/prequalify/apply/'.$healthsystem->id,'Apply',['class' => 'btn-xs btn-warning']) !!}</td>
+                      <td>{!! link_to('contractor/prequalify/apply/'.$healthsystem->id,'Apply',['class' => 'btn-xs btn-primary']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>

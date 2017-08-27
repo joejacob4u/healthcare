@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth']], function ()
     Route::get('contractor/prequalify/apply/{id}', 'ContractorPrequalifyController@create');
     Route::get('contractor/prequalify/download/{id}', 'ContractorPrequalifyController@download');
     Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@upload');
-    Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@upload');
+    Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply');
 
 });
 
