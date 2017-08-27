@@ -80,7 +80,7 @@ class RegisterController extends Controller
 
         $trades = $data['trades'];
 
-        if(!is_empty($trades) || isset($trades))
+        if(!empty($trades) || isset($trades))
         {
           foreach($trades as $trade)
           {
