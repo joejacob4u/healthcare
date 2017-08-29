@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Regulatory\HealthSystem;
 use App\PrequalifyConfig;
+use App\PrequalifyUser;
 use Illuminate\Http\Request;
 use Storage;
 use Mail;
@@ -19,7 +20,8 @@ class ContractorPrequalifyController extends Controller
     public function index()
     {
         $healthsystems = HealthSystem::get();
-        return view('prequalify.apply.index',['healthsystems' => $healthsystems]);
+        $applications = PrequalifyUser::where('user_id',Auth::guard('web')->user()->id)->get();
+        return view('prequalify.apply.index',['healthsystems' => $healthsystems,'applications' => $applications]);
     }
 
     public function create($id)
@@ -68,26 +70,32 @@ class ContractorPrequalifyController extends Controller
                 
                 foreach($files as $file)
                 {
-                    $message->attach($file->value);
+                    $message->attach(Storage::disk('s3')->url($file));
                 }
                 
             });
     
         }
 
-        Mail::send('email.welcome', ['message' => $welcome_message->value], function($message) use ($welcome_files) 
+        $welcome_email_address = Auth::guard('web')->user()->email;
+
+        Mail::send('email.welcome', ['content' => $welcome_message[0]['value']], function($message) use ($welcome_files,$welcome_email_address) 
         {
             $message->from('donotreply@healthcare365.com', 'HealthCare Compliance 365');
         
-            $message->to(Auth::guard('web')->user()->email);
+            $message->to($welcome_email_address);
             $message->subject('Welcome to HealthCare Compliance 365');
             
             foreach($welcome_files as $file)
             {
-                $message->attach($file->value);
+                $message->attach(Storage::disk('s3')->url($file->value));
             }
             
         });
+
+        PrequalifyUser::create(['user_id' => Auth::guard('web')->user()->id,'healthsystem_id' => $request->healthsystem_id,'status' => 'pending']);
+
+        return 'true';
 
 
     }
