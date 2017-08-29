@@ -15,8 +15,8 @@ class UsersController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware('auth',['except' => ['forgotView', 'sendTempPassword']]);
+        $this->middleware('admin',['except' => ['forgotView', 'sendTempPassword']]);
     }
 
     public function index()
@@ -78,7 +78,6 @@ class UsersController extends Controller
       ]);
 
       $user = User::find($id);
-      $request->request->add(['healthsystem_id' => Auth::guard('web')->user()->healthsystem_id]);
 
       if($user->update($request->all()))
       {
@@ -96,9 +95,35 @@ class UsersController extends Controller
       }
     }
 
+    public function forgotView()
+    {
+      return view('users.forgot');
+    }
+
+    public function sendTempPassword(Request $request)
+    {
+      $this->validate($request,[
+        'email' => 'required|email',
+      ]);
+
+      $temp_password = str_random(8);
+
+      User::where('email',$request->email)->update(['password' => Hash::make($temp_password),'forgot_password' => 1]);
+
+      $email = $request->email;
+
+      Mail::send('email.forgot', ['password' => $temp_password], function ($m) use ($email) {
+        $m->from('hello@app.com', 'HealthCare Compliance 365');
+
+        $m->to($email)->subject('Reset Password');
+      });
+
+      return redirect('/login');
+    }
+
     public function temporaryCheck()
     {
-      return Auth::guard('web')->user()->status;
+      return Auth::guard('web')->user()->forgot_password;
     }
 
     public function temporaryChange(Request $request)
@@ -108,7 +133,9 @@ class UsersController extends Controller
             Auth::guard('web')->user()->fill([
               'password' => Hash::make($request->new_password),
               'status' => 'active',
+              'forgot_password' => 0,
             ])->save();
+
             return 'true';
         }
         else

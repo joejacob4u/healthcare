@@ -87,8 +87,8 @@
     </form>
 
 
-    <a href="{{ url('/password/reset') }}">I forgot my password</a><br>
-    <a href="{{ url('register') }}" class="text-center">Register a new membership</a>
+    <a href="{{ url('forgot/password') }}">I forgot my password</a><br>
+    <a href="{{ url('prospects/register') }}" class="text-center">New Prospect? Join here.</a>
 
   </div>
   <!-- /.login-box-body -->

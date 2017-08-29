@@ -99,7 +99,7 @@ $(function() {
             },
             success:function(data)
             {
-                if(data == 'pending')
+                if(data == '1')
                 {
                     $('#changePasswordModal').modal('show');
                 }

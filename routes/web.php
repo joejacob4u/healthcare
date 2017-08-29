@@ -24,6 +24,10 @@ Route::get('/welcome', function(){
 Route::get('prospects/register','ProspectsController@index');
 Route::post('prospects/register','ProspectsController@create');
 
+Route::get('forgot/password','UsersController@forgotView');
+Route::post('forgot/password','UsersController@sendTempPassword');
+
+
 /***************************Admin Route groups*******************************/
 
 
