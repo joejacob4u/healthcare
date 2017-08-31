@@ -9,6 +9,7 @@ use App\Regulatory\HealthSystem;
 use Hash;
 use Mail;
 use App\ProspectUser;
+use Trade;
 
 class UsersController extends Controller
 {
@@ -21,7 +22,8 @@ class UsersController extends Controller
     public function create()
     {
       $healthcare_systems = HealthSystem::pluck('healthcare_system','id');
-      $prospects = User::whereHas('roles', function($q) { $q->where('role_id',12); })->pluck('email','id');
+      $trades = Trade::pluck('id');
+      $prospects = User::whereHas('roles', function($q) { $q->where('role_id',12); })->whereHas('trades', function($q) { $q->whereNotIn('trade_id',$trades); })->pluck('email','id');
       return view('admin.healthsystem.users.add',['healthcare_systems' => $healthcare_systems,'prospects' => $prospects]);
     }
 

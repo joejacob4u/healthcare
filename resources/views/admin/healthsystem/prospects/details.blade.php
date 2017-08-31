@@ -21,7 +21,7 @@
             <strong><i class="fa fa-address-book" aria-hidden="true"></i> Name</strong>
 
             <p class="text-muted">
-              {{$prospect_user->name}}
+              {{$prospect_user->user->name}}
             </p>
 
             <hr>
@@ -34,19 +34,19 @@
 
             <strong><i class="fa fa-envelope-o" aria-hidden="true"></i> E-Mail</strong>
 
-            <p class="text-muted">{{$prospect_user->email}}</p>
+            <p class="text-muted">{{$prospect_user->user->email}}</p>
 
             <hr>
 
             <strong><i class="fa fa-phone" aria-hidden="true"></i> Phone</strong>
 
-            <p class="text-muted">{{$prospect_user->phone}}</p>
+            <p class="text-muted">{{$prospect_user->user->phone}}</p>
 
             <hr>
 
             <strong><i class="fa fa-map-marker" aria-hidden="true"></i> Address</strong>
 
-            <p class="text-muted">{{$prospect_user->address}}</p>
+            <p class="text-muted">{{$prospect_user->user->address}}</p>
 
             <hr>
 
