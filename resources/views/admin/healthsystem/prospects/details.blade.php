@@ -84,7 +84,7 @@
 
             <p>
               @foreach($prospect_user->user->trades as $trade)
-                <span class="label label-primary">$trade->name</span>
+                <span class="label label-primary">{{$trade->name}}</span>
               @endforeach
             </p>
 

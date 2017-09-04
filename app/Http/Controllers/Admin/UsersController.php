@@ -9,7 +9,7 @@ use App\Regulatory\HealthSystem;
 use Hash;
 use Mail;
 use App\ProspectUser;
-use Trade;
+use App\Trade;
 
 class UsersController extends Controller
 {
