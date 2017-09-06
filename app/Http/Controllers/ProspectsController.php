@@ -30,7 +30,8 @@ class ProspectsController extends Controller
         'phone' => $request->phone,
         'address' => $request->address,
         'password' => bcrypt($request->password),
-        'status' => 'active'
+        'status' => 'active',
+        'is_contractor' => (!empty($request->trades)) ? 1 : 0
       ]);
 
       $user->roles()->attach(12);
@@ -55,6 +56,7 @@ class ProspectsController extends Controller
           }
 
           $user->trades()->saveMany($aTrades);
+          $user->is_contractor = 1;
 
         }
         

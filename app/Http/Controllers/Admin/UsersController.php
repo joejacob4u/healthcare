@@ -23,7 +23,7 @@ class UsersController extends Controller
     {
       $healthcare_systems = HealthSystem::pluck('healthcare_system','id');
       $trades = Trade::pluck('id');
-      $prospects = User::whereHas('roles', function($q) { $q->where('role_id',12); })->whereHas('trades', function($q) use ($trades) { $q->whereNotIn('trade_id',$trades); })->pluck('email','id');
+      $prospects = User::where('is_contractor',0)->pluck('email','id');
       return view('admin.healthsystem.users.add',['healthcare_systems' => $healthcare_systems,'prospects' => $prospects]);
     }
 
