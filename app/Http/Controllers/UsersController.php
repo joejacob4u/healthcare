@@ -22,7 +22,6 @@ class UsersController extends Controller
     public function index()
     {
       $users = HealthSystem::find(Auth::guard('web')->user()->healthSystems->first()->id)->users;
-      $users = User::whereHas('healthSystem', function($q) { $q->where('healthsystem_id',2); })->get();
       return view('users.index',['users' => $users]);
     }
 
