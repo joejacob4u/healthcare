@@ -191,6 +191,14 @@
                             </div>
                         </div>
 
+                          <div class="form-group">
+                              {!! Form::label('departments', 'Departments:', ['class' => 'col-md-4 control-label']) !!}
+                              <div class="col-md-6">
+                                {!!  Form::select('departments[]', $departments, $selected = null, ['class' => 'form-control selectpicker','multiple' => true,'id' => 'departments']) !!}
+                              </div>
+                          </div>
+
+
                         <div class="form-group{{ $errors->has('address') ? ' has-error' : '' }}">
                             <label for="address" class="col-md-4 control-label">Contractor</label>
 
@@ -308,9 +316,11 @@
             $("#checkbox").click(function(){
               if (this.checked) {
                 $("#optional").show();
+                $("#departments").prop('disabled',true)
             }
             else {
               $("#optional").hide();
+              $("#departments").prop('disabled',false)
             }
             });
           </script>

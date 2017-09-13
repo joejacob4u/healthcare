@@ -46,7 +46,7 @@ class ContractorPrequalifyController extends Controller
 
     public function upload(Request $request)
     {
-        $path = $request->file('uploadfile')->store('prequalify/user_files/'.Auth::guard('web')->user()->id,'s3');
+        $path = $request->file('uploadfile')->store('prequalify/user_files/'.Auth::guard('web')->user()->id.'/'.$request->healthsystem_id,'s3');
         return $path;
     }
 

@@ -88,7 +88,8 @@
                 button: 'file_'+file_id, // HTML element used as upload button
                 url: '{{url('contractor/prequalify/upload')}}', // URL of server-side upload handler
                 name: 'uploadfile',
-                customHeaders: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                data: {'healthsystem_id' : '{{$healthsystem_id}}'},
+                customHeaders: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}'},
                 onSubmit: function(filename, extension) {
                   dialog = bootbox.dialog({
                         message: '<p class="text-center">Uploading file to server...</p>',

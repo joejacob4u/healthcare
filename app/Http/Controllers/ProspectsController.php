@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\ProspectUser;
 use App\Trade;
 use App\User;
+use App\Department;
 
 class ProspectsController extends Controller
 {
     public function index()
     {
       $trades = Trade::pluck('name','id');
-      return view('prospects')->with('trades',$trades);
+      $departments = Department::pluck('name','id');
+      return view('prospects')->with('trades',$trades)->with('departments',$departments);
     }
 
     public function create(Request $request)
@@ -33,6 +35,17 @@ class ProspectsController extends Controller
         'status' => 'active',
         'is_contractor' => (!empty($request->trades)) ? 1 : 0
       ]);
+
+      if(!empty($request->departments))
+      {
+        foreach($request->departments as $department)
+        {
+          $aDepartments[] = Department::find($department);
+        }
+
+        $user->departments()->saveMany($aDepartments);
+      }
+
 
       $user->roles()->attach(12);
 
