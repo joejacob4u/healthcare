@@ -42,6 +42,16 @@ class BuildingController extends Controller
 
         $site = Site::find($site_id);
 
+        $path = '';
+        
+        if($request->hasFile('building_logo_image'))
+        {
+          $path = $request->file('building_logo_image')->store('logo/building','s3');
+        }
+        
+        $request->request->add(['building_logo' => $path]);
+        
+
         if($site->buildings()->create($request->all()))
         {
           return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building added!');
@@ -73,6 +83,14 @@ class BuildingController extends Controller
         ]);
 
         $site = Site::find($site_id);
+
+        if($request->hasFile('building_logo_image'))
+        {
+          $path = $request->file('building_logo_image')->store('logo/building','s3');
+        }
+        
+        $request->request->add(['building_logo' => $path]);
+
 
         if($site->buildings()->where('id',$id)->update(request()->except(['_token'])))
         {

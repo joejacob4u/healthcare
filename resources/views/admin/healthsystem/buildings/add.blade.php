@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/sites/'.$site->id.'/buildings/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/sites/'.$site->id.'/buildings/add', 'class' => 'form-horizontal','files' => true]) !!}
 
             <fieldset>
 
@@ -110,6 +110,14 @@
                       {!! Form::text('unused_space', Request::old('unused_space'), ['class' => 'form-control']) !!}
                   </div>
               </div>
+
+              <div class="form-group">
+                  {!! Form::label('building_logo_image', 'Building Logo', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::file('building_logo_image', ['class' => 'form-control','id' => 'building_logo_image']) !!}
+                  </div>
+              </div>
+
 
 
                 <!-- Submit Button -->

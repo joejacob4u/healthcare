@@ -32,7 +32,7 @@
                 <div class="form-group">
                     {!! Form::label('address', 'Address:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::textarea('address', $value = $hco->address, ['class' => 'form-control', 'placeholder' => 'address']) !!}
+                        {!! Form::textarea('address', $value = $hco->address, ['class' => 'form-control', 'placeholder' => 'address','rows' => 3]) !!}
                     </div>
                 </div>
 
@@ -43,6 +43,22 @@
                         {!! Form::text('hco_id', $value = $hco->hco_id, ['class' => 'form-control']) !!}
                     </div>
                 </div>
+
+                <div class="form-group">
+                  {!! Form::label('is_need_state', 'Certification of Need State', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('is_need_state',['0' => 'No', '1' => 'Yes'], $hco->is_need_state, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('hco_logo_image', 'HCO Logo', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::file('hco_logo_image', ['class' => 'form-control','id' => 'hco_logo_image']) !!}
+                  </div>
+              </div>
+              <img src="{{Storage::disk('s3')->url($hco->hco_logo)}}" class="img-rounded" alt="" width="304" height="236">
+
 
 
                 <!-- Submit Button -->

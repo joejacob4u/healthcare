@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/healthsystem/'.$healthsystem->id.'/hco/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/healthsystem/'.$healthsystem->id.'/hco/add', 'class' => 'form-horizontal','files' => true]) !!}
 
             <fieldset>
 
@@ -40,6 +40,20 @@
                   {!! Form::label('hco_id', 'HCO ID', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::text('hco_id', $value = '', ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('is_need_state', 'Certification of Need State', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('is_need_state',['0' => 'No', '1' => 'Yes'], $value = '', ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('hco_logo_image', 'HCO Logo', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::file('hco_logo_image', ['class' => 'form-control','id' => 'hco_logo_image']) !!}
                   </div>
               </div>
 

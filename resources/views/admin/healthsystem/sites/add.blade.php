@@ -42,7 +42,7 @@
               <div class="form-group">
                   {!! Form::label('address', 'Address', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::textarea('address', $value = '', ['class' => 'form-control']) !!}
+                      {!! Form::textarea('address', $value = '', ['class' => 'form-control','rows' => '3','id' => 'address']) !!}
                   </div>
               </div>
 

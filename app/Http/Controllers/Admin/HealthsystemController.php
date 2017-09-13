@@ -34,6 +34,16 @@ class HealthsystemController extends Controller
         'state' => 'required'
       ]);
 
+      $path = '';
+      
+      if($request->hasFile('healthsystem_logo_image'))
+      {
+        $path = $request->file('healthsystem_logo_image')->store('logo/healthsystem','s3');
+      }
+      
+      $request->request->add(['healthsystem_logo' => $path]);
+      
+
       if(HealthSystem::create($request->all()))
       {
         return redirect('admin/healthsystem')->with('success','New Health System added!');
@@ -57,6 +67,16 @@ class HealthsystemController extends Controller
       ]);
 
       $healthsystem = HealthSystem::find($id);
+
+      $path = '';
+      
+      if($request->hasFile('healthsystem_logo_image'))
+      {
+        $path = $request->file('healthsystem_logo_image')->store('logo/healthsystem','s3');
+      }
+
+      $request->request->add(['healthsystem_logo' => $path]);
+      
 
       if($healthsystem->update($request->all()))
       {

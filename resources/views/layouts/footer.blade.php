@@ -159,3 +159,12 @@ function changePassword()
 }
 
 </script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+<script type="text/javascript">
+    google.maps.event.addDomListener(window, 'load', function () {
+        var places = new google.maps.places.Autocomplete(document.getElementById('address'));
+        google.maps.event.addListener(places, 'place_changed', function () {
+
+        });
+    });
+</script>

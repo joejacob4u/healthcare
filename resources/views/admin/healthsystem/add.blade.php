@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/healthsystem/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/healthsystem/add', 'class' => 'form-horizontal','files' => true]) !!}
 
             <fieldset>
 
@@ -56,6 +56,15 @@
                         {!! Form::select('state', States::whereCountryCode('US')->pluck('name','name'),null,['class' => 'form-control']); !!}
                     </div>
                 </div>
+
+                <div class="form-group">
+                  {!! Form::label('healthsystem_logo_image', 'Health System Logo', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::file('healthsystem_logo_image', ['class' => 'form-control','id' => 'healthsystem_logo_image']) !!}
+                  </div>
+              </div>
+              <img src="{{Storage::disk('s3')->url($hco->hco_logo)}}" class="img-rounded" alt="" width="304" height="236">
+
 
 
 

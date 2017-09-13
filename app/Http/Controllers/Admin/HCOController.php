@@ -29,11 +29,21 @@ class HCOController extends Controller
           'hco_id' => 'required|unique:hco'
         ]);
 
+        $path = '';
+
+        if($request->hasFile('hco_logo_image'))
+        {
+          $path = $request->file('hco_logo_image')->store('logo/hco','s3');
+        }
+        
+        $request->request->add(['hco_logo' => $path]);
+
         $healthsystem = HealthSystem::find($healthsystem_id);
 
         if($healthsystem->HCOs()->create($request->all()))
         {
-            return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO created successfully.');
+
+          return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO created successfully.');
         }
     }
 
@@ -52,6 +62,15 @@ class HCOController extends Controller
         ]);
 
         $healthsystem = HealthSystem::find($healthsystem_id);
+
+        $path = '';
+        
+        if($request->hasFile('hco_logo_image'))
+        {
+          $path = $request->file('hco_logo_image')->store('logo/hco','s3');
+        }
+        
+        $request->request->add(['hco_logo' => $path]);
 
         if($healthsystem->HCOs()->where('id',$id)->update(request()->except(['_token'])))
         {
