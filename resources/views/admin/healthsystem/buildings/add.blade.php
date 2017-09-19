@@ -2,7 +2,7 @@
 
 @section('head')
 @parent
-
+<script src="{{ asset ("bower_components/simple-ajax-uploader/SimpleAjaxUploader.min.js") }}" type="text/javascript"></script>
 @endsection
 @section('page_title','Add a Building')
 @section('page_description','add building here.')
@@ -118,6 +118,14 @@
                   </div>
               </div>
 
+              <div class="form-group">
+                  {!! Form::label('building_pictures', 'Building Pictures', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                  <button type="button" class="btn btn-primary" name="building_images_btn" id="building_images_btn" disabled><span class="glyphicon glyphicon-open"></span> Upload Images</button>
+                  <button type="button" class="btn btn-info" onclick="previewImages()"><span class="glyphicon glyphicon-picture"></span> View Images</button>
+                  </div>
+              </div>
+
 
 
                 <!-- Submit Button -->
@@ -129,14 +137,62 @@
                 </div>
 
             </fieldset>
-
+            {!! Form::hidden('building_img_dir', '', ['class' => 'form-control','id' => 'building_img_dir']) !!}
             {!! Form::close()  !!}
                </div>
       <!-- /.box-body -->
       <div class="box-footer">
 
       </div>
-      <!-- /.box-footer-->
+      <script>
+        var uploader =  new ss.SimpleUpload({
+                            button: 'building_images_btn', // HTML element used as upload button
+                            url: '{{url('admin/sites/buildings/upload/images')}}', // URL of server-side upload handler
+                            name: 'buildingimages',
+                            data: {'site_id' : {{$site->id}}};
+                            multiple: true,
+                            customHeaders: { 'X-CSRF-TOKEN' : '{{ csrf_token() }}' },
+                            onSubmit: function(filename, extension) {
+                            dialog = bootbox.dialog({
+                                    message: '<p class="text-center">Uploading file to server...</p>',
+                                    closeButton: false
+                                });
+                            },
+                            onComplete: function(filename, response) {
+                            dialog.modal('hide');
+                            $('#building_img_dir').val(response);
+                            }
+                        });
+
+            function previewImages()
+            {
+                $.ajax({
+                        type: 'POST',
+                        url: '{{ asset('admin/sites/buildings/images/fetch') }}',
+                        data: { '_token' : '{{ csrf_token() }}','directory' : $('#building_img_dir').val()},
+                        beforeSend:function()
+                        {
+                            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                        },
+                        success:function(data)
+                        {
+                            console.log(data);
+                        },
+                        error:function()
+                        {
+                            // failed request; give feedback to user
+                        },
+                        complete: function(data)
+                        {
+                            $('.overlay').remove();
+                        }
+            });
+        }
+
+
+    </script>
+
+
     </div>
 
 @endsection

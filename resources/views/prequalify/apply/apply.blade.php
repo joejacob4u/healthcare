@@ -33,7 +33,7 @@
                   <div class="form-group">
                     <div class="checkbox">
                       <label>
-                        <input type="checkbox">I have downloaded and read the file
+                        <input type="checkbox" validate="required">I have downloaded and read the file
                       </label>
                     </div>
                   </div>
@@ -68,7 +68,7 @@
               </div>
               <div class="form-group col-xs-8">
                 <button type="button" class="btn btn-primary btn-sm" name="file_{{$file->id}}" id="file_{{$file->id}}"><span class="glyphicon glyphicon-upload"></span>Upload File</button>
-                <input type="hidden" name="file_path_{{$file->id}}" id="file_path_{{$file->id}}" value="">
+                <input type="hidden" name="file_path_{{$file->id}}" id="file_path_{{$file->id}}" value="" @if($file->is_required) validate="required" @endif>
               </div>
               <div class="form-group col-xs-12">
               <label id="file_path_{{$file->id}}_label"></label>
@@ -128,7 +128,7 @@
       </div>
   </div>
   <div class="checkbox col-lg-10">
-      <label><input type="checkbox" id="acknowledgement_statement_acknowledge" value="" @if($acknowledgement->is_required) checked @endif disabled>I acknowledge the above</label>
+      <label><input type="checkbox" id="acknowledgement_statement_acknowledge" value="" @if($acknowledgement->is_required) validate="required" @endif >I acknowledge the above</label>
   </div>
   @endforeach
 </div>
@@ -146,29 +146,58 @@
 
 function submitPrequalify()
 {
-    $.ajax({
-      type: "POST",
-      url: "{{url('contractor/prequalify/apply')}}",
-      data: {'_token' : '{{ csrf_token() }}','healthsystem_id' : '{{$healthsystem_id}}'},
-      beforeSend:function()
-      {
-        $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-      },
-      success:function(data)
-      {
-        window.location = '{{url('contractor/prequalify')}}';
-      },
-      error:function()
-      {
-        // failed request; give feedback to user
-      },
-      complete: function(data)
-      {
-          $('.overlay').remove();
-      }
+    var validate = true;
 
+    $("input").each(function(){ 
+        if($(this).attr('validate') == 'required')
+        {
+          if($(this).attr('type') == 'checkbox')
+          {
+            if(!$(this).is(':checked'))
+            {
+              validate = false;
+              alert("Please check required checkboxes.");
+            }
+          }
+          else
+          {
+            if($(this).val() == '')
+            {
+              validate = false;
+              alert("Please make sure you meet all requirements.");
+            }
+          }
+        }
     });
-}
+
+        if(validate)
+        {
+          $.ajax({
+          type: "POST",
+          url: "{{url('contractor/prequalify/apply')}}",
+          data: {'_token' : '{{ csrf_token() }}','healthsystem_id' : '{{$healthsystem_id}}'},
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            window.location = '{{url('contractor/prequalify')}}';
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          },
+          complete: function(data)
+          {
+              $('.overlay').remove();
+          }
+
+        });
+      }
+    }
+
+    
 
 </script>
 

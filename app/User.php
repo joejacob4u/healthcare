@@ -41,6 +41,11 @@ class User extends Authenticatable
     {
       return $this->belongsToMany('App\Trade','users_trades','user_id','trade_id');
     }
+
+    public function contractor()
+    {
+        return $this->hasOne('App\ProspectUser');
+    }
   
 
     public function isContractorProspect()

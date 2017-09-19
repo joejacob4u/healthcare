@@ -21,7 +21,7 @@ class RedirectIfNotContractors
         {
            $user = User::find(Auth::guard($guard)->user()->id);
            
-           if($user->roles->contains('name','Business Partner'))
+           if($user->is_contractor)
            {
                return $next($request);
            } 

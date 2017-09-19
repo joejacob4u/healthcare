@@ -318,8 +318,42 @@
         var requirements = {};
         var emails = {};
         var welcome_files = {};
+        var validate = true;
 
-        $( "textarea[id^='file_'],input[id^='file_']" ).each(function( index ) {
+        $( "textarea[id^='requirement_'],input[id^='requirement_']" ).each(function( index ) {
+
+          if($(this).val() == '')
+          {
+              validate = false;
+              alert($( this ).attr('name') + " cannot be empty.");
+          }
+
+        });
+
+        $( "input[id^='email_address_']" ).each(function( index ) {
+
+          if($(this).val() == '')
+          {
+              validate = false;
+              alert($( this ).attr('name') + " cannot be empty.");
+          }
+
+        });
+
+
+        $( "input[id^='welcome_file_']" ).each(function( index ) {
+
+          if($(this).val() == '')
+          {
+              validate = false;
+              alert($( this ).attr('name') + " cannot be empty.");
+          }
+
+        });
+
+        if(validate)
+        {
+          $( "textarea[id^='file_'],input[id^='file_']" ).each(function( index ) {
 
           if($( this ).attr('type') == 'checkbox')
           {
@@ -404,6 +438,9 @@
                   $('.overlay').remove();
               }
             });
+        
+        }
+
         }
     </script>
 

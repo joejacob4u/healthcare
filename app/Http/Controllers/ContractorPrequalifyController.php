@@ -53,7 +53,7 @@ class ContractorPrequalifyController extends Controller
     public function apply(Request $request)
     {
         $philanthropy_emails = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','email')->where('action_type','system')->get();
-        $files = Storage::disk('s3')->files('prequalify/user_files/'.Auth::guard('web')->user()->id);
+        $files = Storage::disk('s3')->files('prequalify/user_files/'.Auth::guard('web')->user()->id.'/'.$request->healthsystem_id);
         $welcome_files = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','file')->where('action_type','email')->get();
         $welcome_message = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','textarea')->where('action_type','email')->get();
 
@@ -61,7 +61,7 @@ class ContractorPrequalifyController extends Controller
 
         foreach($philanthropy_emails as $emails)
         {
-            Mail::send('email.philanthropy', ['healthsystem' => $healthsystem->healthcare_system,'user' => Auth::guard('web')->user()->email], function($message) use ($files,$emails) 
+            Mail::send('email.philanthropy', ['healthsystem' => $healthsystem->healthcare_system,'user' => Auth::guard('web')->user()], function($message) use ($files,$emails) 
             {
                 $message->from('donotreply@healthcare365.com', 'HealthCare Compliance 365');
             

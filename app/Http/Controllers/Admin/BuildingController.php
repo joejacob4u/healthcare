@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Regulatory\Site;
 use App\Regulatory\Building;
 use App\Regulatory\Accreditation;
+use Storage;
 
 
 class BuildingController extends Controller
@@ -104,6 +105,18 @@ class BuildingController extends Controller
       {
         return 'true';
       }
+    }
+
+    public function uploadImages(Request $request)
+    {
+      $dir = 'building_images/'.uniqid();
+      $path = $request->file('buildingimages')->store($dir,'s3');
+      return $dir;
+    }
+
+    public function fetchImages(Request $request)
+    {
+        return Storage::disk('s3')->files($request->directory);
     }
 
 
