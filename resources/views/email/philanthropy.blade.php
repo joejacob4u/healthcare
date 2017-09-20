@@ -64,17 +64,17 @@ background-color: #f6f6f6;
 			<div class="content" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; max-width: 600px; display: block; margin: 0 auto; padding: 20px;">
 				<table class="main" width="100%" cellpadding="0" cellspacing="0" itemprop="action" itemscope itemtype="http://schema.org/ConfirmAction" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; border-radius: 3px; background-color: #fff; margin: 0; border: 1px solid #e9e9e9;" bgcolor="#fff"><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-wrap" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 20px;" valign="top">
 							<meta itemprop="name" content="Confirm Email" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;" /><table width="100%" cellpadding="0" cellspacing="0" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-                    <ul>Health System</ul> : <strong>{{$healthsystem}}</strong>
+                    Health System : <strong>{{$healthsystem}}</strong>
 									</td>
 								</tr><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
                 A new pre-qualified Business Partner (Vendor/Contractor) profile has been completed.
                 You are receiving this e-mail as you are listed as someone who is interested in knowing
                 who all of the new potential Business Partners are.  This is a pre-qualification package so
-                this company can submit bids for capital projects that are posted by <strong>{{$healthsystem}}</strong>.
-                The companies name is: <strong>{{$user->contractor->company_owner}}</strong>
-                The point of contact is: <strong>{{$user->address}}</strong>
-                Their E-mail is: <strong>{{$user->email}}</strong>
-                Their phone number is: <strong>{{$user->phone}}</strong>
+                this company can submit bids for capital projects that are posted by <strong>{{$healthsystem}}</strong>.<br><br>
+                The companies name is: <strong>{{$user->contractor->company_owner}}</strong><br>
+                The point of contact is: <strong>{{$user->address}}</strong><br>
+                Their E-mail is: <strong>{{$user->email}}</strong><br>
+                Their phone number is: <strong>{{$user->phone}}</strong><br>
                 
 								</td>
 								</tr><tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" itemprop="handler" itemscope itemtype="http://schema.org/HttpActionHandler" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">

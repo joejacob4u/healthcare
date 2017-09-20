@@ -249,7 +249,7 @@
               '</div>'+
             '</div>'+
             '<div class="box-footer">'+
-              '<button class="btn btn-danger btn-sm" onclick="removeEmail('+email_counter+')"><span class="glyphicon glyphicon-remove"></span>Remove</button>'+
+              '<button type="button" class="btn btn-danger btn-sm" onclick="removeEmail('+email_counter+')"><span class="glyphicon glyphicon-remove"></span>Remove</button>'+
             '</div>'+
             '<input type="hidden" name="email_address_input_type_'+email_counter+'" id="email_address_input_type_'+email_counter+'" value="email" file_number="'+email_counter+'">'+
             '<input type="hidden" name="email_address_action_type_'+email_counter+'" id="email_address_action_type_'+email_counter+'" value="system" file_number="'+email_counter+'">'+
@@ -309,6 +309,11 @@
       function removeWelcomeFile(id)
       {
         $('#welcome_file_box_'+id).remove();
+      }
+
+      function removeEmail(id)
+      {
+        $('#email_box_'+id).remove();
       }
 
 
