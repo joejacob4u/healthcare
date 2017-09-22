@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PrequalifyUser;
+use App\PrequalifyContractor;
 use Auth;
+use App\User;
 
 class SystemProspectsController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('admin');
+        $this->middleware('system_admin');
     }
 
     public function index()
     {
-        $prequalify_users = PrequalifyUser::where('healthsystem_id',Auth::guard('web')->user()->healthSystems->first()->id)->get();
-        return view('prospects.index',['prequalify_users' => $prequalify_users]);
+        $users = User::where('status','pending')->get();
+        $contract_users = PrequalifyContractor::where('healthsystem_id',Auth::guard('web')->user()->healthSystems->first()->id)->where('status','pending')->get();
+        return view('prospects.index',['users' => $users,'contract_users' => $contract_users]);
     }
 
     public function download($user_id)

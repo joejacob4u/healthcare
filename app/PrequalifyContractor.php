@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PrequalifyUser extends Model
+class PrequalifyContractor extends Model
 {
-    protected $table = 'prequalify_users';
+    protected $table = 'prequalify_contractors';
     protected $fillable = ['user_id','healthsystem_id','status'];
 
     public function user()

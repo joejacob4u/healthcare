@@ -21,8 +21,8 @@ Route::get('/welcome', function(){
   return view('welcome');
 });
 
-Route::get('prospects/register','ProspectsController@index');
-Route::post('prospects/register','ProspectsController@create');
+Route::get('prospects/register','RegistrationController@index');
+Route::post('prospects/register','RegistrationController@create');
 
 Route::get('forgot/password','UsersController@forgotView');
 Route::post('forgot/password','UsersController@sendTempPassword');

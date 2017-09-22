@@ -50,21 +50,47 @@ class User extends Authenticatable
 
     public function contractor()
     {
-        return $this->hasOne('App\ProspectUser');
+        return $this->hasOne('App\Contractor');
     }
-  
 
-    public function isContractorProspect()
+    public function prequalifyContractor()
     {
-        if(count($this->roles) == 1 && $this->roles->contains('name','Prospect'))
+        return $this->hasMany('App\PrequalifyContractor');
+    }
+
+
+    public function isContractorProspect($healthsystem_id)
+    {
+        if($this->isContractor)
         {
-            if(count($this->trades) > 0)
+            foreach($this->roles as $role)
             {
-                return true;
+                if($role->pivot->healthsystem_id == $healthsystem_id)
+                {
+                    return true;
+                }
             }
         }
 
         return false;
     }
+
+    public function isNonContractorProspect()
+    {
+        if(!$this->isContractor)
+        {
+            foreach($this->roles as $role)
+            {
+                if($role->pivot->healthsystem_id == $healthsystem_id)
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+
+    }
+  
 
 }

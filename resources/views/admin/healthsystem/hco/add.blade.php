@@ -51,9 +51,9 @@
               </div>
 
               <div class="form-group">
-                  {!! Form::label('hco_logo_image', 'HCO Logo', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('hco_logo', 'HCO Logo', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::file('hco_logo_image', ['class' => 'form-control','id' => 'hco_logo_image']) !!}
+                      {!! Form::file('hco_logo', ['class' => 'form-control','id' => 'hco_logo']) !!}
                   </div>
               </div>
 

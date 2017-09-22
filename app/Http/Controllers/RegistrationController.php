@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\ProspectUser;
+use App\Contractor;
 use App\Trade;
 use App\User;
 use App\Department;
 
-class ProspectsController extends Controller
+class RegistrationController extends Controller
 {
     public function index()
     {
@@ -32,7 +32,7 @@ class ProspectsController extends Controller
         'phone' => $request->phone,
         'address' => $request->address,
         'password' => bcrypt($request->password),
-        'status' => 'active',
+        'status' => 'pending',
         'is_contractor' => (!empty($request->trades)) ? 1 : 0
       ]);
 
@@ -47,10 +47,9 @@ class ProspectsController extends Controller
       }
 
 
-      $user->roles()->attach(12);
 
 
-      if($prospect_user = ProspectUser::create([
+      if($prospect_user = Contractor::create([
         'user_id' => $user->id,
         'title' => $request->title,
         'corporation' => $request->corporation,

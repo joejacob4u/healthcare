@@ -31,9 +31,9 @@ class HCOController extends Controller
 
         $path = '';
 
-        if($request->hasFile('hco_logo_image'))
+        if($request->hasFile('hco_logo'))
         {
-          $path = $request->file('hco_logo_image')->store('logo/hco','s3');
+          $path = $request->file('hco_logo')->store('logo/hco','s3');
         }
         
         $request->request->add(['hco_logo' => $path]);
@@ -65,9 +65,9 @@ class HCOController extends Controller
 
         $path = '';
         
-        if($request->hasFile('hco_logo_image'))
+        if($request->hasFile('hco_logo'))
         {
-          $path = $request->file('hco_logo_image')->store('logo/hco','s3');
+          $path = $request->file('hco_logo')->store('logo/hco','s3');
         }
         
         $request->request->add(['hco_logo' => $path]);

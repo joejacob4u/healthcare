@@ -86,7 +86,8 @@
          </a>
          <ul class="treeview-menu">
            <li><a href="{{url('users')}}"><i class="fa fa-circle-o"></i>Users</a></li>
-           <li><a href="{{url('users/prospects')}}"><i class="fa fa-circle-o"></i>Prospects</a></li>
+           <li><a href="{{url('users/contractor/prospects')}}"><i class="fa fa-circle-o"></i>Contractor Prospects</a></li>
+           
          </ul>
      </li>
      <li class="treeview">
