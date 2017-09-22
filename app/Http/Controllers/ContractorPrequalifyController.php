@@ -61,36 +61,37 @@ class ContractorPrequalifyController extends Controller
 
         foreach($philanthropy_emails as $emails)
         {
-            Mail::send('email.philanthropy', ['healthsystem' => $healthsystem->healthcare_system,'user' => Auth::guard('web')->user()], function($message) use ($files,$emails) 
+            $data = [
+                    'healthsystem' => $healthsystem->healthcare_system,
+                    'user' => Auth::guard('web')->user(),
+                    'files' => $files,
+            ];
+
+            Mail::send('email.philanthropy', $data, function($message) use ($emails) 
             {
                 $message->from('donotreply@healthcare365.com', 'HealthCare Compliance 365');
             
                 $message->to($emails->value);
                 $message->subject('New prequalify application');
-                
-                foreach($files as $file)
-                {
-                    $message->attach(Storage::disk('s3')->url($file));
-                }
-                
+                                
             });
     
         }
 
         $welcome_email_address = Auth::guard('web')->user()->email;
 
-        Mail::send('email.welcome', ['content' => $welcome_message[0]['value']], function($message) use ($welcome_files,$welcome_email_address) 
+        $data = [
+            'content' => $welcome_message[0]['value'],
+            'welcome_files' => $welcome_files
+        ];
+
+        Mail::send('email.welcome',$data, function($message) use ($welcome_email_address) 
         {
             $message->from('donotreply@healthcare365.com', 'HealthCare Compliance 365');
         
             $message->to($welcome_email_address);
             $message->subject('Welcome to HealthCare Compliance 365');
-            
-            foreach($welcome_files as $file)
-            {
-                $message->attach(Storage::disk('s3')->url($file->value));
-            }
-            
+                        
         });
 
         PrequalifyUser::create(['user_id' => Auth::guard('web')->user()->id,'healthsystem_id' => $request->healthsystem_id,'status' => 'pending']);
