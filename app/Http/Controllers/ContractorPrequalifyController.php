@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Regulatory\HealthSystem;
 use App\PrequalifyConfig;
-use App\PrequalifyUser;
+use App\PrequalifyContractor;
 use Illuminate\Http\Request;
 use Storage;
 use Mail;
@@ -20,7 +20,7 @@ class ContractorPrequalifyController extends Controller
     public function index()
     {
         $healthsystems = HealthSystem::get();
-        $applications = PrequalifyUser::where('user_id',Auth::guard('web')->user()->id)->get();
+        $applications = PrequalifyContractor::where('user_id',Auth::guard('web')->user()->id)->get();
         return view('prequalify.apply.index',['healthsystems' => $healthsystems,'applications' => $applications]);
     }
 
@@ -94,7 +94,7 @@ class ContractorPrequalifyController extends Controller
                         
         });
 
-        PrequalifyUser::create(['user_id' => Auth::guard('web')->user()->id,'healthsystem_id' => $request->healthsystem_id,'status' => 'pending']);
+        PrequalifyContractor::create(['user_id' => Auth::guard('web')->user()->id,'healthsystem_id' => $request->healthsystem_id,'status' => 'pending']);
 
         return 'true';
 
