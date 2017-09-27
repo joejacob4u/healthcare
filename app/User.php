@@ -59,37 +59,17 @@ class User extends Authenticatable
     }
 
 
-    public function isContractorProspect($healthsystem_id)
+    public function isContractorProspect()
     {
-        if($this->isContractor)
+        if(count($this->roles) == 1 && $this->roles->contains('name','Prospect'))
         {
-            foreach($this->roles as $role)
+            if(count($this->trades) > 0)
             {
-                if($role->pivot->healthsystem_id == $healthsystem_id)
-                {
-                    return true;
-                }
+                return true;
             }
         }
 
         return false;
-    }
-
-    public function isNonContractorProspect()
-    {
-        if(!$this->isContractor)
-        {
-            foreach($this->roles as $role)
-            {
-                if($role->pivot->healthsystem_id == $healthsystem_id)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-
     }
   
 

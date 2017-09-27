@@ -8,7 +8,7 @@
 @include('layouts.partials.success')
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Prospects</h3>
+        <h3 class="box-title">System Users</h3>
       </div>
       <div class="box-body">
         <table id="example" class="table table-striped">
@@ -31,13 +31,13 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach($prequalify_users as $prequalify_user)
+                    @foreach($users as $user)
                     <tr>
-                        <td>{{$prequalify_user->user->name}}</td>
-                        <td>{{$prequalify_user->user->email}}</td>
-                        <td>{{$prequalify_user->user->phone}}</td>
-                        <td>{!! link_to('users/prospects/details/'.$prequalify_user->id,'Download Files',['class' => 'btn-xs btn-info']) !!}</td>
-                        <td>{{$prequalify_user->status}}</td>
+                        <td>{{$user->name}}</td>
+                        <td>{{$user->email}}</td>
+                        <td>{{$user->phone}}</td>
+                        <td>{!! link_to('users/prospects/details/'.$user->id,'Download Files',['class' => 'btn-xs btn-info','onclick' => 'prospectDetails('.$user->id.')']) !!}</td>
+                        <td>{{$user->status}}</td>
                     </tr>
                     @endforeach
                 </tbody>

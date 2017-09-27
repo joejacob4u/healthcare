@@ -47,6 +47,7 @@ Route::group(['middleware' => ['auth']], function ()
     Route::get('users/prospects', 'SystemProspectsController@index');
     Route::get('users/prospects/details/{user_id}', 'SystemProspectsController@download');
 
+
     Route::get('prequalify', 'PrequalifyController@index');
     Route::post('prequalify/configure', 'PrequalifyController@store');
     Route::get('prequalify/configure', 'PrequalifyController@create');

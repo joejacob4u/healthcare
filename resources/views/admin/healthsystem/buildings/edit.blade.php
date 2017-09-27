@@ -115,7 +115,10 @@
                       {!! Form::file('building_logo_image', ['class' => 'form-control','id' => 'building_logo_image']) !!}
                   </div>
               </div>
-              <img src="{{Storage::disk('s3')->url($hco->buliding_logo)}}" class="img-rounded" alt="" width="304" height="236">
+
+            @if(strlen($building->building_logo) > 0)
+              <img src="{{Storage::disk('s3')->url($building->building_logo)}}" class="img-rounded" alt="" width="304" height="236">
+            @endif
 
 
 
