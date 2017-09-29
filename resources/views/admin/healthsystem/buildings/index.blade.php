@@ -55,10 +55,10 @@
                     <tr>
                       <td>{{$building->building_id}}</td>
                       <td>{{$building->name}}</td>
-                      <td>{{$building->occupancy_type}}</td>
+                      <td>{{strtoupper(implode(' ',explode('_',$building->occupancy_type)))}}</td>
                       <td>{{$building->square_ft}}</td>
                       <td>{{$building->roof_sq_ft}}</td>
-                      <td>{{$building->ownership}}</td>
+                      <td>{{strtoupper(implode(' ',explode('_',$building->ownership)))}}</td>
                       <td>{{$building->sprinkled_pct}}</td>
                       <td>{{$building->beds}}</td>
                       <td>{{$building->unused_space}}</td>

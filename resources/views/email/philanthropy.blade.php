@@ -71,7 +71,7 @@ background-color: #f6f6f6;
                 You are receiving this e-mail as you are listed as someone who is interested in knowing
                 who all of the new potential Business Partners are.  This is a pre-qualification package so
                 this company can submit bids for capital projects that are posted by <strong>{{$healthsystem}}</strong>.<br><br>
-                The companies name is: <strong>{{$user->contractor->company_owner}}</strong><br>
+                The companies name is: <strong>{{$user->contractor->corporation}}</strong><br>
                 The point of contact is: <strong>{{$user->address}}</strong><br>
                 Their E-mail is: <strong>{{$user->email}}</strong><br>
                 Their phone number is: <strong>{{$user->phone}}</strong><br>

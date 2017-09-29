@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Health Card Organizations Sites')
+@section('page_title','Health Care Organizations Sites')
 @section('page_description','Manage HCOs sites here.')
 
 @section('content')

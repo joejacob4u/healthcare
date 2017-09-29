@@ -14,7 +14,7 @@ class StandardLabelController extends Controller
     {
       $standard_labels = StandardLabel::orderBy('label','asc')->get();
       $accreditations = Accreditation::pluck('name','id');
-      $accreditation_requirements = AccreditationRequirement::pluck('name','id');
+      $accreditation_requirements = array_merge(['all' => 'All'],AccreditationRequirement::pluck('name','id'));
       return view('admin.standard-label.index',['standard_labels' => $standard_labels,'accreditation_requirements' => $accreditation_requirements,'accreditation_requirement' => '','accreditations' => $accreditations,'accreditation' => '']);
     }
 

@@ -123,11 +123,11 @@ class BuildingController extends Controller
     public function occupancy_types()
     {
       return [
-        'assembly-a-1' => 'Assembly A-1',
-        'assembly-a-2' => 'Assembly A-2',
-        'assembly-a-3' => 'Assembly A-3',
-        'assembly-a-4' => 'Assembly A-4',
-        'assembly-a-5' => 'Assembly A-5',
+        'assembly_a-1' => 'Assembly A-1',
+        'assembly_a-2' => 'Assembly A-2',
+        'assembly_a-3' => 'Assembly A-3',
+        'assembly_a-4' => 'Assembly A-4',
+        'assembly_a-5' => 'Assembly A-5',
         'business_b' => 'Business B',
         'educational_e' => 'Educational E',
         'factory_f1' => 'Factory F1',
