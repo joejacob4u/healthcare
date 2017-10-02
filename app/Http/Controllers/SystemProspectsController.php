@@ -22,6 +22,13 @@ class SystemProspectsController extends Controller
         return view('prospects.index',['users' => $users,'contract_users' => $contract_users]);
     }
 
+    public function details(Request $request)
+    {
+        $files = Storage::disk('s3')->files('prequalify/user_files/'.$request->user_id.'/'.Auth::guard('web')->user()->healthSystems->first()->id);
+        return $files;
+
+    }
+
     public function download($user_id)
     {
         $public_dir = public_path().'/uploads';
