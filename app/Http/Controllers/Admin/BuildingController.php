@@ -85,6 +85,8 @@ class BuildingController extends Controller
 
         $site = Site::find($site_id);
 
+        $path = '';
+
         if($request->hasFile('building_logo_image'))
         {
           $path = $request->file('building_logo_image')->store('logo/building','s3');
