@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\PrequalifyContractor;
 use Auth;
 use App\User;
+use App\Role;
 
 class SystemProspectsController extends Controller
 {
@@ -20,6 +21,13 @@ class SystemProspectsController extends Controller
         $users = User::where('status','pending')->get();
         $contract_users = PrequalifyContractor::where('healthsystem_id',Auth::guard('web')->user()->healthSystems->first()->id)->where('status','pending')->get();
         return view('prospects.index',['users' => $users,'contract_users' => $contract_users]);
+    }
+
+    public function getRole(Request $request)
+    {
+        $roles = Role::whereNotIn('id',['1','2','3'])->get();
+        $user_roles = User::find($request->user_id)->roles;
+        return response()->json(['roles' => $roles,'user_roles' => $user_roles]);
     }
 
     public function details(Request $request)

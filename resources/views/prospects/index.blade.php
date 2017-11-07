@@ -18,6 +18,7 @@
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Details</th>
+                        <th>Role</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -27,6 +28,7 @@
                       <th>Email</th>
                       <th>Phone</th>
                       <th>Details</th>
+                      <th>Role</th>
                       <th>Status</th>
                     </tr>
                 </tfoot>
@@ -37,6 +39,7 @@
                         <td>{{$user->email}}</td>
                         <td>{{$user->phone}}</td>
                         <td>{!! link_to('users/prospects/details/'.$user->id,'Download Files',['class' => 'btn-xs btn-info','onclick' => 'prospectDetails('.$user->id.')']) !!}</td>
+                        <td>{!! link_to('#','Role',['class' => 'btn-xs btn-primary','onclick' => 'getRole('.$user->id.')']) !!}</td>
                         <td>{{$user->status}}</td>
                     </tr>
                     @endforeach
@@ -95,19 +98,21 @@
     </div>
 
         <!-- Start Modal-->
-    <div id="detailsModal" class="modal fade" role="dialog">
+    <div id="roleModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Accreditation Requirements</h4>
+            <h4 class="modal-title">Assign Role</h4>
           </div>
           <div class="modal-body">
-            <ul></ul>
+            <select class="form-control" id="rolesselect">
+            </select>
           </div>
           <div class="modal-footer">
+            <button type="button" class="btn btn-success">Save</button>
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
           </div>
         </div>
@@ -143,6 +148,42 @@
 
                     // $('#requirementsModal').modal('show');
                     console.log(data);
+                },
+                complete:function()
+                {
+                    $('.overlay').remove();
+                },
+                error:function()
+                {
+                    // failed request; give feedback to user
+                }
+                });
+        }
+
+        function getRole(user_id)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('users/prospects/get-role/') }}',
+                data: { '_token' : '{{ csrf_token() }}', 'user_id': user_id },
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    $('#roleModal select').html('');
+
+                    var html = '';
+
+                    $.each(data.roles, function(index, value) {
+                        html += '<option value="'+value.id+'">'+value.name+'</option>';
+                    });
+
+                    $('#roleModal select').append(html);
+
+                    $('#roleModal').modal('show');
+
                 },
                 complete:function()
                 {
