@@ -59,6 +59,9 @@ Route::group(['middleware' => ['auth']], function ()
     Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@upload');
     Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply');
 
+    Route::get('project/ranking-questions', 'Project\RankingQuestionController@index');
+    Route::post('project/ranking-questions/add', 'Project\RankingQuestionController@create');
+
 });
 
 

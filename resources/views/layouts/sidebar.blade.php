@@ -102,6 +102,19 @@
             <li><a href="{{url('prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
           </ul>
       </li>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Project Intake</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i></span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('prequalify')}}"><i class="fa fa-circle-o"></i>Intake Form</a></li>
+            <li><a href="{{url('project/ranking-questions')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
+          </ul>
+      </li>
   </ul>
   @endif
 @endif
