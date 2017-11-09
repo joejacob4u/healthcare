@@ -21,7 +21,7 @@ class RedirectIfNotSystemAdmin
       {
          $user = User::find(Auth::guard($guard)->user()->id);
 
-         if($user->roles->contains('name','System Admin'))
+         if($user->role->name == 'System Admin')
          {
             return $next($request);
          }

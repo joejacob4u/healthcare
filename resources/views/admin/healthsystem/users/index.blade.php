@@ -24,7 +24,7 @@
                         <th>E-Mail</th>
                         <th>Phone</th>
                         <th>Health System</th>
-                        <th>Edit</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -33,7 +33,7 @@
                       <th>E-Mail</th>
                       <th>Phone</th>
                       <th>Health System</th>
-                      <th>Edit</th>
+                      <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -42,8 +42,8 @@
                         <td>{{$user->name}}</td>
                         <td>{{$user->email}}</td>
                         <td>{{$user->phone}}</td>
-                        <td>{{$user->healthSystems->first()->healthcare_system}}</td>
-                        <td>{!! link_to('admin/healthsystem/users/edit/'.$user->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                        <td>{{$user->healthSystem->healthcare_system}}</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteUser('.$user->id.')']) !!}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -55,5 +55,47 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+        <script>
+
+    function deleteUser(id)
+    {
+        bootbox.confirm("Do you really want to delete?", function(result)
+        {
+          if(result){
+
+            $.ajax({
+              type: 'POST',
+              url: '{{ asset('admin/healthsystem/user/delete') }}',
+              data: { '_token' : '{{ csrf_token() }}', 'id': id },
+              beforeSend:function()
+              {
+                $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+              },
+              success:function(data)
+              {
+                  if(data == 'true')
+                  {
+                    window.location = "{{url('admin/healthsystem/user/delete')}}";
+                  }
+                  else {
+                    bootbox.alert("Something went wrong, try again later");
+                  }
+              },
+              error:function()
+              {
+                // failed request; give feedback to user
+              },
+              complete: function(data)
+              {
+                  $('.overlay').remove();
+              }
+            });
+          }
+        });
+    }
+
+    </script>
+
 
 @endsection

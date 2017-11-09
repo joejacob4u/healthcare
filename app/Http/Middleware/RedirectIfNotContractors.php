@@ -15,17 +15,11 @@ class RedirectIfNotContractors
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = 'web')
+    public function handle($request, Closure $next, $guard = 'contractor')
     {
         if (Auth::guard($guard)->check())
         {
-           $user = User::find(Auth::guard($guard)->user()->id);
-           
-           if($user->is_contractor)
-           {
-               return $next($request);
-           } 
- 
+            return $next($request);
         }
   
         return redirect('/login');

@@ -73,7 +73,7 @@
   @endif
 
 @if(Auth::guard('web')->check())
-  @if(Auth::guard('web')->user()->roles->contains('name','System Admin'))
+  @if(Auth::guard('web')->user()->role->name == 'System Admin')
   <ul class="sidebar-menu">
     <li class="header text-yellow"><strong>SYSTEM ADMIN</strong></li>
     <li class="treeview">
@@ -119,7 +119,7 @@
   @endif
 @endif
 
-@if(Auth::guard('web')->check())
+@if(Auth::guard('contractor')->check())
   @if(Auth::guard('web')->user()->isContractorProspect())
   <ul class="sidebar-menu">
     <li class="header text-yellow"><strong>PROSPECT</strong></li>

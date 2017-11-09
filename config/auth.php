@@ -50,6 +50,11 @@ return [
             'driver' => 'token',
             'provider' => 'users',
         ],
+
+        'contractor' => [
+            'driver' => 'session',
+            'provider' => 'contractors'
+        ]
     ],
 
     /*
@@ -80,10 +85,10 @@ return [
             'model' => App\User::class,
         ],
 
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'contractors' => [
+            'driver' => 'eloquent',
+            'model' => App\Contractor::class,
+        ],
     ],
 
     /*
@@ -113,6 +118,12 @@ return [
             'table' => 'password_resets',
             'expire' => 60,
         ],
+
+        'contractors' => [
+            'provider' => 'contractors',
+            'table' => 'contractor_password_resets',
+            'expire' => 60,
+        ]
     ],
 
 ];

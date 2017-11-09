@@ -63,8 +63,6 @@
                       {!! Form::file('healthsystem_logo_image', ['class' => 'form-control','id' => 'healthsystem_logo_image']) !!}
                   </div>
               </div>
-              <img src="{{Storage::disk('s3')->url($hco->hco_logo)}}" class="img-rounded" alt="" width="304" height="236">
-
 
 
 

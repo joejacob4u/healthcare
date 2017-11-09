@@ -21,7 +21,7 @@ class UsersController extends Controller
 
     public function index()
     {
-      $users = HealthSystem::find(Auth::guard('web')->user()->healthSystems->first()->id)->users;
+      $users = HealthSystem::find(Auth::guard('web')->user()->healthsystem_id)->users;
       return view('users.index',['users' => $users]);
     }
 
@@ -44,11 +44,11 @@ class UsersController extends Controller
         $password = str_random(8);
 
         $request->request->add(['password' => Hash::make($password)]);
-        $request->request->add(['healthsystem_id' => Auth::guard('web')->user()->healthSystems->first()->id]);
+        $request->request->add(['healthsystem_id' => Auth::guard('web')->user()->healthsystem_id]);
 
         if($user = User::create($request->all()))
         {
-          $user->roles()->attach($request->role_id,['healthsystem_id' => Auth::guard('web')->user()->healthSystems->first()->id]);
+          $user->roles()->attach($request->role_id,['healthsystem_id' => Auth::guard('web')->user()->healthsystem_id]);
 
           Mail::send('email.systemadmin.welcome', ['user' => $user,'password' => $password], function ($m) use ($user) {
             $m->from('hello@healthcare360.com', 'HealthCare360');
@@ -80,7 +80,7 @@ class UsersController extends Controller
 
       if($user->update($request->all()))
       {
-        $user->roles()->syncWithoutDetaching([$request->role_id => ['healthsystem_id' => Auth::guard('web')->user()->healthSystems->first()->id] ]);
+        $user->roles()->syncWithoutDetaching([$request->role_id => ['healthsystem_id' => Auth::guard('web')->user()->healthsystem_id] ]);
         return redirect('users/')->with('success','User has been updated!');
       }
 
