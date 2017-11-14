@@ -22,7 +22,7 @@ class RevertRoleRelationship extends Migration
         Schema::table('contractors', function (Blueprint $table) {
             $table->dropColumn('user_id');
             $table->string('name')->after('id');
-            $table->string('email')->after('name')->unique();
+            $table->string('email')->after('name');
             $table->string('phone')->after('email');
             $table->text('address')->after('phone');
             $table->string('password')->after('address');
