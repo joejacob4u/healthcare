@@ -48,6 +48,10 @@ class RevertRoleRelationship extends Migration
             $table->boolean('is_active')->default(0);
         });
 
+        Schema::dropIfExists('users_trade');
+        Schema::dropIfExists('users_healthsystem');
+        Schema::dropIfExists('users_role');
+
     }
 
     /**
