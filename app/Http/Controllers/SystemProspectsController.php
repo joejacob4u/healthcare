@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\PrequalifyContractor;
 use Auth;
 use App\User;
 use App\Role;
+use App\Contractor;
 
 class SystemProspectsController extends Controller
 {
@@ -18,21 +18,31 @@ class SystemProspectsController extends Controller
 
     public function index()
     {
-        $users = User::where('status','pending')->get();
-        $contract_users = PrequalifyContractor::where('healthsystem_id',Auth::guard('web')->user()->healthSystems->first()->id)->where('status','pending')->get();
+        $users = User::where('healthsystem_id',0)->where('role_id',12)->get();
+        $contract_users = Contractor::whereHas('healthSystems', function ($query) { $query->where('healthsystem_id',Auth::guard('web')->user()->healthsystem_id)->where('role_id',12); })->get();
         return view('prospects.index',['users' => $users,'contract_users' => $contract_users]);
     }
 
-    public function getRole(Request $request)
+    public function getUserRole(Request $request)
     {
         $roles = Role::whereNotIn('id',['1','2','3'])->get();
-        $user_roles = User::find($request->user_id)->roles;
-        return response()->json(['roles' => $roles,'user_roles' => $user_roles]);
+        $user = User::find($request->user_id);
+        return response()->json(['roles' => $roles,'user_role' => $user->role_id]);
+    }
+
+    public function setUserRole(Request $request)
+    {
+        $user = User::find($request->user_id);
+
+        if($user->update(['role_id' => $request->role_id]))
+        {
+            return response()->json(['status' => 'success','role' => $user->role->name]);
+        }
     }
 
     public function details(Request $request)
     {
-        $files = Storage::disk('s3')->files('prequalify/user_files/'.$request->user_id.'/'.Auth::guard('web')->user()->healthSystems->first()->id);
+        $files = Storage::disk('s3')->files('prequalify/user_files/'.$request->user_id.'/'.Auth::guard('web')->user()->healthsystem_id);
         return $files;
 
     }

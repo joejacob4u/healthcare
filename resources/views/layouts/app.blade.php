@@ -8,7 +8,11 @@
   <!-- Header -->
   @include('layouts.header')
 
+  @if(Auth::check() or Auth::guard('contractor')->check())
+
   @include('layouts.sidebar')
+
+  @endif
 
 
   <!-- Content Wrapper. Contains page content -->

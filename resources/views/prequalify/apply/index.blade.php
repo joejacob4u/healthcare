@@ -21,28 +21,23 @@
                 <thead>
                     <tr>
                         <th>Health System</th>
-                        <th>State</th>
+                        <th>Role</th>
                         <th>Status</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                       <th>Health System</th>
-                      <th>State</th>
-                      <th>Apply</th>
+                      <th>Role</th>
+                      <th>Status</th>
                 </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($applications as $application)
+                  @foreach($contractor->healthSystems as $application)
                     <tr>
-                      <td>{{$application->healthSystem->healthcare_system}}</td>
-                      <td>{{$application->healthSystem->state}}</td>
-                      @if($application->status == 'pending')
-                        <td><span class="label label-warning">pending</span></td>
-                      @endif
-                      @if($application->status == 'approved')
-                        <td><span class="label label-success">approved</span></td>
-                      @endif
+                      <td>{{$application->healthcare_system}}</td>
+                      <td>{{App\Role::find($application->pivot->role_id)->name}}</td>
+                      <td>@if($application->pivot->is_active == 1) Active @else Pending @endif</td>
                     </tr>
                   @endforeach
                 </tbody>

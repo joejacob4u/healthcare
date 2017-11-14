@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Regulatory\HealthSystem;
 use App\PrequalifyConfig;
-use App\PrequalifyContractor;
+use App\Contractor;
 use Illuminate\Http\Request;
 use Storage;
 use Mail;
@@ -20,8 +20,13 @@ class ContractorPrequalifyController extends Controller
     public function index()
     {
         $healthsystems = HealthSystem::get();
-        $applications = PrequalifyContractor::where('user_id',Auth::guard('web')->user()->id)->get();
-        return view('prequalify.apply.index',['healthsystems' => $healthsystems,'applications' => $applications]);
+        $contractor = Contractor::find(Auth::guard('contractor')->user()->id);
+        
+        // $applications = Contractor::whereHas('healthSystems',function($query){ $query
+        //     ->where('contractor_id',Auth::guard('contractor')->user()->id);
+        // })->get();
+            
+        return view('prequalify.apply.index',['healthsystems' => $healthsystems,'contractor' => $contractor]);
     }
 
     public function create($id)
@@ -46,14 +51,14 @@ class ContractorPrequalifyController extends Controller
 
     public function upload(Request $request)
     {
-        $path = $request->file('uploadfile')->store('prequalify/user_files/'.Auth::guard('web')->user()->id.'/'.$request->healthsystem_id,'s3');
+        $path = $request->file('uploadfile')->store('prequalify/user_files/'.Auth::guard('contractor')->user()->id.'/'.$request->healthsystem_id,'s3');
         return $path;
     }
 
     public function apply(Request $request)
     {
         $philanthropy_emails = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','email')->where('action_type','system')->get();
-        $files = Storage::disk('s3')->files('prequalify/user_files/'.Auth::guard('web')->user()->id.'/'.$request->healthsystem_id);
+        $files = Storage::disk('s3')->files('prequalify/user_files/'.Auth::guard('contractor')->user()->id.'/'.$request->healthsystem_id);
         $welcome_files = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','file')->where('action_type','email')->get();
         $welcome_message = PrequalifyConfig::where('healthsystem_id',$request->healthsystem_id)->where('input_type','textarea')->where('action_type','email')->get();
 
@@ -63,7 +68,7 @@ class ContractorPrequalifyController extends Controller
         {
             $data = [
                     'healthsystem' => $healthsystem->healthcare_system,
-                    'user' => Auth::guard('web')->user(),
+                    'user' => Auth::guard('contractor')->user(),
                     'files' => $files,
             ];
 
@@ -78,7 +83,7 @@ class ContractorPrequalifyController extends Controller
     
         }
 
-        $welcome_email_address = Auth::guard('web')->user()->email;
+        $welcome_email_address = Auth::guard('contractor')->user()->email;
 
         $data = [
             'content' => $welcome_message[0]['value'],
@@ -94,9 +99,15 @@ class ContractorPrequalifyController extends Controller
                         
         });
 
-        PrequalifyContractor::create(['user_id' => Auth::guard('web')->user()->id,'healthsystem_id' => $request->healthsystem_id,'status' => 'pending']);
+        $contractor = Contractor::find(Auth::guard('contractor')->user()->id);
 
-        return 'true';
+        if($contractor->healthSystems()->syncWithoutDetaching([$request->healthsystem_id => ['is_active' => 0]]))
+        {
+            return 'true';
+        }
+
+
+        
 
 
     }

@@ -6,7 +6,7 @@
       <img src="/images/contact-icon.png" class="img-circle" alt="User Image">
     </div>
     <div class="pull-left info">
-      <p>@if(Auth::guard('admin')->check()) {{Auth::guard('admin')->user()->name}} @else {{Auth::guard('web')->user()->name}} @endif</p>
+      <p>@if(Auth::guard('admin')->check()) {{Auth::guard('admin')->user()->name}} @elseif(Auth::guard('web')->check()) {{Auth::guard('web')->user()->name}} @else {{Auth::guard('contractor')->user()->name}}  @endif</p>
       <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
     </div>
   </div>
@@ -120,7 +120,6 @@
 @endif
 
 @if(Auth::guard('contractor')->check())
-  @if(Auth::guard('web')->user()->isContractorProspect())
   <ul class="sidebar-menu">
     <li class="header text-yellow"><strong>PROSPECT</strong></li>
     <li class="treeview">
@@ -136,8 +135,6 @@
          </ul>
      </li>
   </ul>
-
-  @endif
 @endif
 </section>
 </aside>

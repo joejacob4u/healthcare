@@ -14,8 +14,8 @@ class RevertRoleRelationship extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('role_id')->after('remember_token');
-            $table->integer('healthsystem_id')->after('role_id');
+            $table->integer('role_id')->after('remember_token')->default(0);
+            $table->integer('healthsystem_id')->after('role_id')->default(0);
             $table->dropColumn('is_contractor');
         });
 
@@ -26,7 +26,8 @@ class RevertRoleRelationship extends Migration
             $table->string('phone')->after('email');
             $table->text('address')->after('phone');
             $table->string('password')->after('address');
-            $table->rememberToken()->after('password');
+            $table->rememberToken()->after('contract_license_number');
+            $table->dropColumn('status');
         });
 
         Schema::create('contractor_password_resets', function (Blueprint $table) {
@@ -44,6 +45,7 @@ class RevertRoleRelationship extends Migration
         Schema::create('contractor_healthsystem',function (Blueprint $table) {
             $table->integer('contractor_id');
             $table->integer('healthsystem_id');
+            $table->boolean('is_active')->default(0);
         });
 
     }

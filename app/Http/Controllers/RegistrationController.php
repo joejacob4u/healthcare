@@ -19,61 +19,87 @@ class RegistrationController extends Controller
 
     public function create(Request $request)
     {
-      $this->validate($request, [
+
+      if($request->is_contractor == 1)
+      {
+        
+        $this->validate($request, [
+          'name' => 'required|max:255',
+          'email' => 'required|email|max:255|unique:contractors',
+          'password' => 'required|min:6|confirmed',
+          'phone' => 'required',
+          'title' => 'required',
+          'corporation' => 'required',
+          'partnership' => 'required',
+          'company_owner' => 'required',
+          'sole_prop' => 'required',
+        ]);
+
+        if($contractor = Contractor::create([
+          'name' => $request->name,
+          'email' => $request->email,
+          'phone' => $request->phone,
+          'address' => $request->address,
+          'password' => bcrypt($request->password),
+          'title' => $request->title,
+          'corporation' => $request->corporation,
+          'partnership' => $request->partnership,
+          'company_owner' => $request->company_owner,
+          'sole_prop' => $request->sole_prop,
+          'contract_license_number' => $request->contract_license_number,
+        ]))
+        {
+          if(!empty($request->trades))
+          {
+            foreach($request->trades as $trade)
+            {
+              $aTrades[] = Trade::find($trade);
+            }
+  
+            $contractor->trades()->saveMany($aTrades);
+  
+          }
+          
+          return back()->with('success','User added!');
+        }
+      }
+      else{
+
+        $this->validate($request, [
           'name' => 'required|max:255',
           'email' => 'required|email|max:255|unique:users',
           'password' => 'required|min:6|confirmed',
           'phone' => 'required'
-      ]);
+        ]);
 
-      $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'phone' => $request->phone,
-        'address' => $request->address,
-        'password' => bcrypt($request->password),
-        'status' => 'pending',
-        'is_contractor' => (!empty($request->trades)) ? 1 : 0
-      ]);
-
-      if(!empty($request->departments))
-      {
-        foreach($request->departments as $department)
+        $user = User::create([
+          'name' => $request->name,
+          'email' => $request->email,
+          'phone' => $request->phone,
+          'address' => $request->address,
+          'password' => bcrypt($request->password),
+          'status' => 'pending',
+        ]);
+  
+        if(!empty($request->departments))
         {
-          $aDepartments[] = Department::find($department);
-        }
-
-        $user->departments()->saveMany($aDepartments);
-      }
-
-
-
-
-      if($prospect_user = Contractor::create([
-        'user_id' => $user->id,
-        'title' => $request->title,
-        'corporation' => $request->corporation,
-        'partnership' => $request->partnership,
-        'company_owner' => $request->company_owner,
-        'sole_prop' => $request->sole_prop,
-        'contract_license_number' => $request->contract_license_number,
-        'status' => 'available'
-      ]))
-      {
-        if(!empty($request->trades))
-        {
-          foreach($request->trades as $trade)
+          foreach($request->departments as $department)
           {
-            $aTrades[] = Trade::find($trade);
+            $aDepartments[] = Department::find($department);
           }
-
-          $user->trades()->saveMany($aTrades);
-          $user->is_contractor = 1;
-
+  
+          $user->departments()->saveMany($aDepartments);
         }
-        
-        return back()->with('success','User added!');
+  
+
       }
-    }
+  
+
+      }
+
+
+
+
+
 
 }

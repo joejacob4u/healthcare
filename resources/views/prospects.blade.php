@@ -204,7 +204,7 @@
 
                             <div class="col-md-6">
                                 <div class="checkbox">
-                                  <label><input type="checkbox" id="checkbox" value="">Yes</label>
+                                  <label><input type="checkbox" id="is_contractor" name="is_contractor" value="1">Yes</label>
                                 </div>
                             </div>
                         </div>
@@ -313,7 +313,7 @@
           </html>
 
           <script>
-            $("#checkbox").click(function(){
+            $("#is_contractor").click(function(){
               if (this.checked) {
                 $("#optional").show();
                 $("#departments").prop('disabled',true)

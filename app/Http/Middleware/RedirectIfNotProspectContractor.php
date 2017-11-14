@@ -4,8 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
-use Trade;
-use App\User;
 
 class RedirectIfNotProspectContractor
 {
@@ -16,22 +14,11 @@ class RedirectIfNotProspectContractor
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = 'web')
+    public function handle($request, Closure $next, $guard = 'contractor')
     {
         if (Auth::guard($guard)->check())
         {
-           $user = User::find(Auth::guard($guard)->user()->id);
-           
-           if($user->roles->contains('name','Business Partner'))
-           {
-               return $next($request);
-           } 
-
-           if($user->isContractorProspect())
-           {
-               return $next($request);
-           } 
- 
+            return $next($request); 
         }
   
         return redirect('/login');

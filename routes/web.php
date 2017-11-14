@@ -27,6 +27,18 @@ Route::post('prospects/register','RegistrationController@create');
 Route::get('forgot/password','UsersController@forgotView');
 Route::post('forgot/password','UsersController@sendTempPassword');
 
+Route::get('contractors/login','ContractorAuthController@login');
+Route::post('contractors/login','ContractorAuthController@authenticate');
+
+Route::get('contractor/prequalify', 'ContractorPrequalifyController@index');
+Route::get('contractor/prequalify/apply/{id}', 'ContractorPrequalifyController@create');
+Route::get('contractor/prequalify/download/{id}', 'ContractorPrequalifyController@download');
+Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@upload');
+Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply');
+
+
+
+
 
 /***************************Admin Route groups*******************************/
 
@@ -46,7 +58,8 @@ Route::group(['middleware' => ['auth']], function ()
 
     Route::get('users/prospects', 'SystemProspectsController@index');
     Route::get('users/prospects/details', 'SystemProspectsController@details');
-    Route::post('users/prospects/get-role', 'SystemProspectsController@getRole');
+    Route::post('users/prospects/get-role', 'SystemProspectsController@getUserRole');
+    Route::post('users/prospects/save-role', 'SystemProspectsController@setUserRole');
 
 
     Route::get('prequalify', 'PrequalifyController@index');
@@ -54,11 +67,6 @@ Route::group(['middleware' => ['auth']], function ()
     Route::get('prequalify/configure', 'PrequalifyController@create');
     Route::post('prequalify/upload', 'PrequalifyController@upload');
 
-    Route::get('contractor/prequalify', 'ContractorPrequalifyController@index');
-    Route::get('contractor/prequalify/apply/{id}', 'ContractorPrequalifyController@create');
-    Route::get('contractor/prequalify/download/{id}', 'ContractorPrequalifyController@download');
-    Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@upload');
-    Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply');
 
     Route::get('project/ranking-questions', 'Project\RankingQuestionController@index');
     Route::post('project/ranking-questions/add', 'Project\RankingQuestionController@create');

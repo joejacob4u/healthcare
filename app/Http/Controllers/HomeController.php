@@ -29,7 +29,15 @@ class HomeController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        $guards = array_keys(config('auth.guards'));
+        
+        foreach ($guards as $guard) {
+          if(Auth::guard($guard)->check())
+          {
+            Auth::guard($guard)->logout();
+          }
+          
+        }
         return redirect('/login');
     }
 }

@@ -34,7 +34,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
-    <p class="login-box-msg">Sign in to start your session</p>
+    <p class="login-box-msg"><strong>System User Login</strong></p>
 
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/login') }}">
         {{ csrf_field() }}
@@ -88,7 +88,8 @@
 
 
     <a href="{{ url('forgot/password') }}">I forgot my password</a><br>
-    <a href="{{ url('prospects/register') }}" class="text-center">New Prospect? Join here.</a>
+    <a href="{{ url('prospects/register') }}" class="text-center">New Prospect? Join here.</a><br>
+    <a href="{{ url('contractors/login') }}" class="text-center">Contractor? Login here</a>
 
   </div>
   <!-- /.login-box-body -->
