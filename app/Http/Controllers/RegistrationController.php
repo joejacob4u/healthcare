@@ -57,7 +57,7 @@ class RegistrationController extends Controller
   
           }
           
-          return back()->with('success','User added!');
+          return redirect('/login')->with('success','Account created successfully, you may now login below.');
         }
       }
       else{
@@ -69,24 +69,28 @@ class RegistrationController extends Controller
           'phone' => 'required'
         ]);
 
-        $user = User::create([
+        if($user = User::create([
           'name' => $request->name,
           'email' => $request->email,
           'phone' => $request->phone,
           'address' => $request->address,
           'password' => bcrypt($request->password),
           'status' => 'pending',
-        ]);
-  
-        if(!empty($request->departments))
+        ]))
         {
-          foreach($request->departments as $department)
+          if(!empty($request->departments))
           {
-            $aDepartments[] = Department::find($department);
+            foreach($request->departments as $department)
+            {
+              $aDepartments[] = Department::find($department);
+            }
+    
+            $user->departments()->saveMany($aDepartments);
           }
-  
-          $user->departments()->saveMany($aDepartments);
+
+          return redirect('/login')->with('success','Account created successfully, you may now login below.');
         }
+  
   
 
       }
