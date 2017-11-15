@@ -19,7 +19,7 @@ class SystemProspectsController extends Controller
     public function index()
     {
         $users = User::where('healthsystem_id',0)->where('role_id',12)->get();
-        $contract_users = Contractor::whereHas('healthSystems', function ($query) { $query->where('healthsystem_id',Auth::guard('web')->user()->healthsystem_id)->where('role_id',12); })->get();
+        $contract_users = Contractor::whereHas('healthSystems', function ($query) { $query->where('healthsystem_id',Auth::guard('web')->user()->healthsystem_id); })->get();
         return view('prospects.index',['users' => $users,'contract_users' => $contract_users]);
     }
 

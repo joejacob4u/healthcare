@@ -18,6 +18,6 @@ class Contractor extends Authenticatable
   public function healthSystems()
   {
     return $this->belongsToMany('App\Regulatory\HealthSystem','contractor_healthsystem','contractor_id','healthsystem_id')
-                ->withPivot('role_id', 'is_active');;
+                ->withPivot('is_active');;
   }
 }

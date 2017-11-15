@@ -12,8 +12,8 @@ class RegistrationController extends Controller
 {
     public function index()
     {
-      $trades = Trade::pluck('name','id');
-      $departments = Department::pluck('name','id');
+      $trades = Trade::orderBy('name', 'ASC')->pluck('name','id');
+      $departments = Department::orderBy('name', 'ASC')->pluck('name','id');
       return view('prospects')->with('trades',$trades)->with('departments',$departments);
     }
 
@@ -30,9 +30,6 @@ class RegistrationController extends Controller
           'phone' => 'required',
           'title' => 'required',
           'corporation' => 'required',
-          'partnership' => 'required',
-          'company_owner' => 'required',
-          'sole_prop' => 'required',
         ]);
 
         if($contractor = Contractor::create([
