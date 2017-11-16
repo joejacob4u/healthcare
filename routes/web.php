@@ -36,6 +36,11 @@ Route::get('contractor/prequalify/download/{id}', 'ContractorPrequalifyControlle
 Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@upload');
 Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply');
 
+Route::get('project/ranking-questions', 'Project\RankingQuestionController@index');
+Route::post('project/ranking-questions/add', 'Project\RankingQuestionController@create');
+Route::post('project/ranking-questions/edit', 'Project\RankingQuestionController@save');
+
+
 
 
 
@@ -66,10 +71,6 @@ Route::group(['middleware' => ['auth']], function ()
     Route::post('prequalify/configure', 'PrequalifyController@store');
     Route::get('prequalify/configure', 'PrequalifyController@create');
     Route::post('prequalify/upload', 'PrequalifyController@upload');
-
-
-    Route::get('project/ranking-questions', 'Project\RankingQuestionController@index');
-    Route::post('project/ranking-questions/add', 'Project\RankingQuestionController@create');
 
 });
 

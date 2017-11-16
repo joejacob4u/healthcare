@@ -8,7 +8,7 @@
   <!-- Header -->
   @include('layouts.header')
 
-  @if(Auth::check() or Auth::guard('contractor')->check())
+  @if(Auth::guard('admin')->check() or Auth::guard('contractor')->check() or Auth::guard('system_user')->check())
 
   @include('layouts.sidebar')
 

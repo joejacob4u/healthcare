@@ -56,10 +56,10 @@
                 </tfoot>
                 <tbody>
                   @foreach($questions as $question)
-                    <tr>
-                        <td>{{$question->question}}</td>
+                    <tr id="tr-{{$question->id}}">
+                        <td class="question">{{$question->question}}</td>
                         <td>{!! link_to('project/ranking-questions/'.$question->id.'/answers','Answers',['class' => 'btn-xs btn-primary']) !!}</td>
-                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning','onclick' => 'editQuestionModal('.$question->id.')']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger']) !!}</td>
                     </tr>
                   @endforeach
@@ -96,6 +96,35 @@
 
     <!-- End Modal-->
 
+        <!-- Question Modal-->
+    <div id="questionModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Edit Question</h4>
+          </div>
+          <div class="modal-body">
+            <label class="control-label col-sm-2" for="question">Question:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="question" name="question" placeholder="Edit question">
+              <input type="hidden"  name="question_id" id="question_id" value="">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" onclick="editQuestion()">Edit</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- End question Modal-->
+
+
     <script>
       function showAccreditationRequirements(id)
       {
@@ -130,6 +159,43 @@
             // failed request; give feedback to user
           }
         });
+      }
+
+      function editQuestionModal(id)
+      {
+        $('#questionModal #question_id').val(id);
+        $('#questionModal').modal('show');
+          
+      }
+
+      function editQuestion()
+      {
+        var question = $('#questionModal #question').val();
+        var question_id = $('#questionModal #question_id').val();
+
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('project/ranking-questions/edit') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'id': question_id, 'question' => question },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+              $('#questionModal').modal('hide');
+              $('#tr-'+data.id+' .question').html(data.question);
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+
       }
     </script>
 

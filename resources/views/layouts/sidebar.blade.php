@@ -6,7 +6,7 @@
       <img src="/images/contact-icon.png" class="img-circle" alt="User Image">
     </div>
     <div class="pull-left info">
-      <p>@if(Auth::guard('admin')->check()) {{Auth::guard('admin')->user()->name}} @elseif(Auth::guard('web')->check()) {{Auth::guard('web')->user()->name}} @else {{Auth::guard('contractor')->user()->name}}  @endif</p>
+      <p>@if(Auth::guard('admin')->check()) {{Auth::guard('admin')->user()->name}} @elseif(Auth::guard('system_user')->check()) {{Auth::guard('system_user')->user()->name}} @else {{Auth::guard('contractor')->user()->name}}  @endif</p>
       <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
     </div>
   </div>
@@ -72,8 +72,8 @@
     </ul>
   @endif
 
-@if(Auth::guard('web')->check())
-  @if(Auth::guard('web')->user()->role->name == 'System Admin')
+@if(Auth::guard('system_user')->check())
+  @if(Auth::guard('system_user')->user()->role->name == 'System Admin')
   <ul class="sidebar-menu">
     <li class="header text-yellow"><strong>SYSTEM ADMIN</strong></li>
     <li class="treeview">

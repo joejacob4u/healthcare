@@ -54,7 +54,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapAdminRoutes()
     {
         Route::group([
-            'middleware' => ['web','master'],
+            'middleware' => ['system_user','master'],
             'prefix' => 'admin',
             'as' => 'admin.',
             'namespace' => $this->namespace.'\Admin',
@@ -81,7 +81,7 @@ class RouteServiceProvider extends ServiceProvider
     protected function mapWebRoutes()
     {
         Route::group([
-            'middleware' => 'web',
+            'middleware' => 'system_user',
             'namespace' => $this->namespace,
         ], function ($router) {
             require base_path('routes/web.php');

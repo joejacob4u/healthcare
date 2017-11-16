@@ -19,7 +19,7 @@ class PrequalifyController extends Controller
 
     public function index()
     {
-        $prequalify_configs = HealthSystem::find(Auth::guard('web')->user()->healthSystems->first()->id)->prequalifyConfigs;
+        $prequalify_configs = HealthSystem::find(Auth::guard('system_user')->user()->healthSystems->first()->id)->prequalifyConfigs;
         return view('prequalify.index',['prequalify_configs' => $prequalify_configs]);
     }
 
@@ -35,12 +35,12 @@ class PrequalifyController extends Controller
         $emails = json_decode($_REQUEST['emails']);
         $welcome_files = json_decode($_REQUEST['welcome_files']);
 
-        PrequalifyConfig::where('healthsystem_id',Auth::guard('web')->user()->healthSystems->first()->id)->delete();
+        PrequalifyConfig::where('healthsystem_id',Auth::guard('system_user')->user()->healthSystems->first()->id)->delete();
 
 
         foreach($files as $key => $file)
         {
-            $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('web')->user()->healthSystems->first()->id;
+            $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('system_user')->user()->healthSystems->first()->id;
             (strpos($key, 'input_type') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['input_type'] = $file : '';
             (strpos($key, 'action_type') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['action_type'] = $file : '';
             (strpos($key, 'file_path') !== false) ? $aFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['value'] =  $file : '';
@@ -55,7 +55,7 @@ class PrequalifyController extends Controller
 
         foreach($welcome_files as $key => $file)
         {
-            $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('web')->user()->healthSystems->first()->id;
+            $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('system_user')->user()->healthSystems->first()->id;
             (strpos($key, 'input_type') !== false) ? $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['input_type'] = $file : '';
             (strpos($key, 'action_type') !== false) ? $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['action_type'] = $file : '';
             (strpos($key, 'file_path') !== false) ? $aWelcomeFiles[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['value'] =  $file : '';
@@ -71,7 +71,7 @@ class PrequalifyController extends Controller
 
         foreach($requirements as $key => $requirement)
         {
-            $aRequirements[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('web')->user()->healthSystems->first()->id;
+            $aRequirements[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('system_user')->user()->healthSystems->first()->id;
             (strpos($key, 'input_type') !== false) ? $aRequirements[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['input_type'] = $requirement : '';
             (strpos($key, 'action_type') !== false) ? $aRequirements[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['action_type'] = $requirement : '';
             (strpos($key, 'requirement_path') !== false) ? $aRequirements[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['value'] =  $requirement : '';
@@ -86,7 +86,7 @@ class PrequalifyController extends Controller
 
         foreach($emails as $key => $email)
         {
-            $aEmails[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('web')->user()->healthSystems->first()->id;
+            $aEmails[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['healthsystem_id'] = Auth::guard('system_user')->user()->healthSystems->first()->id;
             (strpos($key, 'input_type') !== false) ? $aEmails[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['input_type'] = $email : '';
             (strpos($key, 'action_type') !== false) ? $aEmails[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['action_type'] = $email : '';
             (strpos($key, 'email_address_value_') !== false) ? $aEmails[filter_var($key, FILTER_SANITIZE_NUMBER_INT)]['value'] =  $email : '';
@@ -101,7 +101,7 @@ class PrequalifyController extends Controller
 
 
         $aAcknowledgement = [
-            'healthsystem_id' => Auth::guard('web')->user()->healthSystems->first()->id,
+            'healthsystem_id' => Auth::guard('system_user')->user()->healthSystems->first()->id,
             'input_type' => 'textarea',
             'action_type' => 'output',
             'value' => $request->acknowledgement_statement,
@@ -113,7 +113,7 @@ class PrequalifyController extends Controller
         PrequalifyConfig::create($aAcknowledgement);
 
         $aWelcomeMessage = [
-            'healthsystem_id' => Auth::guard('web')->user()->healthSystems->first()->id,
+            'healthsystem_id' => Auth::guard('system_user')->user()->healthSystems->first()->id,
             'input_type' => 'textarea',
             'action_type' => 'email',
             'value' => $request->welcome_message,

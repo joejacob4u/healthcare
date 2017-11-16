@@ -31,4 +31,23 @@ class RankingQuestionController extends Controller
             return back()->with('success','Question Added!');
         }
     }
+
+    public function save(Request $request)
+    {
+        $this->validate($request,[
+            'question' => 'required'
+        ]);
+
+        $question = RankingQuestion::find($request->question_id);
+
+        if($question->update(['question' => $request->question]))
+        {
+            return response()->json([
+                'question' => $request->question,
+                'id' => $request->question_id
+            ]);
+        }
+
+
+    }
 }

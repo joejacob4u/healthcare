@@ -21,7 +21,7 @@ class UsersController extends Controller
 
     public function index()
     {
-      $users = HealthSystem::find(Auth::guard('web')->user()->healthsystem_id)->users;
+      $users = HealthSystem::find(Auth::guard('system_user')->user()->healthsystem_id)->users;
       return view('users.index',['users' => $users]);
     }
 
@@ -44,7 +44,7 @@ class UsersController extends Controller
         $password = str_random(8);
 
         $request->request->add(['password' => Hash::make($password)]);
-        $request->request->add(['healthsystem_id' => Auth::guard('web')->user()->healthsystem_id]);
+        $request->request->add(['healthsystem_id' => Auth::guard('system_user')->user()->healthsystem_id]);
 
         if($user = User::create($request->all()))
         {
@@ -120,14 +120,14 @@ class UsersController extends Controller
 
     public function temporaryCheck()
     {
-      return Auth::guard('web')->user()->forgot_password;
+      return Auth::guard('system_user')->user()->forgot_password;
     }
 
     public function temporaryChange(Request $request)
     {
 
-        if (Hash::check($request->old_password, Auth::guard('web')->user()->password)) {
-            Auth::guard('web')->user()->fill([
+        if (Hash::check($request->old_password, Auth::guard('system_user')->user()->password)) {
+            Auth::guard('system_user')->user()->fill([
               'password' => Hash::make($request->new_password),
               'status' => 'active',
               'forgot_password' => 0,

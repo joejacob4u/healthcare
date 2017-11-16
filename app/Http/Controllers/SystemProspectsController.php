@@ -19,7 +19,7 @@ class SystemProspectsController extends Controller
     public function index()
     {
         $users = User::where('healthsystem_id',0)->where('role_id',12)->get();
-        $contract_users = Contractor::whereHas('healthSystems', function ($query) { $query->where('healthsystem_id',Auth::guard('web')->user()->healthsystem_id); })->get();
+        $contract_users = Contractor::whereHas('healthSystems', function ($query) { $query->where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id); })->get();
         return view('prospects.index',['users' => $users,'contract_users' => $contract_users]);
     }
 
@@ -42,7 +42,7 @@ class SystemProspectsController extends Controller
 
     public function details(Request $request)
     {
-        $files = Storage::disk('s3')->files('prequalify/user_files/'.$request->user_id.'/'.Auth::guard('web')->user()->healthsystem_id);
+        $files = Storage::disk('s3')->files('prequalify/user_files/'.$request->user_id.'/'.Auth::guard('system_user')->user()->healthsystem_id);
         return $files;
 
     }
@@ -52,7 +52,7 @@ class SystemProspectsController extends Controller
         $public_dir = public_path().'/uploads';
         $zipFileName = $user_id.'_'.strtotime("now").'.zip';
 
-        $files = Storage::disk('s3')->files('prequalify/user_files/'.Auth::guard('web')->user()->id.'/'.$user_id);
+        $files = Storage::disk('s3')->files('prequalify/user_files/'.Auth::guard('system_user')->user()->id.'/'.$user_id);
         $zip = new ZipArchive;
 
         if ($zip->open($public_dir . '/' . $zipFileName, ZipArchive::CREATE) === TRUE) {

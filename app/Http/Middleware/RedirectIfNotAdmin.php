@@ -15,7 +15,7 @@ class RedirectIfNotAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = 'web')
+    public function handle($request, Closure $next, $guard = 'system_user')
     {
       if (Auth::guard($guard)->check())
       {
