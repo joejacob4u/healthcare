@@ -21,7 +21,7 @@
             <label class="control-label col-sm-2" for="question">Answer:</label>
             <div class="col-sm-6">
               <input type="text" class="form-control" id="answer" name="answer" placeholder="Add answer">
-              <input type="hidden" class="form-control" id="answer_id" name="answer_id" value="{{$question->id}}">
+              <input type="hidden" class="form-control" id="question_id" name="question_id" value="{{$question->id}}">
             </div>
             <div class="col-sm-2">
               <input type="text" class="form-control" id="score" name="score" placeholder="Score">
@@ -187,8 +187,8 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('project/ranking-questions/delete') }}',
-                    data: { '_token' : '{{ csrf_token() }}', 'question_id': id},
+                    url: '{{ url('project/ranking-questions/answers/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'answer_id': id},
                     beforeSend:function()
                     {
                         $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');

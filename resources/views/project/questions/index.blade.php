@@ -206,8 +206,8 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('project/ranking-questions/answers/delete') }}',
-                    data: { '_token' : '{{ csrf_token() }}', 'answer_id': id},
+                    url: '{{ url('project/ranking-questions/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'question_id': id},
                     beforeSend:function()
                     {
                         $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
