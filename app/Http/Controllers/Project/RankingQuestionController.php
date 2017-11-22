@@ -47,7 +47,14 @@ class RankingQuestionController extends Controller
                 'id' => $request->question_id
             ]);
         }
-
-
     }
+
+    public function delete(Request $request)
+    {
+        if(RankingQuestion::destroy($request->question_id))
+        {
+            return $request->question_id;
+        }
+    }
+
 }

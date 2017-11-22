@@ -39,6 +39,13 @@ Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply
 Route::get('project/ranking-questions', 'Project\RankingQuestionController@index');
 Route::post('project/ranking-questions/add', 'Project\RankingQuestionController@create');
 Route::post('project/ranking-questions/edit', 'Project\RankingQuestionController@save');
+Route::post('project/ranking-questions/delete', 'Project\RankingQuestionController@delete');
+Route::get('project/ranking-questions/{question_id}/answers', 'Project\RankingAnswerController@index');
+Route::post('project/ranking-questions/answers/add', 'Project\RankingAnswerController@create');
+Route::post('project/ranking-questions/answers/edit', 'Project\RankingAnswerController@save');
+Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerController@delete');
+
+
 
 
 

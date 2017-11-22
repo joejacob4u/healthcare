@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Project Ranking Questions')
+@section('page_title','Project Ranking Answers')
 @section('page_description','Manage questions and answers here.')
 
 @section('content')
@@ -13,14 +13,18 @@
 
       <div class="box box-primary">
       <div class="box-header with-border">
-        <h3 class="box-title">Add Question</h3>
+        <h3 class="box-title">Add Answer for Question : {{$question->question}}</h3>
       </div>
       <div class="box-body">
-          <form class="form-horizontal" action="{{url('project/ranking-questions/add')}}" method="post">
+          <form class="form-horizontal" action="{{url('project/ranking-questions/answers/add')}}" method="post">
           <div class="form-group">
-            <label class="control-label col-sm-2" for="question">Question:</label>
-            <div class="col-sm-8">
-              <input type="text" class="form-control" id="question" name="question" placeholder="Add question">
+            <label class="control-label col-sm-2" for="question">Answer:</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" id="answer" name="answer" placeholder="Add answer">
+              <input type="hidden" class="form-control" id="answer_id" name="answer_id" value="{{$question->id}}">
+            </div>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" id="score" name="score" placeholder="Score">
             </div>
             <div class="col-sm-2">
               <button type="submit" class="btn btn-success">Add</button>
@@ -40,35 +44,36 @@
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Question</th>
-                        <th>Answers</th>
+                        <th>Answer</th>
+                        <th>Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Question</th>
-                        <th>Answers</th>
+                        <th>Answer</th>
+                        <th>Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($questions as $question)
-                    <tr id="tr-{{$question->id}}">
-                        <td class="question">{{$question->question}}</td>
-                        <td>{!! link_to('project/ranking-questions/'.$question->id.'/answers','Answers',['class' => 'btn-xs btn-primary']) !!}</td>
-                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning','onclick' => 'editQuestionModal('.$question->id.')']) !!}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteQuestion('.$question->id.')']) !!}</td>
+                    @foreach($answers as $answer)
+                    <tr id="tr-{{$answer->id}}">
+                        <td class="answer">{{$answer->answer}}</td>
+                        <td class="score">{{$answer->score}}</td>
+                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning','onclick' => 'editAnswerModal('.$answer->id.')']) !!}</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAnswer('.$answer->id.')']) !!}</td>
                     </tr>
-                  @endforeach
+                        
+                    @endforeach
                 </tbody>
             </table>
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        Footer
+        <a href="{{url('project/ranking-questions')}}" class="btn btn-warning">Go Back</a>
       </div>
       <!-- /.box-footer-->
     </div>
@@ -97,25 +102,34 @@
     <!-- End Modal-->
 
         <!-- Question Modal-->
-    <div id="questionModal" class="modal fade" role="dialog">
+    <div id="answerModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
 
         <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Edit Question</h4>
+            <h4 class="modal-title">Edit Answer</h4>
           </div>
           <div class="modal-body">
-            <label class="control-label col-sm-2" for="question">Question:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="question" name="question" placeholder="Edit question">
-              <input type="hidden"  name="question_id" id="question_id" value="">
-            </div>
+            <form role="form">
+                  <div class="form-group">
+                    <label for="exampleInputEmail1">Answer</label>
+                      <input type="text" class="form-control"
+                      id="answer" placeholder="Enter answer"/>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputPassword1">Score</label>
+                      <input type="text" class="form-control"
+                          id="score" placeholder="score"/>
+                          <input type="hidden" class="form-control"
+                          id="answer_id"/>
+                  </div>
+                </form>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success" onclick="editQuestion()">Edit</button>
+            <button type="button" class="btn btn-success" onclick="editAnswer()">Edit</button>
           </div>
         </div>
 
@@ -126,65 +140,32 @@
 
 
     <script>
-      function showAccreditationRequirements(id)
+      function editAnswerModal(id)
       {
-        $.ajax({
-          type: 'POST',
-          url: '{{ url('admin/accreditation/info') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'id': id },
-          beforeSend:function()
-          {
-            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-          },
-          success:function(data)
-          {
-            $('#requirementsModal ul').html('');
-
-            var html = '';
-
-            $.each(data, function(index, value) {
-                html += '<li><a href="accreditation-requirements/edit/'+value.id+'">'+value.name+'</a></li>';
-            });
-
-            $('#requirementsModal ul').append(html);
-
-            $('#requirementsModal').modal('show');
-          },
-          complete:function()
-          {
-             $('.overlay').remove();
-          },
-          error:function()
-          {
-            // failed request; give feedback to user
-          }
-        });
-      }
-
-      function editQuestionModal(id)
-      {
-        $('#questionModal #question_id').val(id);
-        $('#questionModal').modal('show');
+        $('#answerModal #answer_id').val(id);
+        $('#answerModal').modal('show');
           
       }
 
-      function editQuestion()
+      function editAnswer()
       {
-        var question = $('#questionModal #question').val();
-        var question_id = $('#questionModal #question_id').val();
+        var answer = $('#answerModal #answer').val();
+        var answer_id = $('#answerModal #answer_id').val();
+        var score = $('#answerModal #score').val();
 
         $.ajax({
           type: 'POST',
-          url: '{{ url('project/ranking-questions/edit') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'question_id': question_id, 'question': question },
+          url: '{{ url('project/ranking-questions/answers/edit') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'answer_id': answer_id, 'answer': answer ,'score': score},
           beforeSend:function()
           {
             $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
           },
           success:function(data)
           {
-              $('#questionModal').modal('hide');
-              $('#tr-'+data.id+' .question').html(data.question);
+              $('#answerModal').modal('hide');
+              $('#tr-'+data.id+' .answer').html(data.answer);
+              $('#tr-'+data.id+' .score').html(data.score);
           },
           complete:function()
           {
@@ -198,7 +179,7 @@
 
       }
 
-      function deleteQuestion(id)
+      function deleteAnswer(id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -206,8 +187,8 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('project/ranking-questions/answers/delete') }}',
-                    data: { '_token' : '{{ csrf_token() }}', 'answer_id': id},
+                    url: '{{ url('project/ranking-questions/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'question_id': id},
                     beforeSend:function()
                     {
                         $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
@@ -229,7 +210,6 @@
           });
 
       }
-
     </script>
 
 @endsection
