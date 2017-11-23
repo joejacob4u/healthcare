@@ -18,7 +18,7 @@ class RankingAnswerController extends Controller
     public function index($question_id)
     {
         $question = RankingQuestion::find($question_id);
-        $answers = RankingAnswer::get();
+        $answers = RankingAnswer::sortBy('score','asc')->get();
         return view('project.questions.answers',['question' => $question,'answers' => $answers]);
     }
 
@@ -26,7 +26,7 @@ class RankingAnswerController extends Controller
     {
         $this->validate($request,[
             'answer' => 'required',
-            'score' => 'numeric|min:0.1|max:1|required'
+            'score' => 'numeric|min:0.001|max:1|required'
         ]);
 
         $question = RankingQuestion::find($request->question_id);
@@ -38,7 +38,7 @@ class RankingAnswerController extends Controller
     {
         $this->validate($request,[
             'answer' => 'required',
-            'score' => 'numeric|min:0.1|max:1|required'
+            'score' => 'numeric|min:0.001|max:1|required'
         ]);
 
         $answer = RankingAnswer::find($request->answer_id);
