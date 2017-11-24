@@ -59,7 +59,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach($answers as $answer)
+                    @foreach($question->answers->sortBy('score') as $answer)
                     <tr id="tr-{{$answer->id}}">
                         <td class="answer">{{$answer->answer}}</td>
                         <td class="score">{{$answer->score}}</td>

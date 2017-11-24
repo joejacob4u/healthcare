@@ -18,8 +18,7 @@ class RankingAnswerController extends Controller
     public function index($question_id)
     {
         $question = RankingQuestion::find($question_id);
-        $answers = RankingAnswer::orderBy('score','asc')->get();
-        return view('project.questions.answers',['question' => $question,'answers' => $answers]);
+        return view('project.questions.answers',['question' => $question]);
     }
 
     public function create(Request $request)
