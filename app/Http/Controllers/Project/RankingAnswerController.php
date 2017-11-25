@@ -25,7 +25,7 @@ class RankingAnswerController extends Controller
     {
         $this->validate($request,[
             'answer' => 'required',
-            'score' => 'numeric|min:0.001|max:1|required'
+            'score' => 'numeric|min:0|max:10|required'
         ]);
 
         $question = RankingQuestion::find($request->question_id);
@@ -37,7 +37,7 @@ class RankingAnswerController extends Controller
     {
         $this->validate($request,[
             'answer' => 'required',
-            'score' => 'numeric|min:0.001|max:1|required'
+            'score' => 'numeric|min:0|max:10|required'
         ]);
 
         $answer = RankingAnswer::find($request->answer_id);
