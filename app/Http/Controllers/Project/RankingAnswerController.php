@@ -32,7 +32,7 @@ class RankingAnswerController extends Controller
         $question->answers()->save(new RankingAnswer(['answer' => $request->answer,'score' => $request->score]));
         return back()->with('success','Answer added!');
     }
-
+    
     public function save(Request $request)
     {
         $this->validate($request,[

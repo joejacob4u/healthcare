@@ -36,6 +36,16 @@ Route::get('contractor/prequalify/download/{id}', 'ContractorPrequalifyControlle
 Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@upload');
 Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply');
 
+Route::get('projects', 'Project\ProjectController@index');
+Route::get('projects/add', 'Project\ProjectController@create');
+Route::get('projects/store', 'Project\ProjectController@store');
+Route::post('project/fetch/sites', 'Project\ProjectController@fetchSites');
+Route::post('project/fetch/buildings', 'Project\ProjectController@fetchBuildings');
+
+
+
+
+
 Route::get('project/ranking-questions', 'Project\RankingQuestionController@index');
 Route::post('project/ranking-questions/add', 'Project\RankingQuestionController@create');
 Route::post('project/ranking-questions/edit', 'Project\RankingQuestionController@save');
