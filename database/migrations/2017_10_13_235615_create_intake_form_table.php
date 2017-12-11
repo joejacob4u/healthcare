@@ -92,6 +92,7 @@ class CreateIntakeFormTable extends Migration
             $table->string('furniture_firm');//gi
             $table->string('gross_sq_ft_project_completion');//gi
             $table->string('gross_sq_ft_added_cost_center');//gi
+            $table->string('sq_ft_removed_cost_center');//gi
             $table->string('cost_center_losing_adding_sq_ft');//gi
             $table->string('ahj');//gi
             $table->timestamps();

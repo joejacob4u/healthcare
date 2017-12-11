@@ -27,6 +27,14 @@ Route::post('prospects/register','RegistrationController@create');
 Route::get('forgot/password','UsersController@forgotView');
 Route::post('forgot/password','UsersController@sendTempPassword');
 
+Route::post('dropzone/upload','DropzoneController@upload');
+Route::post('dropzone/delete','DropzoneController@delete');
+Route::post('dropzone/populate','DropzoneController@populate');
+
+
+
+
+
 Route::get('contractors/login','ContractorAuthController@login');
 Route::post('contractors/login','ContractorAuthController@authenticate');
 
@@ -37,8 +45,10 @@ Route::post('contractor/prequalify/upload', 'ContractorPrequalifyController@uplo
 Route::post('contractor/prequalify/apply', 'ContractorPrequalifyController@apply');
 
 Route::get('projects', 'Project\ProjectController@index');
-Route::get('projects/add', 'Project\ProjectController@create');
-Route::get('projects/store', 'Project\ProjectController@store');
+Route::get('projects/general/add', 'Project\ProjectController@createGeneral');
+Route::get('projects/general/edit/{project_id}', 'Project\ProjectController@editGeneral');
+Route::post('projects/general/edit/{project_id}', 'Project\ProjectController@saveGeneral');
+Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');
 Route::post('project/fetch/sites', 'Project\ProjectController@fetchSites');
 Route::post('project/fetch/buildings', 'Project\ProjectController@fetchBuildings');
 

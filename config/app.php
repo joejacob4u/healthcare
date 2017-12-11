@@ -181,7 +181,9 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
         Hesto\MultiAuth\MultiAuthServiceProvider::class,
-        AdrianMejias\States\StatesServiceProvider::class
+        AdrianMejias\States\StatesServiceProvider::class,
+        Collective\Html\HtmlServiceProvider::class,
+        App\Providers\MacroServiceProvider::class
 
     ],
 
@@ -233,7 +235,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'States' => AdrianMejias\States\StatesFacade::class
+        'States' => AdrianMejias\States\StatesFacade::class,
+        'HTML' => Collective\Html\HtmlFacade::class,
 
     ],
 

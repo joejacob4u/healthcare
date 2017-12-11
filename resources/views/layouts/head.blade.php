@@ -4,6 +4,7 @@
   <title>HealthCare 360 | Dashboard</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -21,6 +22,7 @@
   <link rel="stylesheet" href="/bower_components/bootstrap-select/dist/css/bootstrap-select.min.css">
   <link rel="stylesheet" href="/bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css">
   <link rel="stylesheet" href="/bower_components/datatables/media/css/jquery.dataTables.css">
+  <link rel="stylesheet" href="/bower_components/dropzone/dist/dropzone.css">
 
 
   <script src="{{ asset ("/bower_components/jquery/dist/jquery.min.js") }}" type="text/javascript"></script>
@@ -31,6 +33,7 @@
   <script src="{{ asset ("/bower_components/bootbox.js/bootbox.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/datatables/media/js/jquery.dataTables.js") }}" type="text/javascript"></script>
+  <script src="{{ asset ("/bower_components/dropzone/dist/dropzone.js") }}" type="text/javascript"></script>
 
 
   @yield('head')

@@ -59,6 +59,7 @@
 
 <script>
 $(document).ready(function(){
+    
     $('table').DataTable({
       initComplete: function () {
           this.api().columns().every( function () {

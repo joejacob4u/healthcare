@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6115d3025adaa554eec77eab6122531d",
+    "content-hash": "a2d87051043a2c23e334afcb2f7c5dbe",
     "packages": [
         {
             "name": "adrianmejias/laravel-states",

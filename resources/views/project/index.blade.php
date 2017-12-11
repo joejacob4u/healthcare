@@ -15,7 +15,7 @@
       <div class="box-header with-border">
         <h3 class="box-title">Existing Projects</h3>
         <div class="box-tools pull-right">
-          <a href="{{url('projects/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Project</a>
+          <a href="{{url('projects/general/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Project</a>
         </div>
 
       </div>
@@ -23,16 +23,14 @@
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>project</th>
-                        <th>Answers</th>
+                        <th>Project</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>project</th>
-                        <th>Answers</th>
+                        <th>Project</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -40,9 +38,8 @@
                 <tbody>
                   @foreach($projects as $project)
                     <tr id="tr-{{$project->id}}">
-                        <td class="project">{{$project->project}}</td>
-                        <td>{!! link_to('project/ranking-projects/'.$project->id.'/answers','Answers',['class' => 'btn-xs btn-primary']) !!}</td>
-                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning','onclick' => 'editprojectModal('.$project->id.')']) !!}</td>
+                        <td class="project">{{$project->project_name}}</td>
+                        <td>{!! link_to('projects/general/edit/'.$project->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteproject('.$project->id.')']) !!}</td>
                     </tr>
                   @endforeach
