@@ -63,7 +63,7 @@ class ProjectController extends Controller
         return view('project.edit',['hcos' => $hcos,'project_types' => $project_types,'health_system' => $health_system,'project' => $project,'buildings' => $buildings,'sites' => $sites]);
     }
 
-    public function saveGeneral($project_id)
+    public function saveGeneral(Request $request,$project_id)
     {
         $project = Project::find($project_id);
 
@@ -81,6 +81,16 @@ class ProjectController extends Controller
 
             return redirect('projects')->with('success','Project edited.');
 
+        }
+    }
+
+    public function saveCON(Request $request,$project_id)
+    {
+        $project = Project::find($project_id);
+
+        if($project->update($request->all()))
+        {
+            return back()->with('success','Project CON saved.');
         }
     }
 

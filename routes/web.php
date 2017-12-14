@@ -48,6 +48,8 @@ Route::get('projects', 'Project\ProjectController@index');
 Route::get('projects/general/add', 'Project\ProjectController@createGeneral');
 Route::get('projects/general/edit/{project_id}', 'Project\ProjectController@editGeneral');
 Route::post('projects/general/edit/{project_id}', 'Project\ProjectController@saveGeneral');
+Route::post('projects/con/edit/{project_id}', 'Project\ProjectController@saveCON');
+
 Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');
 Route::post('project/fetch/sites', 'Project\ProjectController@fetchSites');
 Route::post('project/fetch/buildings', 'Project\ProjectController@fetchBuildings');
