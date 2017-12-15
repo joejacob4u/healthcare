@@ -27,7 +27,7 @@
      
      <div class="tab-content">
         <div class="tab-pane fade in active" id="general-tab">@include('project.partials.general')</div>
-        <div class="tab-pane fade" id="con-tab">@include('project.partials.con')</div>
+        <div class="tab-pane fade" id="con-tab">@include('project.partials.cons')</div>
         <div class="tab-pane fade" id="financial-tab">@include('project.partials.financial')</div>
     </div>
       </div>

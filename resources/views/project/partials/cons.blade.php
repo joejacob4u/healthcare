@@ -99,9 +99,9 @@
 </div>
 
 <div class="form-group">
-        {!! Form::label('possession_letter_documents_path', 'Project Information Documents', ['class' => 'col-lg-2 control-label']) !!}
+        {!! Form::label('possession_letter_documents_path', 'A letter from the person taking possession of the existing equipment that acknowledges the existing equipment: will be permanently removed from the State, will no longer be exempt from requirements of the States Certificate of Need law, and will not be used in the State without first obtaining a new certificate of need.', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
-        {!! HTML::dropzone('project_information_documents_path',(empty($project->project_information_documents_path)) ? 'projects/project_information_documents_path/'.Auth::guard('system_user')->user()->healthsystem_id.'-'.$project->id : $project->project_information_documents_path,'true') !!}
+        {!! HTML::dropzone('possession_letter_documents_path',(empty($project->possession_letter_documents_path)) ? 'projects/possession_letter_documents_path/'.Auth::guard('system_user')->user()->healthsystem_id.'-'.$project->id : $project->possession_letter_documents_path,'true') !!}
     </div>
 </div>
 
