@@ -32,9 +32,6 @@ Route::post('dropzone/delete','DropzoneController@delete');
 Route::post('dropzone/populate','DropzoneController@populate');
 
 
-
-
-
 Route::get('contractors/login','ContractorAuthController@login');
 Route::post('contractors/login','ContractorAuthController@authenticate');
 
@@ -49,13 +46,11 @@ Route::get('projects/general/add', 'Project\ProjectController@createGeneral');
 Route::get('projects/general/edit/{project_id}', 'Project\ProjectController@editGeneral');
 Route::post('projects/general/edit/{project_id}', 'Project\ProjectController@saveGeneral');
 Route::post('projects/con/edit/{project_id}', 'Project\ProjectController@saveCON');
+Route::post('projects/financial/edit/{project_id}', 'Project\ProjectController@saveFinancial');
 
 Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');
 Route::post('project/fetch/sites', 'Project\ProjectController@fetchSites');
 Route::post('project/fetch/buildings', 'Project\ProjectController@fetchBuildings');
-
-
-
 
 
 Route::get('project/ranking-questions', 'Project\RankingQuestionController@index');
@@ -66,12 +61,6 @@ Route::get('project/ranking-questions/{question_id}/answers', 'Project\RankingAn
 Route::post('project/ranking-questions/answers/add', 'Project\RankingAnswerController@create');
 Route::post('project/ranking-questions/answers/edit', 'Project\RankingAnswerController@save');
 Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerController@delete');
-
-
-
-
-
-
 
 
 /***************************Admin Route groups*******************************/

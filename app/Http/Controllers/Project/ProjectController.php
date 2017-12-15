@@ -94,12 +94,22 @@ class ProjectController extends Controller
         }
     }
 
+    public function saveFinancial(Request $request,$project_id)
+    {
+        $project = Project::find($project_id);
+
+        if($project->update($request->all()))
+        {
+            return back()->with('success','Project CON saved.');
+        }
+
+    }
+
 
     public function fetchSites(Request $request)
     {
         $sites = Site::where('hco_id',$request->hco_id)->get();
         return response()->json(['sites' => $sites]);
-
     }
 
     public function fetchBuildings(Request $request)
