@@ -1,4 +1,4 @@
-{!! Form::open(['url' => 'projects/financial/edit'.$project->id, 'class' => 'form-horizontal']) !!}
+{!! Form::open(['url' => 'projects/financial/edit/'.$project->id, 'class' => 'form-horizontal']) !!}
 
 <div class="form-group">
     {!! Form::label('equipment_purchase_order_amount', 'Equipment Purchase Orders or Equipment ROM Estimate:', ['class' => 'col-lg-2 control-label']) !!}

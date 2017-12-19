@@ -47,6 +47,8 @@ Route::get('projects/general/edit/{project_id}', 'Project\ProjectController@edit
 Route::post('projects/general/edit/{project_id}', 'Project\ProjectController@saveGeneral');
 Route::post('projects/con/edit/{project_id}', 'Project\ProjectController@saveCON');
 Route::post('projects/financial/edit/{project_id}', 'Project\ProjectController@saveFinancial');
+Route::post('projects/ranking-questions/edit/{project_id}', 'Project\ProjectController@saveRankingQuestions');
+
 
 Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');
 Route::post('project/fetch/sites', 'Project\ProjectController@fetchSites');

@@ -20,8 +20,8 @@
         <li class="active"><a href="#general-tab" data-toggle="tab">General</a></li>
         <li><a href="#con-tab" data-toggle="tab">CON</a></li>
         <li><a href="#financial-tab" data-toggle="tab">Financial</a></li>
-        <li><a href="#">Accreditation</a></li>
-        <li><a href="#">Leadership</a></li>
+        <li><a href="#facilities-tab" data-toggle="tab">Facilities</a></li>
+        <li><a href="#ranking-question-tab" data-toggle="tab">Ranking Questions</a></li>
         <li><a href="#">Administrative</a></li>
      </ul>
      
@@ -29,6 +29,9 @@
         <div class="tab-pane fade in active" id="general-tab">@include('project.partials.general')</div>
         <div class="tab-pane fade" id="con-tab">@include('project.partials.cons')</div>
         <div class="tab-pane fade" id="financial-tab">@include('project.partials.financial')</div>
+        <div class="tab-pane fade" id="facilities-tab">@include('project.partials.facilities')</div>
+        <div class="tab-pane fade" id="ranking-question-tab">@include('project.partials.questions')</div>
+
     </div>
       </div>
       <!-- /.box-body -->

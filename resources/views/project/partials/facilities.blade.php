@@ -1,4 +1,4 @@
-{!! Form::open(['url' => 'projects/facility/edit'.$project->id, 'class' => 'form-horizontal']) !!}
+{!! Form::open(['url' => 'projects/facility/edit/'.$project->id, 'class' => 'form-horizontal']) !!}
 
 <div class="form-group">
     {!! Form::label('is_evs_required', 'Will EVS be needed for interim or final  terminal clean?', ['class' => 'col-lg-2 control-label']) !!}
