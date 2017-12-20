@@ -126,6 +126,25 @@ class ProjectController extends Controller
         }
     }
 
+    public function saveEquipment(Request $request,$project_id)
+    {
+        $project = Project::find($project_id);
+        $existing_equipments = $request->replacement_equipments;
+
+        $aEquipments = [];
+
+        foreach($request->existing_equipments as $key => $equipment)
+        {   
+            $aEquipments = [$key => ['existing_equipment' => $equipment,'replacement_equipment' => $existing_equipments[$key]]];
+        }
+
+        if($project->equipments()->sync($aEquipments))
+        {
+            return back()->with('success','Project equipments saved.');
+        }
+    }
+
+
 
     public function fetchSites(Request $request)
     {

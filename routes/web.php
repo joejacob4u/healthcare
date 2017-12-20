@@ -48,6 +48,8 @@ Route::post('projects/general/edit/{project_id}', 'Project\ProjectController@sav
 Route::post('projects/con/edit/{project_id}', 'Project\ProjectController@saveCON');
 Route::post('projects/financial/edit/{project_id}', 'Project\ProjectController@saveFinancial');
 Route::post('projects/ranking-questions/edit/{project_id}', 'Project\ProjectController@saveRankingQuestions');
+Route::post('projects/equipment/edit/{project_id}', 'Project\ProjectController@saveEquipment');
+
 
 
 Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');
