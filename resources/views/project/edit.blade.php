@@ -22,7 +22,7 @@
         <li><a href="#financial-tab" data-toggle="tab">Financial</a></li>
         <li><a href="#facilities-tab" data-toggle="tab">Facilities</a></li>
         <li><a href="#ranking-question-tab" data-toggle="tab">Ranking Questions</a></li>
-        <li><a href="#">Administrative</a></li>
+        <li><a href="#equipment-tab" data-toggle="tab">Equipment</a></li>
      </ul>
      
      <div class="tab-content">
@@ -31,6 +31,7 @@
         <div class="tab-pane fade" id="financial-tab">@include('project.partials.financial')</div>
         <div class="tab-pane fade" id="facilities-tab">@include('project.partials.facilities')</div>
         <div class="tab-pane fade" id="ranking-question-tab">@include('project.partials.questions')</div>
+        <div class="tab-pane fade" id="equipment-tab">@include('project.partials.equipment')</div>
 
     </div>
       </div>

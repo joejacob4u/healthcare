@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project\Project;
 use App\Project\RankingQuestion;
+use App\Project\Equipment;
 use App\Project\CapitalProjectType;
 use App\Regulatory\HCO;
 use App\Regulatory\Site;
@@ -62,7 +63,8 @@ class ProjectController extends Controller
         $hcos = HCO::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->pluck('facility_name','id');
         $project_types = CapitalProjectType::pluck('name','id');
         $ranking_questions = RankingQuestion::get();
-        return view('project.edit',['hcos' => $hcos,'project_types' => $project_types,'health_system' => $health_system,'project' => $project,'buildings' => $buildings,'sites' => $sites,'ranking_questions' => $ranking_questions]);
+        $equipments = Equipment::get();
+        return view('project.edit',['hcos' => $hcos,'project_types' => $project_types,'health_system' => $health_system,'project' => $project,'buildings' => $buildings,'sites' => $sites,'ranking_questions' => $ranking_questions,'equipments' => $equipments]);
     }
 
     public function saveGeneral(Request $request,$project_id)
@@ -109,7 +111,19 @@ class ProjectController extends Controller
 
     public function saveRankingQuestions(Request $request,$project_id)
     {
-        dd($request);
+        $project = Project::find($project_id);
+
+        $aQuestions = [];
+
+        foreach($request->answers as $key => $answer)
+        {
+            $aQuestions = [$key => ['answer_id' => $answer]];
+        }
+
+        if($project->questions()->sync($aQuestions))
+        {
+            return back()->with('success','Project questions saved.');
+        }
     }
 
 

@@ -16,7 +16,12 @@ class Project extends Model
 
     public function questions()
     {
-        return $this->belongsToMany('App\Regulatory\RankingQuestion','project_ranking_results','project_id','question_id')->withPivot('answer_id');
+        return $this->belongsToMany('App\Project\RankingQuestion','project_ranking_results','project_id','question_id')->withPivot('answer_id');
+    }
+
+    public function equipments()
+    {
+        return $this->belongsToMany('App\Project\Equipment','project_equipment','project_id','equipment_id')->withPivot('existing_equipment','replacement_equipment');
     }
 
 }
