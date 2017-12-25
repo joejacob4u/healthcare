@@ -23,6 +23,8 @@
         <li><a href="#facilities-tab" data-toggle="tab">Facilities</a></li>
         <li><a href="#ranking-question-tab" data-toggle="tab">Ranking Questions</a></li>
         <li><a href="#equipment-tab" data-toggle="tab">Equipment</a></li>
+        <li><a href="#accreditation-tab" data-toggle="tab">Accreditation</a></li>
+        <li><a href="#leadership-tab" data-toggle="tab">Leadership</a></li>
      </ul>
      
      <div class="tab-content">
@@ -32,7 +34,8 @@
         <div class="tab-pane fade" id="facilities-tab">@include('project.partials.facilities')</div>
         <div class="tab-pane fade" id="ranking-question-tab">@include('project.partials.questions')</div>
         <div class="tab-pane fade" id="equipment-tab">@include('project.partials.equipment')</div>
-
+        <div class="tab-pane fade" id="accreditation-tab">@include('project.partials.accreditation')</div>
+        <div class="tab-pane fade" id="leadership-tab">@include('project.partials.leadership')</div>
     </div>
       </div>
       <!-- /.box-body -->

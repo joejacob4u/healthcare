@@ -109,6 +109,18 @@ class ProjectController extends Controller
 
     }
 
+    public function saveAccreditation(Request $request,$project_id)
+    {
+        $project = Project::find($project_id);
+
+        if($project->update($request->all()))
+        {
+            return back()->with('success','Accreditation saved.');
+        }
+
+    }
+
+
     public function saveRankingQuestions(Request $request,$project_id)
     {
         $project = Project::find($project_id);
@@ -131,12 +143,16 @@ class ProjectController extends Controller
         $project = Project::find($project_id);
         $existing_equipments = $request->replacement_equipments;
 
-        $aEquipments = [];
+        //$aEquipments = [];
 
         foreach($request->existing_equipments as $key => $equipment)
         {   
-            $aEquipments = [$key => ['existing_equipment' => $equipment,'replacement_equipment' => $existing_equipments[$key]]];
+            if(!empty($equipment))
+            {
+                $aEquipments[$key] = ['existing_equipment' => $equipment,'replacement_equipment' => $existing_equipments[$key]];
+            }
         }
+
 
         if($project->equipments()->sync($aEquipments))
         {

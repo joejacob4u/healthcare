@@ -115,6 +115,24 @@
             <li><a href="{{url('project/ranking-questions')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
           </ul>
       </li>
+      <li class="treeview">
+          <a href="#">
+            <i class="fa fa-files-o"></i>
+            <span>Workflows</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i></span>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="{{url('workflows')}}"><i class="fa fa-circle-o"></i>Workflows</a></li>
+            <li><a href="{{url('workflows/approval-level-leaders')}}"><i class="fa fa-circle-o"></i>Approval Level Leaders</a></li>
+            <li><a href="{{url('workflows/administrative-leaders')}}"><i class="fa fa-circle-o"></i>Administrative Leaders</a></li>
+            <li><a href="{{url('workflows/accreditation-compliance-leaders')}}"><i class="fa fa-circle-o"></i>Accreditation Compliance Leaders</a></li>
+            <li><a href="{{url('workflows/business-units')}}"><i class="fa fa-circle-o"></i>Business Units</a></li>
+            <li><a href="{{url('workflows/financial-category-codes')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
+          </ul>
+      </li>
+
   </ul>
   @endif
 @endif

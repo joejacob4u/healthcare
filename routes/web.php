@@ -49,7 +49,21 @@ Route::post('projects/con/edit/{project_id}', 'Project\ProjectController@saveCON
 Route::post('projects/financial/edit/{project_id}', 'Project\ProjectController@saveFinancial');
 Route::post('projects/ranking-questions/edit/{project_id}', 'Project\ProjectController@saveRankingQuestions');
 Route::post('projects/equipment/edit/{project_id}', 'Project\ProjectController@saveEquipment');
+Route::post('projects/accreditation/edit/{project_id}', 'Project\ProjectController@saveAccreditation');
 
+Route::get('workflows/financial-category-codes', 'Workflow\FinancialCategoryCodeController@index');
+Route::get('workflows/financial-category-codes/add', 'Workflow\FinancialCategoryCodeController@create');
+Route::post('workflows/financial-category-codes/add', 'Workflow\FinancialCategoryCodeController@store');
+Route::get('workflows/financial-category-codes/edit/{financial_category_code}', 'Workflow\FinancialCategoryCodeController@edit');
+Route::post('workflows/financial-category-codes/edit/{financial_category_code}', 'Workflow\FinancialCategoryCodeController@save');
+Route::post('workflows/financial-category-codes/delete', 'Workflow\FinancialCategoryCodeController@delete');
+
+Route::get('workflows/business-units', 'Workflow\BusinessUnitController@index');
+Route::get('workflows/business-units/add', 'Workflow\BusinessUnitController@create');
+Route::post('workflows/business-units/add', 'Workflow\BusinessUnitController@store');
+Route::get('workflows/business-units/edit/{business_unit}', 'Workflow\BusinessUnitController@edit');
+Route::post('workflows/business-units/edit/{business_unit}', 'Workflow\BusinessUnitController@save');
+Route::post('workflows/business-units/delete', 'Workflow\BusinessUnitController@delete');
 
 
 Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');

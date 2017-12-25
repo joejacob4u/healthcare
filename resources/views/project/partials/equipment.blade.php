@@ -7,10 +7,10 @@
     {!! Form::label('equipment_'.$equipment->id, $equipment->name, ['class' => 'control-label']) !!}
   </div>
   <div class="col-xs-3">
-    {!! Form::text('existing_equipments['.$equipment->id.']', $question->projects->where('id',$project->id)->first()->pivot->answer_id, ['class' => 'form-control', 'placeholder' => 'Existing']) !!}
+    {!! Form::text('existing_equipments['.$equipment->id.']', (!empty($project->equipments->where('id',$equipment->id)->first())) ? $project->equipments->where('id',$equipment->id)->first()->pivot->existing_equipment : '', ['class' => 'form-control', 'placeholder' => 'Existing']) !!}
   </div>
   <div class="col-xs-3">
-    {!! Form::text('replacement_equipments['.$equipment->id.']', '', ['class' => 'form-control', 'placeholder' => 'Replacement']) !!}
+    {!! Form::text('replacement_equipments['.$equipment->id.']',  (!empty($project->equipments->where('id',$equipment->id)->first())) ? $project->equipments->where('id',$equipment->id)->first()->pivot->replacement_equipment : '', ['class' => 'form-control', 'placeholder' => 'Replacement']) !!}
   </div>
 </div>
 @endforeach

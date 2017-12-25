@@ -1,4 +1,4 @@
-{!! Form::open(['url' => 'projects/con/edit'.$project->id, 'class' => 'form-horizontal']) !!}
+{!! Form::open(['url' => 'projects/con/edit/'.$project->id, 'class' => 'form-horizontal']) !!}
 
 <div class="form-group">
     {!! Form::label('is_change_in_bed_capacity', 'Is there a change in bed capacity? ', ['class' => 'col-lg-2 control-label']) !!}
