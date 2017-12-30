@@ -65,6 +65,12 @@ Route::get('workflows/business-units/edit/{business_unit}', 'Workflow\BusinessUn
 Route::post('workflows/business-units/edit/{business_unit}', 'Workflow\BusinessUnitController@save');
 Route::post('workflows/business-units/delete', 'Workflow\BusinessUnitController@delete');
 
+Route::get('workflows/accreditation-compliance-leaders', 'Workflow\AccreditationComplianceLeaderController@index');
+Route::get('workflows/accreditation-compliance-leaders/add', 'Workflow\AccreditationComplianceLeaderController@create');
+Route::post('workflows/accreditation-compliance-leaders/add', 'Workflow\AccreditationComplianceLeaderController@store');
+Route::get('workflows/accreditation-compliance-leaders/edit/{accreditation_compliance_leader}', 'Workflow\AccreditationComplianceLeaderController@edit');
+Route::post('workflows/accreditation-compliance-leaders/edit/{accreditation_compliance_leader}', 'Workflow\AccreditationComplianceLeaderController@save');
+Route::post('workflows/accreditation-compliance-leaders/delete', 'Workflow\AccreditationComplianceLeaderController@delete');
 
 Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');
 Route::post('project/fetch/sites', 'Project\ProjectController@fetchSites');

@@ -8,6 +8,12 @@ use App\Workflow\BusinessUnit;
 
 class BusinessUnitController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('system_admin');
+    }
+
     public function index()
     {
         $business_units = BusinessUnit::get();
