@@ -72,6 +72,21 @@ Route::get('workflows/accreditation-compliance-leaders/edit/{accreditation_compl
 Route::post('workflows/accreditation-compliance-leaders/edit/{accreditation_compliance_leader}', 'Workflow\AccreditationComplianceLeaderController@save');
 Route::post('workflows/accreditation-compliance-leaders/delete', 'Workflow\AccreditationComplianceLeaderController@delete');
 
+Route::get('workflows/administrative-leaders', 'Workflow\AdministrativeLeaderController@index');
+Route::get('workflows/administrative-leaders/add', 'Workflow\AdministrativeLeaderController@create');
+Route::post('workflows/administrative-leaders/add', 'Workflow\AdministrativeLeaderController@store');
+Route::get('workflows/administrative-leaders/edit/{administrative_leader}', 'Workflow\AdministrativeLeaderController@edit');
+Route::post('workflows/administrative-leaders/edit/{administrative_leader}', 'Workflow\AdministrativeLeaderController@save');
+Route::post('workflows/administrative-leaders/delete', 'Workflow\AdministrativeLeaderController@delete');
+
+Route::get('workflows/approval-level-leaders', 'Workflow\ApprovalLevelLeaderController@index');
+Route::get('workflows/approval-level-leaders/add', 'Workflow\ApprovalLevelLeaderController@create');
+Route::post('workflows/approval-level-leaders/add', 'Workflow\ApprovalLevelLeaderController@store');
+Route::get('workflows/approval-level-leaders/edit/{approval_level_leader}', 'Workflow\ApprovalLevelLeaderController@edit');
+Route::post('workflows/approval-level-leaders/edit/{approval_level_leader}', 'Workflow\ApprovalLevelLeaderController@save');
+Route::post('workflows/approval-level-leaders/delete', 'Workflow\ApprovalLevelLeaderController@delete');
+
+
 Route::post('projects/general/store', 'Project\ProjectController@storeGeneral');
 Route::post('project/fetch/sites', 'Project\ProjectController@fetchSites');
 Route::post('project/fetch/buildings', 'Project\ProjectController@fetchBuildings');
