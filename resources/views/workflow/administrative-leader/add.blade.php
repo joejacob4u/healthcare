@@ -10,13 +10,13 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Add in Accreditation Compliance Leader</h3>
+        <h3 class="box-title">Add in Administrative Leader</h3>
 
         <div class="box-tools pull-right">
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'workflows/accreditation-compliance-leaders/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'workflows/administrative-leaders/add', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -31,7 +31,7 @@
                 <div class="form-group">
                     {!! Form::label('title', 'Title:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::text('title', Request::old('title'), ['class' => 'form-control', 'placeholder' => 'Title']) !!}
+                      {!! Form::select('workflow_approval_level_leader_id', $approval_level_leaders, Request::old('workflow_approval_level_leader_id'), ['class' => 'form-control selectpicker']); !!}
                     </div>
                 </div>
 
@@ -54,8 +54,8 @@
 
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('workflows/accreditation-compliance-leaders', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
-                        {!! Form::submit('Add Accreditation Compliance Leader', ['class' => 'btn btn-success pull-right'] ) !!}
+                        {{ link_to('workflows/administrative-leaders', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {!! Form::submit('Add Administrative Leader', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
 

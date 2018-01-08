@@ -45,7 +45,7 @@
                   @foreach($administrative_leaders as $administrative_leader)
                     <tr id="tr-{{$administrative_leader->id}}">
                         <td>{{$administrative_leader->name}}</td>
-                        <td>{{$administrative_leader->title}}</td>
+                        <td>{{$administrative_leader->approvalLevelLeader->name}}</td>
                         <td>{{$administrative_leader->email}}</td>
                         <td>{{$administrative_leader->phone}}</td>
                         <td>{!! link_to('workflows/administrative-leaders/edit/'.$administrative_leader->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>

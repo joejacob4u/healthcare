@@ -1,11 +1,5 @@
 {!! Form::open(['url' => 'projects/con/edit/'.$project->id, 'class' => 'form-horizontal']) !!}
 
-<div class="form-group">
-    {!! Form::label('is_change_in_bed_capacity', 'Is there a change in bed capacity? ', ['class' => 'col-lg-2 control-label']) !!}
-    <div class="col-lg-10">
-        {!! Form::select('is_change_in_bed_capacity', ['0' => 'No', '1' => 'Yes'],$project->is_change_in_bed_capacity, ['placeholder' => 'Select Yes/No','class' => 'form-control']); !!}
-    </div>
-</div>
 
 <div class="form-group">
     {!! Form::label('is_new_dialysis_or_home_services', 'Establishment of new dialysis services or home health services? ', ['class' => 'col-lg-2 control-label']) !!}
@@ -57,7 +51,7 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('is_acquisition_of_major_medical_equipment', 'Acquisition of major medical equipment ', ['class' => 'col-lg-2 control-label']) !!}
+    {!! Form::label('is_acquisition_of_major_medical_equipment', 'Acquisition of major medical equipment ($750,000 including cost of studies, design, construction, renovation, and installation)', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
         {!! Form::select('is_acquisition_of_major_medical_equipment', ['0' => 'No', '1' => 'Yes'],$project->is_acquisition_of_major_medical_equipment, ['placeholder' => 'Select Yes/No','class' => 'form-control']); !!}
     </div>

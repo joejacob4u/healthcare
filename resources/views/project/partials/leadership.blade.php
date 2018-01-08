@@ -8,24 +8,34 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('project_type_component_id', 'Construction Risk Assessment (CRA) ', ['class' => 'col-lg-2 control-label']) !!}
+    {!! Form::label('project_champion_user_id', 'Project Champion', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
-        {!! Form::select('project_type_component_id', ['0' => 'No', '1' => 'Yes'],$project->project_type_component_id, ['placeholder' => 'Select Yes/No','class' => 'form-control']); !!}
+        {!! Form::select('project_champion_user_id', $health_system->contractors->pluck('name','id'),Request::old('project_champion_user_id'), ['class' => 'form-control']); !!}
     </div>
 </div>
 
 <div class="form-group">
-    {!! Form::label('is_icra_required', 'Infection Control Risk Assessment (ICRA)', ['class' => 'col-lg-2 control-label']) !!}
+    {!! Form::label('project_manager_user_id', 'Project Manager', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
-        {!! Form::select('is_icra_required', ['0' => 'No', '1' => 'Yes'],$project->is_icra_required, ['placeholder' => 'Select Yes/No','class' => 'form-control']); !!}
+        {!! Form::select('project_manager_user_id', $health_system->contractors->pluck('name','id'),Request::old('project_manager_user_id'), ['class' => 'form-control']); !!}
     </div>
 </div>
+
+<div class="form-group">
+    {!! Form::label('healthsystem_admin_user_id', 'Health System Administrator (Senior Leader) who Approves this Capital Investment', ['class' => 'col-lg-2 control-label']) !!}
+    <div class="col-lg-10">
+        {!! Form::select('healthsystem_admin_user_id', $health_system->users->whereIn('role_id', [2, 3])->pluck('name','id'),Request::old('healthsystem_admin_user_id'), ['class' => 'form-control']); !!}
+    </div>
+</div>
+
+
+
 
 
 <div class="form-group">
     <div class="col-lg-10 col-lg-offset-2">
         {{ link_to('projects', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
-        {!! Form::submit('Save Accreditation', ['class' => 'btn btn-success pull-right'] ) !!}
+        {!! Form::submit('Save Leadership', ['class' => 'btn btn-success pull-right'] ) !!}
     </div>
 </div>
 </fieldset>

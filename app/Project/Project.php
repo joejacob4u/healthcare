@@ -24,4 +24,9 @@ class Project extends Model
         return $this->belongsToMany('App\Project\Equipment','project_equipment','project_id','equipment_id')->withPivot('existing_equipment','replacement_equipment');
     }
 
+    public function statuses()
+    {
+        return $this->belongsToMany('App\Project\ProjectStatus','project_statuses_healthsystem','healthsystem_id','project_status_id');
+    }
+
 }

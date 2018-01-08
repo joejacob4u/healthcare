@@ -25,6 +25,7 @@
         <li><a href="#equipment-tab" data-toggle="tab">Equipment</a></li>
         <li><a href="#accreditation-tab" data-toggle="tab">Accreditation</a></li>
         <li><a href="#leadership-tab" data-toggle="tab">Leadership</a></li>
+        <li><a href="#administration-tab" data-toggle="tab">Administration</a></li>
      </ul>
      
      <div class="tab-content">
@@ -36,6 +37,7 @@
         <div class="tab-pane fade" id="equipment-tab">@include('project.partials.equipment')</div>
         <div class="tab-pane fade" id="accreditation-tab">@include('project.partials.accreditation')</div>
         <div class="tab-pane fade" id="leadership-tab">@include('project.partials.leadership')</div>
+        <div class="tab-pane fade" id="administration-tab">@include('project.partials.administration')</div>
     </div>
       </div>
       <!-- /.box-body -->

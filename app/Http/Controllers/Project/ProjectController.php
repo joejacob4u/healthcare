@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Project\Project;
 use App\Project\RankingQuestion;
+use App\Project\ProjectStatus;
 use App\Project\Equipment;
 use App\Project\CapitalProjectType;
 use App\Regulatory\HCO;
@@ -64,7 +65,8 @@ class ProjectController extends Controller
         $project_types = CapitalProjectType::pluck('name','id');
         $ranking_questions = RankingQuestion::get();
         $equipments = Equipment::get();
-        return view('project.edit',['hcos' => $hcos,'project_types' => $project_types,'health_system' => $health_system,'project' => $project,'buildings' => $buildings,'sites' => $sites,'ranking_questions' => $ranking_questions,'equipments' => $equipments]);
+        $project_statuses = ProjectStatus::get();
+        return view('project.edit',['hcos' => $hcos,'project_types' => $project_types,'health_system' => $health_system,'project' => $project,'buildings' => $buildings,'sites' => $sites,'ranking_questions' => $ranking_questions,'equipments' => $equipments,'project_statuses' => $project_statuses]);
     }
 
     public function saveGeneral(Request $request,$project_id)
@@ -141,7 +143,7 @@ class ProjectController extends Controller
     public function saveEquipment(Request $request,$project_id)
     {
         $project = Project::find($project_id);
-        $existing_equipments = $request->replacement_equipments;
+        $replacement_equipments = $request->replacement_equipments;
 
         //$aEquipments = [];
 
@@ -149,7 +151,7 @@ class ProjectController extends Controller
         {   
             if(!empty($equipment))
             {
-                $aEquipments[$key] = ['existing_equipment' => $equipment,'replacement_equipment' => $existing_equipments[$key]];
+                $aEquipments[$key] = ['existing_equipment' => $equipment,'replacement_equipment' => $replacement_equipments[$key]];
             }
         }
 
@@ -160,6 +162,55 @@ class ProjectController extends Controller
         }
     }
 
+    public function saveLeadership(Request $request)
+    {
+        $project = Project::find($project_id);
+
+        if($project->update($request->all()))
+        {
+            return back()->with('success','Project leadership saved.');
+        }
+
+    }
+
+    public function saveAdministration(Request $request)
+    {
+        $project = Project::find($project_id);
+        $estimated_start_dates = $request->estimated_start_dates;
+        $actual_end_dates = $request->actual_end_dates;
+        $notes = $request->notes;
+        $is_completed = $request->is_completed;
+
+        foreach($request->estimated_end_dates as $key => $estimated_end_date)
+        {   
+            if(!empty($estimated_end_date))
+            {
+                $aProjectStatuses[$key] = ['estimated_start_date' => $estimated_start_dates[$key],
+                                            'estimated_end_date' => $estimated_end_date,
+                                            'actual_end_date' => $actual_end_dates[$key],
+                                            'note' => $notes[$key],
+                                            'is_completed' => $is_completed[$key]
+                                        ];
+            }
+        }
+
+        if($project->update($request->all()))
+        {
+            if(!empty($aProjectStatuses))
+            {
+                $project->statuses->sync($aProjectStatuses);
+            }
+            return back()->with('success','Project administration saved saved.');
+        }
+
+
+
+        if($project->update($request->all()))
+        {
+            return back()->with('success','Project leadership saved.');
+        }
+
+    }
 
 
     public function fetchSites(Request $request)

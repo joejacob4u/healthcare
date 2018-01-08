@@ -50,6 +50,9 @@ Route::post('projects/financial/edit/{project_id}', 'Project\ProjectController@s
 Route::post('projects/ranking-questions/edit/{project_id}', 'Project\ProjectController@saveRankingQuestions');
 Route::post('projects/equipment/edit/{project_id}', 'Project\ProjectController@saveEquipment');
 Route::post('projects/accreditation/edit/{project_id}', 'Project\ProjectController@saveAccreditation');
+Route::post('projects/leadership/edit/{project_id}', 'Project\ProjectController@saveLeadership');
+Route::post('projects/administration/edit/{project_id}', 'Project\ProjectController@saveAdministration');
+
 
 Route::get('workflows/financial-category-codes', 'Workflow\FinancialCategoryCodeController@index');
 Route::get('workflows/financial-category-codes/add', 'Workflow\FinancialCategoryCodeController@create');

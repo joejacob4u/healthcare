@@ -40,7 +40,7 @@
 </div>
 
 <div class="form-group">
-    {!! Form::label('project_information_documents_path', 'Project Information Documents', ['class' => 'col-lg-2 control-label']) !!}
+    {!! Form::label('project_information_documents_path', 'Project Information Documents (Brochures or letters from the vendors describing the capabilities of existing and replacement equipment) ', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
         {!! HTML::dropzone('project_information_documents_path',$project->project_information_documents_path,'true') !!}
     </div>
@@ -147,14 +147,14 @@
 <div class="form-group">
     {!! Form::label('construction_manager_contractor_id', 'Construction Manager', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
-        {!! Form::select('construction_manager_contractor_id', $health_system->contractorType('Civil Engineer')->pluck('name','id'), $project->construction_manager_contractor_id, ['placeholder' => 'Construction Manager','class' => 'form-control']); !!}
+        {!! Form::select('construction_manager_contractor_id', $health_system->contractorType('Construction Manager, Project Manager')->pluck('name','id'), $project->construction_manager_contractor_id, ['placeholder' => 'Construction Manager','class' => 'form-control']); !!}
     </div>
 </div>
 
 <div class="form-group">
     {!! Form::label('general_contractor_contractor_id', 'General Contractor', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
-        {!! Form::select('general_contractor_contractor_id', $health_system->contractorType('General Building Contractor')->pluck('name','id'), $project->general_contractor_contractor_id, ['placeholder' => 'General Contractor','class' => 'form-control']); !!}
+        {!! Form::select('general_contractor_contractor_id', $health_system->contractorType('General Contractor')->pluck('name','id'), $project->general_contractor_contractor_id, ['placeholder' => 'General Contractor','class' => 'form-control']); !!}
     </div>
 </div>
 

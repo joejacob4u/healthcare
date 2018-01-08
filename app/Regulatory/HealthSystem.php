@@ -28,7 +28,7 @@ class HealthSystem extends Model
 
     public function contractors()
     {
-      return $this->belongsToMany('App\Contractors','contractor_healthsystem','healthsystem_id','contractor_id');
+      return $this->belongsToMany('App\Contractor','contractor_healthsystem','healthsystem_id','contractor_id');
     }
 
     public function contractorType($type)
