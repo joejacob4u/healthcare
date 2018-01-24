@@ -21,12 +21,25 @@
     </div>
 </div> 
 
+
 <div class="form-group">
     {!! Form::label('project_workday_end_time', 'Project Workday End Time:', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
-        {!! Form::text('project_workday_start_time', $project->project_workday_start_time, ['class' => 'form-control', 'placeholder' => 'project workday start time']) !!}
+        {!! Form::text('project_workday_end_time', $project->project_workday_end_time, ['class' => 'form-control', 'placeholder' => 'project workday end time']) !!}
     </div>
-</div>                    
+</div> 
+
+
+@if(isset($project->project_start_date))
+
+<div class="form-group">
+    {!! Form::label('close_out_date', 'Close Out Date:', ['class' => 'col-lg-2 control-label']) !!}
+    <div class="col-lg-10">
+        {!! Form::text('close_out_date', date('Y-m-d',strtotime($project->project_start_date,'+ 3 months')), ['class' => 'form-control', 'disabled' => true]) !!}
+    </div>
+</div> 
+
+@endif                   
                    
                      
 

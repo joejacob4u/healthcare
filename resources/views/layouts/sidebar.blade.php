@@ -132,6 +132,21 @@
             <li><a href="{{url('workflows/financial-category-codes')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
           </ul>
       </li>
+      <li class="treeview">
+           <a href="#">
+             <i class="fa fa-files-o"></i>
+             <span>Accreditation</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i></span>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+            @foreach($system_admin_accreditations as $system_admin_accreditation)
+              <li><a href="{{url('system-admin/accreditation/'.$system_admin_accreditation->id)}}"><i class="fa fa-circle-o"></i>{{$system_admin_accreditation->name}}</a></li>
+             @endforeach
+           </ul>
+       </li>
+
 
   </ul>
   @endif
