@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Accreditations')
-@section('page_description','Manage accreditations here.')
+@section('page_title','Accreditations - <strong>'.$accreditation->name.'</strong>')
+@section('page_description','Configure accreditations here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -13,44 +13,80 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Accreditation</h3>
-
-        <div class="box-tools pull-right">
-          <a href="{{url('admin/accreditation/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Accreditation</a>
-        </div>
+      {!! Form::open(['url' => 'system-admin/accreditation/'.$accreditation->id.'/accr-requirements/', 'class' => 'form-inline']) !!}
+          <div class="form-group">
+              {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
+              {!! Form::select('accreditation_requirement_id', $accreditation->accreditationRequirements->pluck('name','id')->prepend('Please select a requirement', '0'), Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']); !!}
+          </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        {!! Form::close()  !!}
       </div>
       <div class="box-body">
-        <table id="example" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Accreditation</th>
-                        <th>Details</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                      <th>Id</th>
-                      <th>Accreditation</th>
-                      <th>Details</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                  @foreach($accreditations as $accreditation)
-                    <tr>
-                      <td>{{$accreditation->id}}</td>
-                      <td>{{$accreditation->name}}</td>
-                      <td>{!! link_to('#','Info',['class' => 'btn-xs btn-primary','onclick' => 'showAccreditationRequirements('.$accreditation->id.')']) !!}</td>
-                      <td>{!! link_to('admin/accreditation/edit/'.$accreditation->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
-                      <td>{!! link_to('admin/accreditation/delete/'.$accreditation->id,'Delete',['class' => 'btn-xs btn-danger']) !!}</td>
-                    </tr>
+                @if(isset($accreditation_requirement))
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                  @foreach($accreditation_requirement->standardLabels as $standard_label)
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingOne">
+                        <h4 class="panel-title">
+                          <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{$standard_label->id}}" aria-expanded="true" aria-controls="collapseOne">
+                            <strong>{{$standard_label->label}}</strong> - <small>{{$standard_label->text}}</small>
+                          </a>
+                        </h4>
+                      </div>
+                    <div id="collapse-{{$standard_label->id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body">
+
+                        <div class="panel panel-info">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Rationale for {{$standard_label->label}}</h3>
+                        </div>
+                        <div class="panel-body">
+                          {{$standard_label->description}}
+                        </div>
+                        </div>
+
+                        <div class="panel panel-success">
+                        <div class="panel-heading">
+                          <h3 class="panel-title">Elements of Performance for {{$standard_label->label}}</h3>
+                        </div>
+                        <div class="panel-body">
+                        <table id="example" class="table table-striped">
+                          <thead>
+                              <tr>
+                                  <th>Standard Label</th>
+                                  <th>Standard Text</th>
+                                  <th>Document</th>
+                                  <th>Risk</th>
+                              </tr>
+                          </thead>
+                          <tfoot>
+                            <tr>
+                              <th>Standard Label</th>
+                              <th>Standard Text</th>
+                              <th>Document</th>
+                              <th>Risk</th>
+                          </tr>
+                          </tfoot>
+                          <tbody>
+                            @foreach($standard_label->eops as $eop)
+                              <tr>
+                                <td>{{$eop->name}}</td>
+                                <td>{{$eop->text}}</td>
+                                <td>@if($eop->documentation == 1) {!! link_to('#','Upload',['class' => 'btn-xs btn-success']) !!} @else Nil @endif</td>
+                                <td>@if($eop->risk == 1) Yes @else No @endif</td>
+                              </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                        </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
                   @endforeach
-                </tbody>
-            </table>
+                  </div>
+                @endif
       </div>
       <!-- /.box-body -->
       <div class="box-footer">

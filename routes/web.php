@@ -104,7 +104,8 @@ Route::post('project/ranking-questions/answers/add', 'Project\RankingAnswerContr
 Route::post('project/ranking-questions/answers/edit', 'Project\RankingAnswerController@save');
 Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerController@delete');
 
-Route::get('system-admin/accreditation/{accreditation_id}', 'Project\RankingQuestionController@index');
+Route::get('system-admin/accreditation/{accreditation_id}', 'Accreditation\AccreditationController@index');
+Route::post('system-admin/accreditation/{accreditation_id}/accr-requirements', 'Accreditation\AccreditationController@fetchAccrRequirements');
 
 
 /***************************Admin Route groups*******************************/
