@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\HCO;
 use App\Regulatory\HealthSystem;
+use App\Regulatory\Accreditation;
 
 class HCOController extends Controller
 {
@@ -18,7 +19,8 @@ class HCOController extends Controller
 
     public function add($healthsystem_id)
     {
-      return view('admin.healthsystem.hco.add',['healthsystem' => HealthSystem::find($healthsystem_id)]);
+      $accreditations = Accreditation::pluck('name','id');
+      return view('admin.healthsystem.hco.add',['healthsystem' => HealthSystem::find($healthsystem_id),'accreditations' => $accreditations]);
     }
 
     public function create(Request $request,$healthsystem_id)
@@ -26,8 +28,15 @@ class HCOController extends Controller
         $this->validate($request,[
           'facility_name' => 'required',
           'address' => 'required',
-          'hco_id' => 'required|unique:hco'
+          'hco_id' => 'required|unique:hco',
+          'accreditations' => 'not_in:0'
         ]);
+
+        foreach($request->accreditations as $accreditation)
+        {
+          $aAccreditations[] = Accreditation::find($accreditation);
+        }
+
 
         $path = '';
 
@@ -40,17 +49,20 @@ class HCOController extends Controller
 
         $healthsystem = HealthSystem::find($healthsystem_id);
 
-        if($healthsystem->HCOs()->create($request->all()))
+        if($hco = $healthsystem->HCOs()->create($request->all()))
         {
-
-          return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO created successfully.');
+          if($hco->accreditations()->saveMany($aAccreditations))
+          {
+            return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO created successfully.');
+          }
         }
     }
 
     public function edit($healthsystem_id,$id)
     {
         $hco = HCO::find($id);
-        return view('admin.healthsystem.hco.edit',['healthsystem' => HealthSystem::find($healthsystem_id), 'hco' => $hco]);
+        $accreditations = Accreditation::pluck('name','id');
+        return view('admin.healthsystem.hco.edit',['healthsystem' => HealthSystem::find($healthsystem_id), 'hco' => $hco, 'accreditations' => $accreditations]);
     }
 
     public function save(Request $request,$healthsystem_id,$id)
@@ -58,8 +70,15 @@ class HCOController extends Controller
         $this->validate($request,[
           'facility_name' => 'required',
           'address' => 'required',
-          'hco_id' => 'required'
+          'hco_id' => 'required',
+          'accreditations' => 'not_in:0'
         ]);
+
+        foreach($request->accreditations as $accreditation)
+        {
+          $aAccreditations[] = Accreditation::find($accreditation)->id;
+        }
+
 
         $healthsystem = HealthSystem::find($healthsystem_id);
 
@@ -72,9 +91,13 @@ class HCOController extends Controller
         
         $request->request->add(['hco_logo' => $path]);
 
-        if($healthsystem->HCOs()->where('id',$id)->update(request()->except(['_token'])))
+        if($healthsystem->HCOs()->where('id',$id)->update(request()->except(['_token','accreditations'])))
         {
-          return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO updated successfully.');
+          if(HCO::find($id)->accreditations()->sync($aAccreditations))
+          {
+            return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success','HCO updated successfully.');
+          }
+
         }
 
     }

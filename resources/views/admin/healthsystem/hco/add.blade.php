@@ -27,6 +27,14 @@
                   </div>
               </div>
 
+              <div class="form-group">
+                  {!! Form::label('accreditations', 'Accreditations', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('accreditations[]',$accreditations->prepend('Please select accreditations', '0'), $value = '', ['class' => 'form-control selectpicker','multiple' => true]) !!}
+                  </div>
+              </div>
+
+
               <!-- Phone -->
               <div class="form-group">
                   {!! Form::label('address', 'Address:', ['class' => 'col-lg-2 control-label']) !!}

@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Health Card Organizations')
+@section('page_title','Health Care Organizations')
 @section('page_description','Manage HCOs here.')
 
 @section('content')
@@ -22,16 +22,16 @@
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>HCO ID #</th>
-                        <th>HCO Name</th>
+                        <th>HCO</th>
+                        <th>Accreditation</th>
                         <th>Sites</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                      <th>HCO ID #</th>
-                      <th>HCO Name</th>
+                      <th>HCO</th>
+                      <th>Accreditation</th>
                       <th>Sites</th>
                       <th>Edit</th>
                     </tr>
@@ -39,8 +39,8 @@
                 <tbody>
                   @foreach($hcos as $hco)
                     <tr>
-                      <td>{{$hco->hco_id}}</td>
-                      <td>{{$hco->facility_name}}</td>
+                      <td><strong>#{{$hco->hco_id}}</strong> - {{$hco->facility_name}}</td>
+                      <td>@foreach($hco->accreditations as $accreditation) {{$accreditation->name}},  @endforeach</td>
                       <td>{!! link_to('admin/hco/'.$hco->id.'/sites','Sites',['class' => 'btn-xs btn-info']) !!}</td>
                       <td>{!! link_to('admin/healthsystem/'.$health_system->id.'/hco/edit/'.$hco->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>

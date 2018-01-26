@@ -19,5 +19,10 @@ class HCO extends Model
     return $this->hasMany('App\Regulatory\Site','hco_id');
   }
 
+  public function accreditations()
+  {
+    return $this->belongsToMany('App\Regulatory\Accreditation','hco_accreditation','hco_id','accreditation_id');
+  }
+
 
 }
