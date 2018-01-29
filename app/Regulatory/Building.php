@@ -13,4 +13,9 @@ class Building extends Model
     {
        return $this->belongsTo('App\Regulatory\Site','site_id');
     }
+
+    public function accreditations()
+    {
+        return $this->belongsToMany('App\Regulatory\Accreditation','accreditation_buliding','building_id','accreditation_id');
+    }
 }

@@ -15,9 +15,18 @@
       <div class="box-header with-border">
       {!! Form::open(['url' => 'system-admin/accreditation/'.$accreditation->id.'/accr-requirements/', 'class' => 'form-inline']) !!}
           <div class="form-group">
+              {!! Form::label('hco_id', 'HCO:', ['class' => 'control-label']) !!}
+              {!! Form::select('hco_id', $accreditation->hcos->pluck('name','id')->prepend('Please select a hco', '0'), Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
+          </div>
+          <div class="form-group">
+              {!! Form::label('building_id', 'Building:', ['class' => 'control-label']) !!}
+              {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id']); !!}
+          </div>
+          <div class="form-group">
               {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
               {!! Form::select('accreditation_requirement_id', $accreditation->accreditationRequirements->pluck('name','id')->prepend('Please select a requirement', '0'), Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']); !!}
           </div>
+
             <button type="submit" class="btn btn-primary">Search</button>
         {!! Form::close()  !!}
       </div>
@@ -119,7 +128,7 @@
     <!-- End Modal-->
 
     <script>
-      function showAccreditationRequirements(id)
+      function fetch(id)
       {
         $.ajax({
           type: 'POST',
@@ -153,6 +162,46 @@
           }
         });
       }
+
+      $("#hco_id").change(function(){
+        
+        var hco_id = $("#hco_id").val();
+
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('system-admin/accreditation/fetch/buildings') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'hco_id': hco_id },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            $('#requirementsModal ul').html('');
+
+            var html = '';
+
+            $.each(data, function(index, value) {
+                html += '<li><a href="accreditation-requirements/edit/'+value.id+'">'+value.name+'</a></li>';
+            });
+
+            $('#requirementsModal ul').append(html);
+
+            $('#requirementsModal').modal('show');
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+
+
+
+      });
     </script>
 
 @endsection

@@ -39,11 +39,11 @@
               </div>
 
               <div class="form-group">
-                  {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                    {!! Form::select('accreditation_id', $accreditations, $building->accreditation_id, ['class' => 'form-control','placeholder' => 'Please select']) !!}
-                  </div>
+              {!! Form::label('accreditations', 'Accreditations', ['class' => 'col-lg-2 control-label']) !!}
+              <div class="col-lg-10">
+                  {!! Form::select('accreditations[]',$accreditations->prepend('Please select accreditations', '0'), $building->accreditations->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => true]) !!}
               </div>
+          </div>
 
 
               <div class="form-group">

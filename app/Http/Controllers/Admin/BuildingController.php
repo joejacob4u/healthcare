@@ -21,7 +21,7 @@ class BuildingController extends Controller
     public function add($site_id)
     {
       $site = Site::find($site_id);
-      $accreditations = Accreditation::pluck('name','id');
+      $accreditations = $site->hco->accreditations->pluck('name','id');
       return view('admin.healthsystem.buildings.add',['site' => $site,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
     }
 
@@ -31,7 +31,7 @@ class BuildingController extends Controller
           'name' => 'required',
           'building_id' => 'required|unique:buildings',
           'occupancy_type' => 'required',
-          'accreditation_id' => 'required',
+          'accreditations' => 'not_in:0',
           'square_ft' => 'required',
           'roof_sq_ft' => 'required',
           'ownership' => 'required',
@@ -42,6 +42,12 @@ class BuildingController extends Controller
         ]);
 
         $site = Site::find($site_id);
+
+        foreach($request->accreditations as $accreditation)
+        {
+          $aAccreditations[] = Accreditation::find($accreditation);
+        }
+
 
         $path = '';
         
@@ -55,7 +61,10 @@ class BuildingController extends Controller
 
         if($site->buildings()->create($request->all()))
         {
-          return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building added!');
+          if($site->accreditations()->saveMany($aAccreditations))
+          {
+            return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building added!');
+          }
         }
     }
 
@@ -63,7 +72,7 @@ class BuildingController extends Controller
     {
         $site = Site::find($site_id);
         $building = Building::find($id);
-        $accreditations = Accreditation::pluck('name','id');
+        $accreditations = $site->hco->accreditations->pluck('name','id');
         return view('admin.healthsystem.buildings.edit',['site' => $site,'building' => $building,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
     }
 
@@ -73,7 +82,7 @@ class BuildingController extends Controller
           'name' => 'required',
           'building_id' => 'required',
           'occupancy_type' => 'required',
-          'accreditation_id' => 'required',
+          'accreditations' => 'not_in:0',
           'square_ft' => 'required',
           'roof_sq_ft' => 'required',
           'ownership' => 'required',
@@ -84,6 +93,11 @@ class BuildingController extends Controller
         ]);
 
         $site = Site::find($site_id);
+
+        foreach($request->accreditations as $accreditation)
+        {
+          $aAccreditations[] = Accreditation::find($accreditation)->id;
+        }
 
         $path = '';
 
@@ -97,7 +111,10 @@ class BuildingController extends Controller
 
         if($site->buildings()->where('id',$id)->update(request()->except(['_token'])))
         {
-          return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building updated !');
+          if($site->accreditations()->sync($aAccreditations))
+          {
+            return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building updated !');
+          }
         }
     }
 

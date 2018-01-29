@@ -39,9 +39,9 @@
               </div>
 
               <div class="form-group">
-                  {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('accreditations', 'Accreditations', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                    {!! Form::select('accreditation_id', $accreditations, Request::old('accreditation_id'), ['class' => 'form-control','placeholder' => 'Please select']) !!}
+                      {!! Form::select('accreditations[]',$accreditations->prepend('Please select accreditations', '0'), $value = '', ['class' => 'form-control selectpicker','multiple' => true]) !!}
                   </div>
               </div>
 

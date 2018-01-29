@@ -24,6 +24,8 @@
                     <tr>
                         <th>Building ID #</th>
                         <th>Building Name</th>
+                        <th>Accreditation</th>
+                        <th>Building Name</th>
                         <th>Occupancy Type</th>
                         <th>Building SqFt</th>
                         <th>Roofing SqFt</th>
@@ -39,6 +41,7 @@
                     <tr>
                       <th>Building ID #</th>
                       <th>Building Name</th>
+                      <th>Accreditation</th>
                       <th>Occupancy Type</th>
                       <th>Building SqFt</th>
                       <th>Roofing SqFt</th>
@@ -55,6 +58,7 @@
                     <tr>
                       <td>{{$building->building_id}}</td>
                       <td>{{$building->name}}</td>
+                      <td>@foreach($building->accreditations as $accreditation) {{$accreditation->name}},  @endforeach</td>
                       <td>{{strtoupper(implode(' ',explode('_',$building->occupancy_type)))}}</td>
                       <td>{{$building->square_ft}}</td>
                       <td>{{$building->roof_sq_ft}}</td>

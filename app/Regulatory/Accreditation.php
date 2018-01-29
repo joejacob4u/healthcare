@@ -19,4 +19,10 @@ class Accreditation extends Model
       return $this->hasMany('App\Regulatory\StandardLabel','accreditation_id');
     }
 
+    public function hcos()
+    {
+      return $this->belongsToMany('App\Regulatory\HCO','hco_accreditation','accreditation_id','hco_id');
+    }
+  
+
 }
