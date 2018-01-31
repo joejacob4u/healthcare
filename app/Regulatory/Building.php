@@ -16,6 +16,6 @@ class Building extends Model
 
     public function accreditations()
     {
-        return $this->belongsToMany('App\Regulatory\Accreditation','accreditation_buliding','building_id','accreditation_id');
+        return $this->belongsToMany('App\Regulatory\Accreditation','accreditation_building','building_id','accreditation_id');
     }
 }

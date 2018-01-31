@@ -59,9 +59,9 @@ class BuildingController extends Controller
         $request->request->add(['building_logo' => $path]);
         
 
-        if($site->buildings()->create($request->all()))
+        if($building = $site->buildings()->create($request->all()))
         {
-          if($site->accreditations()->saveMany($aAccreditations))
+          if($building->accreditations()->saveMany($aAccreditations))
           {
             return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building added!');
           }

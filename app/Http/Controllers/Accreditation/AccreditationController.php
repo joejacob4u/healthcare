@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\Accreditation;
 use App\Regulatory\HCO;
+use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
 use Session;
+use Auth;
 
 class AccreditationController extends Controller
 {
@@ -34,6 +36,8 @@ class AccreditationController extends Controller
     public function fetchBuildings(Request $request)
     {
         $hco = HCO::find($request->hco_id);
+
+        $buildings = [];
 
         foreach($hco->sites as $site)
         {

@@ -10,13 +10,12 @@
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
-
     <div class="box">
       <div class="box-header with-border">
       {!! Form::open(['url' => 'system-admin/accreditation/'.$accreditation->id.'/accr-requirements/', 'class' => 'form-inline']) !!}
           <div class="form-group">
               {!! Form::label('hco_id', 'HCO:', ['class' => 'control-label']) !!}
-              {!! Form::select('hco_id', $accreditation->hcos->pluck('name','id')->prepend('Please select a hco', '0'), Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
+              {!! Form::select('hco_id', $accreditation->hcos->where('healthsystem_id',Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name','id')->prepend('Please select a hco', '0'), Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
           </div>
           <div class="form-group">
               {!! Form::label('building_id', 'Building:', ['class' => 'control-label']) !!}
@@ -177,12 +176,13 @@
           },
           success:function(data)
           {
-            $('#requirementsModal ul').html('');
+            console.log(data);
+            //$('#requirementsModal ul').html('');
 
-            var html = '';
+            //var html = '';
 
             $.each(data, function(index, value) {
-                html += '<li><a href="accreditation-requirements/edit/'+value.id+'">'+value.name+'</a></li>';
+                //html += '<li><a href="accreditation-requirements/edit/'+value.id+'">'+value.name+'</a></li>';
             });
 
             $('#requirementsModal ul').append(html);
