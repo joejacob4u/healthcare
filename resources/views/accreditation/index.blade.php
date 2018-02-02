@@ -18,6 +18,11 @@
               {!! Form::select('hco_id', $accreditation->hcos->where('healthsystem_id',Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name','id')->prepend('Please select a hco', '0'), Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
           </div>
           <div class="form-group">
+              {!! Form::label('site_id', 'Site:', ['class' => 'control-label']) !!}
+              {!! Form::select('site_id', [], '', ['class' => 'form-control','id' => 'site_id']); !!}
+          </div>
+
+          <div class="form-group">
               {!! Form::label('building_id', 'Building:', ['class' => 'control-label']) !!}
               {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id']); !!}
           </div>
@@ -168,7 +173,7 @@
 
         $.ajax({
           type: 'POST',
-          url: '{{ url('system-admin/accreditation/fetch/buildings') }}',
+          url: '{{ url('system-admin/accreditation/fetch/sites') }}',
           data: { '_token' : '{{ csrf_token() }}', 'hco_id': hco_id },
           beforeSend:function()
           {
@@ -176,18 +181,14 @@
           },
           success:function(data)
           {
-            console.log(data);
-            //$('#requirementsModal ul').html('');
 
-            //var html = '';
+            var html = '<option value="0">Select Site</option>';
 
-            $.each(data, function(index, value) {
-                //html += '<li><a href="accreditation-requirements/edit/'+value.id+'">'+value.name+'</a></li>';
+            $.each(data.sites, function(index, value) {
+                html += '<option value="'+value.id+'">'+value.name+'</option>';
             });
 
-            $('#requirementsModal ul').append(html);
-
-            $('#requirementsModal').modal('show');
+            $('#site_id').append(html);
           },
           complete:function()
           {
@@ -202,6 +203,47 @@
 
 
       });
+
+      $("#site_id").change(function(){
+        
+        var hco_id = $("#hco_id").val();
+
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('system-admin/accreditation/fetch/buildings') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'hco_id': hco_id },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            $('#requirementsModal ul').html('');
+
+            var html = '';
+
+            $.each(data, function(index, value) {
+              console.log(value);
+                //html += '<option><a href="accreditation-requirements/edit/'+value.id+'">'+value.name+'</a></option>';
+            });
+
+            $('#site_id').append(html);
+
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+
+
+
+      });
+
     </script>
 
 @endsection

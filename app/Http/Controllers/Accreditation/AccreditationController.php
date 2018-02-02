@@ -43,12 +43,18 @@ class AccreditationController extends Controller
         {
             if(!empty($site->buildings))
             {
-                $buildings[$site->name] = $site->buildings->pluck('id')->toArray(); 
+                $buildings[$site->name] = $site->buildings->pluck('name','id')->toArray(); 
             }
         }
 
         return $buildings;
     }
-    
 
+    public function fetchSites(Request $request)
+    {
+        $hco = HCO::find($request->hco_id);
+
+        return response()->json(['sites' => $hco->sites]);
+
+    }
 }

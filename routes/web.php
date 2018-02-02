@@ -106,6 +106,7 @@ Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerCo
 
 Route::get('system-admin/accreditation/{accreditation_id}', 'Accreditation\AccreditationController@index');
 Route::post('system-admin/accreditation/{accreditation_id}/accr-requirements', 'Accreditation\AccreditationController@fetchAccrRequirements');
+Route::post('system-admin/accreditation/fetch/sites', 'Accreditation\AccreditationController@fetchSites');
 Route::post('system-admin/accreditation/fetch/buildings', 'Accreditation\AccreditationController@fetchBuildings');
 
 
