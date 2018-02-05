@@ -181,6 +181,7 @@
           },
           success:function(data)
           {
+            $('#site_id').html('');
 
             var html = '<option value="0">Select Site</option>';
 
@@ -206,28 +207,27 @@
 
       $("#site_id").change(function(){
         
-        var hco_id = $("#hco_id").val();
+        var site_id = $("#site_id").val();
 
         $.ajax({
           type: 'POST',
           url: '{{ url('system-admin/accreditation/fetch/buildings') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'hco_id': hco_id },
+          data: { '_token' : '{{ csrf_token() }}', 'site_id': site_id },
           beforeSend:function()
           {
             $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
           },
           success:function(data)
           {
-            $('#requirementsModal ul').html('');
+            $('#building_id').html('');
 
-            var html = '';
+            var html = '<option value="0">Select Building</option>';
 
-            $.each(data, function(index, value) {
-              console.log(value);
-                //html += '<option><a href="accreditation-requirements/edit/'+value.id+'">'+value.name+'</a></option>';
+            $.each(data.buildings, function(index, value) {
+                html += '<option value="'+value.id+'">'+value.name+'</option>';
             });
 
-            $('#site_id').append(html);
+            $('#building_id').append(html);
 
           },
           complete:function()

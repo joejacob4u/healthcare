@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accreditation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\Accreditation;
+use App\Regulatory\Site;
 use App\Regulatory\HCO;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
@@ -35,19 +36,10 @@ class AccreditationController extends Controller
 
     public function fetchBuildings(Request $request)
     {
-        $hco = HCO::find($request->hco_id);
+        $site = Site::find($request->site_id);
 
-        $buildings = [];
+        return response()->json(['buildings' => $site->buildings]);
 
-        foreach($hco->sites as $site)
-        {
-            if(!empty($site->buildings))
-            {
-                $buildings[$site->name] = $site->buildings->pluck('name','id')->toArray(); 
-            }
-        }
-
-        return $buildings;
     }
 
     public function fetchSites(Request $request)
