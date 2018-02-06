@@ -12,27 +12,33 @@
 @include('layouts.partials.errors')
     <div class="box">
       <div class="box-header with-border">
+      @if(isset($accreditation_requirement))
+      <h2>{{ $building->name }} - {{$building->site->name}}</h2> <small>$accreditation->name</small>
+         
+      @else
+
       {!! Form::open(['url' => 'system-admin/accreditation/'.$accreditation->id.'/accr-requirements/', 'class' => 'form-inline']) !!}
-          <div class="form-group">
-              {!! Form::label('hco_id', 'HCO:', ['class' => 'control-label']) !!}
-              {!! Form::select('hco_id', $accreditation->hcos->where('healthsystem_id',Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name','id')->prepend('Please select a hco', '0'), Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
-          </div>
-          <div class="form-group">
-              {!! Form::label('site_id', 'Site:', ['class' => 'control-label']) !!}
-              {!! Form::select('site_id', [], '', ['class' => 'form-control','id' => 'site_id']); !!}
-          </div>
+            <div class="form-group">
+                {!! Form::label('hco_id', 'HCO:', ['class' => 'control-label']) !!}
+                {!! Form::select('hco_id', $accreditation->hcos->where('healthsystem_id',Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name','id')->prepend('Please select a hco', '0'), Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('site_id', 'Site:', ['class' => 'control-label']) !!}
+                {!! Form::select('site_id', [], '', ['class' => 'form-control','id' => 'site_id']); !!}
+            </div>
 
-          <div class="form-group">
-              {!! Form::label('building_id', 'Building:', ['class' => 'control-label']) !!}
-              {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id']); !!}
-          </div>
-          <div class="form-group">
-              {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
-              {!! Form::select('accreditation_requirement_id', $accreditation->accreditationRequirements->pluck('name','id')->prepend('Please select a requirement', '0'), Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']); !!}
-          </div>
+            <div class="form-group">
+                {!! Form::label('building_id', 'Building:', ['class' => 'control-label']) !!}
+                {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id']); !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
+                {!! Form::select('accreditation_requirement_id', $accreditation->accreditationRequirements->pluck('name','id')->prepend('Please select a requirement', '0'), Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']); !!}
+            </div>
 
-            <button type="submit" class="btn btn-primary">Search</button>
-        {!! Form::close()  !!}
+              <button type="submit" class="btn btn-primary">Search</button>
+          {!! Form::close()  !!}
+      @endif
       </div>
       <div class="box-body">
                 @if(isset($accreditation_requirement))
