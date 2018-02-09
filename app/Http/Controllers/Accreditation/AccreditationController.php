@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Regulatory\Accreditation;
 use App\Regulatory\Site;
 use App\Regulatory\HCO;
+use App\Regulatory\EOP;
 use App\Regulatory\Building;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
@@ -36,6 +37,7 @@ class AccreditationController extends Controller
         ]);
 
         $building = Building::find($request->building_id);
+        Session::put('building_id', $building->id);
         $accreditation = Accreditation::find($accreditation_id);
         $accreditation_requirement = AccreditationRequirement::find($request->accreditation_requirement_id);
         return view('accreditation.index',['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building]);
@@ -55,5 +57,12 @@ class AccreditationController extends Controller
 
         return response()->json(['sites' => $hco->sites]);
 
+    }
+
+    public function eopDocumentation($eop_id)
+    {
+        $building = Building::find(session('building_id'));
+        $eop = EOP::find($eop_id);
+        return view('accreditation.documentation',['building' => $building,'eop' => $eop]);
     }
 }
