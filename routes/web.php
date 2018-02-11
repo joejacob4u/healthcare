@@ -108,7 +108,9 @@ Route::get('system-admin/accreditation/{accreditation_id}', 'Accreditation\Accre
 Route::post('system-admin/accreditation/{accreditation_id}/accr-requirements', 'Accreditation\AccreditationController@fetchAccrRequirements');
 Route::post('system-admin/accreditation/fetch/sites', 'Accreditation\AccreditationController@fetchSites');
 Route::post('system-admin/accreditation/fetch/buildings', 'Accreditation\AccreditationController@fetchBuildings');
-Route::post('system-admin/accreditation/eop/documentation/{eop_id}', 'Accreditation\AccreditationController@eopDocumentation');
+Route::get('system-admin/accreditation/eop/documentation/{eop_id}', 'Accreditation\AccreditationController@eopDocumentation');
+Route::post('system-admin/accreditation/eop/document/upload', 'Accreditation\AccreditationController@uploadEOPDocument');
+
 
 
 

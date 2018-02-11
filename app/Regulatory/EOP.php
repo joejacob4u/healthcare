@@ -19,4 +19,5 @@ class EOP extends Model
       return $this->belongsToMany('App\Regulatory\SubCOP','eop_sub-cop','eop_id','sub_cop_id');
     }
 
+
 }

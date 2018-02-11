@@ -20,6 +20,10 @@ HTML::macro('dropzone', function($field,$directory,$populate = false)
                 this.on('sending', function(file, xhr, formData){
                     formData.append('_token', $('meta[name=\"csrf-token\"]').attr('content'));
                     formData.append('folder', '".$directory."');
+                    if (file.type.indexOf('image/') == -1)
+                    {
+                        this.emit('thumbnail', file, '/images/document.png');
+                    }
                 });
                 if(".$field."_populate)
                 {                    
@@ -33,8 +37,17 @@ HTML::macro('dropzone', function($field,$directory,$populate = false)
                                 $.each(data, function(key,value){
                                     
                                     var mockFile = { name: value.name, size: 12345 };
+                                    console.log(value.name);
                                     ".$field."_thisDropzone.options.addedfile.call(".$field."_thisDropzone, mockFile);
-                                    ".$field."_thisDropzone.options.thumbnail.call(".$field."_thisDropzone, mockFile, value.url);
+                                    if (value.name.indexOf('.jpg') >= 0 || value.name.indexOf('.png') >= 0)
+                                    {
+                                        ".$field."_thisDropzone.options.thumbnail.call(".$field."_thisDropzone, mockFile, value.url);
+                                    }
+                                    else
+                                    {
+                                        console.log('im in here');
+                                        ".$field."_thisDropzone.options.thumbnail.call(".$field."_thisDropzone, mockFile, '/images/document.png');
+                                    }
                                     
                                });
                             }

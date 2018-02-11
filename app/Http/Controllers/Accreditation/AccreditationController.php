@@ -65,4 +65,19 @@ class AccreditationController extends Controller
         $eop = EOP::find($eop_id);
         return view('accreditation.documentation',['building' => $building,'eop' => $eop]);
     }
+
+    public function uploadEOPDocument(Request $request)
+    {
+        $this->validate($request,[
+            'submission_date' => 'required',
+        ]);
+
+        $building = Building::find($request->building_id);
+
+        if($building->eopDocumentations()->sync([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date, 'user_id' => $request->user_id]]))
+        {
+            return back()->with('success','Document Added!');
+        } 
+
+    }
 }
