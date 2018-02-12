@@ -108,10 +108,11 @@ class BuildingController extends Controller
         
         $request->request->add(['building_logo' => $path]);
 
+        $building = Building::find($request->building_id);
          
 
 
-        if($building = $site->buildings()->where('id',$id)->update(request()->except(['_token','accreditations'])))
+        if($site->buildings()->where('id',$id)->update(request()->except(['_token','accreditations'])))
         {
           if($building->accreditations()->sync($aAccreditations))
           {
