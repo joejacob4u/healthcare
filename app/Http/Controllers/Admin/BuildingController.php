@@ -108,10 +108,12 @@ class BuildingController extends Controller
         
         $request->request->add(['building_logo' => $path]);
 
+         
 
-        if($site->buildings()->where('id',$id)->update(request()->except(['_token','accreditations'])))
+
+        if($building = $site->buildings()->where('id',$id)->update(request()->except(['_token','accreditations'])))
         {
-          if($site->accreditations()->sync($aAccreditations))
+          if($building->accreditations()->sync($aAccreditations))
           {
             return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building updated !');
           }
