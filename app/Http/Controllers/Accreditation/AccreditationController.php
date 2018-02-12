@@ -63,6 +63,7 @@ class AccreditationController extends Controller
     {
         $building = Building::find(session('building_id'));
         $eop = EOP::find($eop_id);
+        $last_submission = $eop->getLastDocumentUpload(session('building_id'));
         return view('accreditation.documentation',['building' => $building,'eop' => $eop]);
     }
 
