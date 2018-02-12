@@ -58,6 +58,7 @@ class Kernel extends HttpKernel
         'system_admin' => \App\Http\Middleware\RedirectIfNotSystemAdmin::class,
         'admin' => \App\Http\Middleware\RedirectIfNotAdmin::class,
         'contractor' => \App\Http\Middleware\RedirectIfNotContractors::class,
-        'prospect_contractor' => \App\Http\Middleware\RedirectIfNotProspectContractor::class
+        'prospect_contractor' => \App\Http\Middleware\RedirectIfNotProspectContractor::class,
+        'loggedin' =>  \App\Http\Middleware\RedirectIfNotAuthenticated::class
     ];
 }
