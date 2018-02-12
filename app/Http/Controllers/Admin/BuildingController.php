@@ -108,7 +108,7 @@ class BuildingController extends Controller
         
         $request->request->add(['building_logo' => $path]);
 
-        $building = Building::find($request->building_id);
+        $building = Building::find($id);
          
 
 
