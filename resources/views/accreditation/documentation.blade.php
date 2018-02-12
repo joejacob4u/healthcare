@@ -18,6 +18,12 @@
     <p>{{$eop->text}}</p>
 </div>
 
+<div class="callout callout-warning">
+    <h4>EOP Upload Frequency : {{ ucfirst($eop->frequency) }}</h4>
+    <p>{{ $eop->getNextDocumentUploadDate($building->id) }}</p>
+</div>
+
+
     <div class="box">
       <div class="box-header with-border">
         <a data-toggle="collapse" href="#eop_form" class="btn btn-success"><span class="glyphicon glyphicon-open"></span> Upload EOP Document</a>
@@ -50,7 +56,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        EOP Document History
+        <h4>EOP Document History</h4>
       </div>
       <div class="box-body">
                 <table id="example" class="table table-striped">
