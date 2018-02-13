@@ -141,9 +141,7 @@
              </span>
            </a>
            <ul class="treeview-menu">
-            @foreach($system_admin_accreditations as $system_admin_accreditation)
-              <li><a href="{{url('system-admin/accreditation/'.$system_admin_accreditation->id)}}"><i class="fa fa-circle-o"></i>{{$system_admin_accreditation->name}}</a></li>
-             @endforeach
+              <li><a href="{{url('system-admin/accreditation')}}"><i class="fa fa-circle-o"></i>EOP</a></li>
            </ul>
        </li>
 

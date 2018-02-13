@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Accreditations - <strong>'.$accreditation->name.'</strong>')
+@section('page_title','Accreditations')
 @section('page_description','Configure accreditations here.')
 
 @section('content')
@@ -13,14 +13,14 @@
     <div class="box">
       <div class="box-header with-border">
       @if(isset($accreditation_requirement))
-      <h2>{{ $building->name }} - {{$building->site->name}}</h2> <small>$accreditation->name</small>
+      <h2>{{ $building->name }} - {{$building->site->name}}</h2> <small>{{$accreditation->name}}</small>
          
       @else
 
-      {!! Form::open(['url' => 'system-admin/accreditation/'.$accreditation->id.'/accr-requirements/', 'class' => 'form-inline']) !!}
+      {!! Form::open(['url' => 'system-admin/accreditation/accr-requirements/', 'class' => 'form-inline']) !!}
             <div class="form-group">
                 {!! Form::label('hco_id', 'HCO:', ['class' => 'control-label']) !!}
-                {!! Form::select('hco_id', $accreditation->hcos->where('healthsystem_id',Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name','id')->prepend('Please select a hco', '0'), Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
+                {!! Form::select('hco_id', $hcos, Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('site_id', 'Site:', ['class' => 'control-label']) !!}
@@ -32,8 +32,12 @@
                 {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id']); !!}
             </div>
             <div class="form-group">
+                {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'control-label']) !!}
+                {!! Form::select('accreditation_id', [], '', ['class' => 'form-control','id' => 'accreditation_id']); !!}
+            </div>
+            <div class="form-group">
                 {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
-                {!! Form::select('accreditation_requirement_id', $accreditation->accreditationRequirements->pluck('name','id')->prepend('Please select a requirement', '0'), Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']); !!}
+                {!! Form::select('accreditation_requirement_id', [], Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']); !!}
             </div>
 
               <button type="submit" class="btn btn-primary">Search</button>
@@ -249,6 +253,84 @@
 
 
       });
+
+      $("#building_id").change(function(){
+        
+        var building_id = $("#building_id").val();
+
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('system-admin/accreditation/fetch/accreditation') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'building_id': building_id },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            $('#accreditation_id').html('');
+
+            var html = '<option value="0">Select Accreditation</option>';
+
+            $.each(data.accreditations, function(index, value) {
+                html += '<option value="'+value.id+'">'+value.name+'</option>';
+            });
+
+            $('#accreditation_id').append(html);
+
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+
+      });
+
+      $("#accreditation_id").change(function(){
+        
+        var accreditation_id = $("#accreditation_id").val();
+
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('system-admin/accreditation/fetch/accreditation_requirements') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'accreditation_id': accreditation_id },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            $('#accreditation_requirement_id').html('');
+
+            var html = '<option value="0">Select Accreditation Requirement</option>';
+
+            $.each(data.accreditation_requirements, function(index, value) {
+                html += '<option value="'+value.id+'">'+value.name+'</option>';
+            });
+
+            $('#accreditation_requirement_id').append(html);
+
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+
+      });
+
+
+
+
 
 
     </script>

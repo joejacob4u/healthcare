@@ -21,15 +21,13 @@ class AccreditationController extends Controller
         $this->middleware('system_admin');
     }
 
-    public function index($accreditation_id)
+    public function index()
     {
-        Session::put('accreditation_id', $accreditation_id);
-        $accreditation = Accreditation::find($accreditation_id);
-        return view('accreditation.index',['accreditation' => $accreditation]);
-
+        $hcos = HCO::where('healthsystem_id',Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name','id')->prepend('Please select a hco', '0');
+        return view('accreditation.index',['hcos' => $hcos]);
     }
 
-    public function fetchAccrRequirements(Request $request,$accreditation_id)
+    public function fetchAccrRequirements(Request $request)
     {
         $this->validate($request,[
             'building_id' => 'required|not_in:0',
@@ -38,7 +36,7 @@ class AccreditationController extends Controller
 
         $building = Building::find($request->building_id);
         Session::put('building_id', $building->id);
-        $accreditation = Accreditation::find($accreditation_id);
+        $accreditation = Accreditation::find($request->accreditation_id);
         $accreditation_requirement = AccreditationRequirement::find($request->accreditation_requirement_id);
         return view('accreditation.index',['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building]);
     }
@@ -54,9 +52,20 @@ class AccreditationController extends Controller
     public function fetchSites(Request $request)
     {
         $hco = HCO::find($request->hco_id);
-
         return response()->json(['sites' => $hco->sites]);
 
+    }
+
+    public function fetchAccreditations(Request $request)
+    {
+        $building = Building::find($request->building_id);
+        return response()->json(['accreditations' => $building->accreditations]);
+    }
+
+    public function fetchAccreditationRequirements(Request $request)
+    {
+        $accreditation = Accreditation::find($request->accreditation_id);
+        return response()->json(['accreditation_requirements' => $accreditation->accreditationRequirements]);
     }
 
     public function eopDocumentation($eop_id)
