@@ -20,24 +20,24 @@
       {!! Form::open(['url' => 'system-admin/accreditation/accr-requirements/', 'class' => 'form-inline']) !!}
             <div class="form-group">
                 {!! Form::label('hco_id', 'HCO:', ['class' => 'control-label']) !!}
-                {!! Form::select('hco_id', $hcos, Request::old('hco_id'), ['class' => 'form-control','id' => 'hco_id']); !!}
+                {!! Form::select('hco_id', $hcos, Request::old('hco_id'), ['class' => 'form-control selectpicker','id' => 'hco_id']); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('site_id', 'Site:', ['class' => 'control-label']) !!}
-                {!! Form::select('site_id', [], '', ['class' => 'form-control','id' => 'site_id']); !!}
+                {!! Form::select('site_id', [], '', ['class' => 'form-control','id' => 'site_id','data-live-search' => "true"]); !!}
             </div>
 
             <div class="form-group">
                 {!! Form::label('building_id', 'Building:', ['class' => 'control-label']) !!}
-                {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id']); !!}
+                {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id','data-live-search' => "true"]); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'control-label']) !!}
-                {!! Form::select('accreditation_id', [], '', ['class' => 'form-control','id' => 'accreditation_id']); !!}
+                {!! Form::select('accreditation_id', [], '', ['class' => 'form-control','id' => 'accreditation_id','data-live-search' => "true"]); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
-                {!! Form::select('accreditation_requirement_id', [], Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']); !!}
+                {!! Form::select('accreditation_requirement_id', [], Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id','data-live-search' => "true"]); !!}
             </div>
 
               <button type="submit" class="btn btn-primary">Search</button>
@@ -196,10 +196,11 @@
             var html = '<option value="0">Select Site</option>';
 
             $.each(data.sites, function(index, value) {
-                html += '<option value="'+value.id+'">'+value.name+'</option>';
+                html += '<option value="'+value.id+'">'+value.name+' ('+value.address+' )</option>';
             });
 
             $('#site_id').append(html);
+            $('#site_id').selectpicker('render');
           },
           complete:function()
           {
@@ -238,6 +239,7 @@
             });
 
             $('#building_id').append(html);
+            $('#building_id').selectpicker('render');
 
           },
           complete:function()
@@ -277,6 +279,8 @@
             });
 
             $('#accreditation_id').append(html);
+            $('#accreditation_id').selectpicker('render');
+            
 
           },
           complete:function()
@@ -314,6 +318,7 @@
             });
 
             $('#accreditation_requirement_id').append(html);
+            $('#accreditation_requirement_id').selectpicker('render');
 
           },
           complete:function()
