@@ -132,16 +132,51 @@
             <li><a href="{{url('workflows/financial-category-codes')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
           </ul>
       </li>
+      @if(session()->has('building_id'))
+        <li class="header text-yellow"><i class="fa fa-building" aria-hidden="true"></i>&emsp;<strong> {{strtoupper(session('building_name'))}}</strong></li>
+        @endif
+
       <li class="treeview">
-           <a href="#">
+           <a href="#" id="healthsystem_tree">
              <i class="fa fa-files-o"></i>
-             <span>Accreditation</span>
+             <span>Healthsystem User</span>
              <span class="pull-right-container">
                <i class="fa fa-angle-left pull-right"></i></span>
              </span>
            </a>
            <ul class="treeview-menu">
-              <li><a href="{{url('system-admin/accreditation')}}"><i class="fa fa-circle-o"></i>EOP</a></li>
+           @if(session()->has('building_id'))
+              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Maintenance Work Orders</a></li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i><span>Accreditation</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i></span>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  @foreach($sidebar_building->accreditations as $accreditation)
+                      <li class="treeview">
+                        <a href="#">
+                          <i class="fa fa-circle-o"></i><span>{{$accreditation->name}}</span>
+                          <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i></span>
+                          </span>
+                        </a>
+                    <ul class="treeview-menu">
+                      @foreach($accreditation->accreditationRequirements as $accreditation_requirement)
+                      <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
+                      @endforeach
+                    </ul>
+                  </li>
+
+                  @endforeach
+                </ul>
+              </li>
+              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Projects</a></li>
+              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Environmental Services</a></li>
+              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomedical Equipment</a></li>
+              @endif
            </ul>
        </li>
 

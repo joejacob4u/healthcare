@@ -211,17 +211,17 @@
         <!-- User Account: style can be found in dropdown.less -->
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            <img src="/images/contact-128.png" class="user-image" alt="User Image">
-            <span class="hidden-xs">Admin</span>
+            <i class="fa fa-hospital-o" aria-hidden="true"></i>
+            <span class="hidden-xs">@if(session()->has('building_id')) {{session('building_name')}} @else Set Building @endif</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->
             <li class="user-header">
-              <img src="/images/contact-128.png" class="img-circle" alt="User Image">
+            <i class="fa fa-hospital-o fa-5x" aria-hidden="true"></i>
 
               <p>
-                Admin
-                <small>Member since Nov. 2012</small>
+                @if(session()->has('building_id')) {{session('site_name')}} @else Set Building @endif
+                <small>@if(session()->has('building_id')) {{session('hco_name')}} @else Set Building @endif</small>
               </p>
             </li>
             <!-- Menu Body -->
@@ -231,7 +231,7 @@
             <!-- Menu Footer-->
             <li class="user-footer">
               <div class="pull-left">
-                <a href="#" class="btn btn-default btn-flat">Profile</a>
+                <a href="#" id="change_building_button" class="btn btn-default btn-flat">Set/Change Building</a>
               </div>
               <div class="pull-right">
                 <a href="{{url('logout')}}" class="btn btn-default btn-flat">Sign out</a>

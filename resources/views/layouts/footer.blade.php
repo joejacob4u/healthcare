@@ -5,6 +5,9 @@
   <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
   reserved.
 </footer>
+@if(Auth::check()) {
+@include('accreditation.partials.accreditation_modal')
+@endif
 
 <!-- Modal -->
 <div id="changePasswordModal" class="modal fade" role="dialog">
@@ -158,6 +161,21 @@ function changePassword()
         });
 
 }
+
+$("#healthsystem_tree").click(function(){
+    var building_id = $('#building_id_meta_value').attr('content');
+    
+    if(building_id == 0)
+    {
+        $("#accreditation_modal").modal('show');
+    }
+
+})
+
+$("#change_building_button").click(function(){
+    $("#accreditation_modal").modal('show');
+})
+
 
 var hash = window.location.hash;
 hash && $('ul.nav a[href="' + hash + '"]').tab('show');

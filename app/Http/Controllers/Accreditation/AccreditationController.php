@@ -35,7 +35,6 @@ class AccreditationController extends Controller
         ]);
 
         $building = Building::find($request->building_id);
-        Session::put('building_id', $building->id);
         $accreditation = Accreditation::find($request->accreditation_id);
         $accreditation_requirement = AccreditationRequirement::find($request->accreditation_requirement_id);
         return view('accreditation.index',['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building]);
@@ -47,6 +46,27 @@ class AccreditationController extends Controller
 
         return response()->json(['buildings' => $site->buildings]);
 
+    }
+
+    public function setBuilding(Request $request)
+    {
+        $this->validate($request,[
+            'building_id' => 'required|not_in:0',
+        ]);
+
+        $building = Building::find($request->building_id);
+        $hco = HCO::find($request->hco_id);
+        $site = Site::find($request->site_id);
+        
+        Session::put('building_id', $request->building_id);
+        Session::put('site_id', $request->site_id);
+        Session::put('hco_id', $request->hco_id);
+        Session::put('building_name', $building->name);
+        Session::put('site_name', $site->name);
+        Session::put('hco_name', $hco->facility_name);
+
+
+        return back();       
     }
 
     public function fetchSites(Request $request)

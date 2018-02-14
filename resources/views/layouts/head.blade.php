@@ -5,6 +5,8 @@
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}" />
+  
+  <meta name="building_id_meta_value" id="building_id_meta_value" content="@if(session()->has('building_id')) session('building_id') @else 0 @endif" />
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <!-- Font Awesome -->
