@@ -105,8 +105,7 @@ Route::post('project/ranking-questions/answers/edit', 'Project\RankingAnswerCont
 Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerController@delete');
 
 Route::get('system-admin/accreditation', 'Accreditation\AccreditationController@index');
-Route::get('system-admin/accreditation', 'Accreditation\AccreditationController@index');
-Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirement/{accreditation_requirement_id}', 'Accreditation\AccreditationController@fetchStandardLabels');
+Route::post('system-admin/accreditation/set-building', 'Accreditation\AccreditationController@setBuilding');
 Route::post('system-admin/accreditation/accr-requirements', 'Accreditation\AccreditationController@fetchAccrRequirements');
 Route::post('system-admin/accreditation/fetch/sites', 'Accreditation\AccreditationController@fetchSites');
 Route::post('system-admin/accreditation/fetch/buildings', 'Accreditation\AccreditationController@fetchBuildings');
@@ -114,6 +113,8 @@ Route::post('system-admin/accreditation/fetch/accreditation', 'Accreditation\Acc
 Route::post('system-admin/accreditation/fetch/accreditation_requirements', 'Accreditation\AccreditationController@fetchAccreditationRequirements');
 Route::get('system-admin/accreditation/eop/documentation/{eop_id}', 'Accreditation\AccreditationController@eopDocumentation');
 Route::post('system-admin/accreditation/eop/document/upload', 'Accreditation\AccreditationController@uploadEOPDocument');
+Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirement/{accreditation_requirement_id}', 'Accreditation\AccreditationController@fetchStandardLabels');
+
 
 
 

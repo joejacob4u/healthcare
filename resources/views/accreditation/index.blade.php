@@ -53,6 +53,7 @@
                                   <th>Standard Label</th>
                                   <th>Standard Text</th>
                                   <th>Document</th>
+                                  <th>Frequency</th>
                                   <th>Risk</th>
                               </tr>
                           </thead>
@@ -61,6 +62,7 @@
                               <th>Standard Label</th>
                               <th>Standard Text</th>
                               <th>Document</th>
+                              <th>Frequency</th>
                               <th>Risk</th>
                           </tr>
                           </tfoot>
@@ -70,6 +72,7 @@
                                 <td>{{$eop->name}}</td>
                                 <td>{{$eop->text}}</td>
                                 <td>@if($eop->documentation == 1) {!! link_to('system-admin/accreditation/eop/documentation/'.$eop->id,'Upload',['class' => 'btn-xs btn-success']) !!} @else Nil @endif</td>
+                                <td>{{$eop->frequency}}</td>
                                 <td>@if($eop->risk == 1) Yes @else No @endif</td>
                               </tr>
                             @endforeach
