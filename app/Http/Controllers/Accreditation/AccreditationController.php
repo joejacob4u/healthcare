@@ -27,16 +27,11 @@ class AccreditationController extends Controller
         return view('accreditation.index',['hcos' => $hcos]);
     }
 
-    public function fetchAccrRequirements(Request $request)
+    public function fetchStandardLabels($accreditation_id,$accreditation_requirement_id)
     {
-        $this->validate($request,[
-            'building_id' => 'required|not_in:0',
-            'accreditation_requirement_id' => 'required|not_in:0'
-        ]);
-
-        $building = Building::find($request->building_id);
-        $accreditation = Accreditation::find($request->accreditation_id);
-        $accreditation_requirement = AccreditationRequirement::find($request->accreditation_requirement_id);
+        $building = Building::find(session('building_id'));
+        $accreditation = Accreditation::find($accreditation_id);
+        $accreditation_requirement = AccreditationRequirement::find($accreditation_requirement_id);
         return view('accreditation.index',['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building]);
     }
 

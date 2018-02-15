@@ -136,49 +136,39 @@
         <li class="header text-yellow"><i class="fa fa-building" aria-hidden="true"></i>&emsp;<strong> {{strtoupper(session('building_name'))}}</strong></li>
         @endif
 
-      <li class="treeview">
-           <a href="#" id="healthsystem_tree">
-             <i class="fa fa-files-o"></i>
-             <span>Healthsystem User</span>
-             <span class="pull-right-container">
-               <i class="fa fa-angle-left pull-right"></i></span>
-             </span>
-           </a>
-           <ul class="treeview-menu">
-           @if(session()->has('building_id'))
-              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Maintenance Work Orders</a></li>
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i><span>Accreditation</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i></span>
-                  </span>
-                </a>
+        @if(session()->has('building_id'))
+          <li class="treeview @if(\Request::is('system-admin/accreditation/*')) active @endif" id="healthsystem_tree">
+            <a href="#">
+              <i class="fa fa-circle-o"></i><span>Accreditation</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i></span>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+              @foreach($sidebar_building->accreditations as $accreditation)
+                  <li class="treeview @if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/*')) active @endif">
+                    <a href="#">
+                      <i class="fa fa-circle-o"></i><span>{{$accreditation->name}}</span>
+                      <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i></span>
+                      </span>
+                    </a>
                 <ul class="treeview-menu">
-                  @foreach($sidebar_building->accreditations as $accreditation)
-                      <li class="treeview">
-                        <a href="#">
-                          <i class="fa fa-circle-o"></i><span>{{$accreditation->name}}</span>
-                          <span class="pull-right-container">
-                            <i class="fa fa-angle-left pull-right"></i></span>
-                          </span>
-                        </a>
-                    <ul class="treeview-menu">
-                      @foreach($accreditation->accreditationRequirements as $accreditation_requirement)
-                      <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
-                      @endforeach
-                    </ul>
-                  </li>
-
+                  @foreach($accreditation->accreditationRequirements as $accreditation_requirement)
+                    <li class="@if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)) active @endif"><a href="{{url('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
                   @endforeach
                 </ul>
               </li>
-              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Projects</a></li>
-              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Environmental Services</a></li>
-              <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomedical Equipment</a></li>
-              @endif
-           </ul>
-       </li>
+
+              @endforeach
+            </ul>
+          </li>
+
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Maintenance Work Orders</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Projects</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Environmental Services</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomedical Equipment</a></li>
+        @endif
 
 
   </ul>

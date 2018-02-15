@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Accreditations')
+@section('page_title','Accreditation : '.$accreditation->name)
 @section('page_description','Configure accreditations here.')
 
 @section('content')
@@ -13,41 +13,13 @@
     <div class="box">
       <div class="box-header with-border">
       @if(isset($accreditation_requirement))
-      <h2>{{ $building->name }} - {{$building->site->name}}</h2> <small>{{$accreditation->name}}</small>
-         
-      @else
-
-      {!! Form::open(['url' => 'system-admin/accreditation/accr-requirements/', 'class' => 'form-inline']) !!}
-            <div class="form-group">
-                {!! Form::label('hco_id', 'HCO:', ['class' => 'control-label']) !!}
-                {!! Form::select('hco_id', $hcos, Request::old('hco_id'), ['class' => 'form-control selectpicker','id' => 'hco_id']); !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('site_id', 'Site:', ['class' => 'control-label']) !!}
-                {!! Form::select('site_id', [], '', ['class' => 'form-control','id' => 'site_id','data-live-search' => "true"]); !!}
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('building_id', 'Building:', ['class' => 'control-label']) !!}
-                {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id','data-live-search' => "true"]); !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'control-label']) !!}
-                {!! Form::select('accreditation_id', [], '', ['class' => 'form-control','id' => 'accreditation_id','data-live-search' => "true"]); !!}
-            </div>
-            <div class="form-group">
-                {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
-                {!! Form::select('accreditation_requirement_id', [], Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id','data-live-search' => "true"]); !!}
-            </div>
-
-              <button type="submit" class="btn btn-primary">Search</button>
-          {!! Form::close()  !!}
+        <h2>{{ $building->name }} - {{$building->site->name}}</h2>
       @endif
       </div>
       <div class="box-body">
                 @if(isset($accreditation_requirement))
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                  @foreach($accreditation_requirement->standardLabels as $standard_label)
+                  @foreach($accreditation_requirement->standardLabels->where('accreditation_id',$accreditation->id) as $standard_label)
                     <div class="panel panel-default">
                       <div class="panel-heading" role="tab" id="headingOne">
                         <h4 class="panel-title">
