@@ -21,7 +21,7 @@
       <div class="box-body">
                 @if(isset($accreditation_requirement))
                 <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-                  @foreach($accreditation_requirement->standardLabels->where('accreditation_id',$accreditation->id) as $standard_label)
+                  @foreach($accreditation_requirement->standardLabels->where('accreditation_id',$accreditation->id)->sortBy('label'); as $standard_label)
                     <div class="panel panel-default">
                       <div class="panel-heading" role="tab" id="headingOne">
                         <h4 class="panel-title">
