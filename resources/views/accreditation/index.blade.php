@@ -12,9 +12,11 @@
 @include('layouts.partials.errors')
     <div class="box">
       <div class="box-header with-border">
-      @if(isset($accreditation_requirement))
-        <h2>{{ $building->name }} - {{$building->site->name}}</h2>
-      @endif
+      <div class="callout callout-info">
+          <h4>{{ $building->name }} - {{$building->site->name}}</h4>
+
+          <p>{{ $building->site->address }}</p>
+        </div>        
       </div>
       <div class="box-body">
                 @if(isset($accreditation_requirement))
