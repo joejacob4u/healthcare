@@ -77,6 +77,7 @@
                     <tr id="tr-{{$document->id}}">
                         <td>{{$document->pivot->submission_date}}</td>
                         <td>{{ App\User::find($document->pivot->user_id)->name}}</td>
+                        <td>{!! link_to('system-admin/accreditation/eop/document/edit/'.$document->id,'Edit Files',['class' => 'btn-xs btn-primary']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
