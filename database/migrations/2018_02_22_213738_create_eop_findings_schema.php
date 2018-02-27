@@ -16,9 +16,22 @@ class CreateEopFindingsSchema extends Migration
         Schema::create('eop_findings', function (Blueprint $table) {
             $table->increments('id');
             $table->text('description');
+            $table->text('plan_of_action');
+            $table->text('measure_of_success');
+            $table->text('internal_notes');
             $table->integer('eop_id');
             $table->string('location');
             $table->text('status');
+            $table->string('created_by_user_id');
+            $table->timestamps();
+        });
+
+        Schema::create('eop_finding_comments', function (Blueprint $table) {
+            $table->increments('id');
+            $table->integer('eop_finding_id');
+            $table->text('comment');
+            $table->boolean('is_important');
+            $table->string('attachments_path');
             $table->string('created_by_user_id');
             $table->timestamps();
         });
@@ -32,5 +45,6 @@ class CreateEopFindingsSchema extends Migration
     public function down()
     {
         Schema::dropIfExists('eop_findings');
+        Schema::dropIfExists('eop_finding_comments');
     }
 }

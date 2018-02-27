@@ -55,6 +55,7 @@
                                   <th>Document</th>
                                   <th>Frequency</th>
                                   <th>Risk</th>
+                                  <th>Status</th>
                               </tr>
                           </thead>
                           <tfoot>
@@ -64,6 +65,7 @@
                               <th>Document</th>
                               <th>Frequency</th>
                               <th>Risk</th>
+                              <th>Status</th>
                           </tr>
                           </tfoot>
                           <tbody>
@@ -74,6 +76,7 @@
                                 <td>@if($eop->documentation == 1) {!! link_to('system-admin/accreditation/eop/documentation/'.$eop->id,'Upload',['class' => 'btn-xs btn-success']) !!} @else Nil @endif</td>
                                 <td>{{$eop->frequency}}</td>
                                 <td>@if($eop->risk == 1) Yes @else No @endif</td>
+                                <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id,'Status',['class' => 'btn-xs btn-primary']) !!}</td>
                               </tr>
                             @endforeach
                           </tbody>
