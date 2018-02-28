@@ -22,7 +22,7 @@
     <div class="box-header with-border">
     <h3 class="box-title">Findings</h3>
     <div class="box-tools pull-right">
-        <a href="{{url('projects/general/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Finding</a>
+        <a href="{{url('system-admin/accreditation/eop/status/'.$eop->id.'/finding/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Finding</a>
     </div>
 
     </div>
@@ -43,6 +43,13 @@
                 </tr>
             </tfoot>
             <tbody>
+            @foreach($findings as $finding)
+                <tr>
+                    <td>{{$finding->description}}</td>
+                    <td>{{$finding->status}}</td>
+                    <td>{!! link_to('','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                </tr>
+            @endforeach
             </tbody>
         </table>
     </div>
