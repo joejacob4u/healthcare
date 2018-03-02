@@ -32,6 +32,7 @@ class CreateEopFindingsSchema extends Migration
             $table->text('comment');
             $table->boolean('is_important');
             $table->string('attachments_path');
+            $table->string('status');
             $table->string('created_by_user_id');
             $table->timestamps();
         });

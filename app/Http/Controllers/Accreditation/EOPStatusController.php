@@ -8,6 +8,7 @@ use App\Regulatory\Site;
 use App\Regulatory\HCO;
 use App\Regulatory\EOP;
 use App\Regulatory\EOPFinding;
+use App\Regulatory\EOPFindingComment;
 use App\Regulatory\Building;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
@@ -58,6 +59,22 @@ class EOPStatusController extends Controller
         $building = Building::find(session('building_id'));
         return view('accreditation.finding.finding',['eop' => $eop,'building' => $building,'finding' => $finding]);
     }
+
+    public function createComment(Request $request)
+    {
+        $this->validate($request,[
+            'comment' => 'required'
+        ]);
+
+        $finding = EOPFinding::find($request->eop_finding_id);
+
+        if(EOPFindingComment::create($request->all()))
+        {
+            $finding->update(['status' => $request->status]);
+            return back()->with('success','Comment has been added!');
+        }
+    }
+
 
 
 }

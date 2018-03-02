@@ -119,6 +119,8 @@ Route::get('system-admin/accreditation/eop/status/{eop_id}', 'Accreditation\EOPS
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@addFinding');
 Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@createFinding');
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/{finding_id}', 'Accreditation\EOPStatusController@viewFinding');
+Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/comment/add', 'Accreditation\EOPStatusController@createComment');
+
 
 
 
