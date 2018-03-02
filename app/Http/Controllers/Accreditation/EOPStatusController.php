@@ -51,5 +51,13 @@ class EOPStatusController extends Controller
 
     }
 
+    public function viewFinding($eop_id,$finding_id)
+    {
+        $eop = EOP::find($eop_id);
+        $finding = EOPFinding::find($finding_id);
+        $building = Building::find(session('building_id'));
+        return view('accreditation.finding.finding',['eop' => $eop,'building' => $building,'finding' => $finding]);
+    }
+
 
 }

@@ -32,14 +32,14 @@
                 <tr>
                     <th>Finding</th>
                     <th>Status</th>
-                    <th>Edit</th>
+                    <th>View</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th>Finding</th>
                     <th>Status</th>
-                    <th>Edit</th>
+                    <th>View</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -47,7 +47,7 @@
                 <tr>
                     <td>{{$finding->description}}</td>
                     <td>{{$finding->status}}</td>
-                    <td>{!! link_to('','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                    <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/'.$finding->id,'View',['class' => 'btn-xs btn-warning']) !!}</td>
                 </tr>
             @endforeach
             </tbody>
