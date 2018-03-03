@@ -13,4 +13,5 @@ class EOPFinding extends Model
     {
         return $this->hasMany('App\Regulatory\EOPFindingComment','eop_finding_id');
     }
+
 }

@@ -12,9 +12,9 @@
 @include('layouts.partials.errors')
 
 <ol class="breadcrumb">
-          <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-          <li><a href="#">Layout</a></li>
-          <li class="active">Top Navigation</li>
+          <li><a href="{{url('system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>')}}"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
+          <li><a href="{{url('system-admin/accreditation/eop/status/'.$finding->eop_id)}}">Status</a></li>
+          <li class="active">Finding Activity</li>
         </ol>
 
 <div class="callout callout-info">
@@ -133,7 +133,7 @@
                                     <h3 class="timeline-header"><strong>{{ App\User::find($comment->created_by_user_id)->name}}</strong> commented :</h3>
 
                                     <div class="timeline-body">
-                                        <div class="row"><p>{{$comment->comment}}</p></div>
+                                        <div class="row"><p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span></p><</div>
                                         @if(!empty($comment->attachments_path))
                                         <div class="panel panel-default">
                                             <div class="panel-heading">Attachments</div>
@@ -160,6 +160,7 @@
                                         @endif
                                     </div>
                                     <div class="timeline-footer">
+                                        
                                     </div>
                                 </div>
                             </li>

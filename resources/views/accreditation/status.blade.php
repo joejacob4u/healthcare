@@ -13,6 +13,11 @@
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
+<ol class="breadcrumb">
+          <li><a href="{{url('system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>')}}"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
+          <li class="active">EOP Status</li>
+        </ol>
+
 <div class="callout callout-info">
     <h4>EOP : {{$eop->name}}</h4>
     <p>{{$eop->text}}</p>
@@ -32,14 +37,16 @@
                 <tr>
                     <th>Finding</th>
                     <th>Status</th>
-                    <th>View</th>
+                    <th>Edit</th>
+                    <th>View Progress</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th>Finding</th>
                     <th>Status</th>
-                    <th>View</th>
+                    <th>Edit</th>
+                    <th>View Activity</th>
                 </tr>
             </tfoot>
             <tbody>
@@ -47,7 +54,8 @@
                 <tr>
                     <td>{{$finding->description}}</td>
                     <td>{{$finding->status}}</td>
-                    <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/'.$finding->id,'View',['class' => 'btn-xs btn-warning']) !!}</td>
+                    <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/edit/'.$finding->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                    <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/'.$finding->id,'View Activity',['class' => 'btn-xs btn-primary']) !!}</td>
                 </tr>
             @endforeach
             </tbody>

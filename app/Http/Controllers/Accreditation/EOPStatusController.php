@@ -35,6 +35,34 @@ class EOPStatusController extends Controller
         return view('accreditation.finding.add',['eop' => $eop]);
     }
 
+    public function editFinding($eop_id,$finding_id)
+    {
+        $finding = EOPFinding::find($finding_id);
+        $eop = EOP::find($eop_id);
+        return view('accreditation.finding.edit',['finding' => $finding,'eop' => $eop]);
+    }
+
+    public function saveFinding(Request $request,$eop_id,$finding_id)
+    {
+        $this->validate($request,[
+            'description' => 'required',
+            'plan_of_action' => 'required',
+            'measure_of_success' => 'required',
+            'status' => 'required',
+            'location' => 'required'
+        ]);
+
+        $finding = EOPFinding::find($finding_id);
+
+        if($finding->update($request->all()))
+        {
+            return redirect('system-admin/accreditation/eop/status/'.$request->eop_id)->with('success','Finding saved!');
+        }
+
+    }
+
+
+
     public function createFinding(Request $request)
     {
         $this->validate($request,[
