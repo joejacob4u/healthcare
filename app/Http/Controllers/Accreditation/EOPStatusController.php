@@ -12,6 +12,8 @@ use App\Regulatory\EOPFindingComment;
 use App\Regulatory\Building;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
+use App\User;
+use Auth;
 use Session;
 
 class EOPStatusController extends Controller
@@ -26,7 +28,8 @@ class EOPStatusController extends Controller
         $eop = EOP::find($eop_id);
         $building = Building::find(session('building_id'));
         $findings = EOPFinding::orderBy('id','desc')->get();
-        return view('accreditation.status',['eop' => $eop,'building' => $building,'findings' => $findings]);
+        $healthsystem_users = User::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->pluck('name','id');
+        return view('accreditation.status',['eop' => $eop,'building' => $building,'findings' => $findings,'healthsystem_users' => $healthsystem_users]);
     }
 
     public function addFinding($eop_id)
@@ -61,8 +64,6 @@ class EOPStatusController extends Controller
 
     }
 
-
-
     public function createFinding(Request $request)
     {
         $this->validate($request,[
@@ -77,7 +78,6 @@ class EOPStatusController extends Controller
         {
             return redirect('system-admin/accreditation/eop/status/'.$request->eop_id)->with('success','New finding added!');
         }
-
     }
 
     public function viewFinding($eop_id,$finding_id)
@@ -102,7 +102,4 @@ class EOPStatusController extends Controller
             return back()->with('success','Comment has been added!');
         }
     }
-
-
-
 }

@@ -25,6 +25,7 @@
     "bootbox.js": "~4.4.0",
     "seiyria-bootstrap-slider": "^9.8.1",
     "simple-ajax-uploader": "^2.6.2",
-    "dropzone": "^5.1.1"
+    "dropzone": "^5.1.1",
+    "bootstrap-datepicker": "^1.7.1"
   }
 }

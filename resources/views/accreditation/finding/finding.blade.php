@@ -34,7 +34,7 @@
     <div class="box-body">
         <div class="row">
             <div class="col-sm-6">
-                <div class="box box-warning box-solid collapsed-box">
+                <div class="box box-warning box-solid">
                     <div class="box-header with-border">
                     <h3 class="box-title">Plan of Action</h3>
 
@@ -52,7 +52,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="box box-warning box-solid collapsed-box">
+                <div class="box box-warning box-solid">
                     <div class="box-header with-border">
                     <h3 class="box-title">Measure of Success</h3>
 
@@ -73,7 +73,7 @@
 
         <div class="row">
             <div class="col-sm-6">
-                <div class="box box-warning box-solid collapsed-box">
+                <div class="box box-warning box-solid">
                     <div class="box-header with-border">
                     <h3 class="box-title">Internal Notes</h3>
 
@@ -91,7 +91,7 @@
                 </div>
             </div>
             <div class="col-sm-6">
-                <div class="box box-warning box-solid collapsed-box">
+                <div class="box box-warning box-solid">
                     <div class="box-header with-border">
                     <h3 class="box-title">Location</h3>
 
@@ -133,7 +133,7 @@
                                     <h3 class="timeline-header"><strong>{{ App\User::find($comment->created_by_user_id)->name}}</strong> commented :</h3>
 
                                     <div class="timeline-body">
-                                        <div class="row"><p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span></p><</div>
+                                        <p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span></p>
                                         @if(!empty($comment->attachments_path))
                                         <div class="panel panel-default">
                                             <div class="panel-heading">Attachments</div>
@@ -233,6 +233,22 @@
                         {!! HTML::dropzone('attachments_path','accreditation/'.session('accreditation_id').'/building/'.$building->id.'/eop/'.$eop->id.'/finding/'.$finding->id.'/'.strtotime('now'),'false') !!}
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        {!! Form::label('assigned_user_id', 'Assign To:', ['class' => 'col-lg-2 control-label']) !!}
+                        <div class="col-lg-10">
+                            {!! Form::select('assigned_user_id', $healthsystem_users, Request::old('assigned_user_id'), ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        {!! Form::label('due_date', 'Due Date:', ['class' => 'col-lg-2 control-label']) !!}
+                        <div class="col-lg-10">
+                            {!! Form::select('due_date', $healthsystem_users, Request::old('due_date'), ['class' => 'form-control']) !!}
+                        </div>
+                    </div>
+
+
 
 
                     {!! Form::hidden('created_by_user_id',Auth::guard('system_user')->user()->id) !!}

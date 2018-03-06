@@ -12,6 +12,7 @@ class MacroServiceProvider extends ServiceProvider {
     public function boot()
     {
         require base_path() . '/resources/macros/dropzone.php';
+        require base_path() . '/resources/macros/calendar.php';
     }
 
     /**
