@@ -37,14 +37,16 @@
                 <tr>
                     <th>Finding</th>
                     <th>Status</th>
+                    <th>Date of Finding</th>
                     <th>Edit</th>
-                    <th>View Progress</th>
+                    <th>View Activity</th>
                 </tr>
             </thead>
             <tfoot>
                 <tr>
                     <th>Finding</th>
                     <th>Status</th>
+                    <th>Date of Finding</th>
                     <th>Edit</th>
                     <th>View Activity</th>
                 </tr>
@@ -54,6 +56,7 @@
                 <tr>
                     <td>{{$finding->description}}</td>
                     <td>{{$finding->status}}</td>
+                    <td>{{ date('F j, Y, g:i a',strtotime($finding->created_at)) }}</td>
                     <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/edit/'.$finding->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/'.$finding->id,'View Activity',['class' => 'btn-xs btn-primary']) !!}</td>
                 </tr>

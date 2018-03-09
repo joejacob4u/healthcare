@@ -25,7 +25,7 @@
   <link rel="stylesheet" href="/bower_components/seiyria-bootstrap-slider/dist/css/bootstrap-slider.css">
   <link rel="stylesheet" href="/bower_components/datatables/media/css/jquery.dataTables.css">
   <link rel="stylesheet" href="/bower_components/dropzone/dist/dropzone.css">
-
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
   <script src="{{ asset ("/bower_components/jquery/dist/jquery.min.js") }}" type="text/javascript"></script>
   <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
@@ -36,7 +36,7 @@
   <script src="{{ asset ("/bower_components/seiyria-bootstrap-slider/dist/bootstrap-slider.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/datatables/media/js/jquery.dataTables.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/dropzone/dist/dropzone.js") }}" type="text/javascript"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
   @yield('head')
 </head>

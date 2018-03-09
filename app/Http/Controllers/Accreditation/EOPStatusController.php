@@ -28,8 +28,7 @@ class EOPStatusController extends Controller
         $eop = EOP::find($eop_id);
         $building = Building::find(session('building_id'));
         $findings = EOPFinding::orderBy('id','desc')->get();
-        $healthsystem_users = User::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->pluck('name','id');
-        return view('accreditation.status',['eop' => $eop,'building' => $building,'findings' => $findings,'healthsystem_users' => $healthsystem_users]);
+        return view('accreditation.status',['eop' => $eop,'building' => $building,'findings' => $findings]);
     }
 
     public function addFinding($eop_id)
@@ -85,13 +84,16 @@ class EOPStatusController extends Controller
         $eop = EOP::find($eop_id);
         $finding = EOPFinding::find($finding_id);
         $building = Building::find(session('building_id'));
-        return view('accreditation.finding.finding',['eop' => $eop,'building' => $building,'finding' => $finding]);
+        $healthsystem_users = User::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->pluck('name','id')->prepend('Please select a user', '0');
+        return view('accreditation.finding.finding',['eop' => $eop,'building' => $building,'finding' => $finding,'healthsystem_users' => $healthsystem_users]);
     }
 
     public function createComment(Request $request)
     {
         $this->validate($request,[
-            'comment' => 'required'
+            'comment' => 'required',
+            'due_date' => 'required',
+            'assigned_user_id' => 'not_in:0'
         ]);
 
         $finding = EOPFinding::find($request->eop_finding_id);

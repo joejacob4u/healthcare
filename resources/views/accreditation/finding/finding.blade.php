@@ -54,7 +54,7 @@
             <div class="col-sm-6">
                 <div class="box box-warning box-solid">
                     <div class="box-header with-border">
-                    <h3 class="box-title">Measure of Success</h3>
+                    <h3 class="box-title">Measure of Success </h3> 
 
                     <div class="box-tools pull-right">
                         <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -65,6 +65,9 @@
                     <!-- /.box-header -->
                     <div class="box-body" style="">
                     {{$finding->measure_of_success}}
+                    </div>
+                    <div class="box-footer">
+                        <span class="label bg-red">Date : {{ date('F j, Y, g:i a',strtotime($finding->measure_of_success_date)) }} </span>
                     </div>
                 <!-- /.box-body -->
                 </div>
@@ -111,6 +114,30 @@
 
         </div>
 
+        <div class="row">
+            <div class="box box-primary box-solid">
+            <div class="box-header with-border">
+            <h3 class="box-title">Files</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                </button>
+            </div>
+            <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+                <ul class="list-group">
+                    @foreach(\Illuminate\Support\Facades\Storage::disk('s3')->files($finding->attachments_path) as $file)
+                        <li class="list-group-item">{{$file}} <a href="{{Storage::disk('s3')->url($file)}}" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-save"></span> Download</a></li>
+                    @endforeach
+                </ul>
+            </div>
+            <div class="box-footer">
+                {{$finding->documents_description}}
+            </div> 
+        </div>
+
         <div class="box box-primary">
             <div class="box-header with-border">
             <h3 class="box-title">Timeline</h3>
@@ -124,7 +151,7 @@
             <div class="box-body">
                 <div class="row">
                     <ul class="timeline">
-                        @foreach($finding->comments as $comment)
+                        @foreach($finding->comments->sortByDesc('id') as $comment)
                             <li>
                                 <i class="fa fa-comments bg-red"></i>
                                 <div class="timeline-item">
@@ -133,7 +160,7 @@
                                     <h3 class="timeline-header"><strong>{{ App\User::find($comment->created_by_user_id)->name}}</strong> commented :</h3>
 
                                     <div class="timeline-body">
-                                        <p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span></p>
+                                        <p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span><span class="label label-primary">Assigned To: {{App\User::find($comment->assigned_user_id)->name}}</span><span class="label label-warning">Due: {{ date("F j, Y, g:i a",strtotime($comment->due_date))}}</span></p>
                                         @if(!empty($comment->attachments_path))
                                         <div class="panel panel-default">
                                             <div class="panel-heading">Attachments</div>
@@ -244,12 +271,9 @@
                     <div class="form-group">
                         {!! Form::label('due_date', 'Due Date:', ['class' => 'col-lg-2 control-label']) !!}
                         <div class="col-lg-10">
-                            {!! Form::select('due_date', $healthsystem_users, Request::old('due_date'), ['class' => 'form-control']) !!}
+                            {!! Form::text('due_date', '', Request::old('due_date'), ['class' => 'form-control','id' => 'due_date']) !!}
                         </div>
                     </div>
-
-
-
 
                     {!! Form::hidden('created_by_user_id',Auth::guard('system_user')->user()->id) !!}
                     {!! Form::hidden('eop_finding_id',$finding->id) !!}
@@ -263,5 +287,12 @@
       </div>
     </div>
   </div>
+
+  <script>
+    $("#due_date").flatpickr({
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+    });
+  </script>
 
 @endsection

@@ -65,12 +65,35 @@
                   </div>
               </div>
 
+            <div class="form-group">
+                  {!! Form::label('measure_of_success_date', 'Measure of Success Date:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('measure_of_success_date', Request::old('measure_of_success_date'), ['class' => 'form-control date','id' => 'measure_of_success_date']) !!}
+                  </div>
+              </div>
+
+
               <div class="form-group">
                   {!! Form::label('internal_notes', 'Internal Notes:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::textarea('internal_notes', Request::old('internal_notes'), ['class' => 'form-control','rows' => 3]) !!}
                   </div>
               </div>
+
+            <div class="form-group">
+                  {!! Form::label('attachments_path', 'Attach Documents:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                  {!! HTML::dropzone('attachments_path','accreditation/'.session('accreditation_id').'/building/'.session('building_id').'/eop/'.$eop->id.'/finding/'.strtotime('now'),'false') !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('documents_description', 'Documents Description:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('documents_description', Request::old('documents_description'), ['class' => 'form-control','rows' => 3]) !!}
+                  </div>
+              </div>
+
 
               {!! Form::hidden('eop_id', $eop->id) !!}
               {!! Form::hidden('created_by_user_id',Auth::guard('system_user')->user()->id) !!}
@@ -88,4 +111,13 @@
             {!! Form::close()  !!}
         </div>
 
-        @endsection
+   <script>
+    $(".date").flatpickr({
+        enableTime: true,
+        dateFormat: "Y-m-d H:i",
+    });
+  </script>
+
+
+
+@endsection
