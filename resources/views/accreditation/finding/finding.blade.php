@@ -12,10 +12,10 @@
 @include('layouts.partials.errors')
 
 <ol class="breadcrumb">
-          <li><a href="{{url('system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>')}}"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
-          <li><a href="{{url('system-admin/accreditation/eop/status/'.$finding->eop_id)}}">Status</a></li>
-          <li class="active">Finding Activity</li>
-        </ol>
+    <li><a href="{{url('system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>')}}"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
+    <li><a href="{{url('system-admin/accreditation/eop/status/'.$finding->eop_id)}}">Status</a></li>
+    <li class="active">Finding Activity</li>
+</ol>
 
 <div class="callout callout-info">
     <h4>Finding Description</h4>
@@ -160,7 +160,7 @@
                                     <h3 class="timeline-header"><strong>{{ App\User::find($comment->created_by_user_id)->name}}</strong> commented :</h3>
 
                                     <div class="timeline-body">
-                                        <p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span><span class="label label-primary">Assigned To: {{App\User::find($comment->assigned_user_id)->name}}</span><span class="label label-warning">Due: {{ date("F j, Y, g:i a",strtotime($comment->due_date))}}</span></p>
+                                        <p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span><span class="label label-primary">Assigned To: @if(!empty($comment->assigned_user_id)) {{App\User::find($comment->assigned_user_id)->name}} @endif</span><span class="label label-warning">Due: {{ date("F j, Y, g:i a",strtotime($comment->due_date))}}</span></p>
                                         @if(!empty($comment->attachments_path))
                                         <div class="panel panel-default">
                                             <div class="panel-heading">Attachments</div>
@@ -236,7 +236,7 @@
                     <div class="form-group">
                         {!! Form::label('status', 'Status:', ['class' => 'col-lg-2 control-label']) !!}
                         <div class="col-lg-10">
-                            {!! Form::select('status', ['initial' => 'Initial Submission','non-compliant' => 'Non-Compliant','pending_verification' => 'Pending Verification','compliant' => 'Compliant'], $finding->status, ['class' => 'form-control']) !!}
+                            {!! Form::select('status', ['initial' => 'Initial Submission','non-compliant' => 'Non-Compliant','pending_verification' => 'Pending Verification','compliant' => 'Compliant','issues_corrected_verify' => 'Issues Corrected Please Verify Compliant'], $finding->status, ['class' => 'form-control']) !!}
                         </div>
                     </div>
 
