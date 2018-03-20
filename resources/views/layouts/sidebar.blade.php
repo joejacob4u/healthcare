@@ -76,6 +76,7 @@
   @if(Auth::guard('system_user')->user()->role->name == 'System Admin')
   <ul class="sidebar-menu">
     <li class="header text-yellow"><strong>SYSTEM ADMIN</strong></li>
+    <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
     <li class="treeview">
          <a href="#">
            <i class="fa fa-files-o"></i>

@@ -183,6 +183,7 @@ return [
         Hesto\MultiAuth\MultiAuthServiceProvider::class,
         AdrianMejias\States\StatesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
+        Yajra\Datatables\DatatablesServiceProvider::class,
         App\Providers\MacroServiceProvider::class
 
     ],
@@ -237,7 +238,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'States' => AdrianMejias\States\StatesFacade::class,
         'HTML' => Collective\Html\HtmlFacade::class,
-
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
     ],
 
 ];

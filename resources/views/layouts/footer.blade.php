@@ -63,7 +63,7 @@
 <script>
 $(document).ready(function(){
     
-    $('table').DataTable({
+    $("table[type!='yajra']").DataTable({
       initComplete: function () {
           this.api().columns().every( function () {
               var column = this;

@@ -10,14 +10,11 @@ use App\Regulatory\Site;
 use App\Regulatory\Building;
 use App\User;
 use App\Regulatory\EOPFinding;
+use Yajra\Datatables\Datatables;
+use DB;
 
-class HomeController extends Controller
+class DashboardController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('loggedin');
@@ -30,11 +27,6 @@ class HomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        return view('home');
-    }
-
-    public function dashboard()
     {
         $no_of_hcos = HCO::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->count();
         $no_of_users = User::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->count();
@@ -50,18 +42,24 @@ class HomeController extends Controller
         ]);
     }
 
-    public function logout()
+    public function getFindings(Request $request)
     {
-        $guards = array_keys(config('auth.guards'));
+        $findings = DB::table('eop_findings')
+                    ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
+                    ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id','buildings.name','eop_findings.status')
+                    ->where('eop_findings.healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->orderBy('eop_findings.updated_at', 'desc');
         
-        foreach ($guards as $guard) {
-          if(Auth::guard($guard)->check())
-          {
-            Auth::guard($guard)->logout();
-          }
-          
-        }
-        Session::flush();
-        return redirect('/login');
+        return Datatables::of($findings)
+                ->addColumn('building',function($finding) {
+                    return $finding->name;
+                })
+                ->addColumn('view',function($finding){
+                    return '<a href="system-admin/accreditation/eop/status/'.$finding->eop_id.'/finding/'.$finding->id.'" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-eye-open"></span> View</a>';
+                })
+                ->removeColumn('id')
+                ->removeColumn('eop_id')
+                ->make(true);
     }
+
+
 }

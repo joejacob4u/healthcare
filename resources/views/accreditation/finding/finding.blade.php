@@ -5,7 +5,7 @@
 
 @endsection
 @section('page_title','Findings for  - <strong>'.$building->name.'</strong>')
-@section('page_description','<span class="label label-danger">'.$finding->status.'</span>')
+@section('page_description','<span class="label label-'.$finding->statusColor().'">'.$finding->status.'</span>')
 
 @section('content')
 @include('layouts.partials.success')
@@ -160,7 +160,7 @@
                                     <h3 class="timeline-header"><strong>{{ App\User::find($comment->created_by_user_id)->name}}</strong> commented :</h3>
 
                                     <div class="timeline-body">
-                                        <p>{{$comment->comment}} <span class="label label-danger">{{$comment->status}}</span><span class="label label-primary">Assigned To: @if(!empty($comment->assigned_user_id)) {{App\User::find($comment->assigned_user_id)->name}} @endif</span><span class="label label-warning">Due: {{ date("F j, Y, g:i a",strtotime($comment->due_date))}}</span></p>
+                                        <p>{{$comment->comment}} <span class="label label-{{$comment->statusColor()}}">{{$comment->status}}</span><span class="label label-primary">Assigned To: @if(!empty($comment->assigned_user_id)) {{App\User::find($comment->assigned_user_id)->name}} @endif</span><span class="label label-warning">Due: {{ date("F j, Y, g:i a",strtotime($comment->due_date))}}</span></p>
                                         @if(!empty($comment->attachments_path))
                                         <div class="panel panel-default">
                                             <div class="panel-heading">Attachments</div>

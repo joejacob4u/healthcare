@@ -104,6 +104,11 @@ Route::post('project/ranking-questions/answers/add', 'Project\RankingAnswerContr
 Route::post('project/ranking-questions/answers/edit', 'Project\RankingAnswerController@save');
 Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerController@delete');
 
+Route::get('dashboard', 'DashboardController@index');
+Route::post('dashboard/fetch/findings', 'DashboardController@getFindings');
+
+
+
 Route::get('system-admin/accreditation', 'Accreditation\AccreditationController@index');
 Route::post('system-admin/accreditation/set-building', 'Accreditation\AccreditationController@setBuilding');
 Route::post('system-admin/accreditation/accr-requirements', 'Accreditation\AccreditationController@fetchAccrRequirements');

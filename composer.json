@@ -13,7 +13,8 @@
         "barryvdh/laravel-debugbar": "^2.3",
         "hesto/multi-auth": "^1.0",
         "adrianmejias/laravel-states": "^1.2",
-        "league/flysystem-aws-s3-v3": "~1.0"
+        "league/flysystem-aws-s3-v3": "~1.0",
+        "yajra/laravel-datatables-oracle": "~6.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
