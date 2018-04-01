@@ -9,9 +9,18 @@
 
 
 
+
+
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
+
+<ol class="breadcrumb">
+    <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li><a href="{{url('system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>')}}"> Accreditation Requirement</a></li>
+    <li class="active">Documentation</li>
+</ol>
+
 
 <div class="callout callout-info">
     <h4>EOP : {{$eop->name}}</h4>

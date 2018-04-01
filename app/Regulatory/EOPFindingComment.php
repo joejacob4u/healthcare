@@ -3,6 +3,7 @@
 namespace App\Regulatory;
 
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class EOPFindingComment extends Model
 {
@@ -43,5 +44,18 @@ class EOPFindingComment extends Model
                 break;
 
         }
+    }
+
+    public function assignedBy()
+    {
+        return $this->belongsTo('App\User','created_by_user_id');
+    }
+
+    public function building()
+    {
+        return collect(DB::table('eop_findings')->select('buildings.name')
+                ->leftJoin('eop_finding_comments','eop_findings.id','=','eop_finding_comments.eop_finding_id')
+                ->leftJoin('buildings','eop_findings.building_id','=','buildings.id')
+                ->where('eop_finding_comments.id',$this->id)->first());
     }
 }

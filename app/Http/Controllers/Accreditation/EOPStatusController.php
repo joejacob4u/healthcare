@@ -83,7 +83,8 @@ class EOPStatusController extends Controller
     {
         $eop = EOP::find($eop_id);
         $finding = EOPFinding::find($finding_id);
-        $building = Building::find(session('building_id'));
+        $this->changeSession($finding);
+        $building = Building::find($finding->building_id);
         $healthsystem_users = User::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->pluck('name','id')->prepend('Please select a user', '0');
         return view('accreditation.finding.finding',['eop' => $eop,'building' => $building,'finding' => $finding,'healthsystem_users' => $healthsystem_users]);
     }
@@ -103,5 +104,22 @@ class EOPStatusController extends Controller
             $finding->update(['status' => $request->status]);
             return back()->with('success','Comment has been added!');
         }
+    }
+
+    public function getFindingsByUser(Request $request)
+    {
+        $findings = EOPFindingComment::where('assigned_user_id',Auth::guard('system_user')->user()->id)
+                                        ->where('is_read_by_assigned_user',0)->latest()->limit($request->limit)->get();
+    }
+
+    public function changeSession($finding)
+    {
+        Session::put('building_id', $finding->building_id);
+        $building = Building::find($finding->building_id);
+        Session::put('site_id', $building->site_id);
+        Session::put('hco_id', $building->site->hco_id);
+        Session::put('building_name', $building->name);
+        Session::put('site_name', $building->site->name);
+        //Session::put('hco_name', $building->site->hco->name);
     }
 }

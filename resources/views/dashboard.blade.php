@@ -98,6 +98,32 @@
             <!-- /.box-footer -->
           </div>
 
+             <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">My Findings</h3>
+
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <div class="table-responsive">
+                <table class="table no-margin" id="my_findings_table" type="yajra">
+                  <thead>
+                  <tr>
+                    <th class="col-md-6">Description</th>
+                    <th class="col-md-2">Building</th>
+                    <th class="col-md-2">Status</th>
+                    <th class="col-md-2">View</th>
+                  </tr>
+                  </thead>
+                </table>
+              </div>
+              <!-- /.table-responsive -->
+            </div>
+            <!-- /.box-body -->
+            <!-- /.box-footer -->
+          </div>
+
+
 <script>
 
 $('#findings_table').DataTable({
@@ -117,6 +143,25 @@ $('#findings_table').DataTable({
         {data: 'view', name: 'view', searchable: false},
     ]
 });
+
+$('#my_findings_table').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+        url: '{{url('dashboard/fetch/my-findings')}}',
+        type: "POST",
+        data: function (data) {
+            data._token = '{{ csrf_token() }}'
+        }
+    },
+    columns: [
+        {data: 'description', name: 'description'},
+        {data: 'building', name: 'buildings.name'},
+        {data: 'status', name: 'status'},
+        {data: 'view', name: 'view', searchable: false},
+    ]
+});
+
 
 
 

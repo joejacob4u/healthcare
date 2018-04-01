@@ -106,6 +106,9 @@ Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerCo
 
 Route::get('dashboard', 'DashboardController@index');
 Route::post('dashboard/fetch/findings', 'DashboardController@getFindings');
+Route::post('dashboard/fetch/my-findings', 'DashboardController@getFindingsByUser');
+Route::post('dashboard/fetch/findings/user/notify', 'DashboardController@getFindingsForUserNotify');
+
 
 
 

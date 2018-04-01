@@ -189,6 +189,59 @@ hash && $('ul.nav a[href="' + hash + '"]').tab('show');
     $('html,body').scrollTop(scrollmem);
   });
 
+  @if(Auth::guard('system_user')->check())
+
+  function fetchFindings()
+  {
+     $.ajax({
+        type: 'POST',
+        url: '{{ url('dashboard/fetch/findings/user/notify') }}',
+        data: { '_token' : '{{ csrf_token() }}','limit' : '5'},
+        success:function(data)
+        {
+            var list = '';
+            var finding_count = 0;
+
+            $('.messages-menu .dropdown-menu .menu').html('');
+
+            $.each(data.findings, function(index, value) {
+                
+                list += '<li>'+
+                 '<a href="/system-admin/accreditation/eop/status/'+value.finding.eop_id+'/finding/'+value.finding.id+'">'+
+                    '<div class="pull-left">'+
+                      '<i class="fa fa-bullseye fa-2x"></i>'+
+                    '</div>'+
+                    '<h4>'+
+                      value.finding.building.name+
+                      '<small class="pull-right">'+value.created_at+'</small>'+
+                    '</h4>'+
+                    '<p>'+value.comment+'</p>'+
+                  '</a>'+
+                '</li>';
+
+
+            });
+
+            $('.messages-menu .label').html(data.total_count);
+            $('.messages-menu .dropdown-menu .header').html('You have '+data.total_count+' findings assigned to you.');
+            $('.messages-menu .dropdown-menu .menu').append(list);
+        },
+        error:function(data)
+        {
+
+        },
+        complete: function(data)
+        {
+            $('.overlay').remove();
+        }
+    });
+
+      
+  }
+  fetchFindings();
+
+  @endif
+
 </script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false&libraries=places&key=AIzaSyAPvAvVpdt1rZjrOgJgoSFTik-llRJbmCg"></script>
 <script type="text/javascript">

@@ -10,6 +10,8 @@ use App\Regulatory\Site;
 use App\Regulatory\Building;
 use App\User;
 use App\Regulatory\EOPFinding;
+use App\Regulatory\EOPFindingComment;
+
 use Yajra\Datatables\Datatables;
 use DB;
 
@@ -59,6 +61,41 @@ class DashboardController extends Controller
                 ->removeColumn('id')
                 ->removeColumn('eop_id')
                 ->make(true);
+    }
+
+    public function getFindingsByUser()
+    {
+        $findings = EOPFinding::whereHas('comments', function ($query) {
+            $query->where('assigned_user_id', Auth::guard('system_user')->user()->id);
+        });
+
+        return Datatables::of($findings)
+                ->addColumn('building',function($finding) {
+                    return $finding->name;
+                })
+                ->addColumn('view',function($finding){
+                    return '<a href="system-admin/accreditation/eop/status/'.$finding->eop_id.'/finding/'.$finding->id.'" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-eye-open"></span> View</a>';
+                })
+                ->removeColumn('id')
+                ->removeColumn('eop_id')
+                ->make(true);
+    }
+
+    public function getFindingsForUserNotify()
+    {
+        $findings = EOPFindingComment::where('assigned_user_id',Auth::guard('system_user')->user()->id)
+                                        ->where('is_read_by_assigned_user',0)->with('finding.building')->with('assignedBy')
+                                        ->latest()->limit(5)->get();
+
+        $total_findings = EOPFindingComment::where('assigned_user_id',Auth::guard('system_user')->user()->id)
+                            ->where('is_read_by_assigned_user',0)
+                            ->count();
+
+        return response()->json([
+            'findings' => $findings,
+            'total_count' => $total_findings
+        ]);
+        
     }
 
 
