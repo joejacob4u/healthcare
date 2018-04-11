@@ -32,7 +32,7 @@
                 <div class="form-group">
                     {!! Form::label('status', 'Status:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('status', ['initial' => 'Initial Submission','non-compliant' => 'Non-Compliant','pending_verification' => 'Pending Verification','compliant' => 'Compliant'], $finding->status, ['class' => 'form-control']) !!}
+                        {!! Form::select('status', ['initial' => 'Initial Submission','non-compliant' => 'Non-Compliant','pending_verification' => 'Pending Verification','compliant' => 'Compliant','issues_corrected_verify' => 'Issues Corrected Please Verify Compliant'], $finding->status, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
@@ -79,6 +79,22 @@
                       {!! Form::textarea('internal_notes', $finding->internal_notes, ['class' => 'form-control','rows' => 3]) !!}
                   </div>
               </div>
+
+            <div class="form-group">
+                  {!! Form::label('benefit', 'Benefit:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('benefit', $finding->benefit, ['class' => 'form-control','id' => 'benefit']) !!}
+                  </div>
+              </div>
+
+                <div class="form-group">
+                    {!! Form::label('activity', 'Activity:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('activity', [0 => 'Select One','constant_state' => 'Constant State of Readiness Review','mock_survey' => 'Mock Survey','tjc_survey' => 'TJC Survey','ahj_survey' => 'Other AHJ Survey'], $finding->activity, ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+
 
             <div class="form-group">
                   {!! Form::label('attachments_path', 'Attach Documents:', ['class' => 'col-lg-2 control-label']) !!}

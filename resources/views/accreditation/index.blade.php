@@ -55,6 +55,7 @@
                                   <th>Document</th>
                                   <th>Frequency</th>
                                   <th>Risk</th>
+                                  <th>Progress</th>
                                   <th>Status</th>
                               </tr>
                           </thead>
@@ -65,6 +66,7 @@
                               <th>Document</th>
                               <th>Frequency</th>
                               <th>Risk</th>
+                              <th>Progress</th>
                               <th>Status</th>
                           </tr>
                           </tfoot>
@@ -76,6 +78,7 @@
                                 <td>@if($eop->documentation == 1) {!! link_to('system-admin/accreditation/eop/documentation/'.$eop->id,'Upload',['class' => 'btn-xs btn-success']) !!} @else Nil @endif</td>
                                 <td>{{$eop->frequency}}</td>
                                 <td>@if($eop->risk == 1) Yes @else No @endif</td>
+                                <td><small class="label pull-right bg-red">Initial : {{$eop->getFindingCount('initial')}}</small><small class="label pull-right bg-red">Non-Compliant : {{$eop->getFindingCount('non-compliant')}}</small><small class="label pull-right bg-yellow">Pending Verification : {{$eop->getFindingCount('pending_verification')}}</small><small class="label pull-right bg-blue">Issues Corrected Verify : {{$eop->getFindingCount('issues_corrected_verify')}}</small><small class="label pull-right bg-green">Compliant : {{$eop->getFindingCount('compliant')}}</small></td>
                                 <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id,'Status',['class' => 'btn-xs btn-primary']) !!}</td>
                               </tr>
                             @endforeach

@@ -104,5 +104,10 @@ class EOP extends Model
 
     }
 
+    function getFindingCount($status)
+    {
+      return DB::table('eop_findings')->where('eop_id',$this->id)->where('status',$status)->count();
+    }
+
 
 }

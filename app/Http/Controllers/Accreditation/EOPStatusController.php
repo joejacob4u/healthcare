@@ -50,8 +50,11 @@ class EOPStatusController extends Controller
             'description' => 'required',
             'plan_of_action' => 'required',
             'measure_of_success' => 'required',
+            'measure_of_success_date' => 'required',
             'status' => 'required',
-            'location' => 'required'
+            'location' => 'required',
+            'benefit' => 'required',
+            'activity' => 'not_in:0'
         ]);
 
         $finding = EOPFinding::find($finding_id);
@@ -70,7 +73,10 @@ class EOPStatusController extends Controller
             'plan_of_action' => 'required',
             'measure_of_success' => 'required',
             'status' => 'required',
-            'location' => 'required'
+            'location' => 'required',
+            'benefit' => 'required',
+            'activity' => 'not_in:0'
+
         ]);
 
         if(EOPFinding::create($request->all()))
@@ -121,5 +127,27 @@ class EOPStatusController extends Controller
         Session::put('building_name', $building->name);
         Session::put('site_name', $building->site->name);
         //Session::put('hco_name', $building->site->hco->name);
+    }
+
+    public function getActionPlan()
+    {
+        $findings = DB::table('eop_findings')
+        ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
+        ->join('sites', 'sites.id', '=', 'buildings.site_id')
+        ->join('hco', 'hco.id', '=', 'sites.hco_id')
+        ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
+        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id','buildings.name','eop_findings.status')
+        ->where('eop_findings.healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->orderBy('eop_findings.updated_at', 'desc');
+
+        return Datatables::of($findings)
+            ->addColumn('building',function($finding) {
+                return $finding->name;
+            })
+            ->addColumn('view',function($finding){
+                return '<a href="system-admin/accreditation/eop/status/'.$finding->eop_id.'/finding/'.$finding->id.'" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-eye-open"></span> View</a>';
+            })
+            ->removeColumn('id')
+            ->removeColumn('eop_id')
+            ->make(true);
     }
 }

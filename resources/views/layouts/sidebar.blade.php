@@ -146,6 +146,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
+              <li><a href="{{url('system-admin/findings/action-plan')}}"><i class="fa fa-circle-o text-green"></i> <span>Action Plan</span></a></li>
               @foreach($sidebar_building->accreditations as $accreditation)
                   <li class="treeview @if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/*')) active @endif">
                     <a href="#">
