@@ -13,6 +13,13 @@
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
+<ol class="breadcrumb">
+    <li><a href="/system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
+    <li><a href="/system-admin/accreditation/eop/status/<?php echo $eop->id; ?>">EOP Status Findings</a></li>
+    <li class="active">Edit</li>
+</ol>
+
+
 <div class="callout callout-info">
     <h4>EOP : {{$eop->name}}</h4>
     <p>{{$eop->text}}</p>
@@ -29,12 +36,6 @@
         {!! Form::open(['url' => 'system-admin/accreditation/eop/status/'.$eop->id.'/finding/edit/'.$finding->id, 'class' => 'form-horizontal']) !!}
             <fieldset>
             <!-- Status -->
-                <div class="form-group">
-                    {!! Form::label('status', 'Status:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('status', ['initial' => 'Initial Submission','non-compliant' => 'Non-Compliant','pending_verification' => 'Pending Verification','compliant' => 'Compliant','issues_corrected_verify' => 'Issues Corrected Please Verify Compliant'], $finding->status, ['class' => 'form-control']) !!}
-                    </div>
-                </div>
 
               <!-- Name -->
               <div class="form-group">
@@ -114,6 +115,11 @@
 
               {!! Form::hidden('eop_id', $finding->eop_id) !!}
               {!! Form::hidden('created_by_user_id',Auth::guard('system_user')->user()->id) !!}
+                {!! Form::hidden('building_id', session('building_id')) !!}
+              {!! Form::hidden('healthsystem_id', Auth::guard('system_user')->user()->healthsystem_id) !!}
+
+              {!! Form::hidden('status', 'initial') !!}
+
 
                 <!-- Submit Button -->
                 <div class="form-group">

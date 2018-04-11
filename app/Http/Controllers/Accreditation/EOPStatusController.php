@@ -98,9 +98,10 @@ class EOPStatusController extends Controller
     public function createComment(Request $request)
     {
         $this->validate($request,[
+            'status' => 'required',
             'comment' => 'required',
-            'due_date' => 'required',
-            'assigned_user_id' => 'not_in:0'
+            'due_date' => 'required_if:status,!=,compliant',
+            'assigned_user_id' => 'required_if:status,!=,compliant'
         ]);
 
         $finding = EOPFinding::find($request->eop_finding_id);

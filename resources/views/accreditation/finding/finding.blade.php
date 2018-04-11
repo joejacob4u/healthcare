@@ -236,7 +236,7 @@
                     <div class="form-group">
                         {!! Form::label('status', 'Status:', ['class' => 'col-lg-2 control-label']) !!}
                         <div class="col-lg-10">
-                            {!! Form::select('status', ['initial' => 'Initial Submission','non-compliant' => 'Non-Compliant','pending_verification' => 'Pending Verification','compliant' => 'Compliant','issues_corrected_verify' => 'Issues Corrected Please Verify Compliant'], $finding->status, ['class' => 'form-control']) !!}
+                            {!! Form::select('status', ['initial' => 'Initial Submission','non-compliant' => 'Non-Compliant (See Comments)','pending_verification' => 'Pending Verification','compliant' => 'Compliant','issues_corrected_verify' => 'Issues Corrected Please Verify Compliant'], $finding->status, ['class' => 'form-control','id' => 'status_picker']) !!}
                         </div>
                     </div>
 
@@ -264,7 +264,7 @@
                     <div class="form-group">
                         {!! Form::label('assigned_user_id', 'Assign To:', ['class' => 'col-lg-2 control-label']) !!}
                         <div class="col-lg-10">
-                            {!! Form::select('assigned_user_id', $healthsystem_users, Request::old('assigned_user_id'), ['class' => 'form-control']) !!}
+                            {!! Form::select('assigned_user_id', $healthsystem_users, Request::old('assigned_user_id'), ['id' => 'assigned_user_id','class' => 'form-control']) !!}
                         </div>
                     </div>
 
@@ -292,6 +292,19 @@
     $("#due_date").flatpickr({
         enableTime: true,
         dateFormat: "Y-m-d H:i",
+    });
+
+    $('#status_picker').change(function(){
+        if($(this).val() == 'compliant')
+        {
+            $('#assigned_user_id').prop('disabled',true);
+            $('#due_date').prop('disabled',true);
+        }
+        else
+        {
+            $('#assigned_user_id').prop('disabled',false);
+            $('#due_date').prop('disabled',false);
+        }
     });
   </script>
 

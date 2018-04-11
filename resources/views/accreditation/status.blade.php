@@ -14,7 +14,7 @@
 @include('layouts.partials.errors')
 
 <ol class="breadcrumb">
-          <li><a href="{{url('system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>')}}"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
+          <li><a href="/system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
           <li class="active">EOP Status</li>
         </ol>
 
@@ -62,7 +62,7 @@
                     <td>{{$finding->status}}</td>
                     <td>{{ date('F j, Y, g:i a',strtotime($finding->created_at)) }}</td>
                     <td>@if(!is_null($finding->comments->last())){{ date('F j, Y, g:i a',strtotime($finding->comments->last()->created_at)) }} @else {{ date('F j, Y, g:i a',strtotime($finding->created_at)) }} @endif</td>
-                    <td>@if(!is_null($finding->comments->last())){{ App\User::find($finding->comments->last()->assigned_user_id)->name }} @else Nil @endif</td>
+                    <td>@if(!is_null($finding->comments->last())){{ App\User::find($finding->comments->last()->assigned_user_id)->name }} @else TBD @endif</td>
                     <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/edit/'.$finding->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/'.$finding->id,'View Activity',['class' => 'btn-xs btn-primary']) !!}</td>
                 </tr>
