@@ -12,9 +12,11 @@ use App\Regulatory\EOPFindingComment;
 use App\Regulatory\Building;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
+use Yajra\Datatables\Datatables;
 use App\User;
 use Auth;
 use Session;
+use DB;
 
 class EOPStatusController extends Controller
 {
@@ -108,7 +110,7 @@ class EOPStatusController extends Controller
 
         if(EOPFindingComment::create($request->all()))
         {
-            $finding->update(['status' => $request->status]);
+            $finding->update(['status' => $request->status,'last_assigned_user_id' => (!empty($request->assigned_user_id)) ? $request->assigned_user_id : '']);
             return back()->with('success','Comment has been added!');
         }
     }
@@ -130,6 +132,11 @@ class EOPStatusController extends Controller
         //Session::put('hco_name', $building->site->hco->name);
     }
 
+    public function actionPlanIndex()
+    {
+        return view('accreditation.action_plan');
+    }
+
     public function getActionPlan()
     {
         $findings = DB::table('eop_findings')
@@ -137,18 +144,79 @@ class EOPStatusController extends Controller
         ->join('sites', 'sites.id', '=', 'buildings.site_id')
         ->join('hco', 'hco.id', '=', 'sites.hco_id')
         ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
-        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id','buildings.name','eop_findings.status')
+        ->join('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
+        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id','buildings.name as building_name','eop_findings.status','healthsystem.healthcare_system','hco.facility_name','sites.name as site_name','eop_findings.measure_of_success','eop_findings.benefit','eop_findings.plan_of_action','users.name as last_assigned_name','eop_findings.measure_of_success_date as due_date')
         ->where('eop_findings.healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->orderBy('eop_findings.updated_at', 'desc');
 
         return Datatables::of($findings)
-            ->addColumn('building',function($finding) {
-                return $finding->name;
+            ->addColumn('healthcare_system',function($finding) {
+                return $finding->healthcare_system;
             })
-            ->addColumn('view',function($finding){
-                return '<a href="system-admin/accreditation/eop/status/'.$finding->eop_id.'/finding/'.$finding->id.'" class="btn btn-info btn-xs"><span class="glyphicon glyphicon-eye-open"></span> View</a>';
+            ->addColumn('hco',function($finding){
+                return $finding->facility_name;
             })
+            ->addColumn('site',function($finding){
+                return $finding->facility_name;
+            })
+            ->addColumn('measure_of_success',function($finding){
+                return $finding->measure_of_success;
+            })
+            ->addColumn('benefit',function($finding){
+                return $finding->benefit;
+            })
+            ->addColumn('plan_of_action',function($finding){
+                return $finding->plan_of_action;
+            })
+            ->addColumn('last_assigned_name',function($finding){
+                return $finding->last_assigned_name;
+            })
+            ->addColumn('due_date',function($finding){
+                return $finding->due_date;
+            })
+            ->addColumn('status',function($finding){
+                return $finding->status;
+            })
+
             ->removeColumn('id')
             ->removeColumn('eop_id')
             ->make(true);
+    }
+
+    public function exportToCSV()
+    {
+        $findings = DB::table('eop_findings')
+                    ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
+                    ->join('sites', 'sites.id', '=', 'buildings.site_id')
+                    ->join('hco', 'hco.id', '=', 'sites.hco_id')
+                    ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
+                    ->join('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
+                    ->select('healthsystem.healthcare_system','hco.facility_name','sites.name as site_name','buildings.name as building_name','eop_findings.description','eop_findings.measure_of_success','eop_findings.benefit','eop_findings.plan_of_action','users.name as last_assigned_name','eop_findings.measure_of_success_date as due_date','eop_findings.status')
+                    ->where('eop_findings.healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->orderBy('eop_findings.updated_at', 'desc')->get();
+
+                    //dd($findings);
+
+
+        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+
+        $csv->insertOne([
+                'Healthcare System',
+                'HCO',
+                'Site',
+                'Building',
+                'Finding',
+                'Measure of Success',
+                'Benefit',
+                'Plan of Action',
+                'Last Assigned To',
+                'Due Date',
+                'Status'
+            ]);
+
+        foreach (json_decode(json_encode($findings), true) as $finding) {
+            $csv->insertOne($finding);
+        }
+
+        $csv->output('action_sheet_'.strtotime('now').'.csv');
+        exit;
     }
 }

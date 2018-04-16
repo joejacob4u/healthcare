@@ -123,7 +123,9 @@ Route::get('system-admin/accreditation/eop/documentation/{eop_id}', 'Accreditati
 Route::post('system-admin/accreditation/eop/document/upload', 'Accreditation\AccreditationController@uploadEOPDocument');
 Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirement/{accreditation_requirement_id}', 'Accreditation\AccreditationController@fetchStandardLabels');
 
-Route::get('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@getActionPlan');
+Route::get('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@actionPlanIndex');
+Route::post('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@getActionPlan');
+Route::get('system-admin/findings/export', 'Accreditation\EOPStatusController@exportToCSV');
 Route::get('system-admin/accreditation/eop/status/{eop_id}', 'Accreditation\EOPStatusController@index');
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@addFinding');
 Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@createFinding');
