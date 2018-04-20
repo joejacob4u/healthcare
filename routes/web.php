@@ -126,6 +126,7 @@ Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirem
 Route::get('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@actionPlanIndex');
 Route::post('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@getActionPlan');
 Route::get('system-admin/findings/export', 'Accreditation\EOPStatusController@exportToCSV');
+Route::get('system-admin/findings/export/hco', 'Accreditation\EOPStatusController@exportHCOToCSV');
 Route::get('system-admin/accreditation/eop/status/{eop_id}', 'Accreditation\EOPStatusController@index');
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@addFinding');
 Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@createFinding');

@@ -5,27 +5,39 @@
 
 @endsection
 @section('page_title','Action Plan')
-@section('page_description','Action plan data table.')
+@section('page_description',$hco->facility_name)
 
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Action Plan</h3>
+        <h3 class="box-title"><strong>HCO</strong> : {{$hco->facility_name}}</h3>
 
         <div class="box-tools pull-right">
-            <a href="{{url('system-admin/findings/export')}}" class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Export</a>
+            <div class="btn-group">
+                  <button type="button" class="btn btn-warning">Export</button>
+                  <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu" role="menu">
+                    <li><a href="{{url('system-admin/findings/export/hco')}}">Current HCO</a></li>
+                    <li><a href="{{url('system-admin/findings/export')}}">Entire HealthCare</a></li>
+                  </ul>
+                </div>
         </div>
       </div>
       <div class="box-body">
         <table id="action-plan-table" class="table table-striped" type="yajra">
                 <thead>
                     <tr>
-                        <th>Healthcare System</th>
-                        <th>HCO</th>
                         <th>Site</th>
                         <th>Building</th>
+                        <th>Standard Label</th>
+                        <th>Standard Label Text</th>
+                        <th>EOP Name</th>
+                        <th>EOP Text</th>
                         <th>Finding</th>
                         <th>Measure of Success</th>
                         <th>Benefit</th>
@@ -37,10 +49,12 @@
                 </thead>
                 <tfoot>
                     <tr>
-                      <th>Healthcare System</th>
-                      <th>HCO</th>
                       <th>Site</th>
                       <th>Building</th>
+                      <th>Standard Label</th>
+                      <th>Standard Label Text</th>
+                      <th>EOP Name</th>
+                      <th>EOP Text</th>
                       <th>Finding</th>
                       <th>Measure of Success</th>
                       <th>Benefit</th>
@@ -72,18 +86,19 @@
             }
         },
         columns: [
-            {data: 'healthcare_system', name: 'healthsystem.healthcare_system'},
-            {data: 'hco', name: 'hco.facility_name'},
             {data: 'site_name', name: 'sites.name'},
             {data: 'building_name', name: 'buildings.name'},
+            {data: 'label', name: 'standard_label.label'},
+            {data: 'label_text', name: 'standard_label.text'},
+            {data: 'eop_name', name: 'eop.name'},
+            {data: 'eop_text', name: 'eop.text'},
             {data: 'description', name: 'eop_findings.description'},
             {data: 'measure_of_success', name: 'eop_findings.measure_of_success'},
             {data: 'benefit', name: 'eop_findings.benefit'},
             {data: 'plan_of_action', name: 'eop_findings.plan_of_action'},
             {data: 'last_assigned_name', name: 'eop_findings.last_assigned_user_id'},
             {data: 'due_date', name: 'eop_findings.measure_of_success_date'},
-            {data: 'status', name: 'eop_findings.status'}
-        ]
+            {data: 'status', name: 'eop_findings.status'}        ]
     });
 
 

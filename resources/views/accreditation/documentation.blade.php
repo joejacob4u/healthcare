@@ -82,7 +82,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($building->eopDocumentations as $document)
+                  @foreach($building->eopDocumentations->where('building_id',session('building_id')) as $document)
                     <tr id="tr-{{$document->id}}">
                         <td>{{$document->pivot->submission_date}}</td>
                         <td>{{ App\User::find($document->pivot->user_id)->name}}</td>

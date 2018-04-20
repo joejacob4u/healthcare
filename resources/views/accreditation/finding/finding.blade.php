@@ -155,12 +155,12 @@
                             <li>
                                 <i class="fa fa-comments bg-red"></i>
                                 <div class="timeline-item">
-                                    <span class="time"><i class="fa fa-clock-o"></i> {{ date('F j, Y, g:i a',strtotime($comment->created_at)) }}</span>
+                                    @if($comment->status != 'compliant')<span class="time"><i class="fa fa-clock-o"></i> {{ date('F j, Y, g:i a',strtotime($comment->created_at)) }}</span>@endif
 
                                     <h3 class="timeline-header"><strong>{{ App\User::find($comment->created_by_user_id)->name}}</strong> commented :</h3>
 
                                     <div class="timeline-body">
-                                        <p>{{$comment->comment}} <span class="label label-{{$comment->statusColor()}}">{{$comment->status}}</span><span class="label label-primary">Assigned To: @if(!empty($comment->assigned_user_id)) {{App\User::find($comment->assigned_user_id)->name}} @endif</span><span class="label label-warning">Due: {{ date("F j, Y, g:i a",strtotime($comment->due_date))}}</span></p>
+                                        <p>{{$comment->comment}} <span class="label label-{{$comment->statusColor()}}">{{$comment->status}}</span>@if($comment->assigned_user_id != 0)<span class="label label-primary">Assigned To:  {{App\User::find($comment->assigned_user_id)->name}} @endif</span>@if($comment->status != 'compliant')<span class="label label-warning">Due: {{ date("F j, Y, g:i a",strtotime($comment->due_date))}}</span>@endif</p>
                                         @if(!empty($comment->attachments_path))
                                         <div class="panel panel-default">
                                             <div class="panel-heading">Attachments</div>
@@ -250,7 +250,7 @@
                     <div class="form-group">
                         {!! Form::label('comment', 'Comment:', ['class' => 'col-lg-2 control-label']) !!}
                         <div class="col-lg-10">
-                            {!! Form::textarea('comment', Request::old('comment'), ['class' => 'form-control', 'placeholder' => 'comment','rows' => 3]) !!}
+                            {!! Form::textarea('comment', Request::old('comment'), ['class' => 'form-control', 'placeholder' => 'comment','rows' => 3,'id' => 'comment']) !!}
                         </div>
                     </div>
 
@@ -299,11 +299,13 @@
         {
             $('#assigned_user_id').prop('disabled',true);
             $('#due_date').prop('disabled',true);
+            $('#comment').val('This is now compliant.');
         }
         else
         {
             $('#assigned_user_id').prop('disabled',false);
             $('#due_date').prop('disabled',false);
+            $('#comment').val('');
         }
     });
   </script>

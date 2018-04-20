@@ -39,7 +39,7 @@
         <li class="dropdown user user-menu">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <i class="fa fa-hospital-o" aria-hidden="true"></i>
-            <span class="hidden-xs">@if(session()->has('building_id')) {{session('building_name')}} @else Set Building @endif</span>
+            <span class="hidden-xs">@if(session()->has('building_id')) {{session('hco_name')}} / {{session('building_name')}} @else Set Building @endif</span>
           </a>
           <ul class="dropdown-menu">
             <!-- User image -->

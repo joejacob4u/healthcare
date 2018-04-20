@@ -19,6 +19,16 @@ class EOPFinding extends Model
         return $this->belongsTo('App\Regulatory\Building','building_id');
     }
 
+    public function site()
+    {
+        return $this->belongsTo('App\Regulatory\Site','site_id');
+    }
+
+    public function lastAssigned()
+    {
+        return $this->belongsTo('App\User','last_assigned_user_id');
+    }
+
     public function statusColor()
     {
         switch($this->status)
