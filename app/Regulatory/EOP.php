@@ -50,9 +50,9 @@ class EOP extends Model
 
     public function getNextDocumentUploadDate()
     {
-      if(!empty($this->getDocumentBaseLineDate(session('building_id'))))
+      if(!empty($this->getDocumentBaseLineDate(session('building_id'))->baseline_date))
       {
-        $document_dates = $this->calculateDocumentDates($this->getDocumentBaseLineDate(session('building_id')),true);
+        $document_dates = $this->calculateDocumentDates($this->getDocumentBaseLineDate(session('building_id'))->baseline_date,true);
         if(!empty(end($document_dates)))
           return end($document_dates);
         else

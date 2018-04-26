@@ -56,13 +56,13 @@
 
 @if(!empty($eop->getDocumentBaseLineDate(session('building_id'))))
 
-@if(!empty($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id')))))
+@if(!empty($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)))
 
 <div class="row">
     <div class="col-sm-12">
         <div class="box box-danger box-solid collapsed-box">
             <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-exclamation-triangle"></i> You have missing documents for some dates ({{ count($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id')))) }})</h3>
+            <h3 class="box-title"><i class="fa fa-exclamation-triangle"></i> You have missing documents for some dates ({{ count($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)) }})</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
@@ -73,7 +73,7 @@
             <!-- /.box-header -->
             <div class="box-body" style="">
                 <ul class="list-group">
-                    @foreach($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))) as $date)
+                    @foreach($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date) as $date)
                         <li class="list-group-item">{{ date('F j, Y',strtotime($date))}} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$date}}')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button></li>
                     @endforeach
                 </ul>
@@ -121,7 +121,8 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($building->eopDocumentations->where('eop_id',$eop->id) as $document)
+                
+                  @foreach($building->eopDocumentations()->where('eop_id',$eop->id)->get() as $document)
                     <tr id="tr-{{$document->id}}">
                         <td>{{$document->pivot->submission_date}}</td>
                         <td>{{ App\User::find($document->pivot->user_id)->name}}</td>

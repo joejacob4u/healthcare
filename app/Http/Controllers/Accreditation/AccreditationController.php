@@ -102,10 +102,8 @@ class AccreditationController extends Controller
 
         $building = Building::find($request->building_id);
 
-        if($building->eopDocumentations()->attach([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date, 'user_id' => $request->user_id]]))
-        {
-            return back()->with('success','Document Added!');
-        } 
+        $building->eopDocumentations()->attach([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date,'submitted_on' => $request->submission_on, 'user_id' => $request->user_id]]);
+        return back()->with('success','Document Added!');
 
     }
 
