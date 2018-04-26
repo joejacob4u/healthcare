@@ -148,29 +148,26 @@ class EOPStatusController extends Controller
         ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
         ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id','buildings.name as building_name','eop_findings.status','healthsystem.healthcare_system','hco.facility_name','sites.name as site_name','eop_findings.measure_of_success','eop_findings.benefit','eop_findings.plan_of_action','users.name as last_assigned_name','eop_findings.measure_of_success_date as due_date','eop.name as eop_name','eop.text as eop_text','standard_label.label','standard_label.text as label_text')
+        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id','buildings.name as building_name','buildings.building_id','eop_findings.status','healthsystem.healthcare_system','hco.facility_name','sites.name as site_name','sites.site_id as site_id','eop_findings.measure_of_success','eop_findings.benefit','eop_findings.plan_of_action','users.name as last_assigned_name','eop_findings.measure_of_success_date as due_date','eop.name as eop_name','eop.text as eop_text','standard_label.label','standard_label.text as label_text')
         ->where('eop_findings.healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)
         ->where('hco.id',session('hco_id'))
         ->orderBy('eop_findings.updated_at', 'desc');
 
         return Datatables::of($findings)
-            ->addColumn('healthcare_system',function($finding) {
-                return $finding->healthcare_system;
+            ->addColumn('site_name',function($finding){
+                return $finding->site_name.'(#'.$finding->site_id.')';
             })
-            ->addColumn('hco',function($finding){
-                return $finding->facility_name;
-            })
-            ->addColumn('site',function($finding){
-                return $finding->facility_name;
+            ->addColumn('building_name',function($finding){
+                return $finding->building_name.'(#'.$finding->building_id.')';
             })
             ->addColumn('measure_of_success',function($finding){
-                return $finding->measure_of_success;
+                return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="Measure of Success" data-content="'.$finding->measure_of_success.'">'.substr($finding->measure_of_success, 0, 50).'...</a>';
             })
             ->addColumn('benefit',function($finding){
                 return $finding->benefit;
             })
             ->addColumn('plan_of_action',function($finding){
-                return $finding->plan_of_action;
+                return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="Plan of Action" data-content="'.$finding->plan_of_action.'">'.substr($finding->plan_of_action, 0, 50).'...</a>';
             })
             ->addColumn('last_assigned_name',function($finding){
                 return (!empty($finding->last_assigned_name)) ? $finding->last_assigned_name : 'TBD';
@@ -179,13 +176,13 @@ class EOPStatusController extends Controller
                 return $finding->due_date;
             })
             ->addColumn('status',function($finding){
-                return $finding->status;
+                return ucwords(implode(' ',explode('_',$finding->status)));
             })
             ->addColumn('eop_name',function($finding){
                 return $finding->eop_name;
             })
             ->addColumn('eop_text',function($finding){
-                return $finding->eop_text;
+                return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="EOP Text" data-content="'.$finding->eop_text.'">'.substr($finding->eop_text, 0, 50).'...</a>';
             })
             ->addColumn('label',function($finding){
                 return $finding->label;

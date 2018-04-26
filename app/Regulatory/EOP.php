@@ -4,6 +4,9 @@ namespace App\Regulatory;
 
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use DateTime;
+use DateInterval;
+use DatePeriod;
 
 class EOP extends Model
 {
@@ -20,6 +23,11 @@ class EOP extends Model
       return $this->belongsToMany('App\Regulatory\SubCOP','eop_sub-cop','eop_id','sub_cop_id');
     }
 
+    public function getEOPDocuments()
+    {
+        return DB::table('eop_documentation')->where('building_id',session('building_id'))->where('eop_id',$this->id)->get();
+    }
+
     public function getLastDocumentUpload($building_id)
     {
       return DB::table('eop_documentation')->select('eop_documentation.submission_date','users.name')
@@ -30,84 +38,148 @@ class EOP extends Model
               ->first();
     }
 
-    public function getNextDocumentUploadDate($building_id)
+    public function documentBaseLineDate()
     {
-      
-      $submission_date = DB::table('eop_documentation')->select('eop_documentation.submission_date')
-                        ->where('building_id', $building_id)
-                        ->where('accreditation_id',session('accreditation_id'))
-                        ->where('eop_id',$this->id)->orderBy('submission_date', 'desc')
-                        ->first();
+      return $this->belongsToMany('App\Regulatory\Building','documentation_baseline_dates','eop_id','building_id')->withPivot('baseline_date');
+    }
 
-      if(!$submission_date)
+    public function getDocumentBaseLineDate($building_id)
+    {
+      return DB::table('documentation_baseline_dates')->where('building_id',$building_id)->where('eop_id',$this->id)->select('baseline_date')->first();
+    }
+
+    public function getNextDocumentUploadDate()
+    {
+      if(!empty($this->getDocumentBaseLineDate(session('building_id'))))
       {
-        return 'Next Upload Date will be calculated after your first upload.';
+        $document_dates = $this->calculateDocumentDates($this->getDocumentBaseLineDate(session('building_id')),true);
+        if(!empty(end($document_dates)))
+          return end($document_dates);
+        else
+          return 'cannot_find_date';
+      }
+      else
+      {
+        return '';
       }
 
+    }
+
+    public function getFindingCount($status)
+    {
+      return DB::table('eop_findings')->where('eop_id',$this->id)->where('status',$status)->count();
+    }
+
+    public function calculateDocumentDates($baseline_date,$list_all = false)
+    {
 
       switch($this->frequency)
       {
         case 'daily':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('tomorrow',strtotime($submission_date->submission_date)));
+          $interval = 'P1D';
+          $future_date_interval = '+1 day';
           break;
 
         case 'weekly':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+1 week',strtotime($submission_date->submission_date)));
+          $interval = 'P1W';
+          $future_date_interval = '+1 week';
           break;
 
         case 'monthly':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+1 month',strtotime($submission_date->submission_date)));
+          $interval = 'P1M';
+          $future_date_interval = '+1 month';
           break;
 
         case 'quarterly':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+3 month',strtotime($submission_date->submission_date)));
-          break;
+            $interval = 'P3M';
+            $future_date_interval = '+3 month';
+            break;
 
         case 'annually':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+1 year',strtotime($submission_date->submission_date)));
-          break;
+            $interval = 'P1Y';
+            $future_date_interval = '+1 year';
+            break;
 
         case 'two-years':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+2 year',strtotime($submission_date->submission_date)));
-          break;
+            $interval = 'P2Y';
+            $future_date_interval = '+2 year';
+            break;
 
         case 'three-years':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+3 year',strtotime($submission_date->submission_date)));
-          break;
+            $interval = 'P3Y';
+            $future_date_interval = '+3 year';
+            break;
 
         case 'four-years':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+4 year',strtotime($submission_date->submission_date)));
-          break;
+            $interval = 'P4Y';
+            $future_date_interval = '+4 year';
+            break;
 
         case 'five-years':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+5 year',strtotime($submission_date->submission_date)));
-          break;
+            $interval = 'P5Y';
+            $future_date_interval = '+5 year';
+            break;
 
         case 'six-years':
-          $next_date_string = 'Next Upload Date : '.date('F j, Y',strtotime('+6 year',strtotime($submission_date->submission_date)));
-          break;
+            $interval = 'P6Y';
+            $future_date_interval = '+6 year';
+            break;
 
         case 'semi-annually':
-          $next_date_string = 'Next Upload Date : Semi - Annually';
-          break;
+            $interval = 'P6M';
+            $future_date_interval = '+6 month';
+            break;
 
         case 'as-needed':
-          $next_date_string = 'Next Upload Date : As Needed';
+          return [];
           break;
 
         case 'per-policy':
-          $next_date_string = 'Next Upload Date : Per Policy';
+          return [];
           break;
+        }
+
+      $from = new DateTime($baseline_date);
+      $to = new DateTime(date('Y-m-d'));
+      if($list_all)
+      {
+        $to->modify($future_date_interval);
       }
 
-      return $next_date_string;
+      $interval = new DateInterval($interval);
+      $periods = new DatePeriod($from, $interval, $to);
+      $dates = [];
 
+      foreach ($periods as $period) {
+          $dates[] = $period->format('Y-m-d');
+      }
+
+      //get uploaded documents
+
+      $documents = [];
+      $document_dates = [];
+      $documents = $this->getEOPDocuments()->toArray();
+      
+      if(!empty($documents))
+      {
+        foreach($documents as $document)
+        {
+          $document_dates[] = $document->submission_date;
+        }
+      }
+
+      if($list_all)
+      {
+        return $dates;
+      }
+      else
+      {
+        return array_diff($dates,$document_dates);
+      }
+      
+      
     }
 
-    function getFindingCount($status)
-    {
-      return DB::table('eop_findings')->where('eop_id',$this->id)->where('status',$status)->count();
-    }
 
 
 }

@@ -102,9 +102,24 @@ class AccreditationController extends Controller
 
         $building = Building::find($request->building_id);
 
-        if($building->eopDocumentations()->sync([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date, 'user_id' => $request->user_id]]))
+        if($building->eopDocumentations()->attach([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date, 'user_id' => $request->user_id]]))
         {
             return back()->with('success','Document Added!');
+        } 
+
+    }
+
+    public function saveBaselineDate(Request $request)
+    {
+        $this->validate($request,[
+            'baseline_date' => 'required',
+        ]);
+
+        $eop = EOP::find($request->eop_id);
+
+        if($eop->documentBaseLineDate()->attach([$request->building_id => ['baseline_date' => $request->baseline_date]]))
+        {
+            return back()->with('success','Baseline Date saved!');
         } 
 
     }

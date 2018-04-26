@@ -23,4 +23,5 @@ class StandardLabel extends Model
     {
       return $this->belongsTo('App\Regulatory\Accreditation','accreditation_id');
     }
+
 }

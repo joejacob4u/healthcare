@@ -50,8 +50,8 @@
                         <table id="example" class="table table-striped">
                           <thead>
                               <tr>
-                                  <th>Standard Label</th>
-                                  <th>Standard Text</th>
+                                  <th>EOP Name</th>
+                                  <th>EOP Text</th>
                                   <th>Document</th>
                                   <th>Frequency</th>
                                   <th>Risk</th>
@@ -61,8 +61,8 @@
                           </thead>
                           <tfoot>
                             <tr>
-                              <th>Standard Label</th>
-                              <th>Standard Text</th>
+                              <th>EOP Name</th>
+                              <th>EOP Text</th>
                               <th>Document</th>
                               <th>Frequency</th>
                               <th>Risk</th>

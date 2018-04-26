@@ -12,7 +12,7 @@
 @include('layouts.partials.errors')
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title"><strong>HCO</strong> : {{$hco->facility_name}}</h3>
+        <h3 class="box-title"><strong>HCO Action Plan</strong> : {{$hco->facility_name}} - #{{ $hco->hco_id }}</h3>
 
         <div class="box-tools pull-right">
             <div class="btn-group">
@@ -23,7 +23,7 @@
                   </button>
                   <ul class="dropdown-menu" role="menu">
                     <li><a href="{{url('system-admin/findings/export/hco')}}">Current HCO</a></li>
-                    <li><a href="{{url('system-admin/findings/export')}}">Entire HealthCare</a></li>
+                    <li><a href="{{url('system-admin/findings/export')}}">Entire HealthCare System</a></li>
                   </ul>
                 </div>
         </div>
@@ -36,7 +36,7 @@
                         <th>Building</th>
                         <th>Standard Label</th>
                         <th>Standard Label Text</th>
-                        <th>EOP Name</th>
+                        <th>EOP #</th>
                         <th>EOP Text</th>
                         <th>Finding</th>
                         <th>Measure of Success</th>
@@ -78,6 +78,7 @@
     $('#action-plan-table').DataTable({
         processing: true,
         serverSide: true,
+        scrollX: true,
         ajax: {
             url: '{{url('system-admin/findings/action-plan')}}',
             type: "POST",
@@ -85,6 +86,11 @@
                 data._token = '{{ csrf_token() }}'
             }
         },
+
+        initComplete: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
+
         columns: [
             {data: 'site_name', name: 'sites.name'},
             {data: 'building_name', name: 'buildings.name'},
@@ -98,11 +104,13 @@
             {data: 'plan_of_action', name: 'eop_findings.plan_of_action'},
             {data: 'last_assigned_name', name: 'eop_findings.last_assigned_user_id'},
             {data: 'due_date', name: 'eop_findings.measure_of_success_date'},
-            {data: 'status', name: 'eop_findings.status'}        ]
+            {data: 'status', name: 'eop_findings.status'}]
     });
 
 
+
     </script>
+
 
 @endsection
 

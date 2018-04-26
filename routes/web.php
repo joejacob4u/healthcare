@@ -121,6 +121,7 @@ Route::post('system-admin/accreditation/fetch/accreditation', 'Accreditation\Acc
 Route::post('system-admin/accreditation/fetch/accreditation_requirements', 'Accreditation\AccreditationController@fetchAccreditationRequirements');
 Route::get('system-admin/accreditation/eop/documentation/{eop_id}', 'Accreditation\AccreditationController@eopDocumentation');
 Route::post('system-admin/accreditation/eop/document/upload', 'Accreditation\AccreditationController@uploadEOPDocument');
+Route::post('system-admin/accreditation/eop/document/baseline-date', 'Accreditation\AccreditationController@saveBaselineDate');
 Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirement/{accreditation_requirement_id}', 'Accreditation\AccreditationController@fetchStandardLabels');
 
 Route::get('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@actionPlanIndex');
