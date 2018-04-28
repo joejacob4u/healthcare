@@ -119,8 +119,10 @@ Route::post('system-admin/accreditation/fetch/sites', 'Accreditation\Accreditati
 Route::post('system-admin/accreditation/fetch/buildings', 'Accreditation\AccreditationController@fetchBuildings');
 Route::post('system-admin/accreditation/fetch/accreditation', 'Accreditation\AccreditationController@fetchAccreditations');
 Route::post('system-admin/accreditation/fetch/accreditation_requirements', 'Accreditation\AccreditationController@fetchAccreditationRequirements');
-Route::get('system-admin/accreditation/eop/documentation/{eop_id}', 'Accreditation\AccreditationController@eopDocumentation');
-Route::post('system-admin/accreditation/eop/document/upload', 'Accreditation\AccreditationController@uploadEOPDocument');
+Route::get('system-admin/accreditation/eop/{eop_id}/documents', 'Accreditation\EOPDocumentController@index');
+Route::post('system-admin/accreditation/eop/document/upload', 'Accreditation\EOPDocumentController@store');
+Route::get('system-admin/accreditation/eop/document/edit/{eop_id}', 'Accreditation\EOPDocumentController@edit');
+Route::post('system-admin/accreditation/eop/document/edit/{eop_id}', 'Accreditation\EOPDocumentController@save');
 Route::post('system-admin/accreditation/eop/document/baseline-date', 'Accreditation\AccreditationController@saveBaselineDate');
 Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirement/{accreditation_requirement_id}', 'Accreditation\AccreditationController@fetchStandardLabels');
 

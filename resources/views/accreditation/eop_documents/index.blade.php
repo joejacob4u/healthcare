@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','EOP Documentation - <strong>'.$building->name.'</strong>')
+@section('page_title','EOP Documentation - <strong>'.session('building_name').'</strong>')
 @section('page_description','Configure EOP Documentations here.')
 
 @section('content')
@@ -42,10 +42,10 @@
         <div class="callout callout-success">
             <h4>Upcoming Upload Date</h4>
             <p>
-            @if($eop->getNextDocumentUploadDate($building->id) == 'cannot_find_date')
+            @if($eop->getNextDocumentUploadDate(session('building_id')) == 'cannot_find_date')
                 Next date is per policy 
-            @elseif($eop->getNextDocumentUploadDate($building->id) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate($building->id))) 
-                {{ $eop->getNextDocumentUploadDate($building->id) }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate($building->id)}}')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button>
+            @elseif($eop->getNextDocumentUploadDate(session('building_id')) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate(session('building_id')))) 
+                {{ $eop->getNextDocumentUploadDate(session('building_id')) }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button>
             @else 
                 Please set baseline date 
             @endif
@@ -60,12 +60,12 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="box box-danger box-solid collapsed-box">
+        <div class="box box-danger box-solid">
             <div class="box-header with-border">
             <h3 class="box-title"><i class="fa fa-exclamation-triangle"></i> You have missing documents for some dates ({{ count($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)) }})</h3>
 
             <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                 </button>
             </div>
             <!-- /.box-tools -->
@@ -108,24 +108,27 @@
                 <table id="documents_table" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Submitted Date</th>
+                        <th>Submit Date</th>
+                        <th>Submitted On</th>
                         <th>Submitted By</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Submitted Date</th>
+                        <th>Submit Date</th>
+                        <th>Submitted On</th>
                         <th>Submitted By</th>
                         <th>Edit</th>
                     </tr>
                 </tfoot>
                 <tbody>
                 
-                  @foreach($building->eopDocumentations()->where('eop_id',$eop->id)->get() as $document)
+                  @foreach($documents as $document)
                     <tr id="tr-{{$document->id}}">
-                        <td>{{$document->pivot->submission_date}}</td>
-                        <td>{{ App\User::find($document->pivot->user_id)->name}}</td>
+                        <td>{{$document->submission_date}}</td>
+                        <td>{{$document->upload_date}}</td>
+                        <td>{{ App\User::find($document->user_id)->name}}</td>
                         <td>{!! link_to('system-admin/accreditation/eop/document/edit/'.$document->id,'Edit Files',['class' => 'btn-xs btn-primary']) !!}</td>
                     </tr>
                   @endforeach
@@ -157,7 +160,7 @@
               <div class="form-group">
                   {!! Form::label('baseline_date', 'Document Baseline Date:', ['class' => 'control-label']) !!}
                   {!! Form::text('baseline_date', Request::old('baseline_date'), ['class' => 'form-control','id' => 'baseline_date']) !!}
-                  {!! Form::hidden('building_id',$building->id) !!}
+                  {!! Form::hidden('building_id',session('building_id')) !!}
                   {!! Form::hidden('eop_id',$eop->id) !!}
               </div>
             </fieldset>
@@ -187,17 +190,16 @@
                 {!! Form::text('submission_date', '', Request::old('submission_date'), ['class' => 'form-control','id' => 'submission_date']); !!}
             </div>
             <div class="form-group">
-                {!! Form::label('submitted_on', 'Submission On:', ['class' => 'control-label']) !!}
-                {!! Form::text('submitted_on', '', Request::old('submitted_on'), ['class' => 'form-control','id' => 'submitted_on']); !!}
+                {!! Form::label('upload_date', 'Submission On:', ['class' => 'control-label']) !!}
+                {!! Form::text('upload_date', '', Request::old('upload_date'), ['class' => 'form-control','id' => 'upload_date']); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('document_path', 'Documents:', ['class' => 'control-label']) !!}
-                {!! HTML::dropzone('document_path','accreditation/'.session('accreditation_id').'/building/'.$building->id.'/eop/'.$eop->id.'/'.strtotime('now'),'false') !!}
+                {!! HTML::dropzone('document_path','accreditation/'.session('accreditation_id').'/building/'.session('building_id').'/eop/'.$eop->id.'/'.strtotime('now'),'false') !!}
             </div>
 
-            {!! Form::hidden('building_id',$building->id) !!}
+            {!! Form::hidden('building_id',session('building_id')) !!}
             {!! Form::hidden('eop_id',$eop->id) !!}
-            {!! Form::hidden('accreditation_id',session('accreditation_id')) !!}
             {!! Form::hidden('user_id',Auth::guard('system_user')->user()->id) !!}
 
               <button type="submit" class="btn btn-primary" id="submit_btn">Upload</button>
@@ -221,8 +223,8 @@
     {
         $('#submission_date').val(date);
         $('#submission_date').prop('readonly',true);
-        $('#submitted_on').val(moment().format('YYYY-MM-DD HH:mm:ss'));
-        $('#submitted_on').prop('readonly',true);
+        $('#upload_date').val(moment().format('YYYY-MM-DD HH:mm:ss'));
+        $('#upload_date').prop('readonly',true);
         $('#uploadDocumentModal').modal('show');
 
     }

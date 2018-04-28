@@ -19,8 +19,8 @@ class Building extends Model
         return $this->belongsToMany('App\Regulatory\Accreditation','accreditation_building','building_id','accreditation_id');
     }
 
-    public function eopDocumentations()
+    public function documents()
     {
-        return $this->belongsToMany('App\Regulatory\EOP','eop_documentation','building_id','eop_id')->withPivot('accreditation_id', 'document_path','submission_date','submitted_on','user_id');
+        return $this->belongsToMany('App\Regulatory\EOPDocument','eop_documents-building','building_id','document_id');
     }
 }

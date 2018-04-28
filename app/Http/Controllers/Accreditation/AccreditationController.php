@@ -11,6 +11,7 @@ use App\Regulatory\EOP;
 use App\Regulatory\Building;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
+use App\Regulatory\EOPDocumentBaselineDate;
 use Session;
 use Auth;
 
@@ -102,7 +103,7 @@ class AccreditationController extends Controller
 
         $building = Building::find($request->building_id);
 
-        $building->eopDocumentations()->attach([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date,'submitted_on' => $request->submission_on, 'user_id' => $request->user_id]]);
+        $building->eopDocumentations()->attach([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date,'submitted_on' => $request->submitted_on, 'user_id' => $request->user_id]]);
         return back()->with('success','Document Added!');
 
     }
@@ -113,12 +114,13 @@ class AccreditationController extends Controller
             'baseline_date' => 'required',
         ]);
 
-        $eop = EOP::find($request->eop_id);
+        EOPDocumentBaselineDate::updateOrCreate(
+            ['eop_id' => $request->eop_id, 'building_id' => session('building_id')],
+            ['baseline_date' => $request->baseline_date]
+        );
 
-        if($eop->documentBaseLineDate()->attach([$request->building_id => ['baseline_date' => $request->baseline_date]]))
-        {
-            return back()->with('success','Baseline Date saved!');
-        } 
+        return back()->with('success','Baseline Date saved!');
+            
 
     }
 }

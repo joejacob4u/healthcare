@@ -127,6 +127,7 @@ class EOPStatusController extends Controller
         $building = Building::find($finding->building_id);
         Session::put('site_id', $building->site_id);
         Session::put('hco_id', $building->site->hco_id);
+        Session::put('hco_name', $building->site->hco->facility_name);
         Session::put('building_name', $building->name);
         Session::put('site_name', $building->site->name);
         //Session::put('hco_name', $building->site->hco->name);

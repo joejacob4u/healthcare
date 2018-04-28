@@ -25,14 +25,14 @@ class EOP extends Model
 
     public function getEOPDocuments()
     {
-        return DB::table('eop_documentation')->where('building_id',session('building_id'))->where('eop_id',$this->id)->get();
+        return DB::table('eop_documents')->where('building_id',session('building_id'))->where('eop_id',$this->id)->get();
     }
 
     public function getLastDocumentUpload($building_id)
     {
-      return DB::table('eop_documentation')->select('eop_documentation.submission_date','users.name')
+      return DB::table('eop_documents')->select('eop_documents.submission_date','users.name')
               ->where('building_id', $building_id)
-              ->leftJoin('users', 'users.id', '=', 'eop_documentation.user_id')
+              ->leftJoin('users', 'users.id', '=', 'eop_documents.user_id')
               ->where('accreditation_id',session('accreditation_id'))
               ->where('eop_id',$this->id)->orderBy('submission_date', 'desc')
               ->first();
