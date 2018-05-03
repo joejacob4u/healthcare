@@ -166,7 +166,7 @@ class EOP extends Model
       {
         foreach($documents as $document)
         {
-          $document_dates[] = $document->submission_date;
+          $document_dates[] = $document['submission_date'];
         }
       }
 

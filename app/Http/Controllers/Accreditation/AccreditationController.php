@@ -115,6 +115,12 @@ class AccreditationController extends Controller
             'comment' => 'required_if:is_baseline_disabled,==,1'
         ]);
 
+
+        if($request->is_baseline_disabled === NULL)
+        {
+            $request->is_baseline_disabled = 0;
+        }
+
         EOPDocumentBaselineDate::updateOrCreate(
             ['eop_id' => $request->eop_id, 'building_id' => session('building_id')],
             ['baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled]

@@ -225,7 +225,6 @@
                 {!! HTML::dropzone('document_path','accreditation/'.session('accreditation_id').'/building/'.session('building_id').'/eop/'.$eop->id.'/'.strtotime('now'),'false') !!}
             </div>
 
-            {!! Form::hidden('building_id',session('building_id')) !!}
             {!! Form::hidden('eop_id',$eop->id) !!}
             {!! Form::hidden('user_id',Auth::guard('system_user')->user()->id) !!}
 
