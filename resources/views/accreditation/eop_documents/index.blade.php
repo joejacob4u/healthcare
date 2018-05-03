@@ -10,6 +10,8 @@
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
+@include('layouts.partials.warning')
+
 
 <ol class="breadcrumb">
     <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
@@ -29,13 +31,21 @@
     <div class="col-md-6">
         <div class="callout callout-warning">
             <h4>EOP Upload Frequency : {{ ucfirst($eop->frequency) }}</h4>
+            @if($eop->frequency == 'per_needed' || $eop->frequency == 'as_needed')
+                Please upload documents as per policy / per needed
+            @else
             <p>        
                 @if(!empty($eop->getDocumentBaseLineDate(session('building_id'))))
-                    Baseline Date : {{ $eop->getDocumentBaseLineDate(session('building_id'))->baseline_date }}<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>
+                    @if($eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
+                        Baseline date N/A - {{ $eop->getDocumentBaseLineDate(session('building_id'))->comment }}<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>
+                    @else
+                        Baseline Date : {{ $eop->getDocumentBaseLineDate(session('building_id'))->baseline_date }}<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>
+                    @endif
                 @else
                     <a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Set Baseline Date to Start Uploading Documents</a>
                 @endif   
             </p>
+            @endif
         </div>
     </div>
     <div class="col-md-6">
@@ -43,9 +53,11 @@
             <h4>Upcoming Upload Date</h4>
             <p>
             @if($eop->getNextDocumentUploadDate(session('building_id')) == 'cannot_find_date')
-                Next date is per policy 
+                Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button>
             @elseif($eop->getNextDocumentUploadDate(session('building_id')) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate(session('building_id')))) 
                 {{ $eop->getNextDocumentUploadDate(session('building_id')) }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button>
+            @elseif($eop->frequency == 'per_needed' || $eop->frequency == 'as_needed')
+                Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button>
             @else 
                 Please set baseline date 
             @endif
@@ -54,7 +66,7 @@
     </div>
 </div>
 
-@if(!empty($eop->getDocumentBaseLineDate(session('building_id'))))
+@if(!empty($eop->getDocumentBaseLineDate(session('building_id'))) && !$eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
 
 @if(!empty($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)))
 
@@ -145,7 +157,7 @@
 
     <!-- Baseline Date Modal -->
   <div class="modal fade" id="baselineDateModal" role="dialog">
-    <div class="modal-dialog modal-sm">
+    <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -158,10 +170,21 @@
 
               <!-- Name -->
               <div class="form-group">
+                <div class="form-group">
+                  <label class="checkbox-inline"><input type="checkbox" value="1" name="is_baseline_disabled" id="is_baseline_disabled">Not Applicable</label>
+                </div>
+                <div class="form-group" style="display:none" id="comment_div">
+                    {!! Form::label('comment', 'Comment:', ['class' => 'control-label']) !!}
+                    {!! Form::textarea('comment', Request::old('comment'), ['class' => 'form-control','id' => 'comment','placeholder' => 'Why is this N/A ?']) !!}
+                </div>
+                <div class="form-group" id="baseline_date_div">
                   {!! Form::label('baseline_date', 'Document Baseline Date:', ['class' => 'control-label']) !!}
                   {!! Form::text('baseline_date', Request::old('baseline_date'), ['class' => 'form-control','id' => 'baseline_date']) !!}
+                </div>
+
                   {!! Form::hidden('building_id',session('building_id')) !!}
                   {!! Form::hidden('eop_id',$eop->id) !!}
+                  
               </div>
             </fieldset>
         </div>
@@ -188,6 +211,10 @@
             <div class="form-group">
                 {!! Form::label('submission_date', 'Submission Date:', ['class' => 'control-label']) !!}
                 {!! Form::text('submission_date', '', Request::old('submission_date'), ['class' => 'form-control','id' => 'submission_date']); !!}
+            </div>
+            <div class="form-group">
+                {!! Form::label('document_date', 'Document Date:', ['class' => 'control-label']) !!}
+                {!! Form::text('document_date', '', Request::old('document_date'), ['class' => 'form-control','id' => 'document_date']); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('upload_date', 'Submission On:', ['class' => 'control-label']) !!}
@@ -221,13 +248,44 @@
 
     function uploadDocumentFiles(date)
     {
-        $('#submission_date').val(date);
-        $('#submission_date').prop('readonly',true);
+        if(date == 'any-date')
+        {
+            $("#submission_date").flatpickr({
+                enableTime: false,
+                dateFormat: "Y-m-d",
+            });
+        }
+        else
+        {
+            $('#submission_date').val(date);
+            $('#submission_date').prop('readonly',true);
+
+        }
+
+        $("#document_date").flatpickr({
+                enableTime: false,
+                dateFormat: "Y-m-d",
+            });
+
         $('#upload_date').val(moment().format('YYYY-MM-DD HH:mm:ss'));
         $('#upload_date').prop('readonly',true);
         $('#uploadDocumentModal').modal('show');
 
     }
+
+    $("#is_baseline_disabled").change(function() {
+        if(this.checked) {
+            $('#comment_div').show();
+            $('#baseline_date_div').hide();
+            $('#baseline_date').val('0000-00-00');
+        }
+        else{
+            $('#baseline_date_div').show();
+            $('#comment_div').hide();
+            $('#baseline_date').val('');
+        }
+    });
+
   </script>
 
 

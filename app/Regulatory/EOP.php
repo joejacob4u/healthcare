@@ -7,10 +7,12 @@ use DB;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use App\Regulatory\EOPDocument;
 
 class EOP extends Model
 {
     protected $table = 'eop';
+    
     protected $fillable = ['name','standard_label_id','documentation','frequency','risk','risk_assessment','text','occupancy_type'];
 
     public function standardLabel()
@@ -25,7 +27,7 @@ class EOP extends Model
 
     public function getEOPDocuments()
     {
-        return DB::table('eop_documents')->where('building_id',session('building_id'))->where('eop_id',$this->id)->get();
+        return EOPDocument::whereHas('buildings', function($q) { $q->where('id',session('building_id')); } )->where('eop_id',$this->id)->get();
     }
 
     public function getLastDocumentUpload($building_id)
@@ -45,7 +47,7 @@ class EOP extends Model
 
     public function getDocumentBaseLineDate($building_id)
     {
-      return DB::table('documentation_baseline_dates')->where('building_id',$building_id)->where('eop_id',$this->id)->select('baseline_date')->first();
+      return DB::table('documentation_baseline_dates')->where('building_id',$building_id)->where('eop_id',$this->id)->select('baseline_date','is_baseline_disabled','comment')->first();
     }
 
     public function getNextDocumentUploadDate()

@@ -23,4 +23,9 @@ class Building extends Model
     {
         return $this->belongsToMany('App\Regulatory\EOPDocument','eop_documents-building','building_id','document_id');
     }
+
+    public function findings()
+    {
+        return $this->hasMany('App\Regulatory\EOPFinding','building_id');
+    }
 }

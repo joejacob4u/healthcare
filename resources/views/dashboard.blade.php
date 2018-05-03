@@ -9,6 +9,99 @@
 
 @section('content')
 
+@if(!empty(session('building_id')))
+
+<h4>Findings for HCO : <strong>{{ session('hco_name') }}</strong></h4>
+
+<div class="row">
+  <div class="col-md-12">
+    <div class="info-box bg-green">
+            <span class="info-box-icon"><i class="ion ion-ios-checkmark-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Compliant Findings</span>
+              <span class="info-box-number">{{ $findings->where('status','compliant')->count() }}</span>
+
+              <div class="progress">
+                <div class="progress-bar" style="width: <?php echo number_format($findings->where('status','compliant')->count() / $findings->count() * 100, 2 ) . '%'; ?>"></div>
+              </div>
+              <span class="progress-description">
+                    {{ $findings->where('status','compliant')->count() }} / {{$findings->count()}}
+                  </span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+  </div>
+</div>
+
+<div class="row">
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-aqua">
+            <div class="inner">
+              <h3>{{ $findings->where('status','pending_verification')->count() }}</h3>
+
+              <p>Pending Verification</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-ios-timer-outline"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-olive">
+            <div class="inner">
+              <h3>{{$findings->where('status','issues_corrected_verify')->count()}}</h3>
+
+              <p>Issues Corrected - Verify</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-ios-list-outline"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-yellow">
+            <div class="inner">
+              <h3>{{$findings->where('status','initial')->count()}}</h3>
+
+              <p>Initial Findings</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-compose"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+          <!-- small box -->
+          <div class="small-box bg-red">
+            <div class="inner">
+              <h3>{{$findings->where('status','non-compliant')->count()}}</h3>
+
+              <p>Non - Compliant</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-alert-circled"></i>
+            </div>
+            <a href="#" class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></a>
+          </div>
+        </div>
+        <!-- ./col -->
+      </div>
+
+
+
+@else
+
+
 <div class="row">
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
@@ -72,99 +165,6 @@
         <!-- ./col -->
       </div>
 
-    
-   <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">Latest Findings</h3>
+      @endif
 
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive">
-                <table class="table no-margin" id="findings_table" type="yajra">
-                  <thead>
-                  <tr>
-                    <th class="col-md-6">Description</th>
-                    <th class="col-md-2">Building</th>
-                    <th class="col-md-2">Status</th>
-                    <th class="col-md-2">View</th>
-                  </tr>
-                  </thead>
-                </table>
-              </div>
-              <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <!-- /.box-footer -->
-          </div>
-
-             <div class="box box-info">
-            <div class="box-header with-border">
-              <h3 class="box-title">My Findings</h3>
-
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body">
-              <div class="table-responsive">
-                <table class="table no-margin" id="my_findings_table" type="yajra">
-                  <thead>
-                  <tr>
-                    <th class="col-md-6">Description</th>
-                    <th class="col-md-2">Building</th>
-                    <th class="col-md-2">Status</th>
-                    <th class="col-md-2">View</th>
-                  </tr>
-                  </thead>
-                </table>
-              </div>
-              <!-- /.table-responsive -->
-            </div>
-            <!-- /.box-body -->
-            <!-- /.box-footer -->
-          </div>
-
-
-<script>
-
-$('#findings_table').DataTable({
-    processing: true,
-    serverSide: true,
-    ajax: {
-        url: '{{url('dashboard/fetch/findings')}}',
-        type: "POST",
-        data: function (data) {
-            data._token = '{{ csrf_token() }}'
-        }
-    },
-    columns: [
-        {data: 'description', name: 'description'},
-        {data: 'building', name: 'buildings.name'},
-        {data: 'status', name: 'status'},
-        {data: 'view', name: 'view', searchable: false},
-    ]
-});
-
-$('#my_findings_table').DataTable({
-    processing: true,
-    serverSide: true,
-    ajax: {
-        url: '{{url('dashboard/fetch/my-findings')}}',
-        type: "POST",
-        data: function (data) {
-            data._token = '{{ csrf_token() }}'
-        }
-    },
-    columns: [
-        {data: 'description', name: 'description'},
-        {data: 'building', name: 'buildings.name'},
-        {data: 'status', name: 'status'},
-        {data: 'view', name: 'view', searchable: false},
-    ]
-});
-
-
-
-
-
-</script>
-@endsection
+    @endsection

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\EOPDocument;
 use App\Regulatory\EOP;
+use Storage;
 
 class EOPDocumentController extends Controller
 {
@@ -33,7 +34,7 @@ class EOPDocumentController extends Controller
     public function index($eop_id)
     {
         $eop = EOP::find($eop_id);
-        $documents = EOPDocument::whereHas('buildings', function($q) { $q->where('id',session('building_id')); } )->get();
+        $documents = EOPDocument::whereHas('buildings', function($q) { $q->where('id',session('building_id')); } )->where('eop_id',$eop->id)->get();
         return view('accreditation.eop_documents.index',['documents' => $documents,'eop' => $eop]);
     }
 
@@ -53,11 +54,21 @@ class EOPDocumentController extends Controller
             'document_path' => 'required'
         ]);
 
-        if($document = EOPDocument::create($request->all()))
+        $no_of_files = count(Storage::disk('s3')->files($request->document_path));
+        
+        if($no_of_files > 0)
         {
-            $document->buildings()->attach(session('building_id'));
-            return back()->with('success','Document created!');
+            if($document = EOPDocument::create($request->all()))
+            {
+                $document->buildings()->attach(session('building_id'));
+                return back()->with('success','Document created!');
+            }
         }
+        else
+        {
+            return back()->with('warning','You must upload one or more files.');
+        }
+
     }
 
     /**
@@ -80,6 +91,8 @@ class EOPDocumentController extends Controller
      * @param mixed $document_id
      * @return void
      */
+
+
     public function save(Request $request,$document_id)
     {
         $document = EOPDocument::find($document_id);

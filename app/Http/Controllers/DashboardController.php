@@ -30,18 +30,29 @@ class DashboardController extends Controller
      */
     public function index()
     {
+
         $no_of_hcos = HCO::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->count();
         $no_of_users = User::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->count();
         $no_of_sites = Site::whereIn('hco_id',HCO::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->select('id')->pluck('id'))->count();
         $no_of_buildings = Building::whereIn('site_id',Site::whereIn('hco_id',HCO::where('healthsystem_id',Auth::guard('system_user')->user()->healthsystem_id)->select('id')->pluck('id'))->select('id')->pluck('id'))->count();
-        $eop_findings = EOPFinding::get();
-        
-        return view('dashboard',[
+
+        $data = [
             'no_of_hcos' => $no_of_hcos,
             'no_of_users' => $no_of_users,
             'no_of_sites' => $no_of_sites,
             'no_of_buildings'=> $no_of_buildings
-        ]);
+        ];
+
+        if(!empty(session('building_id')))
+        {
+            $findings = EOPFinding::whereHas('building.site.hco', function ($query) {
+                $query->where('hco.id', session('hco_id'));
+            })->get();
+
+            $data = $data + ['findings' => $findings];
+        }
+
+        return view('dashboard',$data);
     }
 
     public function getFindings(Request $request)
