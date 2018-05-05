@@ -51,7 +51,8 @@ class EOPDocumentController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'document_path' => 'required'
+            'document_path' => 'required',
+            'document_date' => 'required'
         ]);
 
         $no_of_files = count(Storage::disk('s3')->files($request->document_path));
@@ -95,6 +96,11 @@ class EOPDocumentController extends Controller
 
     public function save(Request $request,$document_id)
     {
+        $this->validate($request,[
+            'document_path' => 'required',
+            'document_date' => 'required'
+        ]);
+
         $document = EOPDocument::find($document_id);
 
         if($document->update($request->all()))

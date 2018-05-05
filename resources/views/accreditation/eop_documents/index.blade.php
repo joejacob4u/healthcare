@@ -52,7 +52,9 @@
         <div class="callout callout-success">
             <h4>Upcoming Upload Date</h4>
             <p>
-            @if($eop->getNextDocumentUploadDate(session('building_id')) == 'cannot_find_date')
+            @if($eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
+                Upcoming Upload Date Unavailable
+            @elseif($eop->getNextDocumentUploadDate(session('building_id')) == 'cannot_find_date')
                 Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button>
             @elseif($eop->getNextDocumentUploadDate(session('building_id')) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate(session('building_id')))) 
                 {{ $eop->getNextDocumentUploadDate(session('building_id')) }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-paperclip"></span> Upload Files</button>
@@ -209,16 +211,16 @@
         <div class="modal-body">
           {!! Form::open(['url' => 'system-admin/accreditation/eop/document/upload']) !!}
             <div class="form-group">
-                {!! Form::label('submission_date', 'Submission Date:', ['class' => 'control-label']) !!}
-                {!! Form::text('submission_date', '', Request::old('submission_date'), ['class' => 'form-control','id' => 'submission_date']); !!}
+                {!! Form::label('submission_date', 'Document Required Date:', ['class' => 'control-label']) !!}
+                {!! Form::text('submission_date',  Request::old('submission_date'), ['class' => 'form-control','id' => 'submission_date']); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('document_date', 'Document Date:', ['class' => 'control-label']) !!}
-                {!! Form::text('document_date', '', Request::old('document_date'), ['class' => 'form-control','id' => 'document_date']); !!}
+                {!! Form::text('document_date',  Request::old('document_date'), ['class' => 'form-control','id' => 'document_date']); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('upload_date', 'Submission On:', ['class' => 'control-label']) !!}
-                {!! Form::text('upload_date', '', Request::old('upload_date'), ['class' => 'form-control','id' => 'upload_date']); !!}
+                {!! Form::text('upload_date',  Request::old('upload_date'), ['class' => 'form-control','id' => 'upload_date']); !!}
             </div>
             <div class="form-group">
                 {!! Form::label('document_path', 'Documents:', ['class' => 'control-label']) !!}
