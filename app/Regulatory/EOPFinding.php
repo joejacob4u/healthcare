@@ -11,28 +11,27 @@ class EOPFinding extends Model
 
     public function comments()
     {
-        return $this->hasMany('App\Regulatory\EOPFindingComment','eop_finding_id');
+        return $this->hasMany('App\Regulatory\EOPFindingComment', 'eop_finding_id');
     }
 
     public function building()
     {
-        return $this->belongsTo('App\Regulatory\Building','building_id');
+        return $this->belongsTo('App\Regulatory\Building', 'building_id');
     }
 
     public function site()
     {
-        return $this->belongsTo('App\Regulatory\Site','site_id');
+        return $this->belongsTo('App\Regulatory\Site', 'site_id');
     }
 
     public function lastAssigned()
     {
-        return $this->belongsTo('App\User','last_assigned_user_id');
+        return $this->belongsTo('App\User', 'last_assigned_user_id');
     }
 
     public function statusColor()
     {
-        switch($this->status)
-        {
+        switch ($this->status) {
             case 'initial':
                 return 'danger';
                 break;
@@ -60,4 +59,22 @@ class EOPFinding extends Model
         }
     }
 
+    public function scopeUnassigned($query)
+    {
+        return $query->where('created_by_user_id', '')->where('last_assigned_user_id', '');
+    }
+
+    public function scopeAssigned($query)
+    {
+        return $query->where('created_by_user_id', '!=', '')->where('last_assigned_user_id', '!=', '');
+    }
+
+    public function isNotAssigned()
+    {
+        if (empty($this->created_by_user_id) && empty($this->last_assigned_user_id)) {
+            return true;
+        }
+
+        return false;
+    }
 }

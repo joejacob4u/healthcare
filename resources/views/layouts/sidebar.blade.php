@@ -101,6 +101,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="{{url('prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
+            <li><a href="{{url('system_admin/verifiers')}}"><i class="fa fa-circle-o"></i>Verifiers</a></li>
           </ul>
       </li>
       <li class="treeview">

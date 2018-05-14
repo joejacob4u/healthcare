@@ -57,7 +57,13 @@
                         {!! Form::select('role_id', $roles, Request::old('role_id'), ['class' => 'form-control','placeholder' => 'Please select']) !!}
                     </div>
                 </div>
-                  <!-- Email -->
+
+                <div class="form-group">
+                    {!! Form::label('is_verifier', 'Allowed to verify documents and action plans', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('is_verifier', ['0' => 'No','1' => 'Yes'], Request::old('is_verifier'), ['class' => 'form-control','placeholder' => 'Please select']) !!}
+                    </div>
+                </div>  
 
                 {!! Form::hidden('status', 'active'); !!}
 

@@ -1,24 +1,25 @@
 <?php
 
-HTML::macro('dropzone', function($field,$directory,$populate = false)
+HTML::macro('dropzone', function($field,$directory,$populate = false,$editable = true)
 {
     return "
     <input type='hidden' name='".$field."' value='".$directory."'>
-    <div id='".$field."' class='dropzone'></div>
-    
+    <div id='".$field."' class='dropzone'></div>    <br/>
     <ul class=\"list-group\" id='".$field."_file_list'>
         <li class=\"list-group-item list-group-item-info\">File Actions</li>
     </ul>
 
     <script>
         var ".$field."_populate = ".$populate.";
+        var s3url = '".env('S3_URL')."';
+        var editable = ".$editable.";
     
         $('#".$field."').dropzone({ 
             url: '/dropzone/upload' ,
             paramName: 'file',
             maxFilesize: 4,
             autoDiscover: false,
-            addRemoveLinks: true,
+            addRemoveLinks: editable,
             init: function() {
                 ".$field."_thisDropzone = this;
                 this.on('sending', function(file, xhr, formData){
@@ -26,8 +27,10 @@ HTML::macro('dropzone', function($field,$directory,$populate = false)
                     formData.append('folder', '".$directory."');
                     if (file.type.indexOf('image/') == -1)
                     {
-                        this.emit('thumbnail', file, '/images/document.png');
+                        //this.emit('thumbnail', file, '/images/document.png');
                     }
+
+                    $('#".$field."_file_list').append('<li class=\"list-group-item\"><span class=\"glyphicon glyphicon-paperclip\"></span> '+file.name+'<a href=\"'+s3url+'$directory/'+file.name+'\" target=\"_blank\" class=\"btn btn-primary btn-xs pull-right\" ><span class=\"glyphicon glyphicon-eye-open\"></span> View</a></li>');
                 });
                 if(".$field."_populate)
                 {                    
@@ -54,22 +57,23 @@ HTML::macro('dropzone', function($field,$directory,$populate = false)
                                     }
                                     else
                                     {
-                                        ".$field."_thisDropzone.options.thumbnail.call(".$field."_thisDropzone, mockFile, '/images/document.png');
+                                        //".$field."_thisDropzone.options.thumbnail.call(".$field."_thisDropzone, mockFile, '/images/document.png');
                                     }
 
-                                    $('#".$field."_file_list').append('<li class=\"list-group-item\"><span class=\"glyphicon glyphicon-paperclip\"></span> '+value.name+'<a href=\"#\" class=\"btn btn-danger btn-xs pull-right\"><span class=\"glyphicon glyphicon-remove\"></span> Delete</a><a href=\"'+value.url+'\" target=\"_blank\" class=\"btn btn-primary btn-xs pull-right\" ><span class=\"glyphicon glyphicon-eye-open\"></span> View</a></li>');
+                                    $('#".$field."_file_list').append('<li class=\"list-group-item\"><span class=\"glyphicon glyphicon-paperclip\"></span> '+value.name+'<a href=\"'+value.url+'\" target=\"_blank\" class=\"btn btn-primary btn-xs pull-right\" ><span class=\"glyphicon glyphicon-eye-open\"></span> View</a></li>');
                                     
                                });
-                               var a = document.createElement('a');
-                               a.setAttribute('href',\"/uploads/\" + file.fullname);
-                               a.innerHTML = \"<br>download\";
-                               file.previewTemplate.appendChild(a);
            
                             }
         
                         }
                     });
                 }
+
+                if(!editable)
+                { 
+                    $('.dz-hidden-input').prop('disabled',true);
+                }                   
 
                 this.on('success', function(file, xhr){
                     console.log('file uploaded'+file);

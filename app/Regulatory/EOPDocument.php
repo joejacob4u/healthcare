@@ -10,14 +10,15 @@ class EOPDocument extends Model
 
     protected $guarded = ['id'];
 
-    public function buildings()
+    public function submissionDate()
     {
-        return $this->belongsToMany('App\Regulatory\Building','eop_documents-building','document_id','building_id');
+        return $this->belongsTo('App\Regulatory\EOPDocumentSubmissionDate','eop_document_submission_date_id');
     }
 
-    public function eop()
+    public function comments()
     {
-        return $this->belongsTo('App\Regulatory\EOP','eop_id');
+        return $this->hasMany('App\Regulatory\EOPDocumentComment','eop_document_id');
     }
+
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
+use Auth;
 
 use Closure;
 
@@ -20,7 +21,7 @@ class UsersMiddleware
             return $next($request);
         }
 
-        return view('welcome');
+        return redirect('/login');
 
     }
 }

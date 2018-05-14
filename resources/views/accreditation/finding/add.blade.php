@@ -115,6 +115,7 @@
               {!! Form::hidden('eop_id', $eop->id) !!}
               {!! Form::hidden('status', 'initial') !!}
               {!! Form::hidden('building_id', session('building_id')) !!}
+              {!! Form::hidden('accreditation_id', session('accreditation_id')) !!}
               {!! Form::hidden('healthsystem_id', Auth::guard('system_user')->user()->healthsystem_id) !!}
 
               {!! Form::hidden('created_by_user_id',Auth::guard('system_user')->user()->id) !!}

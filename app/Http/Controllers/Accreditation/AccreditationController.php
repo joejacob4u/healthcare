@@ -19,16 +19,16 @@ class AccreditationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin');
+        $this->middleware('user');
     }
 
     public function index()
     {
-        $hcos = HCO::where('healthsystem_id',Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name','id')->prepend('Please select a hco', '0');
-        return view('accreditation.index',['hcos' => $hcos]);
+        $hcos = HCO::where('healthsystem_id', Auth::guard('system_user')->user()->healthSystem->id)->pluck('facility_name', 'id')->prepend('Please select a hco', '0');
+        return view('accreditation.index', ['hcos' => $hcos]);
     }
 
-    public function fetchStandardLabels($accreditation_id,$accreditation_requirement_id)
+    public function fetchStandardLabels($accreditation_id, $accreditation_requirement_id)
     {
         $building = Building::find(session('building_id'));
         $accreditation = Accreditation::find($accreditation_id);
@@ -36,7 +36,7 @@ class AccreditationController extends Controller
         Session::put('accreditation_id', $accreditation_id);
         Session::put('accreditation_requirement_id', $accreditation_requirement_id);
 
-        return view('accreditation.index',['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building]);
+        return view('accreditation.index', ['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building]);
     }
 
     public function fetchBuildings(Request $request)
@@ -44,12 +44,11 @@ class AccreditationController extends Controller
         $site = Site::find($request->site_id);
 
         return response()->json(['buildings' => $site->buildings]);
-
     }
 
     public function setBuilding(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'building_id' => 'required|not_in:0',
         ]);
 
@@ -65,14 +64,13 @@ class AccreditationController extends Controller
         Session::put('hco_name', $hco->facility_name);
 
 
-        return back();       
+        return back();
     }
 
     public function fetchSites(Request $request)
     {
         $hco = HCO::find($request->hco_id);
         return response()->json(['sites' => $hco->sites]);
-
     }
 
     public function fetchAccreditations(Request $request)
@@ -92,42 +90,39 @@ class AccreditationController extends Controller
         $building = Building::find(session('building_id'));
         $eop = EOP::find($eop_id);
         $last_submission = $eop->getLastDocumentUpload(session('building_id'));
-        return view('accreditation.documentation',['building' => $building,'eop' => $eop]);
+        return view('accreditation.documentation', ['building' => $building,'eop' => $eop]);
     }
 
     public function uploadEOPDocument(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'submission_date' => 'required',
         ]);
 
         $building = Building::find($request->building_id);
 
         $building->eopDocumentations()->attach([$request->eop_id => ['accreditation_id' => $request->accreditation_id, 'document_path' => $request->document_path, 'submission_date' => $request->submission_date,'submitted_on' => $request->submitted_on, 'user_id' => $request->user_id]]);
-        return back()->with('success','Document Added!');
-
+        return back()->with('success', 'Document Added!');
     }
 
     public function saveBaselineDate(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             'baseline_date' => 'required_unless:is_baseline_disabled,==,1',
-            'comment' => 'required_if:is_baseline_disabled,==,1'
+            'comment' => 'required_if:is_baseline_disabled,==,1',
+            'user_id' => 'required_unless:is_baseline_disabled,==,1'
         ]);
 
 
-        if($request->is_baseline_disabled === NULL)
-        {
+        if ($request->is_baseline_disabled === null) {
             $request->is_baseline_disabled = 0;
         }
 
         EOPDocumentBaselineDate::updateOrCreate(
             ['eop_id' => $request->eop_id, 'building_id' => session('building_id')],
-            ['baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled]
+            ['baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled,'user_id' => $request->user_id]
         );
 
-        return back()->with('success','Baseline Date saved!');
-            
-
+        return back()->with('success', 'Baseline Date saved!');
     }
 }

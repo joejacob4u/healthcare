@@ -48,14 +48,34 @@
                     </div>
                 </div>
 
+                @if($user->role_id == 2)
+
                 <div class="form-group">
                     {!! Form::label('role_id', 'Role:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('role_id', $roles, $user->roles->pluck('id')->toArray(), ['class' => 'form-control','placeholder' => 'Please select']) !!}
+                        {!! Form::select('role_id', ['2' => 'System Admin'], $user->role_id, ['class' => 'form-control','readonly' => true]) !!}
                     </div>
                 </div>
 
-                {!! Form::hidden('status', 'pending'); !!}
+                @else
+
+                <div class="form-group">
+                    {!! Form::label('role_id', 'Role:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('role_id', $roles, $user->role_id, ['class' => 'form-control','placeholder' => 'Please select']) !!}
+                    </div>
+                </div>
+
+                @endif
+
+                <div class="form-group">
+                    {!! Form::label('is_verifier', 'Allowed to verify documents and action plans', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('is_verifier', ['0' => 'No','1' => 'Yes'], $user->is_verifier, ['class' => 'form-control','placeholder' => 'Please select']) !!}
+                    </div>
+                </div>  
+
+                {!! Form::hidden('status', $user->status); !!}
 
                 <!-- Submit Button -->
                 <div class="form-group">

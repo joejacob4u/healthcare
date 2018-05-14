@@ -119,10 +119,17 @@ Route::post('system-admin/accreditation/fetch/sites', 'Accreditation\Accreditati
 Route::post('system-admin/accreditation/fetch/buildings', 'Accreditation\AccreditationController@fetchBuildings');
 Route::post('system-admin/accreditation/fetch/accreditation', 'Accreditation\AccreditationController@fetchAccreditations');
 Route::post('system-admin/accreditation/fetch/accreditation_requirements', 'Accreditation\AccreditationController@fetchAccreditationRequirements');
-Route::get('system-admin/accreditation/eop/{eop_id}/documents', 'Accreditation\EOPDocumentController@index');
-Route::post('system-admin/accreditation/eop/document/upload', 'Accreditation\EOPDocumentController@store');
-Route::get('system-admin/accreditation/eop/document/edit/{eop_id}', 'Accreditation\EOPDocumentController@edit');
-Route::post('system-admin/accreditation/eop/document/edit/{eop_id}', 'Accreditation\EOPDocumentController@save');
+
+Route::get('system-admin/accreditation/eop/{eop_id}/submission_dates', 'Accreditation\EOPSubmissionDateController@index');
+Route::post('system-admin/accreditation/eop/{eop_id}/submission_date', 'Accreditation\EOPSubmissionDateController@store');
+Route::post('system-admin/accreditation/eop/{eop_id}/submission_date/delete', 'Accreditation\EOPSubmissionDateController@destroy');
+
+Route::get('system-admin/accreditation/eop/{eop_id}/submission_date/{submission_date_id}/documents', 'Accreditation\EOPDocumentController@index');
+Route::get('system-admin/accreditation/eop/{eop_id}/submission_date/{submission_date_id}/documents/create', 'Accreditation\EOPDocumentController@create');
+Route::post('system-admin/accreditation/eop/submission_date/documents', 'Accreditation\EOPDocumentController@store');
+Route::get('system-admin/accreditation/eop/{eop_id}/submission_date/{submission_date_id}/documents/{document_id}/edit', 'Accreditation\EOPDocumentController@edit');
+Route::post('system-admin/accreditation/eop/document/verify', 'Accreditation\EOPDocumentController@verify');
+
 Route::post('system-admin/accreditation/eop/document/baseline-date', 'Accreditation\AccreditationController@saveBaselineDate');
 Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirement/{accreditation_requirement_id}', 'Accreditation\AccreditationController@fetchStandardLabels');
 

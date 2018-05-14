@@ -7,7 +7,11 @@ use DB;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use Auth;
 use App\Regulatory\EOPDocument;
+use App\Regulatory\EOPDocumentBaselineDate;
+use App\Regulatory\EOPDocumentSubmissionDate;
+
 
 class EOP extends Model
 {
@@ -25,9 +29,9 @@ class EOP extends Model
       return $this->belongsToMany('App\Regulatory\SubCOP','eop_sub-cop','eop_id','sub_cop_id');
     }
 
-    public function getEOPDocuments()
+    public function getSubmissionDates()
     {
-        return EOPDocument::whereHas('buildings', function($q) { $q->where('id',session('building_id')); } )->where('eop_id',$this->id)->get();
+        return EOPDocumentSubmissionDate::where('building_id',session('building_id'))->where('eop_id',$this->id)->get();
     }
 
     public function getLastDocumentUpload($building_id)
@@ -47,7 +51,7 @@ class EOP extends Model
 
     public function getDocumentBaseLineDate($building_id)
     {
-      return DB::table('documentation_baseline_dates')->where('building_id',$building_id)->where('eop_id',$this->id)->select('baseline_date','is_baseline_disabled','comment')->first();
+      return DB::table('documentation_baseline_dates')->where('building_id',$building_id)->where('eop_id',$this->id)->select('baseline_date','is_baseline_disabled','comment','user_id')->first();
     }
 
     public function getNextDocumentUploadDate()
@@ -160,7 +164,7 @@ class EOP extends Model
 
       $documents = [];
       $document_dates = [];
-      $documents = $this->getEOPDocuments()->toArray();
+      $documents = $this->getSubmissionDates()->toArray();
       
       if(!empty($documents))
       {
@@ -180,6 +184,18 @@ class EOP extends Model
       }
       
       
+    }
+
+    public function isAllowedUpload()
+    {
+
+      if(EOPDocumentBaselineDate::where('building_id', session('building_id'))->where('eop_id',$this->id)->where('user_id',Auth::user()->id)->count() > 0)
+      {
+        return true;
+      }
+
+      return false;
+
     }
 
 

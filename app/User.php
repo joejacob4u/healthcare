@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name' ,'email', 'password','phone','address','status','forgot_password','role_id'
+        'name' ,'email', 'password','phone','address','status','forgot_password','role_id','healthsystem_id','is_verifier'
     ];
 
     /**
@@ -42,5 +42,16 @@ class User extends Authenticatable
     {
       return $this->belongsToMany('App\Department','user_department','user_id','department_id');
     }  
+
+    public function isAdmin()
+    {
+        return (in_array($this->role_id, [2,3])) ? 1 : 0;
+    }
+
+    public function isVerifier()
+    {
+        return $this->is_verifier;
+    }
+
 
 }

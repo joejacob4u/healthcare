@@ -60,9 +60,13 @@
                 <tr>
                     <td>{{$finding->description}}</td>
                     <td>{{$finding->status}}</td>
-                    <td>{{ date('F j, Y, g:i a',strtotime($finding->created_at)) }}</td>
-                    <td>@if(!is_null($finding->comments->last())){{ date('F j, Y, g:i a',strtotime($finding->comments->last()->created_at)) }} @else {{ date('F j, Y, g:i a',strtotime($finding->created_at)) }} @endif</td>
-                    <td>@if(!is_null($finding->comments->last())){{ App\User::find($finding->comments->last()->assigned_user_id)->name }} @else TBD @endif</td>
+                    <td>{{ $finding->created_at->toFormattedDateString() }}</td>
+                    <td>@if(!is_null($finding->comments->last())){{ $finding->comments->last()->created_at->toFormattedDateString() }} @else {{ $finding->created_at->toFormattedDateString() }} @endif</td>
+                    @if($finding->isNotAssigned())
+                        <td>Not Assigned</td>
+                    @else
+                        <td>@if(!is_null($finding->comments->last()) && $finding->status!= 'compliant'){{ App\User::find($finding->comments->last()->assigned_user_id)->name }} @else N/A @endif</td>
+                    @endif
                     <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/edit/'.$finding->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/'.$finding->id,'View Activity',['class' => 'btn-xs btn-primary']) !!}</td>
                 </tr>
