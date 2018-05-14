@@ -8,8 +8,10 @@
 @section('page_description','')
 
 @section('content')
-@if($findings->count() != 0)
+
 @if(!empty(session('building_id')))
+
+@if($findings->count() != 0)
 
 <h4>Findings for HCO : <strong>{{ session('hco_name') }}</strong></h4>
 
@@ -96,7 +98,7 @@
         </div>
         <!-- ./col -->
       </div>
-
+@endif
 
 
 @else
@@ -164,11 +166,6 @@
         </div>
         <!-- ./col -->
       </div>
-
-      @endif
-      @else
-
-      No findings yet!
 
       @endif
 
