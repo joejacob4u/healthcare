@@ -12,7 +12,6 @@ use App\Regulatory\EOPDocument;
 use App\Regulatory\EOPDocumentBaselineDate;
 use App\Regulatory\EOPDocumentSubmissionDate;
 
-
 class EOP extends Model
 {
     protected $table = 'eop';
@@ -21,66 +20,61 @@ class EOP extends Model
 
     public function standardLabel()
     {
-      return $this->belongsTo('App\Regulatory\StandardLabel','standard_label_id','id');
+        return $this->belongsTo('App\Regulatory\StandardLabel', 'standard_label_id', 'id');
     }
 
     public function subCOPs()
     {
-      return $this->belongsToMany('App\Regulatory\SubCOP','eop_sub-cop','eop_id','sub_cop_id');
+        return $this->belongsToMany('App\Regulatory\SubCOP', 'eop_sub-cop', 'eop_id', 'sub_cop_id');
     }
 
     public function getSubmissionDates()
     {
-        return EOPDocumentSubmissionDate::where('building_id',session('building_id'))->where('eop_id',$this->id)->get();
+        return EOPDocumentSubmissionDate::where('building_id', session('building_id'))->where('eop_id', $this->id)->get();
     }
 
     public function getLastDocumentUpload($building_id)
     {
-      return DB::table('eop_documents')->select('eop_documents.submission_date','users.name')
+        return DB::table('eop_documents')->select('eop_documents.submission_date', 'users.name')
               ->where('building_id', $building_id)
               ->leftJoin('users', 'users.id', '=', 'eop_documents.user_id')
-              ->where('accreditation_id',session('accreditation_id'))
-              ->where('eop_id',$this->id)->orderBy('submission_date', 'desc')
+              ->where('accreditation_id', session('accreditation_id'))
+              ->where('eop_id', $this->id)->orderBy('submission_date', 'desc')
               ->first();
     }
 
     public function documentBaseLineDate()
     {
-      return $this->belongsToMany('App\Regulatory\Building','documentation_baseline_dates','eop_id','building_id')->withPivot('baseline_date');
+        return $this->belongsToMany('App\Regulatory\Building', 'documentation_baseline_dates', 'eop_id', 'building_id')->withPivot('baseline_date');
     }
 
     public function getDocumentBaseLineDate($building_id)
     {
-      return DB::table('documentation_baseline_dates')->where('building_id',$building_id)->where('eop_id',$this->id)->select('baseline_date','is_baseline_disabled','comment','user_id')->first();
+        return DB::table('documentation_baseline_dates')->where('building_id', $building_id)->where('eop_id', $this->id)->select('baseline_date', 'is_baseline_disabled', 'comment')->where('accreditation_id', session('accreditation_id'))->first();
     }
 
     public function getNextDocumentUploadDate()
     {
-      if(!empty($this->getDocumentBaseLineDate(session('building_id'))->baseline_date))
-      {
-        $document_dates = $this->calculateDocumentDates($this->getDocumentBaseLineDate(session('building_id'))->baseline_date,true);
-        if(!empty(end($document_dates)))
-          return end($document_dates);
-        else
-          return 'cannot_find_date';
-      }
-      else
-      {
-        return '';
-      }
-
+        if (!empty($this->getDocumentBaseLineDate(session('building_id'))->baseline_date)) {
+            $document_dates = $this->calculateDocumentDates($this->getDocumentBaseLineDate(session('building_id'))->baseline_date, true);
+            if (!empty(end($document_dates))) {
+                return end($document_dates);
+            } else {
+                return 'cannot_find_date';
+            }
+        } else {
+            return '';
+        }
     }
 
     public function getFindingCount($status)
     {
-      return DB::table('eop_findings')->where('eop_id',$this->id)->where('status',$status)->count();
+        return DB::table('eop_findings')->where('eop_id', $this->id)->where('status', $status)->count();
     }
 
-    public function calculateDocumentDates($baseline_date,$list_all = false)
+    public function calculateDocumentDates($baseline_date, $list_all = false)
     {
-
-      switch($this->frequency)
-      {
+        switch ($this->frequency) {
         case 'daily':
           $interval = 'P1D';
           $future_date_interval = '+1 day';
@@ -145,59 +139,36 @@ class EOP extends Model
           break;
         }
 
-      $from = new DateTime($baseline_date);
-      $to = new DateTime(date('Y-m-d'));
-      if($list_all)
-      {
-        $to->modify($future_date_interval);
-      }
-
-      $interval = new DateInterval($interval);
-      $periods = new DatePeriod($from, $interval, $to);
-      $dates = [];
-
-      foreach ($periods as $period) {
-          $dates[] = $period->format('Y-m-d');
-      }
-
-      //get uploaded documents
-
-      $documents = [];
-      $document_dates = [];
-      $documents = $this->getSubmissionDates()->toArray();
-      
-      if(!empty($documents))
-      {
-        foreach($documents as $document)
-        {
-          $document_dates[] = $document['submission_date'];
+        $from = new DateTime($baseline_date);
+        $to = new DateTime(date('Y-m-d'));
+        if ($list_all) {
+            $to->modify($future_date_interval);
         }
-      }
 
-      if($list_all)
-      {
-        return $dates;
-      }
-      else
-      {
-        return array_diff($dates,$document_dates);
-      }
+        $interval = new DateInterval($interval);
+        $periods = new DatePeriod($from, $interval, $to);
+        $dates = [];
+
+        foreach ($periods as $period) {
+            $dates[] = $period->format('Y-m-d');
+        }
+
+        //get uploaded documents
+
+        $documents = [];
+        $document_dates = [];
+        $documents = $this->getSubmissionDates()->toArray();
       
-      
+        if (!empty($documents)) {
+            foreach ($documents as $document) {
+                $document_dates[] = $document['submission_date'];
+            }
+        }
+
+        if ($list_all) {
+            return $dates;
+        } else {
+            return array_diff($dates, $document_dates);
+        }
     }
-
-    public function isAllowedUpload()
-    {
-
-      if(EOPDocumentBaselineDate::where('building_id', session('building_id'))->where('eop_id',$this->id)->where('user_id',Auth::user()->id)->count() > 0)
-      {
-        return true;
-      }
-
-      return false;
-
-    }
-
-
-
 }

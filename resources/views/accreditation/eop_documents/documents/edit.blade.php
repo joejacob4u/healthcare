@@ -118,7 +118,7 @@
                 {!! Form::open(['url' => 'system-admin/accreditation/eop/document/verify']) !!}
                     <div class="form-group">
                         {!! Form::label('comment', 'Comment:', ['class' => 'control-label']) !!}
-                        {!! Form::textarea('comment',  'This has been verified and is compliant. Great Work!', ['class' => 'form-control','id' => 'comment','readonly' => true]); !!}
+                        {!! Form::textarea('comment',  'This has been verified and is compliant. Great Work!', ['class' => 'form-control','id' => 'comment']); !!}
                     </div>
                 
                 {!! Form::hidden('eop_document_id',$document->id) !!}

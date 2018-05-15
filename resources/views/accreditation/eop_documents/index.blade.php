@@ -36,7 +36,7 @@
                     @if($eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
                         Baseline date N/A - {{ $eop->getDocumentBaseLineDate(session('building_id'))->comment }}@if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
                     @else
-                        Baseline Date : {{ $eop->getDocumentBaseLineDate(session('building_id'))->baseline_date }} <br/>Assigned To : {{ App\User::find($eop->getDocumentBaseLineDate(session('building_id'))->user_id)->name}}@if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
+                        Baseline Date : {{ $eop->getDocumentBaseLineDate(session('building_id'))->baseline_date }} @if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
                     @endif
                 @else
                     <a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Set Baseline Date to Start Uploading Documents</a>
@@ -53,11 +53,11 @@
                 @if($eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
                     Upcoming Upload Date Unavailable
                 @elseif($eop->getNextDocumentUploadDate(session('building_id')) == 'cannot_find_date')
-                    Next date is per policy / per needed @if($eop->isAllowedUpload())<button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>@endif
+                    Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @elseif($eop->getNextDocumentUploadDate(session('building_id')) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate(session('building_id')))) 
-                    {{ $eop->getNextDocumentUploadDate(session('building_id')) }} @if($eop->isAllowedUpload())<button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>@endif
+                    {{ $eop->getNextDocumentUploadDate(session('building_id')) }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @elseif($eop->frequency == 'per_needed' || $eop->frequency == 'as_needed')
-                    Next date is per policy / per needed @if($eop->isAllowedUpload())<button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>@endif
+                    Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @else 
                     Please set baseline date 
                 @endif
@@ -90,7 +90,7 @@
             <div class="box-body" style="">
                 <ul class="list-group">
                     @foreach($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date) as $date)
-                        <li class="list-group-item">{{ date('F j, Y',strtotime($date))}} @if($eop->isAllowedUpload())<button class="btn btn-primary btn-xs pull-right" onclick="startSubmission('{{$date}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>@endif</li>
+                        <li class="list-group-item">{{ date('F j, Y',strtotime($date))}} <button class="btn btn-primary btn-xs pull-right" onclick="startSubmission('{{$date}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button></li>
                     @endforeach
                 </ul>
             </div>
@@ -115,6 +115,7 @@
                         <th>Status</th>
                         <th>Remove</th>
                         <th>Activity</th>
+                        <th>Add Finding</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -124,17 +125,21 @@
                         <th>Status</th>
                         <th>Remove</th>
                         <th>Activity</th>
+                        <th>Add Finding</th>
                     </tr>
                 </tfoot>
                 <tbody>
                 
                   @foreach($submission_dates as $submission_date)
                     <tr id="tr-{{$submission_date->id}}">
-                        <td>{{$submission_date->submission_date}}</td>
+                        <td>{{$submission_date->submission_date->toFormattedDateString() }}</td>
                         <td>{{ App\User::find($submission_date->user_id)->name }}</td>
                         <td>{{ $submission_date->status}}</td>
                         <td>{!! link_to('#','Remove',['class' => 'btn-xs btn-danger','onclick' => "removeSubmissionDate('$submission_date->id')"]) !!}</td>
                         <td>{!! link_to('system-admin/accreditation/eop/'.$eop->id.'/submission_date/'.$submission_date->id.'/documents','View Activity',['class' => 'btn-xs btn-primary']) !!}</td>
+                        @if($submission_date->status == 'non-compliant')
+                                <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/add?document_id='.$submission_date->documents->last()->id,'Add Finding',['class' => 'btn-xs btn-warning']) !!}</td>
+                            @endif
                     </tr>
                   @endforeach
                 </tbody>
@@ -172,13 +177,10 @@
                 <div class="form-group" id="baseline_date_div">
                   {!! Form::label('baseline_date', 'Document Baseline Date:', ['class' => 'control-label']) !!}
                   {!! Form::text('baseline_date', Request::old('baseline_date'), ['class' => 'form-control','id' => 'baseline_date']) !!}
-
-                  {!! Form::label('user_id', 'Assign To:', ['class' => 'control-label']) !!}
-                  {!! Form::select('user_id', $users ,Request::old('user_id'), ['class' => 'form-control','id' => 'user_id']) !!}
-
                 </div>
 
                   {!! Form::hidden('building_id',session('building_id')) !!}
+                  {!! Form::hidden('accreditation_id',session('accreditation_id')) !!}
                   {!! Form::hidden('eop_id',$eop->id) !!}
                   
               </div>
@@ -204,6 +206,7 @@
         </div>
         <div class="modal-body">
           <p id="submission_date_verbiage"></p>
+          
           {!! Form::open(['url' => 'system-admin/accreditation/eop/'.$eop->id.'/submission_date']) !!}
             {!! Form::hidden('submission_date','',['id' => 'submission_date']) !!}
             {!! Form::hidden('building_id',session('building_id')) !!}
@@ -213,6 +216,9 @@
             {!! Form::hidden('user_id',Auth::user()->id) !!}
             <button type="submit" class="btn btn-primary" id="submit_btn">Start Submission</button>
           {!! Form::close()  !!}
+      </div>
+      <div class="modal-footer">
+        After initiating a submission date, you can upload documents to this date on the next step.
       </div>
     </div>
   </div>

@@ -12,6 +12,9 @@ class EOPDocumentSubmissionDate extends Model
 
     protected $guarded = ['id'];
 
+    protected $dates = ['submission_date'];
+
+
     /**
      * eop - fetches eop of submission date
      *
@@ -75,8 +78,8 @@ class EOPDocumentSubmissionDate extends Model
             break;
   
           case 'quarterly':Carbon::parse($this->submission_date)::
-            $start  = Carbon::parse($this->submission_date)::firstOfQuarter()->subDays(10)->toDateString();
-            $end = Carbon::parse($this->submission_date)::lastOfQuarter()->addDays(10)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->firstOfQuarter()->subDays(10)->toDateString();
+            $end = Carbon::parse($this->submission_date)->lastOfQuarter()->addDays(10)->toDateString();
             break;
 
           case 'annually':

@@ -64,10 +64,10 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach($submission_date->documents as $document)
+                    @foreach($submission_date->documents->sortByDesc('id') as $document)
                         <tr id="tr-{{$document->id}}">
                             <td>{{ \Carbon\Carbon::parse($document->document_date)->toFormattedDateString()}}</td>
-                            <td>{{ \Carbon\Carbon::parse($document->upload_date)->toFormattedDateString() }}</td>
+                            <td>{{ \Carbon\Carbon::parse($document->upload_date)->diffForHumans() }}</td>
                             <td>{{ $document->status }}</td>
                             <td>{!! link_to('system-admin/accreditation/eop/'.$submission_date->eop->id.'/submission_date/'.$submission_date->id.'/documents/'.$document->id.'/edit','View/Edit',['class' => 'btn-xs btn-primary']) !!}</td>
                         </tr>

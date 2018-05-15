@@ -10,7 +10,6 @@ use App\User;
 
 class EOPSubmissionDateController extends Controller
 {
-
     public function __construct()
     {
         $this->middleware('user');
@@ -25,9 +24,8 @@ class EOPSubmissionDateController extends Controller
     public function index($eop_id)
     {
         $eop = EOP::find($eop_id);
-        $users = User::pluck('name','id');
-        $submission_dates = EOPDocumentSubmissionDate::where('eop_id',$eop->id)->where('building_id',session('building_id'))->get();
-        return view('accreditation.eop_documents.index',['eop' => $eop, 'submission_dates' => $submission_dates,'users' => $users]);
+        $submission_dates = EOPDocumentSubmissionDate::where('eop_id', $eop->id)->where('building_id', session('building_id'))->get();
+        return view('accreditation.eop_documents.index', ['eop' => $eop, 'submission_dates' => $submission_dates]);
     }
 
     /**
@@ -48,9 +46,8 @@ class EOPSubmissionDateController extends Controller
      */
     public function store(Request $request)
     {
-        if(EOPDocumentSubmissionDate::create($request->all()))
-        {
-            return back()->with('success','You can now start submitting documents to the required submission date.');
+        if (EOPDocumentSubmissionDate::create($request->all())) {
+            return back()->with('success', 'You can now start submitting documents to the required submission date.');
         }
     }
 
@@ -96,8 +93,7 @@ class EOPSubmissionDateController extends Controller
      */
     public function destroy(Request $request)
     {
-        if(EOPDocumentSubmissionDate::destroy($request->id))
-        {
+        if (EOPDocumentSubmissionDate::destroy($request->id)) {
             return 'true';
         }
     }

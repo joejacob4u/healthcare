@@ -41,7 +41,7 @@
               <div class="form-group">
                   {!! Form::label('description', 'Finding Description:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::textarea('description', Request::old('description'), ['class' => 'form-control', 'placeholder' => 'description','rows' => 3]) !!}
+                      {!! Form::textarea('description', (!empty(Request::old('description'))) ? Request::old('description') : $description, ['class' => 'form-control', 'placeholder' => 'description','rows' => 3]) !!}
                   </div>
               </div>
 

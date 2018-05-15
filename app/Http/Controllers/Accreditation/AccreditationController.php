@@ -110,7 +110,6 @@ class AccreditationController extends Controller
         $this->validate($request, [
             'baseline_date' => 'required_unless:is_baseline_disabled,==,1',
             'comment' => 'required_if:is_baseline_disabled,==,1',
-            'user_id' => 'required_unless:is_baseline_disabled,==,1'
         ]);
 
 
@@ -118,9 +117,10 @@ class AccreditationController extends Controller
             $request->is_baseline_disabled = 0;
         }
 
+
         EOPDocumentBaselineDate::updateOrCreate(
-            ['eop_id' => $request->eop_id, 'building_id' => session('building_id')],
-            ['baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled,'user_id' => $request->user_id]
+            ['eop_id' => $request->eop_id, 'building_id' => session('building_id'),
+            'baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled,'accreditation_id' => $request->accreditation_id]
         );
 
         return back()->with('success', 'Baseline Date saved!');

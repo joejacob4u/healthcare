@@ -9,6 +9,7 @@ use App\Regulatory\HCO;
 use App\Regulatory\EOP;
 use App\Regulatory\EOPFinding;
 use App\Regulatory\EOPFindingComment;
+use App\Regulatory\EOPDocument;
 use App\Regulatory\Building;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
@@ -17,6 +18,7 @@ use App\User;
 use Auth;
 use Session;
 use DB;
+use Illuminate\Support\Facades\Input;
 
 class EOPStatusController extends Controller
 {
@@ -35,8 +37,14 @@ class EOPStatusController extends Controller
 
     public function addFinding($eop_id)
     {
+        if (Input::has('document_id')) {
+            $description = EOPDocument::find(Input::get('document_id'))->comments->last()->comment;
+        } else {
+            $description = '';
+        }
+        
         $eop = EOP::find($eop_id);
-        return view('accreditation.finding.add', ['eop' => $eop]);
+        return view('accreditation.finding.add', ['eop' => $eop,'description' => $description]);
     }
 
     public function editFinding($eop_id, $finding_id)
@@ -146,7 +154,7 @@ class EOPStatusController extends Controller
         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
         ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
         ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id', 'buildings.name as building_name', 'buildings.building_id', 'eop_findings.status', 'healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'sites.site_id as site_id', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop.name as eop_name', 'eop.text as eop_text', 'standard_label.label', 'standard_label.text as label_text')
-        ->where('eop_findings.healthsystem_id', Auth::guard('system_user')->user()->healthsystem_id)
+        ->where('healthsystem.id', Auth::user()->healthsystem_id)
         ->where('hco.id', session('hco_id'))
         ->orderBy('eop_findings.updated_at', 'desc');
 
