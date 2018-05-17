@@ -46,8 +46,8 @@ class EOPSubmissionDateController extends Controller
      */
     public function store(Request $request)
     {
-        if (EOPDocumentSubmissionDate::create($request->all())) {
-            return back()->with('success', 'You can now start submitting documents to the required submission date.');
+        if ($submission_date = EOPDocumentSubmissionDate::create($request->all())) {
+            return redirect('system-admin/accreditation/eop/'.$request->eop_id.'/submission_date/'.$submission_date->id.'/documents')->with('success', 'You can now start submitting documents down below.');
         }
     }
 

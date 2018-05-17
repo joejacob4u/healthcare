@@ -76,7 +76,6 @@
   @if(Auth::guard('system_user')->user()->role->name == 'System Admin')
   <ul class="sidebar-menu">
     <li class="header text-yellow"><strong>SYSTEM ADMIN</strong></li>
-    <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
     <li class="treeview">
          <a href="#">
            <i class="fa fa-files-o"></i>
@@ -147,6 +146,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
+              <li><a href="{{url('accreditation/dashboard')}}"><i class="fa fa-circle-o text-blue"></i> <span>Dashboard</span></a></li>
               <li><a href="{{url('system-admin/findings/action-plan')}}"><i class="fa fa-circle-o text-green"></i> <span>HC System Action Plan</span></a></li>
               @foreach($sidebar_building->accreditations as $accreditation)
                   <li class="treeview @if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/*')) active @endif">
@@ -158,7 +158,7 @@
                     </a>
                 <ul class="treeview-menu">
                   @foreach($accreditation->accreditationRequirements as $accreditation_requirement)
-                    <li class="@if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)) active @endif"><a href="{{url('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
+                    <li class="@if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)) active @endif" style="white-space: pre-line;"><a href="{{url('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
                   @endforeach
                 </ul>
               </li>

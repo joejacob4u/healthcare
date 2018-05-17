@@ -30,7 +30,7 @@ class EOP extends Model
 
     public function getSubmissionDates()
     {
-        return EOPDocumentSubmissionDate::where('building_id', session('building_id'))->where('eop_id', $this->id)->get();
+        return EOPDocumentSubmissionDate::where('building_id', session('building_id'))->where('accreditation_id', session('accreditation_id'))->where('eop_id', $this->id)->get();
     }
 
     public function getLastDocumentUpload($building_id)
@@ -161,7 +161,7 @@ class EOP extends Model
       
         if (!empty($documents)) {
             foreach ($documents as $document) {
-                $document_dates[] = $document['submission_date'];
+                $document_dates[] = date('Y-m-d', strtotime($document['submission_date']));
             }
         }
 

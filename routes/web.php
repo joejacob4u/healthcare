@@ -17,23 +17,23 @@ Auth::routes();
 Route::get('/', 'HomeController@index');
 Route::get('/logout', 'HomeController@logout');
 
-Route::get('/welcome', function(){
-  return view('welcome');
+Route::get('/welcome', function () {
+    return view('welcome');
 });
 
-Route::get('prospects/register','RegistrationController@index');
-Route::post('prospects/register','RegistrationController@create');
+Route::get('prospects/register', 'RegistrationController@index');
+Route::post('prospects/register', 'RegistrationController@create');
 
-Route::get('forgot/password','UsersController@forgotView');
-Route::post('forgot/password','UsersController@sendTempPassword');
+Route::get('forgot/password', 'UsersController@forgotView');
+Route::post('forgot/password', 'UsersController@sendTempPassword');
 
-Route::post('dropzone/upload','DropzoneController@upload');
-Route::post('dropzone/delete','DropzoneController@delete');
-Route::post('dropzone/populate','DropzoneController@populate');
+Route::post('dropzone/upload', 'DropzoneController@upload');
+Route::post('dropzone/delete', 'DropzoneController@delete');
+Route::post('dropzone/populate', 'DropzoneController@populate');
 
 
-Route::get('contractors/login','ContractorAuthController@login');
-Route::post('contractors/login','ContractorAuthController@authenticate');
+Route::get('contractors/login', 'ContractorAuthController@login');
+Route::post('contractors/login', 'ContractorAuthController@authenticate');
 
 Route::get('contractor/prequalify', 'ContractorPrequalifyController@index');
 Route::get('contractor/prequalify/apply/{id}', 'ContractorPrequalifyController@create');
@@ -104,11 +104,7 @@ Route::post('project/ranking-questions/answers/add', 'Project\RankingAnswerContr
 Route::post('project/ranking-questions/answers/edit', 'Project\RankingAnswerController@save');
 Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerController@delete');
 
-Route::get('dashboard', 'DashboardController@index');
-Route::post('dashboard/fetch/findings', 'DashboardController@getFindings');
-Route::post('dashboard/fetch/my-findings', 'DashboardController@getFindingsByUser');
-Route::post('dashboard/fetch/findings/user/notify', 'DashboardController@getFindingsForUserNotify');
-
+Route::get('accreditation/dashboard', 'Accreditation\AccreditationDashboardController@index');
 
 
 
@@ -161,13 +157,12 @@ Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/comment/add'
 
 /***************************Client Route groups*******************************/
 
-Route::group(['middleware' => ['auth']], function ()
-{
+Route::group(['middleware' => ['auth']], function () {
     Route::get('users', 'UsersController@index');
     Route::get('users/add', 'UsersController@create');
     Route::post('users/add', 'UsersController@store');
     Route::get('users/edit/{id}', 'UsersController@edit');
-    Route::post('users/edit/{id}', 'UsersController@save');    
+    Route::post('users/edit/{id}', 'UsersController@save');
     Route::post('users/delete', 'UsersController@delete');
     Route::post('user/password/temporary/check', 'UsersController@temporaryCheck');
     Route::post('user/password/temporary/change', 'UsersController@temporaryChange');
@@ -182,22 +177,21 @@ Route::group(['middleware' => ['auth']], function ()
     Route::post('prequalify/configure', 'PrequalifyController@store');
     Route::get('prequalify/configure', 'PrequalifyController@create');
     Route::post('prequalify/upload', 'PrequalifyController@upload');
-
 });
 
 
 
 
 Route::group(['prefix' => 'admin'], function () {
-  Route::get('/login', 'AdminAuth\LoginController@showLoginForm');
-  Route::post('/login', 'AdminAuth\LoginController@login');
-  Route::post('/logout', 'AdminAuth\LoginController@logout');
+    Route::get('/login', 'AdminAuth\LoginController@showLoginForm');
+    Route::post('/login', 'AdminAuth\LoginController@login');
+    Route::post('/logout', 'AdminAuth\LoginController@logout');
 
-  Route::get('/register', 'AdminAuth\RegisterController@showRegistrationForm');
-  Route::post('/register', 'AdminAuth\RegisterController@register');
+    Route::get('/register', 'AdminAuth\RegisterController@showRegistrationForm');
+    Route::post('/register', 'AdminAuth\RegisterController@register');
 
-  Route::post('/password/email', 'AdminAuth\ForgotPasswordController@sendResetLinkEmail');
-  Route::post('/password/reset', 'AdminAuth\ResetPasswordController@reset');
-  Route::get('/password/reset', 'AdminAuth\ForgotPasswordController@showLinkRequestForm');
-  Route::get('/password/reset/{token}', 'AdminAuth\ResetPasswordController@showResetForm');
+    Route::post('/password/email', 'AdminAuth\ForgotPasswordController@sendResetLinkEmail');
+    Route::post('/password/reset', 'AdminAuth\ResetPasswordController@reset');
+    Route::get('/password/reset', 'AdminAuth\ForgotPasswordController@showLinkRequestForm');
+    Route::get('/password/reset/{token}', 'AdminAuth\ResetPasswordController@showResetForm');
 });
