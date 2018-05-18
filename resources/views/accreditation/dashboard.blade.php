@@ -35,12 +35,12 @@
                         @foreach($hco->accreditations as $accreditation)
                             @foreach($accreditation->accreditationRequirements as $requirement)
                             <tr>
-                            <td>{{ $accreditation->name }}</td>
-                            <td>{{ $requirement->name }}</td>
-                            <td>{{ $requirement->countFindingByStatus('pending_verification',$accreditation->id) }}</td>
-                            <td>{{ $requirement->countFindingByStatus('issues_corrected_verify',$accreditation->id) }}</td>
-                            <td>{{ $requirement->countFindingByStatus('initial',$accreditation->id) }}</td>
-                            <td>{{ $requirement->countFindingByStatus('non-compliant',$accreditation->id) }}</td>
+                                <td>{{ $accreditation->name }}</td>
+                                <td>{{ $requirement->name }}</td>
+                                <td>@if($requirement->countFindingByStatus('pending_verification',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('pending_verification',$accreditation->id)}}</small> @endif</td>
+                                <td>@if($requirement->countFindingByStatus('issues_corrected_verify',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('issues_corrected_verify',$accreditation->id)}}</small> @endif</td>
+                                <td>@if($requirement->countFindingByStatus('initial',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('initial',$accreditation->id)}}</small> @endif</td>
+                                <td>@if($requirement->countFindingByStatus('non-compliant',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('non-compliant',$accreditation->id)}}</small> @endif</td>
                             </tr>
                             @endforeach
                         @endforeach
@@ -61,8 +61,8 @@
                             <tr>
                             <td>{{ $accreditation->name }}</td>
                             <td>{{ $requirement->name }}</td>
-                            <td>{{ $requirement->countDocumentsByStatus('initial',$accreditation->id) }}</td>
-                            <td>{{ $requirement->countDocumentsByStatus('non-compliant',$accreditation->id) }}</td>
+                            <td>@if($requirement->countDocumentsByStatus('initial',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countDocumentsByStatus('initial',$accreditation->id)}}</small> @endif</td>
+                            <td>@if($requirement->countDocumentsByStatus('non-compliant',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countDocumentsByStatus('non-compliant',$accreditation->id)}}</small> @endif</td>
                             </tr>
                             @endforeach
                         @endforeach
