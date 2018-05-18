@@ -37,4 +37,37 @@ class AccreditationRequirement extends Model
                 ->where('eop_findings.accreditation_id', $accreditation_id)
                 ->where('eop_findings.status', $status)->count();
     }
+
+    /**
+     * countDocumentsByStatus
+     *
+     * @param mixed $status
+     * @param mixed $accreditation_id
+     * @return void
+     */
+    public function countDocumentsByStatus($status, $accreditation_id)
+    {
+        return DB::table('eop_documents')
+                ->leftJoin('eop_document_submission_dates', 'eop_document_submission_dates.id', '=', 'eop_documents.eop_document_submission_date_id')
+                ->leftJoin('buildings', 'buildings.id', '=', 'eop_document_submission_dates.building_id')
+                ->leftJoin('sites', 'sites.id', '=', 'buildings.site_id')
+                ->leftJoin('eop', 'eop.id', '=', 'eop_document_submission_dates.eop_id')
+                ->whereIn('eop.standard_label_id', $this->standardLabels()->pluck('standard_label_id'))
+                ->where('sites.hco_id', session('hco_id'))
+                ->where('eop_document_submission_dates.accreditation_id', $accreditation_id)
+                ->where('eop_document_submission_dates.status', $status)->count();
+    }
+
+    public function countDocumentsRequired()
+    {
+        $count = 0;
+
+        foreach ($this->standardLabels as $standard_label) {
+            foreach ($standard_label->eops as $eop) {
+                if (!empty($eop->getDocumentBaseLineDate(session('building_id'))) && !$eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled) {
+                    $count += count($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date));
+                }
+            }
+        }
+    }
 }

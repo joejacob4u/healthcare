@@ -77,7 +77,7 @@ class EOPDocumentSubmissionDate extends Model
             $end = DateTime($this->submission_date)->modify('last day of the month')->format('Y-m-d');
             break;
   
-          case 'quarterly':Carbon::parse($this->submission_date)::
+          case 'quarterly':
             $start  = Carbon::parse($this->submission_date)->firstOfQuarter()->subDays(10)->toDateString();
             $end = Carbon::parse($this->submission_date)->lastOfQuarter()->addDays(10)->toDateString();
             break;
