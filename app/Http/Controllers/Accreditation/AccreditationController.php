@@ -12,6 +12,7 @@ use App\Regulatory\Building;
 use App\Regulatory\HealthSystem;
 use App\Regulatory\AccreditationRequirement;
 use App\Regulatory\EOPDocumentBaselineDate;
+use App\Regulatory\EOPDocumentSubmissionDate;
 use Session;
 use Auth;
 
@@ -122,6 +123,8 @@ class AccreditationController extends Controller
             ['eop_id' => $request->eop_id, 'building_id' => session('building_id'),
             'baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled,'accreditation_id' => $request->accreditation_id]
         );
+
+        EOPDocumentSubmissionDate::where('eop_id', $request->eop_id)->where('building_id', session('building_id'))->where('accreditation_id', $request->accreditation_id)->delete();
 
         return back()->with('success', 'Baseline Date saved!');
     }

@@ -12,7 +12,7 @@
 
     <div class="box box-solid box-default">
         <div class="box-header with-border">
-            <h3 class="box-title">Findings and Documents Report</h3>
+            <h3 class="box-title">Findings and Documents Report for HCO :<strong> {{$hco->facility_name}}({{$hco->hco_id}})</strong></h3>
         </div>
         <div class="box-body">
             <ul class="nav nav-pills">

@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Auth;
-use App\User;
 
 class RedirectIfNotAdmin
 {
@@ -15,18 +14,12 @@ class RedirectIfNotAdmin
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = 'system_user')
+    public function handle($request, Closure $next)
     {
-      if (Auth::guard($guard)->check())
-      {
-         $user = User::find(Auth::guard($guard)->user()->id);
-
-         if($user->role->name == 'System Admin' || $$user->role->name == 'Admin')
-         {
+        if (Auth::check() && Auth::user()->isAdmin()) {
             return $next($request);
-         }
-      }
+        }
 
-      return redirect('/login');
+        return redirect('/');
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accreditation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\EOPDocumentSubmissionDate;
+use App\Regulatory\EOPDocument;
 use App\Regulatory\EOP;
 use App\User;
 

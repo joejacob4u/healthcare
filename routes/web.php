@@ -153,6 +153,16 @@ Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/comment/add'
 
 
 /***************************Admin Route groups*******************************/
+Route::get('tjc_checklist/standards', 'Accreditation\TJCChecklistStandardController@index');
+Route::post('tjc_checklist/standards', 'Accreditation\TJCChecklistStandardController@store');
+Route::post('tjc_checklist/standards/delete', 'Accreditation\TJCChecklistStandardController@destroy');
+Route::post('tjc_checklist/standards/eops', 'Accreditation\TJCChecklistStandardController@fetchEOPs');
+
+Route::post('tjc_checklist/eops', 'Accreditation\TJCChecklistEOPController@store');
+
+
+
+
 
 
 /***************************Client Route groups*******************************/
