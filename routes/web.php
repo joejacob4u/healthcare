@@ -153,12 +153,14 @@ Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/comment/add'
 
 
 /***************************Admin Route groups*******************************/
-Route::get('tjc_checklist/standards', 'Accreditation\TJCChecklistStandardController@index');
-Route::post('tjc_checklist/standards', 'Accreditation\TJCChecklistStandardController@store');
-Route::post('tjc_checklist/standards/delete', 'Accreditation\TJCChecklistStandardController@destroy');
-Route::post('tjc_checklist/standards/eops', 'Accreditation\TJCChecklistStandardController@fetchEOPs');
 
-Route::post('tjc_checklist/eops', 'Accreditation\TJCChecklistEOPController@store');
+Route::get('tjc_checklist/eops', 'Accreditation\TJCChecklistEOPController@index');
+Route::get('tjc_checklist/added/eops', 'Accreditation\TJCChecklistEOPController@fetchChecklistEOPS');
+Route::get('tjc_checklist/available/eops', 'Accreditation\TJCChecklistEOPController@fetchAvailableEOPS');
+Route::get('tjc_checklist/fetch/standardlabels', 'Accreditation\TJCChecklistEOPController@fetchStandardLabels');
+Route::post('tjc_checklist/eop/delete', 'Accreditation\TJCChecklistEOPController@delete');
+Route::post('tjc_checklist/fetch/eops', 'Accreditation\TJCChecklistEOPController@fetchEOPS');
+Route::post('tjc_checklist/eop/create', 'Accreditation\TJCChecklistEOPController@store');
 
 
 

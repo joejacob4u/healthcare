@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\StandardLabel;
 use App\Regulatory\TJCChecklistEOP;
+use App\Regulatory\EOP;
+use Yajra\Datatables\Datatables;
+use DB;
+use Auth;
 
 class TJCChecklistEOPController extends Controller
 {
@@ -21,6 +25,55 @@ class TJCChecklistEOPController extends Controller
      */
     public function index()
     {
+        $tjc_checklist_eops = TJCChecklistEOP::where('healthsystem_id', session('healthsystem_id'))->get();
+        $standard_labels = StandardLabel::get();
+        return view('tjc.eop.index', ['tjc_checklist_eops' => $tjc_checklist_eops,'standard_labels' => $standard_labels]);
+    }
+
+    public function fetchStandardLabels(Request $request)
+    {
+        $standard_labels = StandardLabel::select('id', 'label')->where("label", "LIKE", "%{$request->input('query')}%")->get();
+        return response()->json($standard_labels);
+    }
+
+
+    public function fetchChecklistEOPS(Request $request)
+    {
+        $checklist_eops = DB::table('tjc_checklist_eops')
+                        ->join('eop', 'eop.id', '=', 'tjc_checklist_eops.eop_id')
+                        ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                        ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label')
+                        ->where('healthsystem_id', Auth::user()->healthsystem_id);
+
+        return Datatables::of($checklist_eops)
+                ->addColumn('eop_name', function ($checklist_eop) {
+                    return $checklist_eop->eop_name;
+                })
+                ->addColumn('standard_label', function ($checklist_eop) {
+                    return $checklist_eop->standard_label;
+                })
+                ->addColumn('remove_eop', function ($checklist_eop) {
+                    return '<a onclick="removeFromChecklist('.$checklist_eop->id.')" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Remove from Checklist</a>';
+                })->setRowId('id')->make(true);
+    }
+
+    public function fetchAvailableEOPS()
+    {
+        $available_eops = DB::table('eop')
+                        ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                        ->select('eop.id', 'eop.name as eop_name', 'standard_label.label as standard_label')
+                        ->whereNotIn('eop.id', TJCChecklistEOP::pluck('eop_id'));
+
+        return Datatables::of($available_eops)
+                ->addColumn('eop_name', function ($available_eop) {
+                    return $available_eop->eop_name;
+                })
+                ->addColumn('standard_label', function ($available_eop) {
+                    return $available_eop->standard_label;
+                })
+                ->addColumn('add_eop', function ($available_eop) {
+                    return '<a onclick="addToChecklist('.$available_eop->id.')" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span> Add to Checklist</a>';
+                })->setRowId('id')->make(true);
     }
 
     /**
@@ -31,15 +84,15 @@ class TJCChecklistEOPController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'eop_id' => 'not_in:0',
-            'is_in_policy' => 'not_in:0',
-            'is_implemented_as_required' => 'not_in:0',
-            'eoc_ls_status' => 'not_in:0'
-        ]);
+        if (TJCChecklistEOP::create(['eop_id' => $request->eop_id,'healthsystem_id' => Auth::user()->healthsystem_id])) {
+            return 'true';
+        }
+    }
 
-        if (TJCChecklistEOP::create($request->all())) {
-            return back()->with('success', 'New eop configuration added !');
+    public function delete(Request $request)
+    {
+        if (TJCChecklistEOP::destroy($request->tjc_checklist_id)) {
+            return 'true';
         }
     }
 }

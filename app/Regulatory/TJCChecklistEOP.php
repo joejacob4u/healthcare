@@ -10,18 +10,14 @@ class TJCChecklistEOP extends Model
 
     protected $guarded = ['id'];
 
-    /**
-     * tjc_checklist_standard - returns standard of a given tjc eop
-     *
-     * @return collection
-     */
-    public function tjc_checklist_standard()
-    {
-        return $this->belongsTo('App\Regulatory\TJCChecklistStandard', 'tjc_checklist_standard_id');
-    }
 
     public function eop()
     {
         return $this->belongsTo('App\Regulatory\EOP', 'eop_id');
+    }
+
+    public function tjcChecklists()
+    {
+        return $this->hasMany('App\Regulatory\TJCChecklistEOP', 'tjc_checklist_eop_id');
     }
 }

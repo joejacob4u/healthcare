@@ -133,7 +133,7 @@
             <li><a href="{{url('workflows/financial-category-codes')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
           </ul>
       </li>
-      <li><a href="{{url('tjc_checklist/standards')}}"><i class="fa fa-circle-o"></i>TJC Checklist</a></li>
+      <li><a href="{{url('tjc_checklist/eops')}}"><i class="fa fa-circle-o"></i>TJC Checklist</a></li>
 
       @if(session()->has('building_id'))
         <li class="header text-yellow"><i class="fa fa-building" aria-hidden="true"></i>&emsp;<strong> {{strtoupper(session('building_name'))}}</strong></li>
