@@ -29,16 +29,17 @@
     </div>
     <div class="box-body">
         <ul class="nav nav-tabs">
-            <li class="active"><a data-toggle="tab" href="#added_to_checklist">EOPs Added to Checklist</a></li>
-            <li><a data-toggle="tab" href="#not_added_to_checklist">Available EOPs</a></li>
+            <li class="active"><a id="li_added_to_checklist" data-toggle="tab" href="#added_to_checklist">EOPs Added to Checklist</a></li>
+            <li><a id="li_not_added_to_checklist" data-toggle="tab" href="#not_added_to_checklist">Available EOPs</a></li>
         </ul>
 
         <div class="tab-content">
             <div id="added_to_checklist" class="tab-pane fade in active">
-                <table id="added_to_checklist_table" class="table table-bordered" type="yajra">
+                <table id="added_to_checklist_table" class="table table-bordered" type="yajra" style="width:100%">
                     <thead>
                         <tr>
                             <th>EOP Name</th>
+                            <th>EOP Text</th>
                             <th>Standard Label</th>
                             <th>Remove</th>
                         </tr>
@@ -50,6 +51,7 @@
                     <thead>
                         <tr>
                             <th>EOP Name</th>
+                            <th>EOP Text</th>
                             <th>Standard Label</th>
                             <th>Add</th>
                         </tr>
@@ -121,9 +123,16 @@
         ajax: '{{url('tjc_checklist/added/eops')}}',
         columns: [
             {data: 'eop_name', name: 'eop.name'},
+            {data: 'eop_text', name: 'eop.text'},
             {data: 'standard_label', name: 'standard_label.label'},
             {data: 'remove_eop', name: 'remove_eop',searchable: false},
-        ]
+        ],
+        initComplete: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
+        fnDrawCallback: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
     });
 
     $('#not_added_to_checklist_table').DataTable({
@@ -132,9 +141,16 @@
         ajax: '{{url('tjc_checklist/available/eops')}}',
         columns: [
             {data: 'eop_name', name: 'eop.name'},
+            {data: 'eop_text', name: 'eop.text'},
             {data: 'standard_label', name: 'standard_label.label'},
             {data: 'add_eop', name: 'add_eop',searchable: false},
-        ]
+        ],
+        initComplete: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
+        fnDrawCallback: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
     });
 
 
@@ -207,6 +223,19 @@ function addToChecklist(eop_id)
         }
     });
 }
+
+$('#li_added_to_checklist').on('shown.bs.tab', function (e) {
+  $('#added_to_checklist_table').DataTable().ajax.reload();
+});
+
+$('#li_not_added_to_checklist').on('shown.bs.tab', function (e) {
+  $('#not_added_to_checklist_table').DataTable().ajax.reload();
+});
+
+$(document).ready(function(){
+    $('[data-toggle="popover"]').popover(); 
+});
+
 
 </script>
 

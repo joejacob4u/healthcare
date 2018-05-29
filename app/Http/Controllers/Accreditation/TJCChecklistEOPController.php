@@ -42,7 +42,7 @@ class TJCChecklistEOPController extends Controller
         $checklist_eops = DB::table('tjc_checklist_eops')
                         ->join('eop', 'eop.id', '=', 'tjc_checklist_eops.eop_id')
                         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                        ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label')
+                        ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text')
                         ->where('healthsystem_id', Auth::user()->healthsystem_id);
 
         return Datatables::of($checklist_eops)
@@ -54,6 +54,8 @@ class TJCChecklistEOPController extends Controller
                 })
                 ->addColumn('remove_eop', function ($checklist_eop) {
                     return '<a onclick="removeFromChecklist('.$checklist_eop->id.')" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Remove from Checklist</a>';
+                })->addColumn('eop_text', function ($checklist_eop) {
+                    return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="EOP Text" data-content="'.$checklist_eop->eop_text.'">'.substr($checklist_eop->eop_text, 0, 150).'...</a>';
                 })->setRowId('id')->make(true);
     }
 
@@ -61,8 +63,9 @@ class TJCChecklistEOPController extends Controller
     {
         $available_eops = DB::table('eop')
                         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                        ->select('eop.id', 'eop.name as eop_name', 'standard_label.label as standard_label')
-                        ->whereNotIn('eop.id', TJCChecklistEOP::pluck('eop_id'));
+                        ->select('eop.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text')
+                        ->whereNotIn('eop.id', TJCChecklistEOP::pluck('eop_id'))
+                        ->where('standard_label.accreditation_id', 1);
 
         return Datatables::of($available_eops)
                 ->addColumn('eop_name', function ($available_eop) {
@@ -73,6 +76,9 @@ class TJCChecklistEOPController extends Controller
                 })
                 ->addColumn('add_eop', function ($available_eop) {
                     return '<a onclick="addToChecklist('.$available_eop->id.')" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span> Add to Checklist</a>';
+                })
+                ->addColumn('eop_text', function ($available_eop) {
+                    return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="EOP Text" data-content="'.$available_eop->eop_text.'">'.substr($available_eop->eop_text, 0, 150).'...</a>';
                 })->setRowId('id')->make(true);
     }
 
