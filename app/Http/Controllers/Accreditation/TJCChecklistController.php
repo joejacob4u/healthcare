@@ -1,0 +1,104 @@
+<?php
+
+namespace App\Http\Controllers\Accreditation;
+
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Regulatory\TJCChecklistEOP;
+use DB;
+use Auth;
+use App\Regulatory\TJCChecklist;
+use Yajra\Datatables\Datatables;
+
+class TJCChecklistController extends Controller
+{
+    public function __construct()
+    {
+        $this->middleware('user');
+    }
+
+    public function index()
+    {
+        return view('tjc.index');
+    }
+
+    public function available()
+    {
+        $available_eops = DB::table('tjc_checklist_eops')
+                        ->join('eop', 'eop.id', '=', 'tjc_checklist_eops.eop_id')
+                        ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                        ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text')
+                        ->where('healthsystem_id', Auth::user()->healthsystem_id)
+                        ->whereNotIn('tjc_checklist_eops.id', TJCChecklist::where('user_id', Auth::user()->id)->pluck('tjc_checklist_eop_id'));
+
+        return Datatables::of($available_eops)
+                ->addColumn('eop_name', function ($available_eop) {
+                    return $available_eop->eop_name;
+                })
+                ->addColumn('standard_label', function ($available_eop) {
+                    return $available_eop->standard_label;
+                })
+                ->addColumn('initiate_checklist', function ($available_eop) {
+                    return '<a onclick="initiateChecklist('.$available_eop->id.')" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-plus"></span> Initiate Checklist</a>';
+                })->addColumn('eop_text', function ($available_eop) {
+                    return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="EOP Text" data-content="'.$available_eop->eop_text.'">'.substr($available_eop->eop_text, 0, 150).'...</a>';
+                })->setRowId('id')->make(true);
+    }
+
+    public function store(Request $request)
+    {
+        $this->validate($request, [
+             'eop_id' => 'not_in:0',
+            'is_in_policy' => 'not_in:0',
+            'is_implemented_as_required' => 'not_in:0',
+            'eoc_ls_status' => 'not_in:0',
+            'surveyor_name' => 'required',
+            'surveyor_email' => 'required',
+            'surveyor_phone' => 'required',
+            'surveyor_organization' => 'required'
+        ]);
+
+        if (TJCChecklist::create($request->all())) {
+            return back()->with('success', 'TJC Checklist added to your checklists');
+        }
+    }
+
+    public function added()
+    {
+        $added_eops = DB::table('tjc_checklists')
+                            ->join('tjc_checklist_eops', 'tjc_checklist_eops.id', '=', 'tjc_checklists.tjc_checklist_eop_id')
+                            ->join('eop', 'eop.id', '=', 'tjc_checklist_eops.eop_id')
+                            ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                            ->select('tjc_checklists.id', 'eop.text as eop_text', 'tjc_checklists.surveyor_name', 'tjc_checklists.surveyor_email', 'tjc_checklists.surveyor_phone', 'tjc_checklists.surveyor_organization', 'tjc_checklists.is_in_policy', 'tjc_checklists.is_implemented_as_required', 'tjc_checklists.eoc_ls_status')
+                            ->where('tjc_checklists.user_id', Auth::user()->id);
+
+        return Datatables::of($added_eops)
+                ->addColumn('eop_text', function ($added_eop) {
+                    return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="EOP Text" data-content="'.$added_eop->eop_text.'">'.substr($added_eop->eop_text, 0, 100).'...</a>';
+                })
+                ->addColumn('surveyor_name', function ($added_eop) {
+                    return $added_eop->surveyor_name;
+                })
+                ->addColumn('surveyor_email', function ($added_eop) {
+                    return $added_eop->surveyor_email;
+                })
+                ->addColumn('surveyor_phone', function ($added_eop) {
+                    return $added_eop->surveyor_phone;
+                })
+                ->addColumn('surveyor_organization', function ($added_eop) {
+                    return $added_eop->surveyor_organization;
+                })
+                ->addColumn('is_in_policy', function ($added_eop) {
+                    return $added_eop->is_in_policy;
+                })
+                ->addColumn('is_implemented_as_required', function ($added_eop) {
+                    return $added_eop->is_implemented_as_required;
+                })
+                ->addColumn('eoc_ls_status', function ($added_eop) {
+                    return $added_eop->eoc_ls_status;
+                })
+                ->addColumn('edit_checklist', function ($available_eop) {
+                    return '<a onclick="editChecklist('.$available_eop->id.')" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit Checklist</a>';
+                })->setRowId('id')->make(true);
+    }
+}

@@ -2,7 +2,6 @@
 
 @section('head')
 @parent
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script> 
 
 @endsection
 @section('page_title','TJC Checklist')
@@ -38,7 +37,7 @@
                 <table id="added_to_checklist_table" class="table table-bordered" type="yajra" style="width:100%">
                     <thead>
                         <tr>
-                            <th>EOP Name</th>
+                            <th>EOP #</th>
                             <th>EOP Text</th>
                             <th>Standard Label</th>
                             <th>Remove</th>
@@ -50,7 +49,7 @@
                 <table id="not_added_to_checklist_table" class="table table-bordered" type="yajra" style="width:100%">
                     <thead>
                         <tr>
-                            <th>EOP Name</th>
+                            <th>EOP #</th>
                             <th>EOP Text</th>
                             <th>Standard Label</th>
                             <th>Add</th>
@@ -230,10 +229,6 @@ $('#li_added_to_checklist').on('shown.bs.tab', function (e) {
 
 $('#li_not_added_to_checklist').on('shown.bs.tab', function (e) {
   $('#not_added_to_checklist_table').DataTable().ajax.reload();
-});
-
-$(document).ready(function(){
-    $('[data-toggle="popover"]').popover(); 
 });
 
 

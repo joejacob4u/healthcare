@@ -212,7 +212,7 @@ class EOPStatusController extends Controller
             ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
             ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
             ->select('healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'buildings.name as building_name', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
-            ->where('eop_findings.healthsystem_id', Auth::guard('system_user')->user()->healthsystem_id)
+            ->where('healthsystem.id', Auth::guard('system_user')->user()->healthsystem_id)
             ->orderBy('eop_findings.updated_at', 'desc')->get();
 
 
@@ -255,7 +255,7 @@ class EOPStatusController extends Controller
             ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
             ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
             ->select('healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'buildings.name as building_name', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label')
-            ->where('eop_findings.healthsystem_id', Auth::guard('system_user')->user()->healthsystem_id)
+            ->where('healthsystem.id', Auth::guard('system_user')->user()->healthsystem_id)
             ->where('hco.id', session('hco_id'))
             ->orderBy('eop_findings.updated_at', 'desc')->get();
 

@@ -162,6 +162,14 @@ Route::post('tjc_checklist/eop/delete', 'Accreditation\TJCChecklistEOPController
 Route::post('tjc_checklist/fetch/eops', 'Accreditation\TJCChecklistEOPController@fetchEOPS');
 Route::post('tjc_checklist/eop/create', 'Accreditation\TJCChecklistEOPController@store');
 
+Route::get('tjc_checklist', 'Accreditation\TJCChecklistController@index');
+Route::post('tjc_checklist', 'Accreditation\TJCChecklistController@store');
+Route::get('tjc_checklist/available', 'Accreditation\TJCChecklistController@available');
+Route::get('tjc_checklist/added', 'Accreditation\TJCChecklistController@added');
+
+
+
+
 
 
 
