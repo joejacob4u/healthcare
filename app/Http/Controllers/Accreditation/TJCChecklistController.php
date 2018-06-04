@@ -9,6 +9,7 @@ use DB;
 use Auth;
 use App\Regulatory\TJCChecklist;
 use Yajra\Datatables\Datatables;
+use App\Regulatory\TJCChecklistStatus;
 
 class TJCChecklistController extends Controller
 {
@@ -19,7 +20,10 @@ class TJCChecklistController extends Controller
 
     public function index()
     {
-        return view('tjc.index');
+        return view('tjc.index', [
+            'tjc_checklists' => TJCChecklist::latest()->get(),
+            'tjc_checklist_eops' => TJCChecklistEOP::where('healthsystem_id', Auth::user()->healthsystem_id)->get(),
+        ]);
     }
 
     public function available()
@@ -48,17 +52,23 @@ class TJCChecklistController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-             'eop_id' => 'not_in:0',
-            'is_in_policy' => 'not_in:0',
-            'is_implemented_as_required' => 'not_in:0',
-            'eoc_ls_status' => 'not_in:0',
             'surveyor_name' => 'required',
             'surveyor_email' => 'required',
             'surveyor_phone' => 'required',
             'surveyor_organization' => 'required'
         ]);
 
-        if (TJCChecklist::create($request->all())) {
+        if ($tjc_checklist = TJCChecklist::create($request->all())) {
+            $tjc_eops = TJCChecklistEOP::where('healthsystem_id', Auth::user()->healthsystem_id)->get();
+            
+            foreach ($tjc_eops as $tjc_eop) {
+                TJCChecklistStatus::create([
+                    'tjc_checklist_id' => $tjc_checklist->id,
+                    'tjc_checklist_eop_id' => $tjc_eop->id,
+                    'is_in_policy' => 'n/a',
+                    'is_implemented_as_required' => 'n/a'
+                ]);
+            }
             return back()->with('success', 'TJC Checklist added to your checklists');
         }
     }

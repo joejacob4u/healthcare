@@ -120,6 +120,7 @@
         processing: true,
         serverSide: true,
         ajax: '{{url('tjc_checklist/added/eops')}}',
+        order: [[ 0, "asc" ]],
         columns: [
             {data: 'eop_name', name: 'eop.name'},
             {data: 'eop_text', name: 'eop.text'},
@@ -138,6 +139,7 @@
         processing: true,
         serverSide: true,
         ajax: '{{url('tjc_checklist/available/eops')}}',
+        order: [[ 0, "asc" ]],
         columns: [
             {data: 'eop_name', name: 'eop.name'},
             {data: 'eop_text', name: 'eop.text'},

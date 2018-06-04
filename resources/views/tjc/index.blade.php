@@ -25,46 +25,47 @@
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">TJC Checklists</h3> 
+        <div class="box-tools pull-right">
+          <a data-toggle="modal" data-target="#initiateChecklistModal" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Initiate Checklist</a>
+        </div>
     </div>
     <div class="box-body">
-        <ul class="nav nav-tabs">
-            <li class="active"><a id="li_my_tjc_checklists" data-toggle="tab" href="#my_tjc_checklists">My TJC Checklists</a></li>
-            <li><a id="li_my_available_tjc_checklists" data-toggle="tab" href="#my_available_tjc_checklists">Available TJC Checklists</a></li>
-        </ul>
-
-        <div class="tab-content">
-            <div id="my_tjc_checklists" class="tab-pane fade in active">
-                <table id="my_tjc_checklists_table" class="table table-bordered" type="yajra" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>EOP Text</th>
-                            <th>Surveyor Name</th>
-                            <th>Surveyor E-Mail</th>
-                            <th>Surveyor Phone</th>
-                            <th>Surveyor Organization</th>
-                            <th>In Policy</th>
-                            <th>Implemented as Required</th>
-                            <th>EOC LS Status</th>
-                            <th>Edit</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
-            <div id="my_available_tjc_checklists" class="tab-pane fade">
-                <table id="my_available_tjc_checklists_table" class="table table-bordered" type="yajra" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>EOP #</th>
-                            <th>EOP Text</th>
-                            <th>Standard Label</th>
-                            <th>Initiate TJC Checklist</th>
-                        </tr>
-                    </thead>
-                </table>
-            </div>
+        <div class="list-group">
+            @foreach($tjc_checklists as $tjc_checklist)
+                <a href="#" class="list-group-item">Checklist for {{$tjc_checklist->surveyor_name}} (<small>{{$tjc_checklist->surveyor_email}}</small>) <button data-toggle="collapse" href="#collapse_{{$tjc_checklist->id}}" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span> Show List</button></a>
+                <div id="collapse_{{$tjc_checklist->id}}" class="panel-collapse panel-info collapse">
+                    <div class="panel-heading"><strong>EOPs</strong> <small>Below are the eops that should be inspected.</small></div>
+                    <div class="panel-body">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th>EOP#</th>
+                                <th>EOP Text</th>
+                                <th>Is In Policy</th>
+                                <th>Is Implemented as Required</th>
+                                <th>EOP Status</th>
+                                <th>Status</th>
+                                <th>View EOP Doc</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($tjc_checklist->tjcChecklistStatuses as $tjc_checklist_status)
+                                <tr>
+                                    <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->name }}</td>
+                                    <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->text }}</td>
+                                    <td>{!! Form::select('is_in_policy', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_in_policy,['id' => '']) !!}</td>
+                                    <td>{!! Form::select('is_implemented_as_required', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_implemented_as_required,['id' => '']) !!}</td>
+                                    <td>@if(!empty($tjc_checklist_status->tjcChecklistEOP->eop->documentSubmissionDates->last()->status)){!! $tjc_checklist_status->tjcChecklistEOP->eop->documentSubmissionDates->last()->status !!} @else N/A @endif</td>
+                                    <td>{!! Form::select('status', ['0'=> 'Please Select','c' => 'C','nc' => 'NC','n/a' => 'N/A', 'iou' => 'IOU'], $tjc_checklist_status->status,['id' => '']) !!}</td>   
+                                    <td>{!! link_to('system-admin/accreditation/eop/'.$tjc_checklist_status->tjcChecklistEOP->eop->id.'/submission_dates','View',['class' => 'btn-xs btn-info','target' => '_blank']) !!}</td>                             
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endforeach
         </div>
-
-        
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
@@ -105,6 +106,45 @@
                 <input class="form-control" name="surveyor_organization" type="text">
             </div>
 
+            <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
+            <input type="hidden" name="hco_id" value="{{session('hco_id')}}">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-success">Add to My TJC Checklist</button>
+      </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<!-- End Modal-->
+
+<!-- Modal -->
+<div id="eopInspectionModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Inspect EOP</h4>
+      </div>
+      <div class="modal-body">
+        <form action="{{url('tjc_checklist/status')}}" method="POST">
+            {{csrf_field()}}
+            <div class="form-group">
+                <label for="standards">EOP #</label>
+                <select class="form-control" name="tjc_checklist_eop_id">
+                <option value="0">Please select</option>
+                @foreach($tjc_checklist_eops as $tjc_checklist_eop)
+                    <option value="{{$tjc_checklist_eop->id}}">{{$tjc_checklist_eop->eop->name}}</option>
+                @endforeach
+                </select>
+            </div>
+
             <div class="form-group">
                 <label for="standards">Is In Policy</label>
                 <select class="form-control" name="is_in_policy">
@@ -132,16 +172,16 @@
                    <option value="c" data-content="<span class='label label-success'>C</span>">C</option>
                    <option value="nc" data-content="<span class='label label-danger'>NC</span>">NC</option>
                    <option value="n/a" data-content="<span class='label label-default'>N/A</span>">NC</option>
-                    <option value="iou" data-content="<span class='label label-warning'>IOU</span>">IOU</option>
+                   <option value="iou" data-content="<span class='label label-warning'>IOU</span>">IOU</option>
                </select>
            </div>
-                  <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-                    <input type="hidden" name="tjc_checklist_eop_id" id="tjc_checklist_eop_id" value="">
+
+           <input type="hidden" name="tjc_checklist_id" id="tjc_checklist_id" value="">
 
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-success">Add to My TJC Checklist</button>
+        <button type="submit" class="btn btn-success">Start EOP Inspection</button>
       </div>
       </form>
     </div>
@@ -150,6 +190,7 @@
 </div>
 
 <!-- End Modal-->
+
 
 
 <script>
@@ -200,6 +241,13 @@ function initiateChecklist(tjc_checklist_eop_id)
 {
     $('#tjc_checklist_eop_id').val(tjc_checklist_eop_id);
     $('#initiateChecklistModal').modal('show');
+}
+
+function showInspectionModal(tjc_checklist_id)
+{
+    $('#tjc_checklist_id').val(tjc_checklist_id);
+    $('#eopInspectionModal').modal('show');
+
 }
 
 
