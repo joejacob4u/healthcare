@@ -7,25 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 class Building extends Model
 {
     protected $table = 'buildings';
-    protected $fillable = ['name','site_id','building_id','occupancy_type','square_ft','roof_sq_ft','ownership','sprinkled_pct','beds','ownership_comments','accreditation_id','operating_rooms','unused_space','building_logo','building_img_dir'];
+    protected $fillable = ['name','site_id','building_id','occupancy_type','ownership','ownership_comments','accreditation_id','building_logo','building_img_dir'];
 
     public function site()
     {
-       return $this->belongsTo('App\Regulatory\Site','site_id');
+        return $this->belongsTo('App\Regulatory\Site', 'site_id');
     }
 
     public function accreditations()
     {
-        return $this->belongsToMany('App\Regulatory\Accreditation','accreditation_building','building_id','accreditation_id');
+        return $this->belongsToMany('App\Regulatory\Accreditation', 'accreditation_building', 'building_id', 'accreditation_id');
     }
 
     public function documents()
     {
-        return $this->belongsToMany('App\Regulatory\EOPDocument','eop_documents-building','building_id','document_id');
+        return $this->belongsToMany('App\Regulatory\EOPDocument', 'eop_documents-building', 'building_id', 'document_id');
     }
 
     public function findings()
     {
-        return $this->hasMany('App\Regulatory\EOPFinding','building_id');
+        return $this->hasMany('App\Regulatory\EOPFinding', 'building_id');
+    }
+
+    public function departments()
+    {
+        return $this->hasMany('App\Regulatory\BuildingDepartment', 'building_id');
     }
 }

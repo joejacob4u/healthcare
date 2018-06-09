@@ -25,15 +25,8 @@
                         <th>Building ID #</th>
                         <th>Building Name</th>
                         <th>Accreditation</th>
-                        <th>Building Name</th>
                         <th>Occupancy Type</th>
-                        <th>Building SqFt</th>
-                        <th>Roofing SqFt</th>
-                        <th>Ownership</th>
-                        <th>Sprinkled %</th>
-                        <th>Beds</th>
-                        <th>Unused Space</th>
-                        <th>Operating Rooms</th>
+                        <th>Departments</th>
                         <th>Edit</th>
                     </tr>
                 </thead>
@@ -43,13 +36,7 @@
                       <th>Building Name</th>
                       <th>Accreditation</th>
                       <th>Occupancy Type</th>
-                      <th>Building SqFt</th>
-                      <th>Roofing SqFt</th>
-                      <th>Ownership</th>
-                      <th>Sprinkled %</th>
-                      <th>Beds</th>
-                      <th>Unused Space</th>
-                      <th>Operating Rooms</th>
+                      <th>Departments</th>
                       <th>Edit</th>
                     </tr>
                 </tfoot>
@@ -60,13 +47,7 @@
                       <td>{{$building->name}}</td>
                       <td>@foreach($building->accreditations as $accreditation) {{$accreditation->name}},  @endforeach</td>
                       <td>{{strtoupper(implode(' ',explode('_',$building->occupancy_type)))}}</td>
-                      <td>{{$building->square_ft}}</td>
-                      <td>{{$building->roof_sq_ft}}</td>
-                      <td>{{strtoupper(implode(' ',explode('_',$building->ownership)))}}</td>
-                      <td>{{$building->sprinkled_pct}}</td>
-                      <td>{{$building->beds}}</td>
-                      <td>{{$building->unused_space}}</td>
-                      <td>{{$building->operating_rooms}}</td>
+                      <td>{!! link_to('admin/sites/'.$site->id.'/buildings/'.$building->id.'/departments','Departments',['class' => 'btn-xs btn-info']) !!}</td>
                       <td>{!! link_to('admin/sites/'.$site->id.'/buildings/edit/'.$building->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach

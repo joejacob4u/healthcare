@@ -9,101 +9,83 @@ use App\Regulatory\Building;
 use App\Regulatory\Accreditation;
 use Storage;
 
-
 class BuildingController extends Controller
 {
     public function index($site_id)
     {
         $site = Site::find($site_id);
-        return view('admin.healthsystem.buildings.index',['site' => $site]);
+        return view('admin.healthsystem.buildings.index', ['site' => $site]);
     }
 
     public function add($site_id)
     {
-      $site = Site::find($site_id);
-      $accreditations = $site->hco->accreditations->pluck('name','id');
-      return view('admin.healthsystem.buildings.add',['site' => $site,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
+        $site = Site::find($site_id);
+        $accreditations = $site->hco->accreditations->pluck('name', 'id');
+        return view('admin.healthsystem.buildings.add', ['site' => $site,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
     }
 
-    public function create(Request $request,$site_id)
+    public function create(Request $request, $site_id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
           'name' => 'required',
           'building_id' => 'required|unique:buildings',
           'occupancy_type' => 'required',
           'accreditations' => 'not_in:0',
-          'square_ft' => 'required',
-          'roof_sq_ft' => 'required',
           'ownership' => 'required',
-          'sprinkled_pct' => 'required',
-          'beds' => 'required',
-          'unused_space' => 'required',
-          'operating_rooms' => 'required'
+
         ]);
 
         $site = Site::find($site_id);
 
-        foreach($request->accreditations as $accreditation)
-        {
-          $aAccreditations[] = Accreditation::find($accreditation);
+        foreach ($request->accreditations as $accreditation) {
+            $aAccreditations[] = Accreditation::find($accreditation);
         }
 
 
         $path = '';
         
-        if($request->hasFile('building_logo_image'))
-        {
-          $path = $request->file('building_logo_image')->store('logo/building','s3');
+        if ($request->hasFile('building_logo_image')) {
+            $path = $request->file('building_logo_image')->store('logo/building', 's3');
         }
         
         $request->request->add(['building_logo' => $path]);
         
 
-        if($building = $site->buildings()->create($request->all()))
-        {
-          if($building->accreditations()->saveMany($aAccreditations))
-          {
-            return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building added!');
-          }
+        if ($building = $site->buildings()->create($request->all())) {
+            if ($building->accreditations()->saveMany($aAccreditations)) {
+                return redirect('admin/sites/'.$site_id.'/buildings')->with('success', 'Building added!');
+            }
         }
     }
 
-    public function edit($site_id,$id)
+    public function edit($site_id, $id)
     {
         $site = Site::find($site_id);
         $building = Building::find($id);
-        $accreditations = $site->hco->accreditations->pluck('name','id');
-        return view('admin.healthsystem.buildings.edit',['site' => $site,'building' => $building,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
+        $accreditations = $site->hco->accreditations->pluck('name', 'id');
+        return view('admin.healthsystem.buildings.edit', ['site' => $site,'building' => $building,'occupancy_types' => $this->occupancy_types(),'ownership_types' => $this->lease_types(),'accreditations' => $accreditations]);
     }
 
-    public function save(Request $request,$site_id,$id)
+    public function save(Request $request, $site_id, $id)
     {
-        $this->validate($request,[
+        $this->validate($request, [
           'name' => 'required',
           'building_id' => 'required',
           'occupancy_type' => 'required',
           'accreditations' => 'not_in:0',
-          'square_ft' => 'required',
-          'roof_sq_ft' => 'required',
           'ownership' => 'required',
-          'sprinkled_pct' => 'required',
-          'beds' => 'required',
-          'unused_space' => 'required',
-          'operating_rooms' => 'required'
         ]);
 
         $site = Site::find($site_id);
 
-        foreach($request->accreditations as $accreditation)
-        {
-          $aAccreditations[] = Accreditation::find($accreditation)->id;
+        foreach ($request->accreditations as $accreditation) {
+            $aAccreditations[] = Accreditation::find($accreditation)->id;
         }
 
         $path = '';
 
-        if($request->hasFile('building_logo_image'))
-        {
-          $path = $request->file('building_logo_image')->store('logo/building','s3');
+        if ($request->hasFile('building_logo_image')) {
+            $path = $request->file('building_logo_image')->store('logo/building', 's3');
         }
         
         $request->request->add(['building_logo' => $path]);
@@ -112,28 +94,25 @@ class BuildingController extends Controller
          
 
 
-        if($site->buildings()->where('id',$id)->update(request()->except(['_token','accreditations'])))
-        {
-          if($building->accreditations()->sync($aAccreditations))
-          {
-            return redirect('admin/sites/'.$site_id.'/buildings')->with('success','Building updated !');
-          }
+        if ($site->buildings()->where('id', $id)->update(request()->except(['_token','accreditations']))) {
+            if ($building->accreditations()->sync($aAccreditations)) {
+                return redirect('admin/sites/'.$site_id.'/buildings')->with('success', 'Building updated !');
+            }
         }
     }
 
     public function delete(Request $request)
     {
-      if(Building::destroy($request->id))
-      {
-        return 'true';
-      }
+        if (Building::destroy($request->id)) {
+            return 'true';
+        }
     }
 
     public function uploadImages(Request $request)
     {
-      $dir = 'building_images/'.uniqid();
-      $path = $request->file('buildingimages')->store($dir,'s3');
-      return $dir;
+        $dir = 'building_images/'.uniqid();
+        $path = $request->file('buildingimages')->store($dir, 's3');
+        return $dir;
     }
 
     public function fetchImages(Request $request)
@@ -144,7 +123,7 @@ class BuildingController extends Controller
 
     public function occupancy_types()
     {
-      return [
+        return [
         'assembly_a-1' => 'Assembly A-1',
         'assembly_a-2' => 'Assembly A-2',
         'assembly_a-3' => 'Assembly A-3',
@@ -176,7 +155,7 @@ class BuildingController extends Controller
 
     public function lease_types()
     {
-      return [
+        return [
         'owned' => 'Owned',
         'nnn_lease' => 'NNN Lease',
         'nn_lease' => 'NN Lease',
@@ -187,5 +166,4 @@ class BuildingController extends Controller
         'sold' => 'Sold'
       ];
     }
-
 }
