@@ -44,7 +44,7 @@ class RoomController extends Controller
             'room_type' => 'required',
             'is_clinical' => 'required|not_in:-1',
             'square_ft' => 'required|numeric',
-            'bar_code' => 'required|numeric',
+            'bar_code' => 'nullable|numeric',
             'sprinkled_pct' => 'required',
             'beds' => 'required|numeric',
             'unused_space_sq_ft' => 'required|numeric',
@@ -92,9 +92,9 @@ class RoomController extends Controller
             'room_type' => 'required',
             'is_clinical' => 'required|not_in:-1',
             'square_ft' => 'required|numeric',
-            'bar_code' => 'required|numeric',
+            'bar_code' => 'nullable|numeric',
             'sprinkled_pct' => 'required',
-            'beds' => 'required|numeric',
+            'beds' => 'required||numeric',
             'unused_space_sq_ft' => 'required|numeric',
             'operating_rooms' => 'required|numeric'
         ]);

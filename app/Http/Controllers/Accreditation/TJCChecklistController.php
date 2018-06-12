@@ -21,7 +21,7 @@ class TJCChecklistController extends Controller
     public function index()
     {
         return view('tjc.index', [
-            'tjc_checklists' => TJCChecklist::latest()->get(),
+            'tjc_checklists' => TJCChecklist::latest()->where('building_id', session('building_id'))->get(),
             'tjc_checklist_eops' => TJCChecklistEOP::where('healthsystem_id', Auth::user()->healthsystem_id)->get(),
         ]);
     }
@@ -55,7 +55,8 @@ class TJCChecklistController extends Controller
             'surveyor_name' => 'required',
             'surveyor_email' => 'required',
             'surveyor_phone' => 'required',
-            'surveyor_organization' => 'required'
+            'surveyor_organization' => 'required',
+            'activity' => 'required'
         ]);
 
         if ($tjc_checklist = TJCChecklist::create($request->all())) {
@@ -110,5 +111,14 @@ class TJCChecklistController extends Controller
                 ->addColumn('edit_checklist', function ($available_eop) {
                     return '<a onclick="editChecklist('.$available_eop->id.')" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-pencil"></span> Edit Checklist</a>';
                 })->setRowId('id')->make(true);
+    }
+
+    public function update(Request $request)
+    {
+        $tjc_checklist_status = TJCChecklistStatus::find($request->tjc_checklist_status_id);
+        
+        if ($tjc_checklist_status->update([$request->field => $request->value])) {
+            return 'true';
+        }
     }
 }

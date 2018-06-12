@@ -40,6 +40,7 @@
                             <thead>
                             <tr>
                                 <th>EOP#</th>
+                                <th>Standard Label</th>
                                 <th>EOP Text</th>
                                 <th>Is In Policy</th>
                                 <th>Is Implemented as Required</th>
@@ -52,11 +53,12 @@
                                 @foreach($tjc_checklist->tjcChecklistStatuses as $tjc_checklist_status)
                                 <tr>
                                     <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->name }}</td>
+                                    <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->standardLabel->label }}</td>
                                     <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->text }}</td>
-                                    <td>{!! Form::select('is_in_policy', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_in_policy,['id' => '']) !!}</td>
-                                    <td>{!! Form::select('is_implemented_as_required', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_implemented_as_required,['id' => '']) !!}</td>
+                                    <td>{!! Form::select('is_in_policy', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_in_policy,['data-field' => 'is_in_policy','data-tjc_checklist_status_id' => $tjc_checklist_status->id]) !!}</td>
+                                    <td>{!! Form::select('is_implemented_as_required', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_implemented_as_required,['data-field' => 'is_implemented_as_required','data-tjc_checklist_status_id' => $tjc_checklist_status->id]) !!}</td>
                                     <td>@if(!empty($tjc_checklist_status->tjcChecklistEOP->eop->documentSubmissionDates->last()->status)){!! $tjc_checklist_status->tjcChecklistEOP->eop->documentSubmissionDates->last()->status !!} @else N/A @endif</td>
-                                    <td>{!! Form::select('status', ['0'=> 'Please Select','c' => 'C','nc' => 'NC','n/a' => 'N/A', 'iou' => 'IOU'], $tjc_checklist_status->status,['id' => '']) !!}</td>   
+                                    <td>{!! Form::select('status', ['0'=> 'Please Select','c' => 'C','nc' => 'NC','n/a' => 'N/A', 'iou' => 'IOU'], $tjc_checklist_status->status,['data-field' => 'status','data-tjc_checklist_status_id' => $tjc_checklist_status->id]) !!}</td>   
                                     <td>{!! link_to('system-admin/accreditation/eop/'.$tjc_checklist_status->tjcChecklistEOP->eop->id.'/submission_dates','View',['class' => 'btn-xs btn-info','target' => '_blank']) !!}</td>                             
                                 </tr>
                                 @endforeach
@@ -106,8 +108,13 @@
                 <input class="form-control" name="surveyor_organization" type="text">
             </div>
 
+            <div class="form-group">
+                <label for="standards">Activity</label>
+                <input class="form-control" name="activity" type="text">
+            </div>
+
             <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
-            <input type="hidden" name="hco_id" value="{{session('hco_id')}}">
+            <input type="hidden" name="building_id" value="{{session('building_id')}}">
 
       </div>
       <div class="modal-footer">
@@ -249,6 +256,40 @@ function showInspectionModal(tjc_checklist_id)
     $('#eopInspectionModal').modal('show');
 
 }
+
+$( "select" ).change(function() {
+    if($(this).val() != 0){
+        $.ajax({
+        type: 'POST',
+        url: '{{ asset('tjc_checklist/status/update') }}',
+        data: { '_token' : '{{ csrf_token() }}', 'tjc_checklist_status_id': $(this).data('tjc_checklist_status_id'),'value': $(this).val(),'field': $(this).data('field')},
+        beforeSend:function()
+        {
+            dialog = bootbox.dialog({
+                message: '<p class="text-center">Saving your changes...</p>',
+                closeButton: false
+            });
+        },
+        success:function(data)
+        {
+            if(data == 'true')
+            {
+                dialog.modal('hide');
+            }
+        },
+        error:function()
+        {
+        // failed request; give feedback to user
+        },
+        complete: function(data)
+        {
+            $('.overlay').remove();
+        }
+    });
+
+    }
+  
+});
 
 
 </script>
