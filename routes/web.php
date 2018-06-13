@@ -136,6 +136,7 @@ Route::get('system-admin/findings/export/hco', 'Accreditation\EOPStatusControlle
 Route::get('system-admin/accreditation/eop/status/{eop_id}', 'Accreditation\EOPStatusController@index');
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@addFinding');
 Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/add', 'Accreditation\EOPStatusController@createFinding');
+Route::post('system-admin/accreditation/eop/status/fetch/rooms', 'Accreditation\EOPStatusController@fetchRooms');
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/edit/{finding_id}', 'Accreditation\EOPStatusController@editFinding');
 Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/edit/{finding_id}', 'Accreditation\EOPStatusController@saveFinding');
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/{finding_id}', 'Accreditation\EOPStatusController@viewFinding');

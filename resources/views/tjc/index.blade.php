@@ -39,8 +39,8 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
-                                <th>EOP#</th>
                                 <th>Standard Label</th>
+                                <th>EOP#</th>
                                 <th>EOP Text</th>
                                 <th>Is In Policy</th>
                                 <th>Is Implemented as Required</th>
@@ -52,8 +52,8 @@
                             <tbody>
                                 @foreach($tjc_checklist->tjcChecklistStatuses as $tjc_checklist_status)
                                 <tr>
-                                    <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->name }}</td>
                                     <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->standardLabel->label }}</td>
+                                    <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->name }}</td>
                                     <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->text }}</td>
                                     <td>{!! Form::select('is_in_policy', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_in_policy,['data-field' => 'is_in_policy','data-tjc_checklist_status_id' => $tjc_checklist_status->id]) !!}</td>
                                     <td>{!! Form::select('is_implemented_as_required', ['n/a' => 'N/A', 'yes' => 'Yes','no' => 'No'], $tjc_checklist_status->is_implemented_as_required,['data-field' => 'is_implemented_as_required','data-tjc_checklist_status_id' => $tjc_checklist_status->id]) !!}</td>

@@ -95,6 +95,35 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('department_id', $building->departments->pluck('name','id')->prepend('Select',0), Request::old('department_id'), ['class' => 'form-control','id' => 'department_id']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('room_id', 'Room:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('room_id', [], Request::old('room_id'), ['class' => 'form-control','id' => 'room_id']) !!}
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    {!! Form::label('is_potential_to_cause_harm', 'Potential to Cause Harm:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('is_potential_to_cause_harm', [0 => 'No',1 => 'Yes'], Request::old('is_potential_to_cause_harm'), ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('is_policy_issue', 'Policy Issue:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('is_policy_issue', [0 => 'No',1 => 'Yes'], Request::old('is_policy_issue'), ['class' => 'form-control']) !!}
+                    </div>
+                </div>
+
 
 
             <div class="form-group">
@@ -137,6 +166,45 @@
         enableTime: true,
         dateFormat: "Y-m-d H:i",
     });
+
+    $("#department_id").change(function(){
+
+        if($(this).val() != 0)
+        {
+                $.ajax({
+                type: 'POST',
+                url: '{{ url('system-admin/accreditation/eop/status/fetch/rooms') }}',
+                data: { '_token' : '{{ csrf_token() }}', 'department_id': $(this).val() },
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    $('#room_id').html('');
+
+                    var html = '<option value="0">Select Room</option>';
+
+                    $.each(data.rooms, function(index, value) {
+                        html += '<option value="'+value.id+'">'+value.room_number+'</option>';
+                    });
+
+                    $('#room_id').append(html);
+                    $('#room_id').selectpicker('render');
+                },
+                complete:function()
+                {
+                    $('.overlay').remove();
+                },
+                error:function()
+                {
+                    // failed request; give feedback to user
+                }
+            });
+
+        }
+        
+      });
   </script>
 
 

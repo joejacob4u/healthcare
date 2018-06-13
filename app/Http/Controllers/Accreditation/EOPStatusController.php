@@ -19,6 +19,7 @@ use Auth;
 use Session;
 use DB;
 use Illuminate\Support\Facades\Input;
+use App\Regulatory\BuildingDepartment;
 
 class EOPStatusController extends Controller
 {
@@ -44,14 +45,16 @@ class EOPStatusController extends Controller
         }
         
         $eop = EOP::find($eop_id);
-        return view('accreditation.finding.add', ['eop' => $eop,'description' => $description]);
+        $building = Building::find(session('building_id'));
+        return view('accreditation.finding.add', ['eop' => $eop,'description' => $description,'building' => $building]);
     }
 
     public function editFinding($eop_id, $finding_id)
     {
         $finding = EOPFinding::find($finding_id);
         $eop = EOP::find($eop_id);
-        return view('accreditation.finding.edit', ['finding' => $finding,'eop' => $eop]);
+        $building = Building::find(session('building_id'));
+        return view('accreditation.finding.edit', ['finding' => $finding,'eop' => $eop,'building' => $building]);
     }
 
     public function saveFinding(Request $request, $eop_id, $finding_id)
@@ -83,7 +86,9 @@ class EOPStatusController extends Controller
             'status' => 'required',
             'location' => 'required',
             'benefit' => 'required',
-            'activity' => 'not_in:0'
+            'activity' => 'not_in:0',
+            'room_id' => 'not_in:0',
+            'department_id' => 'not_in:0'
 
         ]);
 
@@ -286,5 +291,11 @@ class EOPStatusController extends Controller
 
         $csv->output('action_sheet_'.$findings->first()->facility_name.'_'.date('Y-m-d:H:i:s').'.csv');
         exit;
+    }
+
+    public function fetchRooms(Request $request)
+    {
+        $department = BuildingDepartment::find($request->department_id);
+        return response()->json(['rooms' => $department->rooms]);
     }
 }
