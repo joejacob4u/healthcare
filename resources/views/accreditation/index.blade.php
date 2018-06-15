@@ -56,7 +56,7 @@
                                   <th>Frequency</th>
                                   <th>Risk</th>
                                   <th>Progress</th>
-                                  <th>Status</th>
+                                  <th>Findings</th>
                               </tr>
                           </thead>
                           <tfoot>
@@ -67,7 +67,7 @@
                               <th>Frequency</th>
                               <th>Risk</th>
                               <th>Progress</th>
-                              <th>Status</th>
+                              <th>Findings</th>
                           </tr>
                           </tfoot>
                           <tbody>
@@ -79,7 +79,7 @@
                                 <td>{{$eop->frequency}}</td>
                                 <td>@if($eop->risk == 1) Yes @else No @endif</td>
                                 <td><small class="label pull-right bg-red">Initial : {{$eop->getFindingCount('initial')}}</small><small class="label pull-right bg-red">Non-Compliant : {{$eop->getFindingCount('non-compliant')}}</small><small class="label pull-right bg-yellow">Pending Verification : {{$eop->getFindingCount('pending_verification')}}</small><small class="label pull-right bg-blue">Issues Corrected Verify : {{$eop->getFindingCount('issues_corrected_verify')}}</small><small class="label pull-right bg-green">Compliant : {{$eop->getFindingCount('compliant')}}</small></td>
-                                <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id,'Status',['class' => 'btn-xs btn-primary']) !!}</td>
+                                <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id,'Findings',['class' => 'btn-xs btn-primary']) !!}</td>
                               </tr>
                             @endforeach
                           </tbody>

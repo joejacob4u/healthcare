@@ -65,7 +65,6 @@ class EOPStatusController extends Controller
             'measure_of_success' => 'required',
             'measure_of_success_date' => 'required',
             'status' => 'required',
-            'location' => 'required',
             'benefit' => 'required',
             'activity' => 'not_in:0'
         ]);
@@ -84,7 +83,6 @@ class EOPStatusController extends Controller
             'plan_of_action' => 'required',
             'measure_of_success' => 'required',
             'status' => 'required',
-            'location' => 'required',
             'benefit' => 'required',
             'activity' => 'not_in:0',
             'room_id' => 'not_in:0',

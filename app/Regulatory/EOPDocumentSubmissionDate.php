@@ -83,7 +83,7 @@ class EOPDocumentSubmissionDate extends Model
             break;
 
           case 'annually':
-            $start  = Carbon::parse($this->submission_date)->subYear()->subDays(30)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->startOfYear()->toDateString();
             $end = Carbon::parse($this->submission_date)->addDays(30)->toDateString();
             break;
   

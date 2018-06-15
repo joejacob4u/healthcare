@@ -38,7 +38,7 @@
             <div class="form-group">
                 {!! Form::label('document_date', 'Document Date:', ['class' => 'control-label']) !!}
                 {!! Form::text('document_date',  Request::old('document_date'), ['class' => 'form-control','id' => 'document_date']); !!}
-                <span class="help-block">Dates outside this range : {{$tolerance_dates['start']}} to {{$tolerance_dates['end']}} are considered non-compliant</span>
+                <span class="help-block">Dates outside this range : {{\Carbon\Carbon::parse($tolerance_dates['start'])->toFormattedDateString()}} to {{\Carbon\Carbon::parse($tolerance_dates['end'])->toFormattedDateString()}} are considered non-compliant</span>
             </div>
             <div class="form-group">
                 {!! Form::label('upload_date', 'Submission On:', ['class' => 'control-label']) !!}

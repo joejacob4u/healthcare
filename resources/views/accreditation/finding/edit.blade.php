@@ -46,11 +46,18 @@
               </div>
 
               <div class="form-group">
-                  {!! Form::label('location', 'Location:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::textarea('location', $finding->location, ['class' => 'form-control', 'placeholder' => 'location','rows' => 3]) !!}
-                  </div>
-              </div>
+                    {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('department_id', $building->departments->pluck('name','id')->prepend('Select',0), $finding->department_id, ['class' => 'form-control','id' => 'department_id']) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('room_id', 'Room:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('room_id', $finding->department->rooms->pluck('room_number','id'), $finding->room_id, ['class' => 'form-control','id' => 'room_id']) !!}
+                    </div>
+                </div>
 
               <div class="form-group">
                   {!! Form::label('plan_of_action', 'Plan of Action:', ['class' => 'col-lg-2 control-label']) !!}
@@ -95,25 +102,11 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('department_id', $building->departments->pluck('name','id')->prepend('Select',0), $finding->department_id, ['class' => 'form-control','id' => 'department_id']) !!}
-                    </div>
-                </div>
 
                 <div class="form-group">
-                    {!! Form::label('room_id', 'Room:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('potential_to_cause_harm', 'Potential to Cause Harm:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('room_id', $finding->department->rooms->pluck('room_number','id'), $finding->room_id, ['class' => 'form-control','id' => 'room_id']) !!}
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    {!! Form::label('is_potential_to_cause_harm', 'Potential to Cause Harm:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('is_potential_to_cause_harm', [0 => 'No',1 => 'Yes'], $finding->is_potential_to_cause_harm, ['class' => 'form-control']) !!}
+                        {!! Form::select('potential_to_cause_harm', ['low' => 'Low','moderate' => 'Moderate','high' => 'High','immediate_threat_to_life' => 'Immediate Threat to Life'], $finding->potential_to_cause_harm, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 
