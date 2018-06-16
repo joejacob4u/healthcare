@@ -68,53 +68,53 @@ class EOPDocumentSubmissionDate extends Model
             break;
   
           case 'weekly':
-            $start = DateTime($this->submission_date)->modify('sunday this week')->format('Y-m-d');
-            $end = DateTime($this->submission_date)->modify('saturday this week')->format('Y-m-d');
+            $start = Carbon::parse($this->submission_date)->startOfWeek()->toDateString();
+            $end = Carbon::parse($this->submission_date)->endOfWeek()->toDateString();
             break;
   
           case 'monthly':
-            $start = DateTime($this->submission_date)->modify('first day of the month')->format('Y-m-d');
-            $end = DateTime($this->submission_date)->modify('last day of the month')->format('Y-m-d');
+            $start = Carbon::parse($this->submission_date)->startOfMonth()->toDateString();
+            $end = Carbon::parse($this->submission_date)->endOfMonth()->toDateString();
             break;
   
           case 'quarterly':
-            $start  = Carbon::parse($this->submission_date)->firstOfQuarter()->subDays(10)->toDateString();
-            $end = Carbon::parse($this->submission_date)->lastOfQuarter()->addDays(10)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(10)->toDateString();
+            $end = Carbon::parse($this->submission_date)->addDays(10)->toDateString();
             break;
 
           case 'annually':
-            $start  = Carbon::parse($this->submission_date)->startOfYear()->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(30)->toDateString();
             $end = Carbon::parse($this->submission_date)->addDays(30)->toDateString();
             break;
   
           case 'two-years':
-            $start  = Carbon::parse($this->submission_date)->subYears(2)->subDays(30)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(30)->toDateString();
             $end = Carbon::parse($this->submission_date)->addDays(30)->toDateString();
             break;
   
           case 'three-years':
-            $start  = Carbon::parse($this->submission_date)->subYears(3)->subDays(30)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(30)->toDateString();
             $end = Carbon::parse($this->submission_date)->addDays(30)->toDateString();
             break;
   
           case 'four-years':
-            $start  = Carbon::parse($this->submission_date)->subYears(4)->subDays(30)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(30)->toDateString();
             $end = Carbon::parse($this->submission_date)->addDays(30)->toDateString();
             break;
   
           case 'five-years':
-            $start  = Carbon::parse($this->submission_date)->subYears(5)->subDays(30)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(30)->toDateString();
             $end = Carbon::parse($this->submission_date)->addDays(30)->toDateString();
             break;
   
           case 'six-years':
-            $start  = Carbon::parse($this->submission_date)->subYears(6)->subDays(30)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(30)->toDateString();
             $end = Carbon::parse($this->submission_date)->addDays(30)->toDateString();
             break;
 
           case 'semi-annually':
-            $start  = Carbon::parse($this->submission_date)->subMonths(6)->subDays(10)->toDateString();
-            $end = Carbon::parse($this->submission_date)->addDays(10)->toDateString();
+            $start  = Carbon::parse($this->submission_date)->subDays(20)->toDateString();
+            $end = Carbon::parse($this->submission_date)->addDays(20)->toDateString();
             break;
   
           case 'as-needed':

@@ -35,33 +35,27 @@
                         <th>Site</th>
                         <th>Building</th>
                         <th>Standard Label</th>
-                        <th>Standard Label Text</th>
                         <th>EOP #</th>
-                        <th>EOP Text</th>
-                        <th>Finding</th>
-                        <th>Measure of Success</th>
                         <th>Benefit</th>
                         <th>Plan of Action</th>
                         <th>Last Assigned To</th>
                         <th>Due Date</th>
                         <th>Status</th>
+                        <th>Finding</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                      <th>Site</th>
-                      <th>Building</th>
-                      <th>Standard Label</th>
-                      <th>Standard Label Text</th>
-                      <th>EOP Name</th>
-                      <th>EOP Text</th>
-                      <th>Finding</th>
-                      <th>Measure of Success</th>
-                      <th>Benefit</th>
-                      <th>Plan of Action</th>
-                      <th>Last Assigned To</th>
-                      <th>Due Date</th>
-                      <th>Status</th>
+                        <th>Site</th>
+                        <th>Building</th>
+                        <th>Standard Label</th>
+                        <th>EOP #</th>
+                        <th>Benefit</th>
+                        <th>Plan of Action</th>
+                        <th>Last Assigned To</th>
+                        <th>Due Date</th>
+                        <th>Status</th>
+                        <th>Finding</th>
                     </tr>
                 </tfoot>
             </table>
@@ -95,16 +89,15 @@
             {data: 'site_name', name: 'sites.name'},
             {data: 'building_name', name: 'buildings.name'},
             {data: 'label', name: 'standard_label.label'},
-            {data: 'label_text', name: 'standard_label.text'},
             {data: 'eop_name', name: 'eop.name'},
-            {data: 'eop_text', name: 'eop.text'},
             {data: 'description', name: 'eop_findings.description'},
-            {data: 'measure_of_success', name: 'eop_findings.measure_of_success'},
             {data: 'benefit', name: 'eop_findings.benefit'},
             {data: 'plan_of_action', name: 'eop_findings.plan_of_action'},
             {data: 'last_assigned_name', name: 'eop_findings.last_assigned_user_id'},
             {data: 'due_date', name: 'eop_findings.measure_of_success_date'},
-            {data: 'status', name: 'eop_findings.status'}]
+            {data: 'status', name: 'eop_findings.status'},
+            {data: 'finding_button', name: 'eop_findings.eop_id'}
+            ]
     });
 
 

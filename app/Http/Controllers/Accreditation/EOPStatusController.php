@@ -198,6 +198,9 @@ class EOPStatusController extends Controller
             ->addColumn('label_text', function ($finding) {
                 return $finding->label_text;
             })
+            ->addColumn('finding_button', function ($finding) {
+                return '<a href="/system-admin/accreditation/eop/status/'.$finding->eop_id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-info-sign"></span> Finding</a>';
+            })
 
             ->removeColumn('id')
             ->removeColumn('eop_id')

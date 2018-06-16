@@ -18,6 +18,10 @@
           <li class="active">EOP Status</li>
         </ol>
 
+<div class="callout callout-warning">
+    <h4>Standard Label : {{$eop->standardLabel->label}}</h4>
+    <p>{{$eop->standardLabel->text}}</p>
+</div>
 <div class="callout callout-info">
     <h4>EOP : {{$eop->name}}</h4>
     <p>{{$eop->text}}</p>
