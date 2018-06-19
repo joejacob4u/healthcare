@@ -20,6 +20,7 @@ use Session;
 use DB;
 use Illuminate\Support\Facades\Input;
 use App\Regulatory\BuildingDepartment;
+use Carbon\Carbon;
 
 class EOPStatusController extends Controller
 {
@@ -168,20 +169,8 @@ class EOPStatusController extends Controller
             ->addColumn('building_name', function ($finding) {
                 return $finding->building_name.'(#'.$finding->building_id.')';
             })
-            ->addColumn('measure_of_success', function ($finding) {
-                return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="Measure of Success" data-content="'.$finding->measure_of_success.'">'.substr($finding->measure_of_success, 0, 50).'...</a>';
-            })
-            ->addColumn('benefit', function ($finding) {
-                return $finding->benefit;
-            })
-            ->addColumn('plan_of_action', function ($finding) {
-                return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="Plan of Action" data-content="'.$finding->plan_of_action.'">'.substr($finding->plan_of_action, 0, 50).'...</a>';
-            })
             ->addColumn('last_assigned_name', function ($finding) {
                 return (!empty($finding->last_assigned_name)) ? $finding->last_assigned_name : 'TBD';
-            })
-            ->addColumn('due_date', function ($finding) {
-                return $finding->due_date;
             })
             ->addColumn('status', function ($finding) {
                 return ucwords(implode(' ', explode('_', $finding->status)));
@@ -201,6 +190,10 @@ class EOPStatusController extends Controller
             ->addColumn('finding_button', function ($finding) {
                 return '<a href="/system-admin/accreditation/eop/status/'.$finding->eop_id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-info-sign"></span> Finding</a>';
             })
+            ->addColumn('finding_date', function ($finding) {
+                return Carbon::parse($finding->created_at)->toFormattedDateString();
+            })
+
 
             ->removeColumn('id')
             ->removeColumn('eop_id')
@@ -217,7 +210,7 @@ class EOPStatusController extends Controller
             ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
             ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
             ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'buildings.name as building_name', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
+            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
             ->where('healthsystem.id', Auth::guard('system_user')->user()->healthsystem_id)
             ->orderBy('eop_findings.updated_at', 'desc')->get();
 
@@ -227,8 +220,12 @@ class EOPStatusController extends Controller
         $csv->insertOne([
                 'Healthcare System',
                 'HCO',
+                'HCO ID#',
                 'Site',
+                'Site#',
+                'Site Address',
                 'Building',
+                'Building#',
                 'Standard Label',
                 'Standard Label Text',
                 'EOP Name',
@@ -260,7 +257,7 @@ class EOPStatusController extends Controller
             ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
             ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
             ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'buildings.name as building_name', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label')
+            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
             ->where('healthsystem.id', Auth::guard('system_user')->user()->healthsystem_id)
             ->where('hco.id', session('hco_id'))
             ->orderBy('eop_findings.updated_at', 'desc')->get();
@@ -271,8 +268,12 @@ class EOPStatusController extends Controller
         $csv->insertOne([
             'Healthcare System',
             'HCO',
+            'HCO ID#',
             'Site',
+            'Site#',
+            'Site Address',
             'Building',
+            'Building#',
             'Standard Label',
             'Standard Label Text',
             'EOP Name',

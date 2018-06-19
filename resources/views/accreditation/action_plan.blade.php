@@ -36,12 +36,10 @@
                         <th>Building</th>
                         <th>Standard Label</th>
                         <th>EOP #</th>
-                        <th>Benefit</th>
-                        <th>Plan of Action</th>
-                        <th>Last Assigned To</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
+                        <th>EOP Text</th>
+                        <th>Finding Date</th>
                         <th>Finding</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -50,12 +48,10 @@
                         <th>Building</th>
                         <th>Standard Label</th>
                         <th>EOP #</th>
-                        <th>Benefit</th>
-                        <th>Plan of Action</th>
-                        <th>Last Assigned To</th>
-                        <th>Due Date</th>
-                        <th>Status</th>
+                        <th>EOP Text</th>
+                        <th>Finding Date</th>
                         <th>Finding</th>
+                        <th>Status</th>
                     </tr>
                 </tfoot>
             </table>
@@ -72,7 +68,6 @@
     $('#action-plan-table').DataTable({
         processing: true,
         serverSide: true,
-        scrollX: true,
         ajax: {
             url: '{{url('system-admin/findings/action-plan')}}',
             type: "POST",
@@ -90,13 +85,10 @@
             {data: 'building_name', name: 'buildings.name'},
             {data: 'label', name: 'standard_label.label'},
             {data: 'eop_name', name: 'eop.name'},
-            {data: 'description', name: 'eop_findings.description'},
-            {data: 'benefit', name: 'eop_findings.benefit'},
-            {data: 'plan_of_action', name: 'eop_findings.plan_of_action'},
-            {data: 'last_assigned_name', name: 'eop_findings.last_assigned_user_id'},
-            {data: 'due_date', name: 'eop_findings.measure_of_success_date'},
+            {data: 'eop_text', name: 'eop.text'},
+            {data: 'finding_date', name: 'eop_findings.created_at'},
+            {data: 'finding_button', name: 'eop_findings.eop_id'},
             {data: 'status', name: 'eop_findings.status'},
-            {data: 'finding_button', name: 'eop_findings.eop_id'}
             ]
     });
 
