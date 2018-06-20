@@ -157,7 +157,7 @@ class EOPStatusController extends Controller
         ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
         ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id', 'buildings.name as building_name', 'buildings.building_id', 'eop_findings.status', 'healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'sites.site_id as site_id', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop.name as eop_name', 'eop.text as eop_text', 'standard_label.label', 'standard_label.text as label_text')
+        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id', 'buildings.name as building_name', 'buildings.building_id', 'eop_findings.status', 'healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'sites.site_id as site_id', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop.name as eop_name', 'eop.text as eop_text', 'standard_label.label', 'standard_label.text as label_text', 'eop_findings.created_at')
         ->where('healthsystem.id', Auth::user()->healthsystem_id)
         ->where('hco.id', session('hco_id'))
         ->orderBy('eop_findings.updated_at', 'desc');
@@ -210,7 +210,7 @@ class EOPStatusController extends Controller
             ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
             ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
             ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
+            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.created_at', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
             ->where('healthsystem.id', Auth::guard('system_user')->user()->healthsystem_id)
             ->orderBy('eop_findings.updated_at', 'desc')->get();
 
@@ -231,6 +231,7 @@ class EOPStatusController extends Controller
                 'EOP Name',
                 'EOP Text',
                 'Finding',
+                'Finding Created At',
                 'Measure of Success',
                 'Benefit',
                 'Plan of Action',
