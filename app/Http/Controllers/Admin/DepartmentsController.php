@@ -11,7 +11,7 @@ class DepartmentsController extends Controller
 {
     public function __construct()
     {
-        //$this->middleware('system_admin');
+        $this->middleware('system_admin');
     }
 
     public function index($site_id, $building_id)

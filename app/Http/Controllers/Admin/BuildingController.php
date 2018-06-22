@@ -11,6 +11,11 @@ use Storage;
 
 class BuildingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('system_admin');
+    }
+    
     public function index($site_id)
     {
         $site = Site::find($site_id);
@@ -53,7 +58,7 @@ class BuildingController extends Controller
 
         if ($building = $site->buildings()->create($request->all())) {
             if ($building->accreditations()->saveMany($aAccreditations)) {
-                return redirect('admin/sites/'.$site_id.'/buildings')->with('success', 'Building added!');
+                return redirect('sites/'.$site_id.'/buildings')->with('success', 'Building added!');
             }
         }
     }
@@ -96,7 +101,7 @@ class BuildingController extends Controller
 
         if ($site->buildings()->where('id', $id)->update(request()->except(['_token','accreditations']))) {
             if ($building->accreditations()->sync($aAccreditations)) {
-                return redirect('admin/sites/'.$site_id.'/buildings')->with('success', 'Building updated !');
+                return redirect('sites/'.$site_id.'/buildings')->with('success', 'Building updated !');
             }
         }
     }

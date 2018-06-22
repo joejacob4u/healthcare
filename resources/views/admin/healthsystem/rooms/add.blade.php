@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/departments/'.$department->id.'/rooms/create', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'departments/'.$department->id.'/rooms/create', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -92,7 +92,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/buildings/'.$department->building->id.'/departments/'.$department->id.'/rooms', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('buildings/'.$department->building->id.'/departments/'.$department->id.'/rooms', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         {!! Form::submit('Add Room', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>

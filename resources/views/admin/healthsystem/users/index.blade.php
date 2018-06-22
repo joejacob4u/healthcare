@@ -13,7 +13,7 @@
         <h3 class="box-title">System Admins</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('admin/healthsystem/users/add')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add System Admin</a>
+          <a href="{{url('healthsystem/users/add')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add System Admin</a>
         </div>
       </div>
       <div class="box-body">
@@ -66,7 +66,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('admin/healthsystem/user/delete') }}',
+              url: '{{ asset('healthsystem/user/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {
@@ -76,7 +76,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = "{{url('admin/healthsystem/user/delete')}}";
+                    window.location = "{{url('healthsystem/user/delete')}}";
                   }
                   else {
                     bootbox.alert("Something went wrong, try again later");

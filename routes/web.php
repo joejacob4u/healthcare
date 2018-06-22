@@ -142,9 +142,66 @@ Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/edit/{findin
 Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/{finding_id}', 'Accreditation\EOPStatusController@viewFinding');
 Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/comment/add', 'Accreditation\EOPStatusController@createComment');
 
+// Healthsystem management routes
+
+Route::get('healthsystem', 'Admin\HealthsystemController@index');
+Route::get('healthsystem/add', 'Admin\HealthsystemController@add');
+Route::post('healthsystem/add', 'Admin\HealthsystemController@create');
+Route::get('healthsystem/edit/{id}', 'Admin\HealthsystemController@edit');
+Route::post('healthsystem/edit/{id}', 'Admin\HealthsystemController@save');
+Route::post('healthsystem/delete', 'Admin\HealthsystemController@delete');
+
+Route::get('healthsystem/{healthsystem_id}/hco', 'Admin\HCOController@index');
+Route::get('healthsystem/{healthsystem_id}/hco/add', 'Admin\HCOController@add');
+Route::post('healthsystem/{healthsystem_id}/hco/add', 'Admin\HCOController@create');
+Route::get('healthsystem/{healthsystem_id}/hco/edit/{id}', 'Admin\HCOController@edit');
+Route::post('healthsystem/{healthsystem_id}/hco/edit/{id}', 'Admin\HCOController@save');
+Route::post('healthsystem/hco/delete', 'Admin\HCOController@delete');
+
+Route::get('healthsystem/users', 'Admin\UsersController@index');
+Route::get('healthsystem/users/add', 'Admin\UsersController@create');
+Route::post('healthsystem/users/add', 'Admin\UsersController@store');
+Route::get('healthsystem/users/edit/{id}', 'Admin\UsersController@edit');
+Route::post('healthsystem/users/edit/{id}', 'Admin\UsersController@save');
+Route::post('healthsystem/users/delete', 'Admin\UsersController@delete');
+
+Route::get('healthsystem/prospects', 'Admin\ProspectsController@index');
+Route::get('healthsystem/prospects/details/{id}', 'Admin\ProspectsController@details');
 
 
 
+Route::get('hco/{hco_id}/sites', 'Admin\SiteController@index');
+Route::get('hco/{hco_id}/sites/add', 'Admin\SiteController@add');
+Route::post('hco/{hco_id}/sites/add', 'Admin\SiteController@create');
+Route::get('hco/{hco_id}/sites/edit/{id}', 'Admin\SiteController@edit');
+Route::post('hco/{hco_id}/sites/edit/{id}', 'Admin\SiteController@save');
+Route::post('hco/sites/delete', 'Admin\SiteController@delete');
+
+Route::get('sites/{site_id}/buildings', 'Admin\BuildingController@index');
+Route::get('sites/{site_id}/buildings/add', 'Admin\BuildingController@add');
+Route::post('sites/{site_id}/buildings/add', 'Admin\BuildingController@create');
+Route::get('sites/{site_id}/buildings/edit/{id}', 'Admin\BuildingController@edit');
+Route::post('sites/{site_id}/buildings/edit/{id}', 'Admin\BuildingController@save');
+Route::post('sites/buildings/delete', 'Admin\BuildingController@delete');
+Route::post('sites/buildings/upload/images', 'Admin\BuildingController@uploadImages');
+Route::post('sites/buildings/images/fetch', 'Admin\BuildingController@fetchImages');
+
+Route::get('sites/{site_id}/buildings/{building_id}/departments', 'Admin\DepartmentsController@index');
+Route::get('buildings/{building_id}/departments/add', 'Admin\DepartmentsController@add');
+Route::post('buildings/{building_id}/departments/add', 'Admin\DepartmentsController@store');
+Route::get('buildings/{building_id}/departments/{department_id}/edit', 'Admin\DepartmentsController@edit');
+Route::post('buildings/{building_id}/departments/{department_id}/edit', 'Admin\DepartmentsController@save');
+Route::post('departments/delete', 'Admin\DepartmentsController@delete');
+
+Route::get('buildings/{building_id}/departments/{department_id}/rooms', 'RoomController@index');
+Route::get('departments/{department_id}/rooms/create', 'RoomController@create');
+Route::post('departments/{department_id}/rooms/create', 'RoomController@store');
+Route::get('departments/{department_id}/rooms/{room_id}/edit', 'RoomController@edit');
+Route::post('departments/{department_id}/rooms/{room_id}/edit', 'RoomController@update');
+Route::post('rooms/delete', 'RoomController@destroy');
+
+
+//end Healthsystem management routes
 
 
 

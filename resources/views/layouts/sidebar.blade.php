@@ -64,9 +64,9 @@
                </span>
              </a>
              <ul class="treeview-menu">
-               <li><a href="{{url('admin/healthsystem')}}"><i class="fa fa-circle-o"></i>Health System</a></li>
-               <li><a href="{{url('admin/healthsystem/users')}}"><i class="fa fa-circle-o"></i>System Admins</a></li>
-               <li><a href="{{url('admin/healthsystem/prospects')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
+               <li><a href="{{url('healthsystem')}}"><i class="fa fa-circle-o"></i>Health System</a></li>
+               <li><a href="{{url('healthsystem/users')}}"><i class="fa fa-circle-o"></i>System Admins</a></li>
+               <li><a href="{{url('healthsystem/prospects')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
              </ul>
          </li>
     </ul>
@@ -87,9 +87,9 @@
          <ul class="treeview-menu">
            <li><a href="{{url('users')}}"><i class="fa fa-circle-o"></i>Users</a></li>
            <li><a href="{{url('users/prospects')}}"><i class="fa fa-circle-o"></i>Prospects</a></li>
-           
          </ul>
      </li>
+     <li><a href="{{url('healthsystem/'.Auth::guard('system_user')->user()->healthsystem_id.'/hco')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
      <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>

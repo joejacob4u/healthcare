@@ -10,7 +10,7 @@
           <div class="box-header with-border">
             <h3 class="box-title">About Prospect</h3>
             <div class="box-tools pull-right">
-              <a href="{{url('admin/healthsystem/prospects')}}" type="button" class="btn btn-block btn-warning"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+              <a href="{{url('healthsystem/prospects')}}" type="button" class="btn btn-block btn-warning"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
             </div>
 
           </div>

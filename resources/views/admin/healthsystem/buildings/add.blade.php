@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/sites/'.$site->id.'/buildings/add', 'class' => 'form-horizontal','files' => true]) !!}
+        {!! Form::open(['url' => 'sites/'.$site->id.'/buildings/add', 'class' => 'form-horizontal','files' => true]) !!}
 
             <fieldset>
 
@@ -88,7 +88,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/sites/'.$site->id.'/buildings', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('sites/'.$site->id.'/buildings', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         {!! Form::submit('Add Building', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
@@ -104,7 +104,7 @@
       <script>
         var uploader =  new ss.SimpleUpload({
                             button: 'building_images_btn', // HTML element used as upload button
-                            url: '{{url('admin/sites/buildings/upload/images')}}', // URL of server-side upload handler
+                            url: '{{url('sites/buildings/upload/images')}}', // URL of server-side upload handler
                             name: 'buildingimages',
                             data: {'site_id' : {{$site->id}}};
                             multiple: true,
@@ -125,7 +125,7 @@
             {
                 $.ajax({
                         type: 'POST',
-                        url: '{{ asset('admin/sites/buildings/images/fetch') }}',
+                        url: '{{ asset('sites/buildings/images/fetch') }}',
                         data: { '_token' : '{{ csrf_token() }}','directory' : $('#building_img_dir').val()},
                         beforeSend:function()
                         {

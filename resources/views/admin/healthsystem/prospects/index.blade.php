@@ -37,7 +37,7 @@
                         <td>{{$prospect_user->title}}</td>
                         <td>{{$prospect_user->user->email}}</td>
                         <td>{{$prospect_user->user->phone}}</td>
-                        <td>{!! link_to('admin/healthsystem/prospects/details/'.$prospect_user->id,'Details',['class' => 'btn-xs btn-info']) !!}</td>
+                        <td>{!! link_to('healthsystem/prospects/details/'.$prospect_user->id,'Details',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
                     @endforeach
                 </tbody>

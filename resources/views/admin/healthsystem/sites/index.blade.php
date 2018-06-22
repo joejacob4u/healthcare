@@ -15,7 +15,7 @@
         <h3 class="box-title">Sites for {{$hco->facility_name}}</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('admin/hco/'.$hco->id.'/sites/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Site</a>
+          <a href="{{url('hco/'.$hco->id.'/sites/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Site</a>
         </div>
       </div>
       <div class="box-body">
@@ -44,8 +44,8 @@
                       <td>{{$site->site_id}}</td>
                       <td>{{$site->name}}</td>
                       <td>{{$site->address}}</td>
-                      <td>{!! link_to('admin/sites/'.$site->id.'/buildings','Buildings',['class' => 'btn-xs btn-info']) !!}</td>
-                      <td>{!! link_to('admin/hco/'.$hco->id.'/sites/edit/'.$site->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                      <td>{!! link_to('sites/'.$site->id.'/buildings','Buildings',['class' => 'btn-xs btn-info']) !!}</td>
+                      <td>{!! link_to('hco/'.$hco->id.'/sites/edit/'.$site->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -53,7 +53,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        <a href="{{url('admin/healthsystem/'.$hco->healthcareSystem->id.'/hco')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        <a href="{{url('healthsystem/'.$hco->healthcareSystem->id.'/hco')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
       </div>
       <!-- /.box-footer-->
     </div>

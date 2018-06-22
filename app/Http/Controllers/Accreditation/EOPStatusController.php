@@ -204,13 +204,15 @@ class EOPStatusController extends Controller
     {
         $findings = DB::table('eop_findings')
             ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
+            ->join('building_departments', 'building_departments.id', '=', 'eop_findings.department_id')
+            ->join('rooms', 'rooms.id', '=', 'eop_findings.room_id')
             ->join('sites', 'sites.id', '=', 'buildings.site_id')
             ->join('hco', 'hco.id', '=', 'sites.hco_id')
             ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
             ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
             ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
             ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.created_at', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
+            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'building_departments.name', 'rooms.room_number', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.potential_to_cause_harm', DB::raw('IF(eop_findings.is_policy_issue = 1,"Yes","No")'), 'eop_findings.created_at', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
             ->where('healthsystem.id', Auth::guard('system_user')->user()->healthsystem_id)
             ->orderBy('eop_findings.updated_at', 'desc')->get();
 
@@ -218,27 +220,31 @@ class EOPStatusController extends Controller
         $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
 
         $csv->insertOne([
-                'Healthcare System',
-                'HCO',
-                'HCO ID#',
-                'Site',
-                'Site#',
-                'Site Address',
-                'Building',
-                'Building#',
-                'Standard Label',
-                'Standard Label Text',
-                'EOP Name',
-                'EOP Text',
-                'Finding',
-                'Finding Created At',
-                'Measure of Success',
-                'Benefit',
-                'Plan of Action',
-                'Last Assigned To',
-                'Due Date',
-                'Status'
-            ]);
+            'Healthcare System',
+            'HCO',
+            'HCO ID#',
+            'Site',
+            'Site#',
+            'Site Address',
+            'Building',
+            'Building#',
+            'Department',
+            'Room',
+            'Standard Label',
+            'Standard Label Text',
+            'EOP Name',
+            'EOP Text',
+            'Finding',
+            'Potential to cause harm',
+            'Policy Issue',
+            'Finding created at:',
+            'Measure of Success',
+            'Benefit',
+            'Plan of Action',
+            'Last Assigned To',
+            'Due Date',
+            'Status'
+        ]);
 
         foreach (json_decode(json_encode($findings), true) as $finding) {
             $csv->insertOne($finding);
@@ -252,13 +258,15 @@ class EOPStatusController extends Controller
     {
         $findings = DB::table('eop_findings')
             ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
+            ->join('building_departments', 'building_departments.id', '=', 'eop_findings.department_id')
+            ->join('rooms', 'rooms.id', '=', 'eop_findings.room_id')
             ->join('sites', 'sites.id', '=', 'buildings.site_id')
             ->join('hco', 'hco.id', '=', 'sites.hco_id')
             ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
             ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
             ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
             ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
+            ->select('healthsystem.healthcare_system', 'hco.facility_name', 'hco.hco_id', 'sites.name as site_name', 'sites.site_id', 'sites.address', 'buildings.name as building_name', 'buildings.building_id', 'building_departments.name', 'rooms.room_number', 'standard_label.label', 'standard_label.text as label_text', 'eop.name as eop_name', 'eop.text as eop_text', 'eop_findings.description', 'eop_findings.potential_to_cause_harm', DB::raw('IF(eop_findings.is_policy_issue = 1,"Yes","No")'), 'eop_findings.created_at', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop_findings.status', 'standard_label.label', 'standard_label.text as label_text')
             ->where('healthsystem.id', Auth::guard('system_user')->user()->healthsystem_id)
             ->where('hco.id', session('hco_id'))
             ->orderBy('eop_findings.updated_at', 'desc')->get();
@@ -275,11 +283,16 @@ class EOPStatusController extends Controller
             'Site Address',
             'Building',
             'Building#',
+            'Department',
+            'Room',
             'Standard Label',
             'Standard Label Text',
             'EOP Name',
             'EOP Text',
             'Finding',
+            'Potential to cause harm',
+            'Policy Issue',
+            'Finding created at:',
             'Measure of Success',
             'Benefit',
             'Plan of Action',

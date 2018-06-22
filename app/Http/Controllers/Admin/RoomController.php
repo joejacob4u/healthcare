@@ -9,6 +9,10 @@ use App\Regulatory\Room;
 
 class RoomController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('system_admin');
+    }
     /**
      * Display a listing of the resource.
      *

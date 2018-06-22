@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/healthsystem/edit/'.$healthsystem->id, 'class' => 'form-horizontal','files' => true]) !!}
+        {!! Form::open(['url' => 'healthsystem/edit/'.$healthsystem->id, 'class' => 'form-horizontal','files' => true]) !!}
 
             <fieldset>
 
@@ -74,7 +74,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/healthsystem', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('healthsystem', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         <button type="button" onclick="deleteHealthSystem('{{$healthsystem->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                         {!! Form::submit('Update Healthcare System', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
@@ -101,7 +101,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('admin/healthsystem/delete') }}',
+              url: '{{ asset('healthsystem/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {
@@ -111,7 +111,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = "{{url('admin/healthsystem')}}";
+                    window.location = "{{url('healthsystem')}}";
                   }
                   else {
                     bootbox.alert("Something went wrong, try again later");

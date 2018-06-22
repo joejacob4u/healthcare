@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/healthsystem/'.$healthsystem->id.'/hco/edit/'.$hco->id, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'healthsystem/'.$healthsystem->id.'/hco/edit/'.$hco->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -74,7 +74,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/healthsystem/'.$healthsystem->id.'/hco', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('healthsystem/'.$healthsystem->id.'/hco', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         <button type="button" onclick="deleteHCO('{{$hco->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                         {!! Form::submit('Update HCO Client', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
@@ -101,7 +101,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('admin/healthsystem/hco/delete') }}',
+              url: '{{ asset('healthsystem/hco/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {
@@ -111,7 +111,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = "{{url('admin/healthsystem/'.$healthsystem->id.'/hco')}}";
+                    window.location = "{{url('healthsystem/'.$healthsystem->id.'/hco')}}";
                   }
                   else {
                     bootbox.alert("Something went wrong, try again later");

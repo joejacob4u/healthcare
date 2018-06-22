@@ -13,10 +13,11 @@
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">HCOs for {{$health_system->healthcare_system}}</h3>
-
-        <div class="box-tools pull-right">
-          <a href="{{url('admin/healthsystem/'.$health_system->id.'/hco/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add HCO</a>
-        </div>
+        @if(Auth::guard('admin')->check())
+          <div class="box-tools pull-right">
+            <a href="{{url('healthsystem/'.$health_system->id.'/hco/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add HCO</a>
+          </div>
+        @endif
       </div>
       <div class="box-body">
         <table id="example" class="table table-striped">
@@ -25,7 +26,9 @@
                         <th>HCO</th>
                         <th>Accreditation</th>
                         <th>Sites</th>
-                        <th>Edit</th>
+                        @if(Auth::guard('admin')->check())
+                          <th>Edit</th>
+                        @endif
                     </tr>
                 </thead>
                 <tfoot>
@@ -33,7 +36,9 @@
                       <th>HCO</th>
                       <th>Accreditation</th>
                       <th>Sites</th>
-                      <th>Edit</th>
+                      @if(Auth::guard('admin')->check())
+                          <th>Edit</th>
+                        @endif
                     </tr>
                 </tfoot>
                 <tbody>
@@ -41,8 +46,10 @@
                     <tr>
                       <td><strong>#{{$hco->hco_id}}</strong> - {{$hco->facility_name}}</td>
                       <td>@foreach($hco->accreditations as $accreditation) {{$accreditation->name}},  @endforeach</td>
-                      <td>{!! link_to('admin/hco/'.$hco->id.'/sites','Sites',['class' => 'btn-xs btn-info']) !!}</td>
-                      <td>{!! link_to('admin/healthsystem/'.$health_system->id.'/hco/edit/'.$hco->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                      <td>{!! link_to('hco/'.$hco->id.'/sites','Sites',['class' => 'btn-xs btn-info']) !!}</td>
+                      @if(Auth::guard('admin')->check())
+                        <td>{!! link_to('healthsystem/'.$health_system->id.'/hco/edit/'.$hco->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                      @endif
                     </tr>
                   @endforeach
                 </tbody>
@@ -50,7 +57,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        <a href="{{url('admin/healthsystem')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        <a href="{{url('healthsystem')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
       </div>
       <!-- /.box-footer-->
     </div>

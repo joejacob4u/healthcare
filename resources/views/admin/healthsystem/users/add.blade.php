@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/healthsystem/users/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'healthsystem/users/add', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -43,7 +43,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('admin/healthsystem/users/', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('healthsystem/users/', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         {!! Form::submit('Add System Administrator', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
