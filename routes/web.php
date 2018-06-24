@@ -193,12 +193,12 @@ Route::get('buildings/{building_id}/departments/{department_id}/edit', 'Admin\De
 Route::post('buildings/{building_id}/departments/{department_id}/edit', 'Admin\DepartmentsController@save');
 Route::post('departments/delete', 'Admin\DepartmentsController@delete');
 
-Route::get('buildings/{building_id}/departments/{department_id}/rooms', 'RoomController@index');
-Route::get('departments/{department_id}/rooms/create', 'RoomController@create');
-Route::post('departments/{department_id}/rooms/create', 'RoomController@store');
-Route::get('departments/{department_id}/rooms/{room_id}/edit', 'RoomController@edit');
-Route::post('departments/{department_id}/rooms/{room_id}/edit', 'RoomController@update');
-Route::post('rooms/delete', 'RoomController@destroy');
+Route::get('buildings/{building_id}/departments/{department_id}/rooms', 'Admin\RoomController@index');
+Route::get('departments/{department_id}/rooms/create', 'Admin\RoomController@create');
+Route::post('departments/{department_id}/rooms/create', 'Admin\RoomController@store');
+Route::get('departments/{department_id}/rooms/{room_id}/edit', 'Admin\RoomController@edit');
+Route::post('departments/{department_id}/rooms/{room_id}/edit', 'Admin\RoomController@update');
+Route::post('rooms/delete', 'Admin\RoomController@destroy');
 
 
 //end Healthsystem management routes

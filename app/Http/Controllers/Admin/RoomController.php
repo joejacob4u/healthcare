@@ -55,8 +55,8 @@ class RoomController extends Controller
             'operating_rooms' => 'required|numeric'
         ]);
 
-        if (Room::create($request->all())) {
-            return back()->with('success', 'New Room Created!');
+        if ($room = Room::create($request->all())) {
+            return redirect('buildings/'.$room->buildingDepartment->building->id.'/departments/'.$request->department_id.'/rooms')->with('success', 'New Room Created!');
         }
     }
 

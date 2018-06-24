@@ -188,7 +188,7 @@ class EOPStatusController extends Controller
                 return $finding->label_text;
             })
             ->addColumn('finding_button', function ($finding) {
-                return '<a href="/system-admin/accreditation/eop/status/'.$finding->eop_id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-info-sign"></span> Finding</a>';
+                return '<a href="/system-admin/accreditation/eop/status/'.$finding->eop_id.'/finding/'.$finding->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-info-sign"></span> Finding</a>';
             })
             ->addColumn('finding_date', function ($finding) {
                 return Carbon::parse($finding->created_at)->toFormattedDateString();

@@ -33,8 +33,8 @@ class DepartmentsController extends Controller
             'business_unit_cost_center' => 'required'
         ]);
 
-        if (BuildingDepartment::create($request->all())) {
-            return back()->with('success', 'New department created!');
+        if ($department = BuildingDepartment::create($request->all())) {
+            return redirect('sites/'.$department->building->site->id.'/buildings/'.$request->building_id.'/departments')->with('success', 'New department created!');
         }
     }
 
@@ -54,7 +54,7 @@ class DepartmentsController extends Controller
         $department = BuildingDepartment::find($department_id);
 
         if ($department->update($request->all())) {
-            return back()->with('success', 'Department updated!');
+            return redirect('sites/'.$department->building->site->id.'/buildings/'.$request->building_id.'/departments')->with('success', 'Department updated!');
         }
     }
 

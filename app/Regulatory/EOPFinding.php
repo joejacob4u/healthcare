@@ -19,6 +19,11 @@ class EOPFinding extends Model
         return $this->belongsTo('App\Regulatory\Building', 'building_id');
     }
 
+    public function eop()
+    {
+        return $this->belongsTo('App\Regulatory\EOP', 'eop_id');
+    }
+
     public function site()
     {
         return $this->belongsTo('App\Regulatory\Site', 'site_id');
