@@ -121,4 +121,11 @@ class TJCChecklistController extends Controller
             return 'true';
         }
     }
+
+    public function delete(Request $request)
+    {
+        if (TJCChecklist::destroy($request->tjc_checklist_id)) {
+            return 'true';
+        }
+    }
 }

@@ -106,7 +106,8 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body" style="">
-                    {{$finding->location}}
+                    <p>Department : {{$finding->department->name}}</p>
+                    <p>Room : {{$finding->room->room_number}}</p>
                     </div>
                 <!-- /.box-body -->
                 </div>

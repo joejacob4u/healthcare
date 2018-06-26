@@ -32,7 +32,7 @@
     <div class="box-body">
         <div class="list-group">
             @foreach($tjc_checklists as $tjc_checklist)
-                <a href="#" class="list-group-item">Checklist for {{$tjc_checklist->surveyor_name}} (<small>{{$tjc_checklist->surveyor_email}}</small>) <button data-toggle="collapse" href="#collapse_{{$tjc_checklist->id}}" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span> Show List</button></a>
+                <a href="#" class="list-group-item" id="li_{{$tjc_checklist->id}}">Checklist for {{$tjc_checklist->surveyor_name}} (<small>{{$tjc_checklist->surveyor_email}}</small>) <button class="btn btn-danger btn-xs pull-right" onclick="deleteTJCChecklist('{{$tjc_checklist->id}}')"><span class="glyphicon glyphicon-trash"></span> Delete</button><button data-toggle="modal" href="#modal_{{$tjc_checklist->id}}" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-info-sign"></span> Info</button><button data-toggle="collapse" href="#collapse_{{$tjc_checklist->id}}" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-th-list"></span> Show List</button></a>
                 <div id="collapse_{{$tjc_checklist->id}}" class="panel-collapse panel-info collapse">
                     <div class="panel-heading"><strong>EOPs</strong> <small>Below are the eops that should be inspected.</small></div>
                     <div class="panel-body">
@@ -64,6 +64,27 @@
                                 @endforeach
                             </tbody>
                         </table>
+                    </div>
+                </div>
+                 <!-- Modal -->
+                <div class="modal fade" id="modal_{{$tjc_checklist->id}}" role="dialog">
+                    <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Checklist Info</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Surveyor Name :</strong> {{$tjc_checklist->surveyor_name}}</p>
+                            <p><strong>Surveyor E-Mail :</strong> {{$tjc_checklist->surveyor_email}}</p>
+                            <p><strong>Surveyor Phone :</strong> {{$tjc_checklist->surveyor_phone}}</p>
+                            <p><strong>Surveyor Organization :</strong> {{$tjc_checklist->surveyor_organization}}</p>
+                            <p><strong>Activity :</strong> {{$tjc_checklist->activity}}</p>
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                     </div>
                 </div>
             @endforeach
@@ -290,6 +311,41 @@ $( "select" ).change(function() {
     }
   
 });
+
+function deleteTJCChecklist(tjc_checklist_id)
+{
+    bootbox.confirm("Are you sure you want to remove this checklist? This will remove all items associated with checklist.", function(result)
+    { 
+        if(result == 1)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('tjc_checklist/delete') }}',
+                data: { '_token' : '{{ csrf_token() }}','tjc_checklist_id': tjc_checklist_id},
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    if(data == 'true')
+                    {
+                        $('#li_'+tjc_checklist_id).remove();
+                    }
+
+                },
+                error:function(data)
+                {
+
+                },
+                complete: function(data)
+                {
+                    $('.overlay').remove();
+                }
+            });
+        }
+    });
+}
 
 
 </script>

@@ -65,7 +65,7 @@ class AccreditationController extends Controller
         Session::put('hco_name', $hco->facility_name);
 
 
-        return back();
+        return redirect('accreditation/dashboard');
     }
 
     public function fetchSites(Request $request)

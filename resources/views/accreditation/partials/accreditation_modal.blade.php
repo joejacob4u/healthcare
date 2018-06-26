@@ -61,7 +61,7 @@
             var html = '<option value="0">Select Site</option>';
 
             $.each(data.sites, function(index, value) {
-                html += '<option value="'+value.id+'">'+value.name+' ('+value.address+' )</option>';
+                html += '<option value="'+value.id+'">'+value.name+' ('+value.address+' ) - #'+value.site_id+'</option>';
             });
 
             $('#site_id').append(html);
@@ -101,7 +101,7 @@
             var html = '<option value="0">Select Building</option>';
 
             $.each(data.buildings, function(index, value) {
-                html += '<option value="'+value.id+'">'+value.name+'</option>';
+                html += '<option value="'+value.id+'">'+value.name+'- #'+value.building_id+'</option>';
             });
 
             $('#building_id').append(html);

@@ -225,12 +225,7 @@ Route::post('tjc_checklist', 'Accreditation\TJCChecklistController@store');
 Route::get('tjc_checklist/available', 'Accreditation\TJCChecklistController@available');
 Route::get('tjc_checklist/added', 'Accreditation\TJCChecklistController@added');
 Route::post('tjc_checklist/status/update', 'Accreditation\TJCChecklistController@update');
-
-
-
-
-
-
+Route::post('tjc_checklist/delete', 'Accreditation\TJCChecklistController@delete');
 
 
 
