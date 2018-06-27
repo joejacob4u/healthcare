@@ -20,12 +20,12 @@ class TJCChecklistController extends Controller
 
     public function index()
     {
+        session('accreditation_id', 1);
+        
         return view('tjc.index', [
             'tjc_checklists' => TJCChecklist::latest()->where('building_id', session('building_id'))->get(),
             'tjc_checklist_eops' => TJCChecklistEOP::where('healthsystem_id', Auth::user()->healthsystem_id)->get(),
         ]);
-
-        session('accreditation_id', 1);
     }
 
     public function available()

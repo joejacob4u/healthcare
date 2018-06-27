@@ -149,7 +149,6 @@
             </a>
             <ul class="treeview-menu">
               <li><a href="{{url('accreditation/dashboard')}}"><i class="fa fa-circle-o text-blue"></i> <span>Dashboard</span></a></li>
-              <li><a href="{{url('system-admin/findings/action-plan')}}"><i class="fa fa-circle-o text-green"></i> <span>HC System Action Plan</span></a></li>
               <li><a href="{{url('tjc_checklist')}}"><i class="fa fa-circle-o text-yellow"></i> <span>TJC Checklist</span></a></li>
               @foreach($sidebar_building->accreditations as $accreditation)
                   <li class="treeview @if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/*')) active @endif">

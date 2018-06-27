@@ -19,6 +19,7 @@
                 <li class="active"><a data-toggle="pill" href="#findings_table">Findings</a></li>
                 <li><a data-toggle="pill" href="#documents_table">Documents</a></li>
                 <li><a data-toggle="pill" href="#safer_matrix_table">Safer Matrix</a></li>
+                <li><a data-toggle="pill" href="#safer_action_plan">Action Plan</a></li>
             </ul>
 
             <div class="tab-content">
@@ -111,7 +112,47 @@
                     </tbody>
                 </table>
             </div>
-            </div>
+            <div id="safer_action_plan" class="tab-pane fade">
+                <h3 class="box-title"><strong>HCO Action Plan</strong> : {{$hco->facility_name}} - #{{ $hco->hco_id }}</h3>
+                <div class="box-tools pull-right">
+                    <div class="btn-group">
+                    <button type="button" class="btn btn-warning">Export</button>
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                        <span class="caret"></span>
+                        <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="{{url('system-admin/findings/export/hco')}}">Current HCO</a></li>
+                        <li><a href="{{url('system-admin/findings/export')}}">Entire HealthCare System</a></li>
+                    </ul>
+                    </div>
+                </div>
+                <table id="action-plan-table" class="table table-striped" type="yajra">
+                    <thead>
+                        <tr>
+                            <th>Site</th>
+                            <th>Building</th>
+                            <th>Standard Label</th>
+                            <th>EOP #</th>
+                            <th>EOP Text</th>
+                            <th>Finding Date</th>
+                            <th>Finding</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th>Site</th>
+                            <th>Building</th>
+                            <th>Standard Label</th>
+                            <th>EOP #</th>
+                            <th>EOP Text</th>
+                            <th>Finding Date</th>
+                            <th>Finding</th>
+                            <th>Status</th>
+                        </tr>
+                    </tfoot>
+                </table>
         </div>
 
         </div>
@@ -126,6 +167,33 @@
 $(document).ready(function(){
     $('[data-toggle="popover"]').popover();   
 });
+
+$('#action-plan-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{{url('system-admin/findings/action-plan')}}',
+            type: "POST",
+            data: function (data) {
+                data._token = '{{ csrf_token() }}'
+            }
+        },
+
+        initComplete: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
+
+        columns: [
+            {data: 'site_name', name: 'sites.name'},
+            {data: 'building_name', name: 'buildings.name'},
+            {data: 'label', name: 'standard_label.label'},
+            {data: 'eop_name', name: 'eop.name'},
+            {data: 'eop_text', name: 'eop.text'},
+            {data: 'finding_date', name: 'eop_findings.created_at'},
+            {data: 'finding_button', name: 'eop_findings.eop_id'},
+            {data: 'status', name: 'eop_findings.status'},
+            ]
+    });
 </script>
 
 

@@ -36,7 +36,7 @@
                     @if($eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
                         Baseline date N/A - {{ $eop->getDocumentBaseLineDate(session('building_id'))->comment }}@if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
                     @else
-                        Baseline Date : {{ $eop->getDocumentBaseLineDate(session('building_id'))->baseline_date }} @if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
+                        Baseline Date : {{ \Carbon\Carbon::parse($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)->toFormattedDateString() }} @if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
                     @endif
                 @else
                     <a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Set Baseline Date to Start Uploading Documents</a>
@@ -55,7 +55,7 @@
                 @elseif($eop->getNextDocumentUploadDate(session('building_id')) == 'cannot_find_date')
                     Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @elseif($eop->getNextDocumentUploadDate(session('building_id')) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate(session('building_id')))) 
-                    {{ $eop->getNextDocumentUploadDate(session('building_id')) }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
+                    {{ \Carbon\Carbon::parse($eop->getNextDocumentUploadDate(session('building_id')))->toFormattedDateString() }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @elseif($eop->frequency == 'per_needed' || $eop->frequency == 'as_needed')
                     Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @else 

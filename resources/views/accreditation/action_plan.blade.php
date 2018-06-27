@@ -15,7 +15,7 @@
         <h3 class="box-title"><strong>HCO Action Plan</strong> : {{$hco->facility_name}} - #{{ $hco->hco_id }}</h3>
 
         <div class="box-tools pull-right">
-            <div class="btn-group">
+                <div class="btn-group">
                   <button type="button" class="btn btn-warning">Export</button>
                   <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
                     <span class="caret"></span>
