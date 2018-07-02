@@ -112,8 +112,8 @@
                         <tr>
                          <td><a href="#" title="Low" data-toggle="popover" data-trigger="hover" data-placement="top" data-content="Harm could happen, but would be rare. Undermines safety/quality or contributes to an unsafe environment, but very unlikely to directly contribute to harm.">Low</a</td>
                          <td class="bg-yellow disabled color-palette">@foreach($safer_matrix['low_limited'] as $eop) {{$eop->eop->standardLabel->label}} - {{$eop->eop->name}} <br>  @endforeach</td>
-                         <td class="bg-yellow-active color-palette">@foreach($safer_matrix['low_pattern'] as $eop) {{$eop->eop->standardLabel->label}} - {{$eop->eop->name}} <br>  @endforeach</td>
-                         <td class="bg-yellow-active color-palette">@foreach($safer_matrix['low_widespread'] as $eop) {{$eop->eop->standardLabel->label}} - {{$eop->eop->name}} <br>  @endforeach</td>
+                         <td class="bg-yellow color-palette">@foreach($safer_matrix['low_pattern'] as $eop) {{$eop->eop->standardLabel->label}} - {{$eop->eop->name}} <br>  @endforeach</td>
+                         <td class="bg-yellow color-palette">@foreach($safer_matrix['low_widespread'] as $eop) {{$eop->eop->standardLabel->label}} - {{$eop->eop->name}} <br>  @endforeach</td>
                         </tr>
                     </tbody>
                 </table>
