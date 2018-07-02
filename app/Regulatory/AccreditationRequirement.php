@@ -82,7 +82,7 @@ class AccreditationRequirement extends Model
         foreach ($hco->sites as $site) {
             foreach ($site->buildings as $building) {
                 foreach ($this->standardLabels as $standard_label) {
-                    foreach ($standard_label->eops as $eop) {
+                    foreach ($standard_label->eops->where('documentation', 1) as $eop) {
                         if ($documentation_baseline_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->take(1)->count() < 1) {
                             array_push($missing_eops, [$building->id => $eop->id]);
                         }
@@ -106,7 +106,7 @@ class AccreditationRequirement extends Model
         foreach ($hco->sites as $site) {
             foreach ($site->buildings as $building) {
                 foreach ($this->standardLabels as $standard_label) {
-                    foreach ($standard_label->eops as $eop) {
+                    foreach ($standard_label->eops->where('documentation', 1) as $eop) {
                         $baseline_date = $documentation_baseline_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->first();
                         
                         if ($baseline_date) {
