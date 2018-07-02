@@ -89,7 +89,7 @@
                 {!! Form::text('upload_date',  $document->upload_date, ['class' => 'form-control','id' => 'upload_date','disabled' => true]); !!}
             </div>
             <div class="form-group">
-                {!! HTML::dropzone('document_path',$document->document_path,'true','false') !!}
+                {!! HTML::dropzone('document_path',$document->document_path,'true','true') !!}
             </div>
 
             {!! Form::hidden('eop_document_submission_date_id',$document->eop_document_submission_date_id) !!}

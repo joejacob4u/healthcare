@@ -70,4 +70,57 @@ class AccreditationRequirement extends Model
             }
         }
     }
+
+    public function fetchMissingDocumentBaselineDatesByHCO($accreditation_id)
+    {
+        $hco = HCO::find(session('hco_id'));
+
+        $missing_eops = [];
+
+        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->get();
+
+        foreach ($hco->sites as $site) {
+            foreach ($site->buildings as $building) {
+                foreach ($this->standardLabels as $standard_label) {
+                    foreach ($standard_label->eops as $eop) {
+                        if ($documentation_baseline_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->take(1)->count() < 1) {
+                            array_push($missing_eops, [$building->id => $eop->id]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return $missing_eops;
+    }
+
+    public function fetchMissingSubmittedDocuments($accreditation_id)
+    {
+        $hco = HCO::find(session('hco_id'));
+
+        $missing_documents = [];
+
+        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->get();
+        $eop_document_submission_dates = DB::table('eop_document_submission_dates')->where('accreditation_id', $accreditation_id)->get();
+
+        foreach ($hco->sites as $site) {
+            foreach ($site->buildings as $building) {
+                foreach ($this->standardLabels as $standard_label) {
+                    foreach ($standard_label->eops as $eop) {
+                        $baseline_date = $documentation_baseline_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->first();
+                        
+                        if ($baseline_date) {
+                            foreach ($eop->calculateDocumentDates($baseline_date->baseline_date, true) as $date) {
+                                if ($eop_document_submission_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->where('submission_date', $date)->where('status', '=', 'pending_upload')->count() > 0) {
+                                    array_push($missing_documents, [$building->id => $eop->id]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $missing_documents;
+    }
 }

@@ -210,7 +210,7 @@
           {!! Form::open(['url' => 'system-admin/accreditation/eop/'.$eop->id.'/submission_date']) !!}
             {!! Form::hidden('submission_date','',['id' => 'submission_date']) !!}
             {!! Form::hidden('building_id',session('building_id')) !!}
-            {!! Form::hidden('status','initial') !!}
+            {!! Form::hidden('status','pending_upload') !!}
             {!! Form::hidden('eop_id',$eop->id) !!}
             {!! Form::hidden('accreditation_id',session('accreditation_id')) !!}
             {!! Form::hidden('user_id',Auth::user()->id) !!}
@@ -256,7 +256,7 @@ function startSubmission(date)
     }
     else
     {
-        $('#submission_date_verbiage').text('Do you want to start submission for '+date+' ?');
+        $('#submission_date_verbiage').text('Do you want to start submission for '+moment(date).format('MMMM Do YYYY')+' ?');
         $('#submission_date').val(date);
         $('#startSubmissionModal').modal('show');
     }

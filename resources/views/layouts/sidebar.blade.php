@@ -169,10 +169,11 @@
             </ul>
           </li>
 
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Maintenance Work Orders</a></li>
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Projects</a></li>
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Environmental Services</a></li>
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomedical Equipment</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Maintenance</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Construction</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>BioMed</a></li>
+          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Rounding</a></li>
         @endif
 
 

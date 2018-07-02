@@ -54,15 +54,21 @@
                     <thead>
                         <th>Accreditation</th>
                         <th>Accreditation Standard</th>
-                        <th>Initial Findings</th>
+                        <th>Baseline Date not Set</th>
+                        <th>Missing Documents</th>
+                        <th>Compliant</th>
                         <th>Non Compliant</th>
                     </thead>
                     <tbody>
                         @foreach($hco->accreditations as $accreditation)
                             @foreach($accreditation->accreditationRequirements as $requirement)
+                                @php $baseline_dates = count($requirement->fetchMissingDocumentBaselineDatesByHCO($accreditation->id)); 
+                                 $submitted_documents = count($requirement->fetchMissingSubmittedDocuments($accreditation->id)); @endphp
                             <tr>
                             <td>{{ $accreditation->name }}</td>
                             <td>{{ $requirement->name }}</td>
+                            <td>@if($baseline_dates == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $baseline_dates }}</small> @endif</td>
+                            <td>@if($submitted_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $submitted_documents }}</small> @endif</td>
                             <td>@if($requirement->countDocumentsByStatus('initial',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countDocumentsByStatus('initial',$accreditation->id)}}</small> @endif</td>
                             <td>@if($requirement->countDocumentsByStatus('non-compliant',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countDocumentsByStatus('non-compliant',$accreditation->id)}}</small> @endif</td>
                             </tr>

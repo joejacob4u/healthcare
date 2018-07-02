@@ -79,6 +79,7 @@ class EOPDocumentController extends Controller
         if ($no_of_files > 0) {
             if ($document = EOPDocument::create($request->all())) {
                 $this->validateDocumentDate($document);
+                $document->submissionDate()->update(['status' => 'pending_verification']);
                 return redirect('system-admin/accreditation/eop/'.$document->submissionDate->eop->id.'/submission_date/'.$document->eop_document_submission_date_id.'/documents')->with('success', 'Document created!');
             }
         } else {

@@ -49,7 +49,7 @@
             </div>
 
             {!! Form::hidden('eop_document_submission_date_id',$submission_date->id) !!}
-            {!! Form::hidden('status','initial') !!}
+            {!! Form::hidden('status','pending_verification') !!}
 
               <button type="submit" class="btn btn-primary" id="submit_btn">Upload</button>
           {!! Form::close()  !!}
@@ -69,6 +69,8 @@
     $("#document_date").flatpickr({
         enableTime: false,
         dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "F j, Y",
     });
 
     $('#upload_date').val(moment().format('YYYY-MM-DD HH:mm:ss'));

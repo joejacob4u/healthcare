@@ -103,7 +103,7 @@ function startSubmission(date)
     }
     else
     {
-        $('#submission_date_verbiage').text('Do you want to start submission for '+date+' ?');
+        $('#submission_date_verbiage').text('Do you want to start submission for '+moment(date),format('MMMM Do YYYY')+' ?');
         $('#submission_date').val(date);
         $('#startSubmissionModal').modal('show');
     }
