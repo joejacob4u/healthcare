@@ -34,7 +34,7 @@ class TJCChecklistController extends Controller
                         ->join('eop', 'eop.id', '=', 'tjc_checklist_eops.eop_id')
                         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
                         ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text')
-                        ->where('healthsystem_id', Auth::user()->healthsystem_id)
+                        ->where('healthsystem_id', Auth::user()->healthsystem_id)->where('standard_label.accreditation_id', 1)
                         ->whereNotIn('tjc_checklist_eops.id', TJCChecklist::where('user_id', Auth::user()->id)->pluck('tjc_checklist_eop_id'));
 
         return Datatables::of($available_eops)

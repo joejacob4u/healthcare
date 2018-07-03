@@ -16,10 +16,11 @@
         </div>
         <div class="box-body">
             <ul class="nav nav-pills">
-                <li class="active"><a data-toggle="pill" href="#findings_table">Findings</a></li>
-                <li><a data-toggle="pill" href="#documents_table">Documents</a></li>
+                <li class="active"><a data-toggle="pill" href="#findings_table">HCO Findings</a></li>
+                <li><a data-toggle="pill" href="#safer_action_plan">Findings Action Plan</a></li>
+                <li><a data-toggle="pill" href="#documents_table">Building Documents</a></li>
+                <li class="disabled"><a data-toggle="pill" href="#documents_action_plan">Documents Action Plan</a></li>
                 <li><a data-toggle="pill" href="#safer_matrix_table">Safer Matrix</a></li>
-                <li><a data-toggle="pill" href="#safer_action_plan">Action Plan</a></li>
             </ul>
 
             <div class="tab-content">
@@ -56,21 +57,28 @@
                         <th>Accreditation Standard</th>
                         <th>Baseline Date not Set</th>
                         <th>Missing Documents</th>
+                        <th>Pending Verification</th>
                         <th>Compliant</th>
                         <th>Non Compliant</th>
                     </thead>
                     <tbody>
                         @foreach($hco->accreditations as $accreditation)
                             @foreach($accreditation->accreditationRequirements as $requirement)
-                                @php $baseline_dates = count($requirement->fetchMissingDocumentBaselineDatesByHCO($accreditation->id)); 
-                                 $submitted_documents = count($requirement->fetchMissingSubmittedDocuments($accreditation->id)); @endphp
+                                @php 
+                                 $baseline_dates = count($requirement->fetchMissingDocumentBaselineDatesByBuilding($accreditation->id)); 
+                                 $missing_documents = count($requirement->fetchMissingSubmittedDocumentsByBuilding($accreditation->id));
+                                 $pending_documents = count($requirement->fetchDocumentsType($accreditation->id, 'pending_verification'));
+                                 $compliant_documents = count($requirement->fetchDocumentsType($accreditation->id, 'compliant'));
+                                 $non_compliant_documents = count($requirement->fetchDocumentsType($accreditation->id, 'non-compliant'));
+                                @endphp
                             <tr>
                             <td>{{ $accreditation->name }}</td>
                             <td>{{ $requirement->name }}</td>
                             <td>@if($baseline_dates == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $baseline_dates }}</small> @endif</td>
-                            <td>@if($submitted_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $submitted_documents }}</small> @endif</td>
-                            <td>@if($requirement->countDocumentsByStatus('initial',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countDocumentsByStatus('initial',$accreditation->id)}}</small> @endif</td>
-                            <td>@if($requirement->countDocumentsByStatus('non-compliant',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countDocumentsByStatus('non-compliant',$accreditation->id)}}</small> @endif</td>
+                            <td>@if($missing_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $missing_documents }}</small> @endif</td>
+                            <td>@if($pending_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $pending_documents }}</small> @endif</td>
+                            <td>@if($compliant_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $compliant_documents }}</small> @endif</td>
+                            <td>@if($non_compliant_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $non_compliant_documents }}</small> @endif</td>
                             </tr>
                             @endforeach
                         @endforeach

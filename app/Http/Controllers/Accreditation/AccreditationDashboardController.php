@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Accreditation;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\HCO;
+use App\Regulatory\Accreditation;
 
 class AccreditationDashboardController extends Controller
 {
@@ -78,5 +79,24 @@ class AccreditationDashboardController extends Controller
         }
 
         return $safer_matrix;
+    }
+
+    public function documentActionPlan()
+    {
+        $hco = HCO::find(session('hco_id'));
+
+        $standard_labels = [];
+
+        foreach ($hco->accreditations as $accreditation) {
+            foreach ($accreditation->accreditationRequirements as $accreditation_requirement) {
+                $standard_labels []= $accreditation_requirement->standardLabels->pluck('id');
+            }
+        }
+
+        $eops = DB::table('eop')
+                ->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                ->whereIn('standard_label.id', $hco->standardLabels->pluck('id'))
+                ->where('eop.documentation', 1)
+                ->select('eop.id')->get();
     }
 }

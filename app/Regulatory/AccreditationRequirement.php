@@ -82,9 +82,9 @@ class AccreditationRequirement extends Model
         foreach ($hco->sites as $site) {
             foreach ($site->buildings as $building) {
                 foreach ($this->standardLabels as $standard_label) {
-                    foreach ($standard_label->eops->where('documentation', 1) as $eop) {
+                    foreach ($standard_label->eops()->where('documentation', 1) as $eop) {
                         if ($documentation_baseline_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->take(1)->count() < 1) {
-                            array_push($missing_eops, [$building->id => $eop->id]);
+                            array_push($missing_eops, [$eop->id]);
                         }
                     }
                 }
@@ -94,27 +94,43 @@ class AccreditationRequirement extends Model
         return $missing_eops;
     }
 
-    public function fetchMissingSubmittedDocuments($accreditation_id)
+    public function fetchMissingDocumentBaselineDatesByBuilding($accreditation_id)
     {
-        $hco = HCO::find(session('hco_id'));
+        $missing_eops = [];
 
+        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
+
+        $eops = DB::table('eop')
+                ->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                ->whereIn('standard_label.id', $this->standardLabels->pluck('id'))
+                ->where('eop.documentation', 1)
+                ->select('eop.id')->get();
+
+        foreach ($eops as $eop) {
+            if ($documentation_baseline_dates->where('eop_id', $eop->id)->take(1)->count() < 1) {
+                array_push($missing_eops, [$eop->id]);
+            }
+        }
+                
+        return $missing_eops;
+    }
+
+
+    public function fetchMissingSubmittedDocumentsByBuilding($accreditation_id)
+    {
         $missing_documents = [];
 
-        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->get();
-        $eop_document_submission_dates = DB::table('eop_document_submission_dates')->where('accreditation_id', $accreditation_id)->get();
+        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
+        $eop_document_submission_dates = DB::table('eop_document_submission_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
 
-        foreach ($hco->sites as $site) {
-            foreach ($site->buildings as $building) {
-                foreach ($this->standardLabels as $standard_label) {
-                    foreach ($standard_label->eops->where('documentation', 1) as $eop) {
-                        $baseline_date = $documentation_baseline_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->first();
+        foreach ($this->standardLabels as $standard_label) {
+            foreach ($standard_label->eops->where('documentation', 1) as $eop) {
+                $baseline_date = $documentation_baseline_dates->where('eop_id', $eop->id)->first();
                         
-                        if ($baseline_date) {
-                            foreach ($eop->calculateDocumentDates($baseline_date->baseline_date, true) as $date) {
-                                if ($eop_document_submission_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->where('submission_date', $date)->where('status', '=', 'pending_upload')->count() > 0) {
-                                    array_push($missing_documents, [$building->id => $eop->id]);
-                                }
-                            }
+                if ($baseline_date) {
+                    foreach ($eop->calculateDocumentDates($baseline_date->baseline_date, true) as $date) {
+                        if ($eop_document_submission_dates->where('eop_id', $eop->id)->where('submission_date', $date)->where('status', '=', 'pending_upload')->count() > 0) {
+                            array_push($missing_documents, [$eop->id]);
                         }
                     }
                 }
@@ -122,5 +138,19 @@ class AccreditationRequirement extends Model
         }
 
         return $missing_documents;
+    }
+
+    public function fetchDocumentsType($accreditation_id, $type)
+    {
+        return DB::table('eop')
+            ->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+            ->leftJoin('eop_document_submission_dates', 'eop_document_submission_dates.eop_id', '=', 'eop.id')
+            ->whereIn('standard_label.id', $this->standardLabels->pluck('id'))
+            ->where('eop.documentation', 1)
+            ->where('eop_document_submission_dates.status', $type)
+            ->where('eop_document_submission_dates.accreditation_id', $accreditation_id)
+            ->where('eop_document_submission_dates.building_id', session('building_id'))
+            ->select('eop.id')
+            ->get();
     }
 }
