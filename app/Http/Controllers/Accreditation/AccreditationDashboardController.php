@@ -95,7 +95,7 @@ class AccreditationDashboardController extends Controller
 
         $eops = DB::table('eop')
                 ->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                ->whereIn('standard_label.id', $hco->standardLabels->pluck('id'))
+                ->whereIn('standard_label.id', $standard_labels)
                 ->where('eop.documentation', 1)
                 ->select('eop.id')->get();
     }

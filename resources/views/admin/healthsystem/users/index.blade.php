@@ -66,7 +66,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('healthsystem/user/delete') }}',
+              url: '{{ asset('healthsystem/users/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {

@@ -203,6 +203,21 @@ Route::post('rooms/delete', 'Admin\RoomController@destroy');
 
 //end Healthsystem management routes
 
+//Maintenance routes
+
+Route::get('admin/maintenance/trades', 'Maintenance\TradeController@index');
+Route::post('admin/maintenance/trades', 'Maintenance\TradeController@store');
+Route::post('admin/maintenance/trades/delete', 'Maintenance\TradeController@delete');
+
+Route::get('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@index');
+Route::post('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@store');
+Route::post('admin/maintenance/problems/delete', 'Maintenance\ProblemsController@delete');
+
+
+
+
+
+
 
 
 

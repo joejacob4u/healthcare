@@ -19,7 +19,7 @@
                 <li class="active"><a data-toggle="pill" href="#findings_table">HCO Findings</a></li>
                 <li><a data-toggle="pill" href="#safer_action_plan">Findings Action Plan</a></li>
                 <li><a data-toggle="pill" href="#documents_table">Building Documents</a></li>
-                <li class="disabled"><a data-toggle="pill" href="#documents_action_plan">Documents Action Plan</a></li>
+                <li><a data-toggle="pill" href="#documents_action_plan">Documents Action Plan</a></li>
                 <li><a data-toggle="pill" href="#safer_matrix_table">Safer Matrix</a></li>
             </ul>
 
@@ -65,24 +65,79 @@
                         @foreach($hco->accreditations as $accreditation)
                             @foreach($accreditation->accreditationRequirements as $requirement)
                                 @php 
-                                 $baseline_dates = count($requirement->fetchMissingDocumentBaselineDatesByBuilding($accreditation->id)); 
-                                 $missing_documents = count($requirement->fetchMissingSubmittedDocumentsByBuilding($accreditation->id));
-                                 $pending_documents = count($requirement->fetchDocumentsType($accreditation->id, 'pending_verification'));
-                                 $compliant_documents = count($requirement->fetchDocumentsType($accreditation->id, 'compliant'));
-                                 $non_compliant_documents = count($requirement->fetchDocumentsType($accreditation->id, 'non-compliant'));
+                                 $all_missing_documents = [];
+                                 $all_baseline_dates = [];
+                                 $baseline_dates = $requirement->fetchMissingDocumentBaselineDatesByBuilding($accreditation->id); 
+                                 $missing_documents = $requirement->fetchMissingSubmittedDocumentsByBuilding($accreditation->id);
+                                 $pending_documents = $requirement->fetchDocumentsType($accreditation->id, 'pending_verification');
+                                 $compliant_documents = $requirement->fetchDocumentsType($accreditation->id, 'compliant');
+                                 $non_compliant_documents = $requirement->fetchDocumentsType($accreditation->id, 'non-compliant');
+                                 $all_baseline_dates [] = $baseline_dates;
+                                 $all_missing_documents [] = $missing_documents;
                                 @endphp
                             <tr>
                             <td>{{ $accreditation->name }}</td>
                             <td>{{ $requirement->name }}</td>
-                            <td>@if($baseline_dates == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $baseline_dates }}</small> @endif</td>
-                            <td>@if($missing_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $missing_documents }}</small> @endif</td>
-                            <td>@if($pending_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $pending_documents }}</small> @endif</td>
-                            <td>@if($compliant_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $compliant_documents }}</small> @endif</td>
-                            <td>@if($non_compliant_documents == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $non_compliant_documents }}</small> @endif</td>
+                            <td>@if(count($baseline_dates) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ count($baseline_dates) }}</small> @endif</td>
+                            <td>@if(count($missing_documents) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ count($missing_documents) }}</small> @endif</td>
+                            <td>@if(count($pending_documents) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ count($pending_documents) }}</small> @endif</td>
+                            <td>@if(count($compliant_documents) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ count($compliant_documents) }}</small> @endif</td>
+                            <td>@if(count($non_compliant_documents) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ count($non_compliant_documents) }}</small> @endif</td>
                             </tr>
                             @endforeach
                         @endforeach
                     </tbody>
+                </table>
+            </div>
+            <div id="documents_action_plan" class="tab-pane fade">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Standard Label</th>
+                            <th>EOP #</th>
+                            <th>EOP Text</th>
+                            <th>Baseline Date Set</th>
+                            <th>Document Submission Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($all_baseline_dates as $baseline_dates)
+                            @foreach($baseline_dates as $baseline_date)
+                                <tr>
+                                    <td>{{$baseline_date->standardLabel->label}}</td>
+                                    <td>{{$baseline_date->name}}</td>
+                                    <td>{{$baseline_date->text}}</td>
+                                    <td><small class="label bg-red">X</small></td>
+                                    <td> N/A </td>
+                                    <td>Baseline Not Set</td>
+                                </tr>
+                            @endforeach
+                        @endforeach
+                        @foreach($all_missing_documents as $missing_documents)
+                            @foreach($missing_documents as $missing_document)
+                            <tr>
+                                <td>{{$missing_document->standardLabel->label}}</td>
+                                <td>{{$missing_document->name}}</td>
+                                <td>{{$missing_document->text}}</td>
+                                <td><small class="label bg-green">&#10004;</small></td>
+                                <td> {{ key($missing_document) }}</td>
+                                <td>Pending Upload</td>
+                            </tr>
+                            @endforeach
+                        @endforeach
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>Standard Label</th>
+                            <th>EOP #</th>
+                            <th>EOP Text</th>
+                            <th>Baseline Date Set</th>
+                            <th>Document Submission Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </tfoot>
                 </table>
             </div>
             <div id="safer_matrix_table" class="tab-pane fade">

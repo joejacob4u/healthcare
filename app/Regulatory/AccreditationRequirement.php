@@ -84,7 +84,7 @@ class AccreditationRequirement extends Model
                 foreach ($this->standardLabels as $standard_label) {
                     foreach ($standard_label->eops()->where('documentation', 1) as $eop) {
                         if ($documentation_baseline_dates->where('eop_id', $eop->id)->where('building_id', $building->id)->take(1)->count() < 1) {
-                            array_push($missing_eops, [$eop->id]);
+                            array_push($missing_eops, [$eop]);
                         }
                     }
                 }
@@ -108,7 +108,7 @@ class AccreditationRequirement extends Model
 
         foreach ($eops as $eop) {
             if ($documentation_baseline_dates->where('eop_id', $eop->id)->take(1)->count() < 1) {
-                array_push($missing_eops, [$eop->id]);
+                array_push($missing_eops, EOP::find($eop->id));
             }
         }
                 
@@ -130,7 +130,7 @@ class AccreditationRequirement extends Model
                 if ($baseline_date) {
                     foreach ($eop->calculateDocumentDates($baseline_date->baseline_date, true) as $date) {
                         if ($eop_document_submission_dates->where('eop_id', $eop->id)->where('submission_date', $date)->where('status', '=', 'pending_upload')->count() > 0) {
-                            array_push($missing_documents, [$eop->id]);
+                            array_push($missing_documents, [$date => $eop]);
                         }
                     }
                 }
