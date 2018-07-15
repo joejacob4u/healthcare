@@ -18,7 +18,7 @@ class ProblemsController extends Controller
     public function store(Request $request, $trade_id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_problems,name'
+            'name' => 'required'
         ]);
 
         $trade = Trade::find($trade_id);
