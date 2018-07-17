@@ -29,19 +29,19 @@ class User extends Authenticatable
 
     public function role()
     {
-       return $this->belongsTo('App\Role','role_id');
+        return $this->belongsTo('App\Role', 'role_id');
     }
 
     public function healthSystem()
     {
-      return $this->belongsTo('App\Regulatory\HealthSystem','healthsystem_id');
+        return $this->belongsTo('App\Regulatory\HealthSystem', 'healthsystem_id');
     }
 
 
     public function departments()
     {
-      return $this->belongsToMany('App\Department','user_department','user_id','department_id');
-    }  
+        return $this->belongsToMany('App\Department', 'user_department', 'user_id', 'department_id');
+    }
 
     public function isAdmin()
     {
@@ -53,5 +53,8 @@ class User extends Authenticatable
         return $this->is_verifier;
     }
 
-
+    public function buildings()
+    {
+        return $this->belongsToMany('App\Regulatory\Building', 'user_building', 'user_id', 'building_id');
+    }
 }

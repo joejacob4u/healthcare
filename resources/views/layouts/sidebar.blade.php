@@ -149,6 +149,24 @@
       </li>
       <li><a href="{{url('tjc_checklist/eops')}}"><i class="fa fa-circle-o"></i>TJC Checklist</a></li>
 
+      @if(Auth::guard('system_user')->user()->role->name == 'System Admin' || Auth::guard('system_user')->user()->role->name == 'Facility Manager/Director')
+
+      <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>Maintenance</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+           <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Maintenance Users</a></li>
+           <li><a href="{{url('admin/maintenance/schedules')}}"><i class="fa fa-circle-o"></i>Maintenance Schedule</a></li>
+         </ul>
+     </li>
+
+     @endif
+
       @if(session()->has('building_id'))
         <li class="header text-yellow"><i class="fa fa-building" aria-hidden="true"></i>&emsp;<strong> {{strtoupper(session('building_name'))}}</strong></li>
         @endif
@@ -183,7 +201,6 @@
             </ul>
           </li>
 
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Maintenance</a></li>
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Construction</a></li>
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS</a></li>
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>BioMed</a></li>
@@ -194,6 +211,8 @@
   </ul>
   @endif
 @endif
+
+
 
 @if(Auth::guard('contractor')->check())
   <ul class="sidebar-menu">

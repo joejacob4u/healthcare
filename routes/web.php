@@ -213,6 +213,13 @@ Route::get('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\Problems
 Route::post('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@store');
 Route::post('admin/maintenance/problems/delete', 'Maintenance\ProblemsController@delete');
 
+Route::get('admin/maintenance/users', 'Maintenance\UsersController@index');
+Route::get('admin/maintenance/users/add', 'Maintenance\UsersController@add');
+Route::post('admin/maintenance/users/add', 'Maintenance\UsersController@store');
+
+
+
+
 
 
 
