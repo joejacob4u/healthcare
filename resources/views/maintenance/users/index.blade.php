@@ -46,7 +46,11 @@
                         <td>{{$user->email}}</td>
                         <td>{{$user->phone}}</td>
                         <td>@foreach($user->buildings as $building) {{$building->name}} , @endforeach</td>
-                        <td>{!! link_to('#','Disable',['class' => 'btn-xs btn-danger','onclick' => 'disableUser('.$user->id.')']) !!}</td>
+                        @if($user->status == 'active')
+                            <td>{!! link_to('#','Disable',['class' => 'btn-xs btn-danger','onclick' => 'toggleUserState("'.$user->id.'","disable")','id' => 'td-'.$user->id]) !!}</td>
+                        @else
+                            <td>{!! link_to('#','Enable',['class' => 'btn-xs btn-success','onclick' => 'toggleUserState("'.$user->id.'","active")','id' => 'td-'.$user->id]) !!}</td>
+                        @endif
                     </tr>
                   @endforeach
                 </tbody>
@@ -62,23 +66,34 @@
 
     <script>
 
-      function deleteTrade(trade_id)
+      function toggleUserState(user_id,state)
       {
-          bootbox.confirm("Are you sure you want to delete?", function(result)
+          bootbox.confirm("Are you sure ?", function(result)
           { 
              if(result == 1)
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/trades/delete') }}',
-                    data: { '_token' : '{{ csrf_token() }}', 'trade_id': trade_id},
+                    url: '{{ url('admin/maintenance/user/toggle_state') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'user_id': user_id, 'state': state},
                     beforeSend:function()
                     {
                         $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
                     },
                     success:function(data)
                     {
-                        $('#tr-'+trade_id).remove();
+                        if(state == 'disable')
+                        {
+                            $('#td-'+user_id).removeClass('btn-danger');
+                            $('#td-'+user_id).addClass('btn-success');
+                            $('#td-'+user_id).text('Enable');
+                        }
+                        else
+                        {
+                            $('#td-'+user_id).removeClass('btn-success');
+                            $('#td-'+user_id).addClass('btn-danger');
+                            $('#td-'+user_id).text('Disable');
+                        }
                     },
                     complete:function()
                     {

@@ -57,4 +57,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Regulatory\Building', 'user_building', 'user_id', 'building_id');
     }
+
+    public function isActive()
+    {
+        if ($this->status == 'active') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

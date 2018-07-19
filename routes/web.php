@@ -216,6 +216,11 @@ Route::post('admin/maintenance/problems/delete', 'Maintenance\ProblemsController
 Route::get('admin/maintenance/users', 'Maintenance\UsersController@index');
 Route::get('admin/maintenance/users/add', 'Maintenance\UsersController@add');
 Route::post('admin/maintenance/users/add', 'Maintenance\UsersController@store');
+Route::post('admin/maintenance/users/fetch/sites', 'Maintenance\UsersController@sites');
+Route::post('admin/maintenance/users/fetch/buildings', 'Maintenance\UsersController@buildings');
+Route::post('admin/maintenance/user/toggle_state', 'Maintenance\UsersController@toggleUserState');
+
+
 
 
 

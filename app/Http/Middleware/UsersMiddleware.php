@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
+
 use Auth;
 
 use Closure;
@@ -16,12 +17,10 @@ class UsersMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && (!empty(Auth::user()->healthsystem_id) && Auth::user()->healthsystem_id != 0))
-        {
+        if (Auth::check() && (!empty(Auth::user()->healthsystem_id) && Auth::user()->healthsystem_id != 0) && Auth::user()->isActive()) {
             return $next($request);
         }
 
         return redirect('/login');
-
     }
 }

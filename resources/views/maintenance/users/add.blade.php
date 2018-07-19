@@ -47,28 +47,29 @@
                 </div>
 
                 <div class="form-group">
-                  {!! Form::label('hco_id', 'HCO', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('maintenance_hco_id', 'HCO', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::select('hco_id',$healthsystem->hcos->pluck('facility_name','id')->prepend('Please select',0), $value = '', ['class' => 'form-control selectpicker']) !!}
+                      {!! Form::select('maintenance_hco_id[]',$healthsystem->hcos->pluck('facility_name','id')->prepend('Please select',0), $value = '', ['class' => 'form-control selectpicker','id' => 'maintenance_hco_id','multiple' => true]) !!}
                   </div>
                 </div>
 
                 <div class="form-group">
                   {!! Form::label('site_id', 'Site', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::select('site_id',[], $value = '', ['class' => 'form-control selectpicker','disabled' => true,'id' => 'site_id']) !!}
+                      {!! Form::select('maintenance_site_id[]',[], $value = '', ['class' => 'form-control','disabled' => true,'id' => 'maintenance_site_id','multiple' => true]) !!}
                   </div>
                 </div>
 
                 <div class="form-group">
-                  {!! Form::label('building_id', 'Building', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('maintenance_building_id', 'Building', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::select('building_id[]',[], $value = '', ['class' => 'form-control selectpicker','disabled' => true,'id' => 'building_id','multiple' => true]) !!}
+                      {!! Form::select('maintenance_building_id[]',[], $value = '', ['class' => 'form-control','disabled' => true,'id' => 'maintenance_building_id','multiple' => true]) !!}
                   </div>
                 </div>
 
 
 
+                {!! Form::hidden('status', 'active', ['class' => 'form-control']) !!}
                 {!! Form::hidden('role_id', 5, ['class' => 'form-control']) !!}
                 {!! Form::hidden('healthsystem_id', Auth::user()->healthsystem_id) !!}
 
@@ -95,21 +96,27 @@
 
     <script>
 
-    $("#hco_id").change(function(){
-        
-        var hco_id = $("#hco_id").val();
+    $("#maintenance_hco_id").change(function(){
+
+        if( $('#maintenance_hco_id :selected').length > 0){
+            var hcos = [];
+
+            $('#maintenance_hco_id :selected').each(function(i, selected) {
+                hcos[i] = $(selected).val();
+            });
+        }
 
         $.ajax({
           type: 'POST',
-          url: '{{ url('system-admin/accreditation/fetch/sites') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'hco_id': hco_id },
+          url: '{{ url('admin/maintenance/users/fetch/sites') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'hcos': JSON.stringify(hcos) },
           beforeSend:function()
           {
             $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
           },
           success:function(data)
           {
-            $('#site_id').html('');
+            $('#maintenance_site_id').html('');
 
             var html = '<option value="0">Select Site</option>';
 
@@ -117,9 +124,9 @@
                 html += '<option value="'+value.id+'">'+value.name+' ('+value.address+' )</option>';
             });
 
-            $('#site_id').append(html);
-            $('#site_id').prop('disabled',false);
-            $('#site_id').selectpicker('render');
+            $('#maintenance_site_id').append(html);
+            $('#maintenance_site_id').prop('disabled',false);
+            $('#maintenance_site_id').selectpicker('refresh');
             
           },
           complete:function()
@@ -136,21 +143,27 @@
 
       });
 
-      $("#site_id").change(function(){
+      $("#maintenance_site_id").change(function(){
         
-        var site_id = $("#site_id").val();
+        if( $('#maintenance_site_id :selected').length > 0){
+            var sites = [];
+
+            $('#maintenance_site_id :selected').each(function(i, selected) {
+                sites[i] = $(selected).val();
+            });
+        }
 
         $.ajax({
           type: 'POST',
-          url: '{{ url('system-admin/accreditation/fetch/buildings') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'site_id': site_id },
+          url: '{{ url('admin/maintenance/users/fetch/buildings') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'sites': JSON.stringify(sites) },
           beforeSend:function()
           {
             $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
           },
           success:function(data)
           {
-            $('#building_id').html('');
+            $('#maintenance_building_id').html('');
 
             var html = '<option value="0">Select Building</option>';
 
@@ -158,9 +171,9 @@
                 html += '<option value="'+value.id+'">'+value.name+'</option>';
             });
 
-            $('#building_id').append(html);
-            $('#building_id').prop('disabled',false);
-            $('#building_id').selectpicker('render');
+            $('#maintenance_building_id').append(html);
+            $('#maintenance_building_id').prop('disabled',false);
+            $('#maintenance_building_id').selectpicker('refresh');
 
           },
           complete:function()

@@ -8,6 +8,9 @@ use Auth;
 use App\User;
 use App\Regulatory\HealthSystem;
 use Mail;
+use App\Regulatory\HCO;
+use App\Regulatory\Building;
+use App\Regulatory\Site;
 
 class UsersController extends Controller
 {
@@ -34,19 +37,59 @@ class UsersController extends Controller
             'name' => 'required',
             'email' => 'required|unique:users,email',
             'phone' => 'required|unique:users,phone',
-            'building_id' => 'required|array|exists:buildings,id'
+            'maintenance_building_id' => 'required|array|exists:buildings,id'
 
         ]);
+
+        $password = str_random(8);
+
+        $request->request->add(['password' => Hash::make($password)]);
+        $request->request->add(['healthsystem_id' => Auth::user()->healthsystem_id]);
+
         
         if ($user = User::create($request->all())) {
-            $user->buildings()->sync($request->building_id);
+            $user->buildings()->sync($request->maintenance_building_id);
             
-            Mail::send('email.systemadmin.welcome', [], function ($m) use ($user) {
-                $m->from('hello@healthcare360.com', 'HealthCare Compliance 365');
-                $m->to($user->email, $user->name)->subject('Welcome to HealthCare Compliance 365');
+            Mail::send('email.systemadmin.welcome', ['user' => $user,'password' => $password], function ($m) use ($user) {
+                $m->from('hello@healthcare360.com', 'HealthCare360');
+                $m->to($user->email, $user->name)->subject('Welcome to HealthCare360');
             });
-    
-            return back()->with('success', 'New maintenance user has been added!');
+        
+            return redirect('admin/maintenance/users')->with('success', 'New maintenance user has been added!');
         }
+    }
+
+    public function sites(Request $request)
+    {
+        $hcos = json_decode($request->hcos);
+        $sites = [];
+
+        foreach ($hcos as $hco) {
+            foreach (HCO::find($hco)->sites as $site) {
+                $sites[] = $site;
+            }
+        }
+
+        return response()->json(['sites' => $sites]);
+    }
+
+    public function buildings(Request $request)
+    {
+        $sites = json_decode($request->sites);
+        $buildings = [];
+
+        foreach ($sites as $site) {
+            foreach (Site::find($site)->buildings as $building) {
+                $buildings[] = $building;
+            }
+        }
+
+        return response()->json(['buildings' => $buildings]);
+    }
+
+    public function toggleUserState(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $user->update(['status' => $request->state]);
     }
 }
