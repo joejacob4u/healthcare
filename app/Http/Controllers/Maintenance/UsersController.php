@@ -11,6 +11,7 @@ use Mail;
 use App\Regulatory\HCO;
 use App\Regulatory\Building;
 use App\Regulatory\Site;
+use Hash;
 
 class UsersController extends Controller
 {
