@@ -25,7 +25,7 @@
 
             <div class="tab-content">
             <div id="findings_table" class="tab-pane fade in active">
-                <table class="table table-bordered tab-pane active" data-show="all">
+                <table class="table table-bordered tab-pane active" data-show="all" type="yajra" id="findings_table_data">
                     <thead>
                         <th>Accreditation</th>
                         <th>Accreditation Standard</th>
@@ -34,20 +34,6 @@
                         <th>Initial Findings</th>
                         <th>Non Compliant</th>
                     </thead>
-                    <tbody>
-                        @foreach($hco->accreditations as $accreditation)
-                            @foreach($accreditation->accreditationRequirements as $requirement)
-                            <tr>
-                                <td>{{ $accreditation->name }}</td>
-                                <td>{{ $requirement->name }}</td>
-                                <td>@if($requirement->countFindingByStatus('pending_verification',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('pending_verification',$accreditation->id)}}</small> @endif</td>
-                                <td>@if($requirement->countFindingByStatus('issues_corrected_verify',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('issues_corrected_verify',$accreditation->id)}}</small> @endif</td>
-                                <td>@if($requirement->countFindingByStatus('initial',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('initial',$accreditation->id)}}</small> @endif</td>
-                                <td>@if($requirement->countFindingByStatus('non-compliant',$accreditation->id) == 0)<small class="label bg-green">&#10004;</small>@else <small class="label bg-red">{{ $requirement->countFindingByStatus('non-compliant',$accreditation->id)}}</small> @endif</td>
-                            </tr>
-                            @endforeach
-                        @endforeach
-                    </tbody>
                 </table>
             </div>
             <div id="documents_table" class="tab-pane fade">
@@ -263,6 +249,32 @@ $('#action-plan-table').DataTable({
             {data: 'status', name: 'eop_findings.status'},
             ]
     });
+
+    $('#findings_table_data').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{{url('system-admin/findings/fetch/report')}}',
+            type: "POST",
+            data: function (data) {
+                data._token = '{{ csrf_token() }}'
+            }
+        },
+
+        initComplete: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
+
+        columns: [
+            {data: 'accreditation', name: 'accreditation'},
+            {data: 'accreditation_standard', name: 'accreditation_standard'},
+            {data: 'pending_verification_count', name: 'pending_verification_count'},
+            {data: 'issues_corrected_verify_count', name: 'issues_corrected_verify_count'},
+            {data: 'initial_count', name: 'initial_count'},
+            {data: 'non_compliant', name: 'non_compliant'},
+            ]
+    });
+
 </script>
 
 

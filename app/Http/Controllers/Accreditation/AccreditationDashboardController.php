@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\HCO;
 use App\Regulatory\Accreditation;
+use App\Regulatory\EOPFinding;
+use Yajra\Datatables\Datatables;
+use DB;
+use Illuminate\Database\Eloquent\Collection;
 
 class AccreditationDashboardController extends Controller
 {
@@ -19,6 +23,72 @@ class AccreditationDashboardController extends Controller
         $hco = HCO::find(session('hco_id'));
         $safer_matrix = $this->calculateSaferMatrix();
         return view('accreditation.dashboard', ['hco' => $hco,'safer_matrix' => $safer_matrix]);
+    }
+
+    public function hcoFindings()
+    {
+        $hco = HCO::find(session('hco_id'));
+        //$findings = EOPFinding::whereIn('building_id', $hco->sites->buildings->pluck('id'))->select('id', 'accreditation_id')->get();
+
+        $datas = new Collection;
+        
+        foreach ($hco->accreditations as $accreditation) {
+            foreach ($accreditation->accreditationRequirements as $requirement) {
+                $status = DB::table('eop_findings')
+                            ->select(DB::raw('count(*) as status_count, eop_findings.status'))
+                            ->leftJoin('buildings', 'buildings.id', '=', 'eop_findings.building_id')
+                            ->leftJoin('sites', 'sites.id', '=', 'buildings.site_id')
+                            ->leftJoin('eop', 'eop.id', '=', 'eop_findings.eop_id')
+                            ->whereIn('eop.standard_label_id', $requirement->standardLabels()->pluck('standard_label_id'))
+                            ->where('sites.hco_id', session('hco_id'))
+                            ->where('eop_findings.accreditation_id', $accreditation->id)->groupBy('status')->get();
+
+                $pending_verification = (!is_null($status->where('status', 'pending_verification')->first())) ?  $status->where('status', 'pending_verification')->first()->status_count : 0;
+                $issues_corrected_verify = (!is_null($status->where('status', 'issues_corrected_verify')->first())) ?  $status->where('status', 'issues_corrected_verify')->first()->status_count : 0;
+                $initial = (!is_null($status->where('status', 'initial')->first())) ? $status->where('status', 'initial')->first()->status_count : 0;
+                $non_compliant = (!is_null($status->where('status', 'non-compliant')->first())) ? $pending_verification = $status->where('status', 'non-compliant')->first()->status_count : 0;
+
+                $datas->push([
+                    'accreditation' => $accreditation->name,
+                    'accreditation_standard' => $requirement->name,
+                    'pending_verification' => $pending_verification,
+                    'issues_corrected_verify' => $issues_corrected_verify,
+                    'initial' => $initial,
+                    'non_compliant' => $non_compliant
+                ]);
+            }
+        }
+
+
+        return Datatables::of($datas)
+                ->addColumn('pending_verification_count', function ($data) {
+                    if ($data['pending_verification'] == 0) {
+                        return '<small class="label bg-green">&#10004;</small>';
+                    } else {
+                        return '<small class="label bg-red">'.$data['pending_verification'].'</small>';
+                    }
+                })
+                ->addColumn('issues_corrected_verify_count', function ($data) {
+                    if ($data['issues_corrected_verify'] == 0) {
+                        return '<small class="label bg-green">&#10004;</small>';
+                    } else {
+                        return '<small class="label bg-red">'.$data['issues_corrected_verify'].'</small>';
+                    }
+                })
+                ->addColumn('initial_count', function ($data) {
+                    if ($data['initial'] == 0) {
+                        return '<small class="label bg-green">&#10004;</small>';
+                    } else {
+                        return '<small class="label bg-red">'.$data['initial'].'</small>';
+                    }
+                })
+                ->addColumn('non_compliant', function ($data) {
+                    if ($data['non_compliant'] == 0) {
+                        return '<small class="label bg-green">&#10004;</small>';
+                    } else {
+                        return '<small class="label bg-red">'.$data['non_compliant'].'</small>';
+                    }
+                })->make(true);
     }
 
     private function calculateSaferMatrix()

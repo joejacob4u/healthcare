@@ -154,7 +154,7 @@
 
     function deletePeriod(id)
     {
-        $('period_'+id).remove();
+        $('#period_'+id).remove();
     }
 
     </script>

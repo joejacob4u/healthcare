@@ -131,6 +131,7 @@ Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirem
 
 Route::get('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@actionPlanIndex');
 Route::post('system-admin/findings/action-plan', 'Accreditation\EOPStatusController@getActionPlan');
+Route::post('system-admin/findings/fetch/report', 'Accreditation\AccreditationDashboardController@hcoFindings');
 Route::get('system-admin/findings/export', 'Accreditation\EOPStatusController@exportToCSV');
 Route::get('system-admin/findings/export/hco', 'Accreditation\EOPStatusController@exportHCOToCSV');
 Route::get('system-admin/accreditation/eop/status/{eop_id}', 'Accreditation\EOPStatusController@index');
@@ -227,7 +228,6 @@ Route::get('admin/maintenance/shifts/add', 'Maintenance\ShiftsController@create'
 Route::post('admin/maintenance/shifts/add', 'Maintenance\ShiftsController@store');
 Route::get('admin/maintenance/shifts/edit/{id}', 'Maintenance\ShiftsController@edit');
 Route::post('admin/maintenance/shifts/edit/{id}', 'Maintenance\ShiftsController@save');
-
 
 
 
