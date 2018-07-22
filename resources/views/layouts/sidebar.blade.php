@@ -161,7 +161,7 @@
          </a>
          <ul class="treeview-menu">
            <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Maintenance Users</a></li>
-           <li><a href="{{url('admin/maintenance/schedules')}}"><i class="fa fa-circle-o"></i>Maintenance Schedule</a></li>
+           <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Maintenance Schedule</a></li>
          </ul>
      </li>
 

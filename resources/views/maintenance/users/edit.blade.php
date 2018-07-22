@@ -1,0 +1,196 @@
+@extends('layouts.app')
+
+@section('head')
+@parent
+
+@section('page_title','Maintenance Users')
+@section('page_description','Edit maintenance user.')
+
+@endsection
+@section('content')
+@include('layouts.partials.success')
+@include('layouts.partials.errors')
+
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Edit user for Maintenancee</h3>
+
+        <div class="box-tools pull-right">
+        </div>
+      </div>
+      <div class="box-body">
+        {!! Form::open(['url' => 'admin/maintenance/users/edit/'.$user->id, 'class' => 'form-horizontal']) !!}
+
+            <fieldset>
+
+              <!-- Name -->
+              <div class="form-group">
+                  {!! Form::label('name', 'Name:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('name', $user->name, ['class' => 'form-control', 'placeholder' => 'User Name','readonly' => true]) !!}
+                  </div>
+              </div>
+                <!-- Email -->
+
+                <div class="form-group">
+                    {!! Form::label('email', 'E-Mail', ['class' => 'col-lg-2 control-label','readonly' => true]) !!}
+                    <div class="col-lg-10">
+                        {!! Form::text('email', $user->email, ['class' => 'form-control','readonly' => true]) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('phone', 'Phone', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::text('phone', $user->phone, ['class' => 'form-control','readonly' => true]) !!}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                  {!! Form::label('maintenance_hco_id', 'HCO', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('maintenance_hco_id[]',$healthsystem->hcos->pluck('facility_name','id')->prepend('Please select',0), $enabled_hcos, ['class' => 'form-control selectpicker','id' => 'maintenance_hco_id','multiple' => true]) !!}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  {!! Form::label('site_id', 'Site', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('maintenance_site_id[]',$sites, $enabled_sites, ['class' => 'form-control selectpicker','id' => 'maintenance_site_id','multiple' => true]) !!}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  {!! Form::label('maintenance_building_id', 'Building', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('maintenance_building_id[]',$buildings, $user->buildings->pluck('id')->toArray(), ['class' => 'form-control selectpicker','id' => 'maintenance_building_id','multiple' => true]) !!}
+                  </div>
+                </div>
+
+
+
+                {!! Form::hidden('status', $user->status, ['class' => 'form-control']) !!}
+                {!! Form::hidden('role_id', 5, ['class' => 'form-control']) !!}
+                {!! Form::hidden('healthsystem_id', Auth::user()->healthsystem_id) !!}
+
+
+
+                <!-- Submit Button -->
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        {{ link_to('admin/maintenance/users', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {!! Form::submit('Edit User', ['class' => 'btn btn-success pull-right'] ) !!}
+                    </div>
+                </div>
+
+            </fieldset>
+
+            {!! Form::close()  !!}
+               </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+
+      </div>
+      <!-- /.box-footer-->
+    </div>
+
+    <script>
+
+    $("#maintenance_hco_id").change(function(){
+
+        if( $('#maintenance_hco_id :selected').length > 0){
+            var hcos = [];
+
+            $('#maintenance_hco_id :selected').each(function(i, selected) {
+                hcos[i] = $(selected).val();
+            });
+        }
+
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('admin/maintenance/users/fetch/sites') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'hcos': JSON.stringify(hcos) },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            $('#maintenance_site_id').html('');
+
+            var html = '<option value="0">Select Site</option>';
+
+            $.each(data.sites, function(index, value) {
+                html += '<option value="'+value.id+'">'+value.name+' ('+value.address+' )</option>';
+            });
+
+            $('#maintenance_site_id').append(html);
+            $('#maintenance_site_id').prop('disabled',false);
+            $('#maintenance_site_id').selectpicker('refresh');
+            
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+
+
+
+      });
+
+      $("#maintenance_site_id").change(function(){
+        
+        if( $('#maintenance_site_id :selected').length > 0){
+            var sites = [];
+
+            $('#maintenance_site_id :selected').each(function(i, selected) {
+                sites[i] = $(selected).val();
+            });
+        }
+
+        $.ajax({
+          type: 'POST',
+          url: '{{ url('admin/maintenance/users/fetch/buildings') }}',
+          data: { '_token' : '{{ csrf_token() }}', 'sites': JSON.stringify(sites) },
+          beforeSend:function()
+          {
+            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+          },
+          success:function(data)
+          {
+            $('#maintenance_building_id').html('');
+
+            var html = '<option value="0">Select Building</option>';
+
+            $.each(data.buildings, function(index, value) {
+                html += '<option value="'+value.id+'">'+value.name+'</option>';
+            });
+
+            $('#maintenance_building_id').append(html);
+            $('#maintenance_building_id').prop('disabled',false);
+            $('#maintenance_building_id').selectpicker('refresh');
+
+          },
+          complete:function()
+          {
+             $('.overlay').remove();
+          },
+          error:function()
+          {
+            // failed request; give feedback to user
+          }
+        });
+
+
+
+      });
+
+
+    </script>
+
+@endsection

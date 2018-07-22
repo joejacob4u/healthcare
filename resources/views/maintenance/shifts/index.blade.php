@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Maintenance Users')
-@section('page_description','Manage maintenance users.')
+@section('page_title','Maintenance Shifts')
+@section('page_description','Manage maintenance shifts.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -14,9 +14,9 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Maintenance Users</h3>
+        <h3 class="box-title">Existing Maintenance Shifts</h3>
             <div class="box-tools pull-right">
-                <a href="{{url('admin/maintenance/users/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Maintenance User</a>
+                <a href="{{url('admin/maintenance/shifts/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Maintenance Shift</a>
             </div>
       </div>
       <div class="box-body">
@@ -24,36 +24,29 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>E-Mail</th>
-                        <th>Phone</th>
-                        <th>Buildings</th>
+                        <th>HCO</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
                         <th>Edit</th>
-                        <th>Status</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>E-Mail</th>
-                        <th>Phone</th>
-                        <th>Buildings</th>
+                        <th>HCO</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
                         <th>Edit</th>
-                        <th>Status</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($users as $user)
-                    <tr id="tr-{{$user->id}}">
-                        <td>{{$user->name}}</td>
-                        <td>{{$user->email}}</td>
-                        <td>{{$user->phone}}</td>
-                        <td>@foreach($user->buildings as $building) {{$building->name}} , @endforeach</td>
-                        <td>{!! link_to('admin/maintenance/users/edit/'.$user->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
-                        @if($user->status == 'active')
-                            <td>{!! link_to('#','Disable',['class' => 'btn-xs btn-danger','onclick' => 'toggleUserState("'.$user->id.'","disable")','id' => 'td-'.$user->id]) !!}</td>
-                        @else
-                            <td>{!! link_to('#','Enable',['class' => 'btn-xs btn-success','onclick' => 'toggleUserState("'.$user->id.'","active")','id' => 'td-'.$user->id]) !!}</td>
-                        @endif
+                  @foreach($shifts as $shift)
+                    <tr id="tr-{{$shift->id}}">
+                        <td>{{$shift->name}}</td>
+                        <td>{{$shift->hco->facility_name}}</td>
+                        <td>{{$shift->start_time}}</td>
+                        <td>{{$shift->end_time}}</td>
+                        <td>{!! link_to('admin/maintenance/shifts/edit/'.$shift->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>

@@ -60,6 +60,42 @@ class UsersController extends Controller
         }
     }
 
+    public function edit($id)
+    {
+        $user = User::find($id);
+        $healthsystem = HealthSystem::find(Auth::user()->healthsystem_id);
+        $enabled_sites = [];
+        $enabled_hcos = [];
+
+        foreach ($user->buildings as $building) {
+            $enabled_sites[] = $building->site->id;
+            $enabled_hcos[] = $building->site->hco->id;
+        }
+
+        $sites = Site::whereIn('hco_id', $enabled_hcos)->pluck('name', 'id');
+        $buildings = Building::whereIn('site_id', $enabled_sites)->pluck('name', 'id');
+
+        return view('maintenance.users.edit', ['user' => $user,'healthsystem' => $healthsystem,'enabled_hcos' => array_unique($enabled_hcos),'enabled_sites' => array_unique($enabled_sites),'sites' => $sites,'buildings' => $buildings]);
+    }
+
+    public function save(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'maintenance_building_id' => 'required|array|exists:buildings,id'
+
+        ]);
+
+        $user = User::find($id);
+
+        if ($user->update($request->all())) {
+            $user->buildings()->sync($request->maintenance_building_id);
+            return redirect('admin/maintenance/users')->with('success', 'Maintenance user has been saved!');
+        }
+    }
+
     public function sites(Request $request)
     {
         $hcos = json_decode($request->hcos);
