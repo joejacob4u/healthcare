@@ -125,6 +125,8 @@ Route::get('system-admin/accreditation/eop/{eop_id}/submission_date/{submission_
 Route::post('system-admin/accreditation/eop/submission_date/documents', 'Accreditation\EOPDocumentController@store');
 Route::get('system-admin/accreditation/eop/{eop_id}/submission_date/{submission_date_id}/documents/{document_id}/edit', 'Accreditation\EOPDocumentController@edit');
 Route::post('system-admin/accreditation/eop/document/verify', 'Accreditation\EOPDocumentController@verify');
+Route::post('system-admin/dashboard/documents/fetch/report', 'Accreditation\AccreditationDashboardController@hcoDocumentsReport');
+
 
 Route::post('system-admin/accreditation/eop/document/baseline-date', 'Accreditation\AccreditationController@saveBaselineDate');
 Route::get('system-admin/accreditation/{accreditation_id}/accreditation_requirement/{accreditation_requirement_id}', 'Accreditation\AccreditationController@fetchStandardLabels');

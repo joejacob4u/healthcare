@@ -152,6 +152,26 @@
 
     }
 
+    @foreach($shift->periods as $period)
+        
+        $("#period_{{$period->id}} #period_start_time_{{$period->id}}").flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            altFormat: "H:i:s"
+        });
+
+        $("#period_{{$period->id}} #period_end_time_{{$period->id}}").flatpickr({
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",
+            altFormat: "H:i:s"
+        });
+        
+    @endforeach
+
+
+
     function deletePeriod(id)
     {
         $('#period_'+id).remove();

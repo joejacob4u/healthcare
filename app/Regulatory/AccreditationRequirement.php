@@ -77,7 +77,7 @@ class AccreditationRequirement extends Model
 
         $missing_eops = [];
 
-        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->get();
+        $documentation_baseline_dates = DB::table('eop_document_baseline_dates')->where('accreditation_id', $accreditation_id)->get();
 
         foreach ($hco->sites as $site) {
             foreach ($site->buildings as $building) {
@@ -98,7 +98,7 @@ class AccreditationRequirement extends Model
     {
         $missing_eops = [];
 
-        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
+        $documentation_baseline_dates = DB::table('eop_document_baseline_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
 
         $eops = DB::table('eop')
                 ->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
@@ -120,7 +120,7 @@ class AccreditationRequirement extends Model
     {
         $missing_documents = [];
 
-        $documentation_baseline_dates = DB::table('documentation_baseline_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
+        $documentation_baseline_dates = DB::table('eop_document_baseline_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
         $eop_document_submission_dates = DB::table('eop_document_submission_dates')->where('accreditation_id', $accreditation_id)->where('building_id', session('building_id'))->get();
 
         foreach ($this->standardLabels as $standard_label) {

@@ -118,13 +118,25 @@ class AccreditationController extends Controller
             $request->is_baseline_disabled = 0;
         }
 
+        EOPDocumentSubmissionDate::where('eop_id', $request->eop_id)->where('building_id', session('building_id'))->where('accreditation_id', $request->accreditation_id)->delete();
+
+        $eop = EOP::find($request->eop_id);
+
+        EOPDocumentBaselineDate::where('eop_id', $eop->id)->where('building_id', session('building_id'))->where('accreditation_id', session('accreditation_id'))->delete();
 
         EOPDocumentBaselineDate::updateOrCreate(
             ['eop_id' => $request->eop_id, 'building_id' => session('building_id'),
             'baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled,'accreditation_id' => $request->accreditation_id]
         );
 
-        EOPDocumentSubmissionDate::where('eop_id', $request->eop_id)->where('building_id', session('building_id'))->where('accreditation_id', $request->accreditation_id)->delete();
+        if (!$request->is_baseline_disabled) {
+            foreach ($eop->calculateDocumentDates($request->baseline_date) as $date) {
+                EOPDocumentSubmissionDate::create(['accreditation_id' => session('accreditation_id'),'eop_id' => $eop->id,'building_id' => session('building_id'),'submission_date' => $date,'status' => 'pending_upload','user_id' => Auth::user()->id]);
+            }
+        }
+
+
+        //EOPDocumentSubmissionDate::where('eop_id', $request->eop_id)->where('building_id', session('building_id'))->where('accreditation_id', $request->accreditation_id)->delete();
 
         return back()->with('success', 'Baseline Date saved!');
     }

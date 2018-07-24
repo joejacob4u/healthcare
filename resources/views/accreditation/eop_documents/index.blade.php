@@ -74,30 +74,6 @@
 
 @if(!empty($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)))
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="box box-danger box-solid">
-            <div class="box-header with-border">
-            <h3 class="box-title"><i class="fa fa-exclamation-triangle"></i> You have missing documents for some dates ({{ count($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)) }})</h3>
-
-            <div class="box-tools pull-right">
-                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
-                </button>
-            </div>
-            <!-- /.box-tools -->
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body" style="">
-                <ul class="list-group">
-                    @foreach($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date) as $date)
-                        <li class="list-group-item">{{ date('F j, Y',strtotime($date))}} <button class="btn btn-primary btn-xs pull-right" onclick="startSubmission('{{$date}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button></li>
-                    @endforeach
-                </ul>
-            </div>
-        <!-- /.box-body -->
-        </div>
-    </div>
-</div>
 
 @endif
 @endif
@@ -113,7 +89,6 @@
                         <th>Required Submission Date</th>
                         <th>Submitted By</th>
                         <th>Status</th>
-                        <th>Remove</th>
                         <th>Activity</th>
                         <th>Add Finding</th>
                     </tr>
@@ -123,7 +98,6 @@
                         <th>Required Submission Date</th>
                         <th>Submitted By</th>
                         <th>Status</th>
-                        <th>Remove</th>
                         <th>Activity</th>
                         <th>Add Finding</th>
                     </tr>
@@ -135,7 +109,6 @@
                         <td>{{$submission_date->submission_date->toFormattedDateString() }}</td>
                         <td>{{ App\User::find($submission_date->user_id)->name }}</td>
                         <td>{{ $submission_date->status}}</td>
-                        <td>{!! link_to('#','Remove',['class' => 'btn-xs btn-danger','onclick' => "removeSubmissionDate('$submission_date->id')"]) !!}</td>
                         <td>{!! link_to('system-admin/accreditation/eop/'.$eop->id.'/submission_date/'.$submission_date->id.'/documents','View Activity',['class' => 'btn-xs btn-primary']) !!}</td>
                         @if($submission_date->status == 'non-compliant')
                                 <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id.'/finding/add?document_id='.$submission_date->documents->last()->id,'Add Finding',['class' => 'btn-xs btn-warning']) !!}</td>

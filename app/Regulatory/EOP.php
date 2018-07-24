@@ -50,12 +50,12 @@ class EOP extends Model
 
     public function documentBaseLineDate()
     {
-        return $this->belongsToMany('App\Regulatory\Building', 'documentation_baseline_dates', 'eop_id', 'building_id')->withPivot('baseline_date');
+        return $this->belongsToMany('App\Regulatory\Building', 'eop_document_baseline_dates', 'eop_id', 'building_id')->withPivot('baseline_date');
     }
 
     public function getDocumentBaseLineDate($building_id)
     {
-        return DB::table('documentation_baseline_dates')->where('building_id', $building_id)->where('eop_id', $this->id)->select('baseline_date', 'is_baseline_disabled', 'comment')->where('accreditation_id', session('accreditation_id'))->first();
+        return DB::table('eop_document_baseline_dates')->where('building_id', $building_id)->where('eop_id', $this->id)->select('baseline_date', 'is_baseline_disabled', 'comment')->where('accreditation_id', session('accreditation_id'))->first();
     }
 
     public function getNextDocumentUploadDate()

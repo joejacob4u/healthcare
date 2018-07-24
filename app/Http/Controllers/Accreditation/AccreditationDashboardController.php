@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Regulatory\HCO;
 use App\Regulatory\Accreditation;
 use App\Regulatory\EOPFinding;
+use App\Regulatory\Building;
 use Yajra\Datatables\Datatables;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
@@ -89,6 +90,91 @@ class AccreditationDashboardController extends Controller
                         return '<small class="label bg-red">'.$data['non_compliant'].'</small>';
                     }
                 })->make(true);
+    }
+
+    public function hcoDocumentsReport()
+    {
+        $hco = HCO::find(session('hco_id'));
+
+        $buildings = Building::whereIn('site_id', $hco->sites->pluck('id'))->pluck('id');
+
+        $datas = new Collection;
+
+
+        
+        foreach ($hco->accreditations as $accreditation) {
+            foreach ($accreditation->accreditationRequirements as $requirement) {
+
+                //$baseline_dates_set = DB::table()->where('eop_id',)->where()
+                $status = DB::table('eop')
+                        ->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                        ->leftJoin('eop_document_baseline_dates', 'eop_document_baseline_dates.eop_id', '=', 'eop.id')
+                        ->leftJoin('eop_document_submission_dates', 'eop_document_submission_dates.eop_id', '=', 'eop.id')
+                        ->whereIn('standard_label.id', $requirement->standardLabels->pluck('id'))
+                        ->where('eop.documentation', 1)
+                        ->where('eop_document_submission_dates.accreditation_id', $accreditation->id)
+                        ->where('eop_document_baseline_dates.accreditation_id', $accreditation->id)
+                        ->whereIn('eop_document_submission_dates.building_id', $buildings)
+                        ->select(DB::raw('count(*) as status_count, eop_document_submission_dates.status'))
+                        ->groupBy('status')->get();
+
+                $eop_count = DB::table('eop')->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')->whereIn('standard_label.id', $requirement->standardLabels->pluck('id'))->where('eop.documentation', 1)->count();
+
+
+                $pending_uploads = (!is_null($status->where('status', 'pending_upload')->first())) ?  $status->where('status', 'pending_upload')->first()->status_count : 0;
+                $pending_verification = (!is_null($status->where('status', 'pending_verification')->first())) ?  $status->where('status', 'pending_verification')->first()->status_count : 0;
+                $compliant = (!is_null($status->where('status', 'compliant')->first())) ?  $status->where('status', 'compliant')->first()->status_count : 0;
+                $non_compliant = (!is_null($status->where('status', 'non-compliant')->first())) ?  $status->where('status', 'non-compliant')->first()->status_count : 0;
+                $baseline_missing_dates = $eop_count - ($pending_uploads + $pending_verification + $compliant + $non_compliant);
+
+                $datas->push([
+                    'accreditation' => $accreditation->name,
+                    'accreditation_standard' => $requirement->name,
+                    'pending_upload' => $pending_uploads,
+                    'pending_verification' => $pending_verification,
+                    'compliant' => $compliant,
+                    'non_compliant' => $non_compliant,
+                    'baseline_missing_dates' => $baseline_missing_dates
+                ]);
+            }
+        }
+
+        return Datatables::of($datas)
+        ->addColumn('baseline_missing_dates', function ($data) {
+            if ($data['baseline_missing_dates'] == 0) {
+                return '<small class="label bg-green">&#10004;</small>';
+            } else {
+                return '<small class="label bg-red">'.$data['baseline_missing_dates'].'</small>';
+            }
+        })
+        ->addColumn('pending_upload', function ($data) {
+            if ($data['pending_upload'] == 0) {
+                return '<small class="label bg-green">&#10004;</small>';
+            } else {
+                return '<small class="label bg-red">'.$data['pending_upload'].'</small>';
+            }
+        })
+        ->addColumn('pending_verification', function ($data) {
+            if ($data['pending_verification'] == 0) {
+                return '<small class="label bg-green">&#10004;</small>';
+            } else {
+                return '<small class="label bg-red">'.$data['pending_verification'].'</small>';
+            }
+        })
+        ->addColumn('compliant', function ($data) {
+            if ($data['compliant'] == 0) {
+                return '<small class="label bg-green">&#10004;</small>';
+            } else {
+                return '<small class="label bg-red">'.$data['compliant'].'</small>';
+            }
+        })
+        ->addColumn('non_compliant', function ($data) {
+            if ($data['non_compliant'] == 0) {
+                return '<small class="label bg-green">&#10004;</small>';
+            } else {
+                return '<small class="label bg-red">'.$data['non_compliant'].'</small>';
+            }
+        })->make(true);
     }
 
     private function calculateSaferMatrix()
