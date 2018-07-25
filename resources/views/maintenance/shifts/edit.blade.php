@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'admin/maintenance/shifts/edit', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/maintenance/shifts/edit/'.$shift->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 

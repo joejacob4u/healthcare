@@ -57,4 +57,32 @@ class ShiftsController extends Controller
         $healthsystem = HealthSystem::find(Auth::user()->healthsystem_id);
         return view('maintenance.shifts.edit', ['shift' => $shift,'healthsystem' => $healthsystem]);
     }
+
+    public function save(Request $request, $id)
+    {
+        $this->validate($request, [
+            'hco_id' => 'required|exists:hco,id',
+            'name' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required'
+        ]);
+
+        $shift = Shift::find($id);
+
+        if ($shift->update($request->except(['period_start_time','period_end_time','period_description']))) {
+            if (!empty($request->period_start_time)) {
+                $period_start_time = $request->period_start_time;
+                $period_end_time = $request->period_end_time;
+                $period_description = $request->period_description;
+                $shift->periods()->delete();
+
+    
+                foreach ($period_start_time as $key => $value) {
+                    $shift->periods()->create(['start_time' => $period_start_time[$key],'end_time' => $period_end_time[$key],'description' => $period_description[$key]]);
+                }
+            }
+            
+            return back()->with('success', 'Success');
+        }
+    }
 }

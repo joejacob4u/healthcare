@@ -61,20 +61,6 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        
-
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>Standard Label</th>
-                            <th>EOP #</th>
-                            <th>EOP Text</th>
-                            <th>Baseline Date Set</th>
-                            <th>Document Submission Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
             <div id="safer_matrix_table" class="tab-pane fade">

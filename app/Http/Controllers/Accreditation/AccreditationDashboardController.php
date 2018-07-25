@@ -118,14 +118,17 @@ class AccreditationDashboardController extends Controller
                         ->select(DB::raw('count(*) as status_count, eop_document_submission_dates.status'))
                         ->groupBy('status')->get();
 
-                $eop_count = DB::table('eop')->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')->whereIn('standard_label.id', $requirement->standardLabels->pluck('id'))->where('eop.documentation', 1)->count();
+                $eops = DB::table('eop')->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')->whereIn('standard_label.id', $requirement->standardLabels->pluck('id'))->where('eop.documentation', 1)->pluck('eop.id');
+                $baseline_dates = DB::table('eop_document_baseline_dates')->whereIn('eop_id', $eops)->whereIn('building_id', $buildings)->where('accreditation_id', $accreditation->id)->count();
+                $missing_baseline_dates = (count($eops) * count($buildings)) - $baseline_dates;
+
 
 
                 $pending_uploads = (!is_null($status->where('status', 'pending_upload')->first())) ?  $status->where('status', 'pending_upload')->first()->status_count : 0;
                 $pending_verification = (!is_null($status->where('status', 'pending_verification')->first())) ?  $status->where('status', 'pending_verification')->first()->status_count : 0;
                 $compliant = (!is_null($status->where('status', 'compliant')->first())) ?  $status->where('status', 'compliant')->first()->status_count : 0;
                 $non_compliant = (!is_null($status->where('status', 'non-compliant')->first())) ?  $status->where('status', 'non-compliant')->first()->status_count : 0;
-                $baseline_missing_dates = $eop_count - ($pending_uploads + $pending_verification + $compliant + $non_compliant);
+                $baseline_missing_dates = $missing_baseline_dates;
 
                 $datas->push([
                     'accreditation' => $accreditation->name,
@@ -175,6 +178,18 @@ class AccreditationDashboardController extends Controller
                 return '<small class="label bg-red">'.$data['non_compliant'].'</small>';
             }
         })->make(true);
+    }
+
+    public function documentsActionPlan()
+    {
+        $hco = HCO::find(session('hco_id'));
+
+        $buildings = Building::whereIn('site_id', $hco->sites->pluck('id'))->pluck('id');
+
+        $documents = DB::table('eop_document_submission_dates')
+                        ->leftJoin('eop', 'eop.id', '=', 'eop_document_submission_dates.eop_id')
+                        ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+                        ->whereIn('eop_document_submission_dates.building_id', $buildings);
     }
 
     private function calculateSaferMatrix()
