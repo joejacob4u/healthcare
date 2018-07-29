@@ -126,6 +126,8 @@ Route::post('system-admin/accreditation/eop/submission_date/documents', 'Accredi
 Route::get('system-admin/accreditation/eop/{eop_id}/submission_date/{submission_date_id}/documents/{document_id}/edit', 'Accreditation\EOPDocumentController@edit');
 Route::post('system-admin/accreditation/eop/document/verify', 'Accreditation\EOPDocumentController@verify');
 Route::post('system-admin/dashboard/documents/fetch/report', 'Accreditation\AccreditationDashboardController@hcoDocumentsReport');
+Route::post('system-admin/dashboard/documents/fetch/action-plan', 'Accreditation\AccreditationDashboardController@documentsActionPlan');
+
 
 
 Route::post('system-admin/accreditation/eop/document/baseline-date', 'Accreditation\AccreditationController@saveBaselineDate');
@@ -215,6 +217,16 @@ Route::post('admin/maintenance/trades/delete', 'Maintenance\TradeController@dele
 Route::get('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@index');
 Route::post('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@store');
 Route::post('admin/maintenance/problems/delete', 'Maintenance\ProblemsController@delete');
+
+Route::get('admin/maintenance/categories', 'Maintenance\CategoriesController@index');
+Route::post('admin/maintenance/categories', 'Maintenance\CategoriesController@store');
+Route::post('admin/maintenance/categories/delete', 'Maintenance\CategoriesController@delete');
+
+Route::get('admin/maintenance/asset-categories', 'Maintenance\AssetCategoriesController@index');
+Route::post('admin/maintenance/asset-categories', 'Maintenance\AssetCategoriesController@store');
+Route::post('admin/maintenance/asset-categories/delete', 'Maintenance\AssetCategoriesController@delete');
+
+
 
 Route::get('admin/maintenance/users', 'Maintenance\UsersController@index');
 Route::get('admin/maintenance/users/add', 'Maintenance\UsersController@add');

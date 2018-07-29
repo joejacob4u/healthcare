@@ -50,9 +50,10 @@
                 </table>
             </div>
             <div id="documents_action_plan" class="tab-pane fade">
-                <table class="table table-striped">
+                <table class="table table-striped" id="document-action-plan-table" type="yajra">
                     <thead>
                         <tr>
+                            <th>Accreditation</th>
                             <th>Standard Label</th>
                             <th>EOP #</th>
                             <th>EOP Text</th>
@@ -237,6 +238,33 @@ $('#action-plan-table').DataTable({
             {data: 'non_compliant', name: 'non_compliant'},
         ]
     });
+
+        $('#document-action-plan-table').DataTable({
+        processing: true,
+        serverSide: true,
+        ajax: {
+            url: '{{url('system-admin/dashboard/documents/fetch/action-plan')}}',
+            type: "POST",
+            data: function (data) {
+                data._token = '{{ csrf_token() }}'
+            }
+        },
+
+        initComplete: function(settings, json) {
+            $('[data-toggle="popover"]').popover();
+        },
+
+        columns: [
+            {data: 'accreditation', name: 'accreditation'},
+            {data: 'standard_label', name: 'standard_label'},
+            {data: 'eop_number', name: 'eop_number'},
+            {data: 'eop_text', name: 'eop_text'},
+            {data: 'is_baseline_date_set', name: 'is_baseline_date_set'},
+            {data: 'documentation_submission_date', name: 'documentation_submission_date'},
+            {data: 'status', name: 'status'},
+        ]
+    });
+
 
 
 </script>
