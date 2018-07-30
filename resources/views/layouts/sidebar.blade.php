@@ -53,7 +53,6 @@
            <ul class="treeview-menu">
              <li><a href="{{url('admin/maintenance/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
              <li><a href="{{url('admin/maintenance/categories')}}"><i class="fa fa-circle-o"></i>Categories</a></li>
-             <li><a href="{{url('admin/maintenance/asset-categories')}}"><i class="fa fa-circle-o"></i> Asset Categories</a></li>
 
            </ul>
        </li>

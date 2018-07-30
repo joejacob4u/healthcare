@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Maintenance;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Maintenance\AssetCategory;
+use App\Maintenance\Category;
 
 class AssetCategoriesController extends Controller
 {
@@ -13,18 +14,22 @@ class AssetCategoriesController extends Controller
         $this->middleware('master');
     }
 
-    public function index()
+    public function index($category_id)
     {
-        return view('maintenance.asset-category', ['asset_categories' => AssetCategory::get()]);
+        $category = Category::find($category_id);
+        return view('maintenance.asset-category', ['category' => $category]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $category_id)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_asset_categories,name'
+            'name' => 'required',
+            'service_life' => 'required|numeric'
         ]);
 
-        if (AssetCategory::create($request->all())) {
+        $category = Category::find($category_id);
+
+        if ($category->assetCategories()->create($request->all())) {
             return back()->with('success', 'Asset Category created!');
         }
     }

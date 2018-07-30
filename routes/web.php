@@ -222,10 +222,9 @@ Route::get('admin/maintenance/categories', 'Maintenance\CategoriesController@ind
 Route::post('admin/maintenance/categories', 'Maintenance\CategoriesController@store');
 Route::post('admin/maintenance/categories/delete', 'Maintenance\CategoriesController@delete');
 
-Route::get('admin/maintenance/asset-categories', 'Maintenance\AssetCategoriesController@index');
-Route::post('admin/maintenance/asset-categories', 'Maintenance\AssetCategoriesController@store');
-Route::post('admin/maintenance/asset-categories/delete', 'Maintenance\AssetCategoriesController@delete');
-
+Route::get('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@index');
+Route::post('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@store');
+Route::post('admin/maintenance/categories/{category_id}/delete', 'Maintenance\AssetCategoriesController@delete');
 
 
 Route::get('admin/maintenance/users', 'Maintenance\UsersController@index');

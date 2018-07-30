@@ -39,12 +39,14 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Asset Categories</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
+                        <th>Asset Categories</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
@@ -52,6 +54,7 @@
                   @foreach($categories as $category)
                     <tr id="tr-{{$category->id}}">
                         <td>{{$category->name}}</td>
+                        <td>{!! link_to('admin/maintenance/categories/'.$category->id.'/asset-categories','Asset Categories',['class' => 'btn-xs btn-info']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteCategory('.$category->id.')']) !!}</td>
                     </tr>
                   @endforeach

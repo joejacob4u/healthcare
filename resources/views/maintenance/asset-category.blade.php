@@ -4,22 +4,31 @@
 @parent
 
 @endsection
-@section('page_title','Maintenance Asset Category')
+@section('page_title','Maintenance Asset Category for '.$category->name)
 @section('page_description','Manage maintenance asset category here.')
 
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
+<ol class="breadcrumb">
+    <li><a href="{{url('admin/maintenance/categories')}}">Categories</a></li>
+    <li>Maintenance Asset Category for {{$category->name}}</li>
+</ol>
+
     <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Add Maintenance Asset Category</h3>
+          <h3 class="box-title">Add Maintenance Asset Category for {{$category->name}}</h3>
         </div>
         <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/asset-categories">
+            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/categories/{{$category->id}}/asset-categories">
                 <div class="form-group">
                     <label for="name">Maintenance Asset Category</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Enter category">
+                </div>
+                <div class="form-group">
+                    <label for="name">Service Life</label>
+                    <input type="text" class="form-control" name="service_life" id="service_life" placeholder="months">
                 </div>
 
                 {{ csrf_field() }}
@@ -31,7 +40,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Maintenance Asset Categories</h3>
+        <h3 class="box-title">Existing Maintenance Asset Categories for {{$category->name}}</h3>
 
       </div>
       <div class="box-body">
@@ -39,19 +48,22 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Service Life</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
+                        <th>Service Life</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($asset_categories as $asset_category)
+                  @foreach($category->assetCategories as $asset_category)
                     <tr id="tr-{{$asset_category->id}}">
                         <td>{{$asset_category->name}}</td>
+                        <td>{{$asset_category->service_life}}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAssetCategory('.$asset_category->id.')']) !!}</td>
                     </tr>
                   @endforeach
