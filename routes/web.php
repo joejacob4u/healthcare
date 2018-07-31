@@ -224,7 +224,7 @@ Route::post('admin/maintenance/categories/delete', 'Maintenance\CategoriesContro
 
 Route::get('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@index');
 Route::post('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@store');
-Route::post('admin/maintenance/categories/{category_id}/delete', 'Maintenance\AssetCategoriesController@delete');
+Route::post('admin/maintenance/categories/asset-categories/delete', 'Maintenance\AssetCategoriesController@delete');
 
 
 Route::get('admin/maintenance/users', 'Maintenance\UsersController@index');

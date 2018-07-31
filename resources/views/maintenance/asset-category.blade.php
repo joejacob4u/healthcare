@@ -88,7 +88,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/asset-categories/delete') }}',
+                    url: '{{ url('admin/maintenance/categories/asset-categories/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'id': id},
                     beforeSend:function()
                     {
