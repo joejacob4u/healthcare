@@ -35,6 +35,21 @@ class AssetCategoriesController extends Controller
         }
     }
 
+    public function save(Request $request, $category_id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'required_by' => 'not_in:0|required',
+            'service_life' => 'required|numeric'
+        ]);
+
+        $asset_category = AssetCategory::find($request->asset_category_id);
+
+        if ($asset_category->update($request->except(['asset_category_id']))) {
+            return back()->with('success', 'Asset Category saved!');
+        }
+    }
+
     public function delete(Request $request)
     {
         AssetCategory::destroy($request->id);

@@ -61,6 +61,7 @@
                         <th>Name</th>
                         <th>Required By</th>
                         <th>Service Life</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -69,6 +70,7 @@
                         <th>Name</th>
                         <th>Required By</th>
                         <th>Service Life</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
@@ -78,6 +80,7 @@
                         <td>{{$asset_category->name}}</td>
                         <td>{{$asset_category->required_by}}</td>
                         <td>{{$asset_category->service_life}}</td>
+                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning','onclick' => 'editAssetCategory("'.$asset_category->id.'","'.$asset_category->name.'","'.$asset_category->required_by.'","'.$asset_category->service_life.'")']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAssetCategory('.$asset_category->id.')']) !!}</td>
                     </tr>
                   @endforeach
@@ -91,8 +94,64 @@
       <!-- /.box-footer-->
     </div>
 
+    <!-- Modal -->
+  <div class="modal fade" id="editModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Asset Categories</h4>
+        </div>
+        <div class="modal-body">
+            <form class="form" role="form" method="POST" action="/admin/maintenance/categories/{{$category->id}}/asset-categories/edit">
+                <div class="form-group">
+                    <label for="name">Maintenance Asset Category</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter category">
+                </div>
+                <div class="form-group">
+                    <label for="name">Required By</label>
+                    <select class="form-control" id="required_by" name="required_by">
+                        <option value="0">Please select</option>
+                        <option value="evs">EVS</option>
+                        <option value="biomed">Bio-Med</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="it">Information Technology</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Service Life</label>
+                    <input type="text" class="form-control" name="service_life" id="service_life" placeholder="months">
+                </div>
+
+                <input type="hidden" name="asset_category_id" id="asset_category_id" value="">
+                <input type="hidden" name="maintenance_category_id" id="maintenance_category_id" value="{{$category->id}}">
+
+                {{ csrf_field() }}
+                <button type="submit" class="btn btn-success">Edit</button>
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
 
     <script>
+
+    function editAssetCategory(id,name,required_by,service_life)
+    {
+        $('#editModal #name').val(name);
+        $('#editModal #required_by').val(required_by);
+        $('#editModal #service_life').val(service_life);
+        $('#editModal #asset_category_id').val(id);
+        $('#editModal').modal('show');
+    }
 
       function deleteAssetCategory(id)
       {
