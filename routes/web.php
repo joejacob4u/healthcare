@@ -226,6 +226,14 @@ Route::get('admin/maintenance/categories/{category_id}/asset-categories', 'Maint
 Route::post('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@store');
 Route::post('admin/maintenance/categories/asset-categories/delete', 'Maintenance\AssetCategoriesController@delete');
 
+Route::get('admin/maintenance/utility-function', 'Maintenance\UtilityFunctionsController@index');
+Route::post('admin/maintenance/utility-function', 'Maintenance\UtilityFunctionsController@store');
+Route::post('admin/maintenance/utility-function/delete', 'Maintenance\UtilityFunctionsController@delete');
+
+Route::get('admin/maintenance/physical-risks', 'Maintenance\PhysicalRisksController@index');
+Route::post('admin/maintenance/physical-risks', 'Maintenance\PhysicalRisksController@store');
+Route::post('admin/maintenance/physical-risks/delete', 'Maintenance\PhysicalRisksController@delete');
+
 
 Route::get('admin/maintenance/users', 'Maintenance\UsersController@index');
 Route::get('admin/maintenance/users/add', 'Maintenance\UsersController@add');

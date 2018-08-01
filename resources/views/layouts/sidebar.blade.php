@@ -52,8 +52,9 @@
            </a>
            <ul class="treeview-menu">
              <li><a href="{{url('admin/maintenance/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
-             <li><a href="{{url('admin/maintenance/categories')}}"><i class="fa fa-circle-o"></i>Categories</a></li>
-
+             <li><a href="{{url('admin/maintenance/categories')}}"><i class="fa fa-circle-o"></i>Categories of Equipment</a></li>
+             <li><a href="{{url('admin/maintenance/utility-function')}}"><i class="fa fa-circle-o"></i>Utility Functions</a></li>
+             <li><a href="{{url('admin/maintenance/physical-risks')}}"><i class="fa fa-circle-o"></i>Physical Risks</a></li>
            </ul>
        </li>
 

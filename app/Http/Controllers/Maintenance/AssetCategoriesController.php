@@ -24,6 +24,7 @@ class AssetCategoriesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
+            'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric'
         ]);
 

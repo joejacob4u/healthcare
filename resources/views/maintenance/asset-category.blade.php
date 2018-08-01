@@ -27,6 +27,17 @@
                     <input type="text" class="form-control" name="name" id="name" placeholder="Enter category">
                 </div>
                 <div class="form-group">
+                    <label for="name">Required By</label>
+                    <select class="form-control" id="required_by" name="required_by">
+                        <option value="0">Please select</option>
+                        <option value="evs">EVS</option>
+                        <option value="biomed">Bio-Med</option>
+                        <option value="maintenance">Maintenance</option>
+                        <option value="it">Information Technology</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label for="name">Service Life</label>
                     <input type="text" class="form-control" name="service_life" id="service_life" placeholder="months">
                 </div>
@@ -48,6 +59,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Required By</th>
                         <th>Service Life</th>
                         <th>Delete</th>
                     </tr>
@@ -55,6 +67,7 @@
                 <tfoot>
                     <tr>
                         <th>Name</th>
+                        <th>Required By</th>
                         <th>Service Life</th>
                         <th>Delete</th>
                     </tr>
@@ -63,6 +76,7 @@
                   @foreach($category->assetCategories as $asset_category)
                     <tr id="tr-{{$asset_category->id}}">
                         <td>{{$asset_category->name}}</td>
+                        <td>{{$asset_category->required_by}}</td>
                         <td>{{$asset_category->service_life}}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAssetCategory('.$asset_category->id.')']) !!}</td>
                     </tr>
