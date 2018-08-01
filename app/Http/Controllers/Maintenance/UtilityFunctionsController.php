@@ -21,7 +21,7 @@ class UtilityFunctionsController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_utility_function,name',
+            'name' => 'required|unique:maintenance_utility_functions,name',
             'score' => 'required|numeric'
         ]);
 
