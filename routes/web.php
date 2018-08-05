@@ -105,6 +105,10 @@ Route::post('project/ranking-questions/answers/edit', 'Project\RankingAnswerCont
 Route::post('project/ranking-questions/answers/delete', 'Project\RankingAnswerController@delete');
 
 Route::get('accreditation/dashboard', 'Accreditation\AccreditationDashboardController@index');
+Route::post('accreditation/fetch/standard-labels', 'Accreditation\AccreditationController@fetchManyStandardLabels');
+
+Route::post('standard-labels/fetch/eops', 'Admin\StandardLabelController@fetchEOPS');
+
 
 
 
@@ -225,7 +229,9 @@ Route::post('admin/maintenance/categories/delete', 'Maintenance\CategoriesContro
 Route::get('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@index');
 Route::post('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@store');
 Route::post('admin/maintenance/categories/asset-categories/delete', 'Maintenance\AssetCategoriesController@delete');
-Route::post('admin/maintenance/categories/{category_id}/asset-categories/edit', 'Maintenance\AssetCategoriesController@save');
+Route::get('admin/maintenance/categories/{category_id}/asset-categories/add', 'Maintenance\AssetCategoriesController@create');
+Route::post('admin/maintenance/categories/{category_id}/asset-categories/edit/{asset_category_id}', 'Maintenance\AssetCategoriesController@save');
+Route::get('admin/maintenance/categories/{category_id}/asset-categories/edit/{asset_category_id}', 'Maintenance\AssetCategoriesController@edit');
 
 Route::get('admin/maintenance/utility-function', 'Maintenance\UtilityFunctionsController@index');
 Route::post('admin/maintenance/utility-function', 'Maintenance\UtilityFunctionsController@store');

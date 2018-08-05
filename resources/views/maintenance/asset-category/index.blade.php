@@ -16,43 +16,12 @@
     <li>Maintenance Asset Category for {{$category->name}}</li>
 </ol>
 
-    <div class="box box-primary">
-        <div class="box-header with-border">
-          <h3 class="box-title">Add Maintenance Asset Category for {{$category->name}}</h3>
-        </div>
-        <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/categories/{{$category->id}}/asset-categories">
-                <div class="form-group">
-                    <label for="name">Maintenance Asset Category</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter category">
-                </div>
-                <div class="form-group">
-                    <label for="name">Required By</label>
-                    <select class="form-control" id="required_by" name="required_by">
-                        <option value="0">Please select</option>
-                        <option value="evs">EVS</option>
-                        <option value="biomed">Bio-Med</option>
-                        <option value="maintenance">Maintenance</option>
-                        <option value="it">Information Technology</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Service Life</label>
-                    <input type="text" class="form-control" name="service_life" id="service_life" placeholder="months">
-                </div>
-
-                {{ csrf_field() }}
-                <button type="submit" class="btn btn-success">Add</button>
-            </form>
-        </div>
-        <!-- /.box-body -->
-      </div>
-
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Existing Maintenance Asset Categories for {{$category->name}}</h3>
-
+        <div class="box-tools pull-right">
+          <a href="{{url('admin/maintenance/categories/'.$category->id.'/asset-categories/add')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Maintenance Asset Categoryr</a>
+        </div>
       </div>
       <div class="box-body">
         <table id="example" class="table table-striped">
@@ -80,7 +49,7 @@
                         <td>{{$asset_category->name}}</td>
                         <td>{{$asset_category->required_by}}</td>
                         <td>{{$asset_category->service_life}}</td>
-                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning','onclick' => 'editAssetCategory("'.$asset_category->id.'","'.$asset_category->name.'","'.$asset_category->required_by.'","'.$asset_category->service_life.'")']) !!}</td>
+                        <td>{!! link_to('admin/maintenance/categories/'.$category->id.'/asset-categories/edit/'.$asset_category->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAssetCategory('.$asset_category->id.')']) !!}</td>
                     </tr>
                   @endforeach
@@ -118,6 +87,7 @@
                         <option value="biomed">Bio-Med</option>
                         <option value="maintenance">Maintenance</option>
                         <option value="it">Information Technology</option>
+                        <option value="grounds_maintenance">Grounds Maintenance</option>
                     </select>
                 </div>
 

@@ -64,7 +64,7 @@
 $(document).ready(function(){
     
     $("table[type!='yajra']").DataTable({
-      iDisplayLength: 50,
+      iDisplayLength: 100,
       initComplete: function () {
           this.api().columns().every( function () {
               var column = this;

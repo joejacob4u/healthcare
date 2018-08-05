@@ -20,7 +20,8 @@ class AccreditationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('user');
+        $this->middleware('user')->except('fetchManyStandardLabels');
+        $this->middleware('master')->only('fetchManyStandardLabels');
     }
 
     public function index()
@@ -139,5 +140,21 @@ class AccreditationController extends Controller
         //EOPDocumentSubmissionDate::where('eop_id', $request->eop_id)->where('building_id', session('building_id'))->where('accreditation_id', $request->accreditation_id)->delete();
 
         return back()->with('success', 'Baseline Date saved!');
+    }
+
+    public function fetchManyStandardLabels(Request $request)
+    {
+        $standard_labels = [];
+        $accreditation_ids = json_decode($request->accreditations);
+
+        foreach ($accreditation_ids as $accreditation_id) {
+            $accreditation = Accreditation::find($accreditation_id);
+
+            foreach ($accreditation->standardLabels as $standard_label) {
+                $standard_labels[] = $standard_label;
+            }
+        }
+
+        return response()->json(['standard_labels' => $standard_labels]);
     }
 }

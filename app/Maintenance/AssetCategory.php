@@ -14,4 +14,9 @@ class AssetCategory extends Model
     {
         return $this->belongsTo('App\Maintenance\Category', 'maintenance_category_id');
     }
+
+    public function eops()
+    {
+        return $this->belongsToMany('App\Regulatory\EOP', 'maintenance_asset_category_to_eop', 'maintenance_asset_category_id', 'eop_id');
+    }
 }
