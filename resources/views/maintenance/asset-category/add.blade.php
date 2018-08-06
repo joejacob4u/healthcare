@@ -54,6 +54,21 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('maintenance_physical_risk_id', 'Physical Risk:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('maintenance_physical_risk_id', $physical_risks, Request::old('maintenance_physical_risk_id'), ['class' => 'form-control selectpicker','id' => 'maintenance_physical_risk_id']) !!}
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    {!! Form::label('maintenance_utility_function_id', 'Utility Function:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('maintenance_utility_function_id', $utility_functions, Request::old('maintenance_utility_function_id'), ['class' => 'form-control selectpicker','id' => 'maintenance_utility_function_id']) !!}
+                    </div>
+                </div>
+
+
+                <div class="form-group">
                     {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('accreditation_id[]', $accreditations, Request::old('accreditation_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'accreditation_id']) !!}
@@ -67,12 +82,17 @@
                     </div>
                 </div>
 
+
                 <div class="form-group">
                     {!! Form::label('eop_id', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('eop_id[]', [], Request::old('eop_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id']) !!}
                     </div>
                 </div>
+
+
+
+
 
                 <!-- Submit Button -->
                 <div class="form-group">

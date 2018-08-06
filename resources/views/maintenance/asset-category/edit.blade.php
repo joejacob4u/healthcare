@@ -54,6 +54,22 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('maintenance_physical_risk_id', 'Physical Risk:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('maintenance_physical_risk_id', $physical_risks, $asset_category->maintenance_physical_risk_id, ['class' => 'form-control selectpicker','id' => 'maintenance_physical_risk_id']) !!}
+                    </div>
+                </div>
+
+                 <div class="form-group">
+                    {!! Form::label('maintenance_utility_function_id', 'Utility Function:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('maintenance_utility_function_id', $utility_functions, $asset_category->maintenance_utility_function_id, ['class' => 'form-control selectpicker','id' => 'maintenance_utility_function_id']) !!}
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
                     {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('accreditation_id[]', $accreditations, $accreditation_ids, ['class' => 'form-control selectpicker','multiple' => true,'id' => 'accreditation_id']) !!}

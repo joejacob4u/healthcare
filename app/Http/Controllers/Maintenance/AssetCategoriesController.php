@@ -9,6 +9,8 @@ use App\Maintenance\Category;
 use App\Regulatory\Accreditation;
 use App\Regulatory\StandardLabel;
 use App\Regulatory\EOP;
+use App\Maintenance\PhysicalRisk;
+use App\Maintenance\UtilityFunction;
 
 class AssetCategoriesController extends Controller
 {
@@ -27,7 +29,9 @@ class AssetCategoriesController extends Controller
     {
         $accreditations = Accreditation::pluck('name', 'id');
         $category = Category::find($category_id);
-        return view('maintenance.asset-category.add', ['accreditations' => $accreditations,'category' => $category]);
+        $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id');
+        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id');
+        return view('maintenance.asset-category.add', ['accreditations' => $accreditations,'category' => $category,'physical_risks' => $physical_risks,'utility_functions' => $utility_functions]);
     }
 
     public function store(Request $request, $category_id)
@@ -36,7 +40,9 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
-            'eop_id' => 'required|not_in:0'
+            'eop_id' => 'required|not_in:0',
+            'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
+            'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
         ]);
 
         $category = Category::find($category_id);
@@ -71,7 +77,10 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
-            'eop_id' => 'required|not_in:0'
+            'eop_id' => 'required|not_in:0',
+            'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
+            'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
+
         ]);
 
         $asset_category = AssetCategory::find($request->asset_category_id);
