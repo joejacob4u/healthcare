@@ -55,6 +55,7 @@
              <li><a href="{{url('admin/maintenance/categories')}}"><i class="fa fa-circle-o"></i>Categories of Equipment</a></li>
              <li><a href="{{url('admin/maintenance/utility-function')}}"><i class="fa fa-circle-o"></i>Utility Functions</a></li>
              <li><a href="{{url('admin/maintenance/physical-risks')}}"><i class="fa fa-circle-o"></i>Physical Risks</a></li>
+             <li><a href="{{url('admin/maintenance/requirement-frequency')}}"><i class="fa fa-circle-o"></i>Requirement Frequency</a></li>
            </ul>
        </li>
 
