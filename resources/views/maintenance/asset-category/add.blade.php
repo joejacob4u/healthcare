@@ -34,7 +34,7 @@
                 <div class="form-group">
                     {!! Form::label('service_life', 'Service Life:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::text('service_life', Request::old('service_life'), ['class' => 'form-control', 'placeholder' => 'Service Life']) !!}
+                        {!! Form::text('service_life', Request::old('service_life'), ['class' => 'form-control', 'placeholder' => 'Service Life in months']) !!}
                     </div>
                 </div>
 

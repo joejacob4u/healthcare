@@ -29,8 +29,8 @@ class AssetCategoriesController extends Controller
     {
         $accreditations = Accreditation::pluck('name', 'id');
         $category = Category::find($category_id);
-        $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id');
-        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id');
+        $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id')->prepend(0, 'Please select');
+        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id')->prepend(0, 'Please select');
         return view('maintenance.asset-category.add', ['accreditations' => $accreditations,'category' => $category,'physical_risks' => $physical_risks,'utility_functions' => $utility_functions]);
     }
 
@@ -40,7 +40,6 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
-            'eop_id' => 'required|not_in:0',
             'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
             'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
         ]);
@@ -48,7 +47,9 @@ class AssetCategoriesController extends Controller
         $category = Category::find($category_id);
 
         if ($asset_category = $category->assetCategories()->create($request->except(['accreditation_id','standard_label_id','eop_id']))) {
-            $asset_category->eops()->sync($request->eop_id);
+            if (!empty($request->eop_id)) {
+                $asset_category->eops()->sync($request->eop_id);
+            }
             return redirect('admin/maintenance/categories/'.$category_id.'/asset-categories')->with('success', 'Asset Category created!');
         }
     }
@@ -70,8 +71,9 @@ class AssetCategoriesController extends Controller
         $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id');
 
 
-        $standard_labels = StandardLabel::whereIn('accreditation_id', $accreditation_ids)->pluck('label', 'id');
-        $eops = EOP::whereIn('standard_label_id', $standard_label_ids)->pluck('name', 'id');
+        $standard_labels = StandardLabel::whereIn('accreditation_id', $accreditation_ids)->pluck('label', 'id')->prepend(0, 'Please select');
+        ;
+        $eops = EOP::whereIn('standard_label_id', $standard_label_ids)->pluck('name', 'id')->prepend(0, 'Please select');
         return view('maintenance.asset-category.edit', ['asset_category' => $asset_category,'standard_labels' => $standard_labels,'accreditations' => $accreditations,'standard_label_ids' => $standard_label_ids,'accreditation_ids' => $accreditation_ids,'eops' => $eops,'physical_risks' => $physical_risks,'utility_functions' => $utility_functions]);
     }
 
@@ -81,7 +83,6 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
-            'eop_id' => 'required|not_in:0',
             'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
             'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
 
@@ -90,7 +91,9 @@ class AssetCategoriesController extends Controller
         $asset_category = AssetCategory::find($request->asset_category_id);
 
         if ($asset_category->update($request->except(['asset_category_id','accreditation_id','standard_label_id','eop_id']))) {
-            $asset_category->eops()->sync($request->eop_id);
+            if (!empty($request->eop_id)) {
+                $asset_category->eops()->sync($request->eop_id);
+            }
             return redirect('admin/maintenance/categories/'.$category_id.'/asset-categories')->with('success', 'Asset Category saved!');
         }
     }
