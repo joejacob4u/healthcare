@@ -241,9 +241,9 @@ Route::get('admin/maintenance/physical-risks', 'Maintenance\PhysicalRisksControl
 Route::post('admin/maintenance/physical-risks', 'Maintenance\PhysicalRisksController@store');
 Route::post('admin/maintenance/physical-risks/delete', 'Maintenance\PhysicalRisksController@delete');
 
-Route::get('admin/maintenance/requirement-frequency', 'Maintenance\RequirementFrequencyController@index');
-Route::post('admin/maintenance/requirement-frequency', 'Maintenance\RequirementFrequencyController@store');
-Route::post('admin/maintenance/requirement-frequency/delete', 'Maintenance\RequirementFrequencyController@delete');
+Route::get('admin/maintenance/incident-history', 'Maintenance\IncidentHistoriesController@index');
+Route::post('admin/maintenance/incident-history', 'Maintenance\IncidentHistoriesController@store');
+Route::post('admin/maintenance/incident-history/delete', 'Maintenance\IncidentHistoriesController@delete');
 
 
 

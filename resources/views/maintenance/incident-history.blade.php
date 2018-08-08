@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Requirement Frequency')
-@section('page_description','Manage requirement frequency here.')
+@section('page_title','Incident History')
+@section('page_description','Manage incident histories here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -13,13 +13,13 @@
 
     <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Add Requirement Frequency</h3>
+          <h3 class="box-title">Add Incident History</h3>
         </div>
         <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/requirement-frequency">
+            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/incident-history">
                 <div class="form-group">
-                    <label for="name">Utility Function</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter requirement frequency name">
+                    <label for="name">Incident History</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter incident history">
                 </div>
 
                 <div class="form-group">
@@ -36,7 +36,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Utility Functions</h3>
+        <h3 class="box-title">Existing Incident Histories</h3>
 
       </div>
       <div class="box-body">
@@ -56,11 +56,11 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($requirement_frequencies as $requirement_frequency)
-                    <tr id="tr-{{$requirement_frequency->id}}">
-                        <td>{{$requirement_frequency->name}}</td>
-                        <td>{{$requirement_frequency->score}}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteRequirementFrequency('.$requirement_frequency->id.')']) !!}</td>
+                  @foreach($incident_histories as $incident_history)
+                    <tr id="tr-{{$incident_history->id}}">
+                        <td>{{$incident_history->name}}</td>
+                        <td>{{$incident_history->score}}</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIncidentHistory('.$incident_history->id.')']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -76,7 +76,7 @@
 
     <script>
 
-      function deleteRequirementFrequency(id)
+      function deleteIncidentHistory(id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -84,7 +84,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/requirement-frequency/delete') }}',
+                    url: '{{ url('admin/maintenance/incident-history/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'id': id},
                     beforeSend:function()
                     {
