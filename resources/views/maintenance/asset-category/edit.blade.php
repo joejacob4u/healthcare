@@ -90,6 +90,14 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                      {!! Form::select('frequency', ['0' => 'Please Select','no_frequency' => 'No Frequency','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','annually' => 'Annually','semi-annually' => 'Semi-anually','as_needed' => 'As Needed' ,'per_policy' => 'Per Policy','two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], $asset_category->frequency, ['class' => 'form-control','id' => 'frequency']) !!}
+                    </div>
+                </div>
+
+
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
@@ -111,7 +119,7 @@
 
     <script>
 
-    $('#accreditation_id').change(function(){
+        $('#accreditation_id').change(function(){
         if($(this).val() != 0)
         {
             $.ajax({
@@ -151,7 +159,12 @@
 
     });
 
+    var eop_array = {};
+
     $('#standard_label_id').change(function(){
+        
+        eop_array = {};
+
         if($(this).val() != 0)
         {
             $.ajax({
@@ -168,9 +181,9 @@
 
                     var html = '<option value="0">Select EOPs</option>';
 
-
                     $.each(data.eops, function(index, value) {
                         html += '<option value="'+value.id+'">'+value.name+'</option>';
+                        eop_array[value.id] = value.frequency;
                     });
 
                     $('#eop_id').append(html);
@@ -191,6 +204,33 @@
 
     });
 
+    $('#eop_id').change(function(){
+        var frequency = '';
+        $('#eop_id > option:selected').each(function() {
+            frequency = eop_array[$(this).val()];
+        });
+
+        $('#frequency option').each(function() {
+            $(this).prop('disabled',false);
+        });
+        
+        if(frequency){
+            
+            $('#frequency option').each(function() {
+                if($(this).attr('value') == frequency)
+                {
+                    $('#frequency').val(frequency);
+                }
+                else
+                {
+                    $(this).prop('disabled',true);
+                }
+            });
+
+        }
+
+
+    });
 
     </script>
 

@@ -29,8 +29,8 @@ class AssetCategoriesController extends Controller
     {
         $accreditations = Accreditation::pluck('name', 'id');
         $category = Category::find($category_id);
-        $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id')->prepend(0, 'Please select');
-        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id')->prepend(0, 'Please select');
+        $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
+        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
         return view('maintenance.asset-category.add', ['accreditations' => $accreditations,'category' => $category,'physical_risks' => $physical_risks,'utility_functions' => $utility_functions]);
     }
 
@@ -40,6 +40,7 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
+            'frequency' => 'required|not_in:0',
             'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
             'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
         ]);
@@ -83,6 +84,7 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
+            'frequency' => 'required|not_in:0',
             'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
             'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
 
