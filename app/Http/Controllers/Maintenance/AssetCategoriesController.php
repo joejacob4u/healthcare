@@ -40,7 +40,6 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
-            'frequency' => 'required|not_in:0',
             'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
             'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
         ]);
@@ -84,7 +83,6 @@ class AssetCategoriesController extends Controller
             'name' => 'required',
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
-            'frequency' => 'required|not_in:0',
             'maintenance_physical_risk_id' => 'required|exists:maintenance_physical_risks,id',
             'maintenance_utility_function_id' => 'required|exists:maintenance_utility_functions,id'
 
