@@ -253,6 +253,11 @@ Route::get('admin/maintenance/redundancy', 'Maintenance\RedundancyController@ind
 Route::post('admin/maintenance/redundancy', 'Maintenance\RedundancyController@store');
 Route::post('admin/maintenance/redundancy/delete', 'Maintenance\RedundancyController@delete');
 
+Route::get('admin/maintenance/work-order-audit', 'Maintenance\WorkOrderAuditController@index');
+Route::post('admin/maintenance/work-order-audit', 'Maintenance\WorkOrderAuditController@store');
+Route::post('admin/maintenance/work-order-audit/delete', 'Maintenance\WorkOrderAuditController@delete');
+
+
 Route::get('admin/maintenance/users', 'Maintenance\UsersController@index');
 Route::get('admin/maintenance/users/add', 'Maintenance\UsersController@add');
 Route::post('admin/maintenance/users/add', 'Maintenance\UsersController@store');

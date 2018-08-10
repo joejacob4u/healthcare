@@ -58,7 +58,7 @@
              <li><a href="{{url('admin/maintenance/requirement-frequency')}}"><i class="fa fa-circle-o"></i>Requirement Frequency</a></li>
               <li><a href="{{url('admin/maintenance/incident-history')}}"><i class="fa fa-circle-o"></i>Incident History</a></li>
               <li><a href="{{url('admin/maintenance/redundancy')}}"><i class="fa fa-circle-o"></i>Redundancy</a></li>
-
+              <li><a href="{{url('admin/maintenance/work-order-audit')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
            </ul>
        </li>
 
