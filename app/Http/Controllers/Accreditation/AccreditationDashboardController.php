@@ -193,7 +193,7 @@ class AccreditationDashboardController extends Controller
 
         foreach ($hco->accreditations as $accreditation) {
             foreach ($accreditation->standardLabels as $standard_label) {
-                foreach ($standard_label->eops as $eop) {
+                foreach ($standard_label->eops->where('documentation', 1) as $eop) {
                     $is_eop_baseline_set = false;
 
                     foreach ($eop->documentSubmissionDates as $eop_document_submission_date) {
@@ -237,6 +237,72 @@ class AccreditationDashboardController extends Controller
                         return '<small class="label bg-red">x</small>';
                     }
                 })->make(true);
+    }
+
+    public function exportDocumentsActionPlan()
+    {
+        $hco = HCO::find(session('hco_id'));
+
+        $buildings = Building::whereIn('site_id', $hco->sites->pluck('id'))->pluck('id');
+
+        $datas = new Collection;
+        
+        foreach ($hco->accreditations as $accreditation) {
+            foreach ($accreditation->standardLabels as $standard_label) {
+                foreach ($standard_label->eops->where('documentation', 1) as $eop) {
+                    $is_eop_baseline_set = false;
+
+                    foreach ($eop->documentSubmissionDates as $eop_document_submission_date) {
+                        if (in_array($eop_document_submission_date->building_id, $buildings->toArray()) && $eop_document_submission_date->accreditation_id == $accreditation->id) {
+                            $baseline_date = EOPDocumentBaselineDate::where('accreditation_id', $accreditation->id)->where('eop_id', $eop->id)->where('building_id', $eop_document_submission_date->building_id)->first();
+                            
+                            $datas->push([
+                                'accreditation' => $accreditation->name,
+                                'standard_label' => $eop->standardLabel->label,
+                                'eop_number' => $eop->name,
+                                'eop_text' => $eop->text,
+                                'baseline_date_set' => 'Yes',
+                                'documentation_submission_date' => $baseline_date->baseline_date,
+                                'status' => $eop_document_submission_date->status
+                            ]);
+
+                            $is_eop_baseline_set = true;
+                        }
+                    }
+
+                    if (!$is_eop_baseline_set) {
+                        $datas->push([
+                            'accreditation' => $accreditation->name,
+                            'standard_label' => $eop->standardLabel->label,
+                            'eop_number' => $eop->name,
+                            'eop_text' => $eop->text,
+                            'baseline_date_set' => 'No',
+                            'documentation_submission_date' => 'n/a',
+                            'status' => 'Baseline Not Set'
+                        ]);
+                    }
+                }
+            }
+        }
+
+        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+
+        $csv->insertOne([
+            'Accreditation',
+            'Standard Label',
+            'EOP #',
+            'EOP Text',
+            'Baseline Date Set',
+            'Document Submission Date',
+            'Status',
+        ]);
+
+        foreach ($datas as $data) {
+            $csv->insertOne($data);
+        }
+
+        $csv->output('documents_action_plan_'.session('hco_name').'_'.date('Y-m-d:H:i:s').'.csv');
+        exit;
     }
 
     private function calculateSaferMatrix()

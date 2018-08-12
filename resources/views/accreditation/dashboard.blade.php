@@ -50,6 +50,9 @@
                 </table>
             </div>
             <div id="documents_action_plan" class="tab-pane fade">
+                <div class="box-tools pull-right">
+                    <a href="/system-admin/dashboard/documents/export/action-plan" type="button" class="btn btn-warning">Export</a>
+                </div>
                 <table class="table table-striped" id="document-action-plan-table" type="yajra">
                     <thead>
                         <tr>
@@ -165,7 +168,7 @@ $('#action-plan-table').DataTable({
         processing: true,
         serverSide: true,
         pageLength: 100,
-        
+
         ajax: {
             url: '{{url('system-admin/findings/action-plan')}}',
             type: "POST",

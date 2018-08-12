@@ -131,6 +131,8 @@ Route::get('system-admin/accreditation/eop/{eop_id}/submission_date/{submission_
 Route::post('system-admin/accreditation/eop/document/verify', 'Accreditation\EOPDocumentController@verify');
 Route::post('system-admin/dashboard/documents/fetch/report', 'Accreditation\AccreditationDashboardController@hcoDocumentsReport');
 Route::post('system-admin/dashboard/documents/fetch/action-plan', 'Accreditation\AccreditationDashboardController@documentsActionPlan');
+Route::get('system-admin/dashboard/documents/export/action-plan', 'Accreditation\AccreditationDashboardController@exportDocumentsActionPlan');
+
 
 
 
