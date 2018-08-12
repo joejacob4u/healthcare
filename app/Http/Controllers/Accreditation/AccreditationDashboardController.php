@@ -12,6 +12,7 @@ use Yajra\Datatables\Datatables;
 use DB;
 use Illuminate\Database\Eloquent\Collection;
 use App\Regulatory\EOP;
+use App\Regulatory\EOPDocumentBaselineDate;
 
 class AccreditationDashboardController extends Controller
 {
@@ -187,26 +188,33 @@ class AccreditationDashboardController extends Controller
 
         $buildings = Building::whereIn('site_id', $hco->sites->pluck('id'))->pluck('id');
 
-        $documents = DB::table('eop_document_submission_dates')
-                    ->leftJoin('eop', 'eop.id', '=', 'eop_document_submission_dates.eop_id')
-                    ->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                    ->leftJoin('accreditation', 'accreditation.id', '=', 'eop_document_submission_dates.accreditation_id')
-                    ->whereIn('eop_document_submission_dates.building_id', $buildings)
-                    ->select('accreditation.name as accreditation_name', 'standard_label.label', 'eop.name as eop_name', 'eop.id', 'eop.text as eop_text', 'eop_document_submission_dates.submission_date', 'eop_document_submission_dates.status')->get();
-
-
-
-        $eops = EOP::where('documentation', 1)->whereNotIn('eop.id', $documents->pluck('id'))->get();
-
         $datas = new Collection;
 
-        $missing_baseline_dates = [];
-        //$missing_baseline_buildings = $buildings->whereNotIn('eop')
 
         foreach ($hco->accreditations as $accreditation) {
-            foreach ($accreditation->accreditationRequirements as $requirement) {
-                foreach ($eops as $eop) {
-                    if (isset($eop->standardLabel->label)) {
+            foreach ($accreditation->standardLabels as $standard_label) {
+                foreach ($standard_label->eops as $eop) {
+                    $is_eop_baseline_set = false;
+
+                    foreach ($eop->documentSubmissionDates as $eop_document_submission_date) {
+                        if (in_array($eop_document_submission_date->building_id, $buildings->toArray()) && $eop_document_submission_date->accreditation_id == $accreditation->id) {
+                            $baseline_date = EOPDocumentBaselineDate::where('accreditation_id', $accreditation->id)->where('eop_id', $eop->id)->where('building_id', $eop_document_submission_date->building_id)->first();
+                            
+                            $datas->push([
+                                'accreditation' => $accreditation->name,
+                                'standard_label' => $eop->standardLabel->label,
+                                'eop_number' => $eop->name,
+                                'eop_text' => $eop->text,
+                                'baseline_date_set' => 1,
+                                'documentation_submission_date' => $baseline_date->baseline_date,
+                                'status' => $eop_document_submission_date->status
+                            ]);
+
+                            $is_eop_baseline_set = true;
+                        }
+                    }
+
+                    if (!$is_eop_baseline_set) {
                         $datas->push([
                             'accreditation' => $accreditation->name,
                             'standard_label' => $eop->standardLabel->label,
@@ -219,18 +227,6 @@ class AccreditationDashboardController extends Controller
                     }
                 }
             }
-        }
-
-        foreach ($documents as $document) {
-            $datas->push([
-                'accreditation' => $document->accreditation_name,
-                'standard_label' => $document->label,
-                'eop_number' => $document->eop_name,
-                'eop_text' => $document->eop_text,
-                'baseline_date_set' => 1,
-                'documentation_submission_date' => $document->submission_date,
-                'status' => $document->status
-            ]);
         }
 
         return Datatables::of($datas)

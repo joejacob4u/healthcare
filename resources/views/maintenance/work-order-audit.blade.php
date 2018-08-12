@@ -23,8 +23,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="name">Score</label>
-                    <input type="text" class="form-control" name="score" id="score" placeholder="score">
+                <label for="score">Score:</label>
+                    <select class="form-control" name="score">
+                        <option value="">Please Select</option>
+                        <option value="1">Yes (1)</option>
+                        <option value="0">No (0)</option>
+                        <option value="-1">N/A</option>
+                    </select>
                 </div>
 
                 {{ csrf_field() }}
@@ -59,7 +64,15 @@
                   @foreach($work_order_audits as $work_order_audit)
                     <tr id="tr-{{$work_order_audit->id}}">
                         <td>{{$work_order_audit->name}}</td>
-                        <td>{{$work_order_audit->score}}</td>
+                        @if($work_order_audit->score == 0)
+                            <td>No ({{$work_order_audit->score}})</td>
+                        @endif
+                        @if($work_order_audit->score == 1)
+                            <td>Yes ({{$work_order_audit->score}})</td>
+                        @endif
+                        @if($work_order_audit->score == -1)
+                            <td>N/A ({{$work_order_audit->score}})</td>
+                        @endif
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteWorkOrderAudit('.$work_order_audit->id.')']) !!}</td>
                     </tr>
                   @endforeach

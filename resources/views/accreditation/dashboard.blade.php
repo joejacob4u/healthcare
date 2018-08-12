@@ -164,6 +164,8 @@ $(document).ready(function(){
 $('#action-plan-table').DataTable({
         processing: true,
         serverSide: true,
+        pageLength: 100,
+        
         ajax: {
             url: '{{url('system-admin/findings/action-plan')}}',
             type: "POST",
@@ -191,6 +193,8 @@ $('#action-plan-table').DataTable({
     $('#findings_table_data').DataTable({
         processing: true,
         serverSide: true,
+        pageLength: 100,
+
         ajax: {
             url: '{{url('system-admin/findings/fetch/report')}}',
             type: "POST",
@@ -216,6 +220,8 @@ $('#action-plan-table').DataTable({
     $('#hco_documents_table').DataTable({
         processing: true,
         serverSide: true,
+        pageLength: 100,
+
         ajax: {
             url: '{{url('system-admin/dashboard/documents/fetch/report')}}',
             type: "POST",
@@ -242,6 +248,9 @@ $('#action-plan-table').DataTable({
         $('#document-action-plan-table').DataTable({
         processing: true,
         serverSide: true,
+        ordering: false,
+        pageLength: 100,
+
         ajax: {
             url: '{{url('system-admin/dashboard/documents/fetch/action-plan')}}',
             type: "POST",
