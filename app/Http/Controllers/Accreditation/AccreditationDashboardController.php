@@ -188,19 +188,26 @@ class AccreditationDashboardController extends Controller
 
         $buildings = Building::whereIn('site_id', $hco->sites->pluck('id'))->pluck('id');
 
+        $baseline_set_buildings = [];
+
         $datas = new Collection;
 
 
         foreach ($hco->accreditations as $accreditation) {
             foreach ($accreditation->standardLabels as $standard_label) {
                 foreach ($standard_label->eops->where('documentation', 1) as $eop) {
-                    $is_eop_baseline_set = false;
-
                     foreach ($eop->documentSubmissionDates as $eop_document_submission_date) {
                         if (in_array($eop_document_submission_date->building_id, $buildings->toArray()) && $eop_document_submission_date->accreditation_id == $accreditation->id) {
                             $baseline_date = EOPDocumentBaselineDate::where('accreditation_id', $accreditation->id)->where('eop_id', $eop->id)->where('building_id', $eop_document_submission_date->building_id)->first();
+                            $baseline_set_buildings[] = $eop_document_submission_date->building_id;
+                            $building = Building::find($eop_document_submission_date->building_id);
+
                             
                             $datas->push([
+                                'site' => $building->site->name,
+                                'site_id' => $building->site->site_id,
+                                'building' => $building->name,
+                                'building_id' => $building->building_id,
                                 'accreditation' => $accreditation->name,
                                 'standard_label' => $eop->standardLabel->label,
                                 'eop_number' => $eop->name,
@@ -209,18 +216,22 @@ class AccreditationDashboardController extends Controller
                                 'documentation_submission_date' => $baseline_date->baseline_date,
                                 'status' => $eop_document_submission_date->status
                             ]);
-
-                            $is_eop_baseline_set = true;
                         }
                     }
 
-                    if (!$is_eop_baseline_set) {
+                    foreach ($buildings->diff($baseline_set_buildings) as $building_id) {
+                        $building = Building::find($building_id);
+
                         $datas->push([
+                            'site' => $building->site->name,
+                            'site_id' => $building->site->site_id,
+                            'building' => $building->name,
+                            'building_id' => $building->building_id,
                             'accreditation' => $accreditation->name,
                             'standard_label' => $eop->standardLabel->label,
                             'eop_number' => $eop->name,
                             'eop_text' => $eop->text,
-                            'baseline_date_set' => 0,
+                            'baseline_date_set' => 'No',
                             'documentation_submission_date' => 'n/a',
                             'status' => 'Baseline Not Set'
                         ]);
@@ -245,18 +256,27 @@ class AccreditationDashboardController extends Controller
 
         $buildings = Building::whereIn('site_id', $hco->sites->pluck('id'))->pluck('id');
 
+        $baseline_set_buildings = [];
+
         $datas = new Collection;
         
         foreach ($hco->accreditations as $accreditation) {
             foreach ($accreditation->standardLabels as $standard_label) {
                 foreach ($standard_label->eops->where('documentation', 1) as $eop) {
-                    $is_eop_baseline_set = false;
-
                     foreach ($eop->documentSubmissionDates as $eop_document_submission_date) {
                         if (in_array($eop_document_submission_date->building_id, $buildings->toArray()) && $eop_document_submission_date->accreditation_id == $accreditation->id) {
-                            $baseline_date = EOPDocumentBaselineDate::where('accreditation_id', $accreditation->id)->where('eop_id', $eop->id)->where('building_id', $eop_document_submission_date->building_id)->first();
+                            $baseline_date = EOPDocumentBaselineDate::where('accreditation_id', $accreditation->id)->where('eop_id', $eop->id)->where('building_id', $eop_document_submission_date->building_id)->where('status', '!=', 'compliant')->first();
+                            
+                            $baseline_set_buildings[] = $eop_document_submission_date->building_id;
+                            $building = Building::find($eop_document_submission_date->building_id);
                             
                             $datas->push([
+                                'hco' => $hco->facility_name,
+                                'hco_id' => $hco->hco_id,
+                                'site' => $building->site->name,
+                                'site_id' => $building->site->site_id,
+                                'building' => $building->name,
+                                'building_id' => $building->building_id,
                                 'accreditation' => $accreditation->name,
                                 'standard_label' => $eop->standardLabel->label,
                                 'eop_number' => $eop->name,
@@ -265,13 +285,19 @@ class AccreditationDashboardController extends Controller
                                 'documentation_submission_date' => $baseline_date->baseline_date,
                                 'status' => $eop_document_submission_date->status
                             ]);
-
-                            $is_eop_baseline_set = true;
                         }
                     }
 
-                    if (!$is_eop_baseline_set) {
+                    foreach ($buildings->diff($baseline_set_buildings) as $building_id) {
+                        $building = Building::find($building_id);
+
                         $datas->push([
+                            'hco' => $hco->facility_name,
+                            'hco_id' => $hco->hco_id,
+                            'site' => $building->site->name,
+                            'site_id' => $building->site->site_id,
+                            'building' => $building->name,
+                            'building_id' => $building->building_id,
                             'accreditation' => $accreditation->name,
                             'standard_label' => $eop->standardLabel->label,
                             'eop_number' => $eop->name,
@@ -288,12 +314,18 @@ class AccreditationDashboardController extends Controller
         $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
 
         $csv->insertOne([
+            'HCO',
+            'HCO ID',
+            'Site',
+            'Site ID',
+            'Building',
+            'Building ID',
             'Accreditation',
             'Standard Label',
             'EOP #',
             'EOP Text',
             'Baseline Date Set',
-            'Document Submission Date',
+            'Missing Document, Date Required',
             'Status',
         ]);
 

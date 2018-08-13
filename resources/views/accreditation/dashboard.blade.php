@@ -53,9 +53,14 @@
                 <div class="box-tools pull-right">
                     <a href="/system-admin/dashboard/documents/export/action-plan" type="button" class="btn btn-warning">Export</a>
                 </div>
+                <br/>
+                <p><strong>Last updated at {{\Carbon\Carbon::now()->toDayDateTimeString() }}</strong></p>
                 <table class="table table-striped" id="document-action-plan-table" type="yajra">
                     <thead>
-                        <tr>
+                            <th>Site</th>
+                            <th>Site ID</th>
+                            <th>Building</th>
+                            <th>Building ID<th>
                             <th>Accreditation</th>
                             <th>Standard Label</th>
                             <th>EOP #</th>
@@ -63,7 +68,6 @@
                             <th>Baseline Date Set</th>
                             <th>Document Submission Date</th>
                             <th>Status</th>
-                        </tr>
                     </thead>
                 </table>
             </div>
@@ -249,10 +253,11 @@ $('#action-plan-table').DataTable({
     });
 
         $('#document-action-plan-table').DataTable({
-        processing: true,
-        serverSide: true,
-        ordering: false,
-        pageLength: 100,
+            processing: true,
+            serverSide: true,
+            ordering: false,
+            pageLength: 100,
+            scrollX: true,
 
         ajax: {
             url: '{{url('system-admin/dashboard/documents/fetch/action-plan')}}',
@@ -267,6 +272,10 @@ $('#action-plan-table').DataTable({
         },
 
         columns: [
+            {data: 'site', name: 'site'},
+            {data: 'site_id', name: 'site_id'},
+            {data: 'building', name: 'building'},
+            {data: 'building_id', name: 'building_id'},
             {data: 'accreditation', name: 'accreditation'},
             {data: 'standard_label', name: 'standard_label'},
             {data: 'eop_number', name: 'eop_number'},
