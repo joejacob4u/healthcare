@@ -22,7 +22,6 @@ class WorkOrderAuditController extends Controller
     {
         $this->validate($request, [
             'name' => 'required|unique:maintenance_work_order_audits,name',
-            'score' => 'required|numeric'
         ]);
 
         if (WorkOrderAudit::create($request->all())) {

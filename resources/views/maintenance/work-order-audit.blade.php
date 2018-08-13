@@ -18,18 +18,8 @@
         <div class="box-body">
             <form class="form-inline" role="form" method="POST" action="/admin/maintenance/work-order-audit">
                 <div class="form-group">
-                    <label for="name">Work Order Audit</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter work order audit">
-                </div>
-
-                <div class="form-group">
-                <label for="score">Score:</label>
-                    <select class="form-control" name="score">
-                        <option value="">Please Select</option>
-                        <option value="1">Yes (1)</option>
-                        <option value="0">No (0)</option>
-                        <option value="-1">N/A</option>
-                    </select>
+                    <label for="name">Work Order Audit Question</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter work order audit question">
                 </div>
 
                 {{ csrf_field() }}
@@ -48,15 +38,13 @@
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Score</th>
+                        <th>Question</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
-                        <th>Score</th>
+                        <th>Question</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
