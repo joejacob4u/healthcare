@@ -263,9 +263,9 @@ class AccreditationDashboardController extends Controller
         foreach ($hco->accreditations as $accreditation) {
             foreach ($accreditation->standardLabels as $standard_label) {
                 foreach ($standard_label->eops->where('documentation', 1) as $eop) {
-                    foreach ($eop->documentSubmissionDates as $eop_document_submission_date) {
+                    foreach ($eop->documentSubmissionDates->where('status', '!=', 'compliant') as $eop_document_submission_date) {
                         if (in_array($eop_document_submission_date->building_id, $buildings->toArray()) && $eop_document_submission_date->accreditation_id == $accreditation->id) {
-                            $baseline_date = EOPDocumentBaselineDate::where('accreditation_id', $accreditation->id)->where('eop_id', $eop->id)->where('building_id', $eop_document_submission_date->building_id)->where('status', '!=', 'compliant')->first();
+                            $baseline_date = EOPDocumentBaselineDate::where('accreditation_id', $accreditation->id)->where('eop_id', $eop->id)->where('building_id', $eop_document_submission_date->building_id)->first();
                             
                             $baseline_set_buildings[] = $eop_document_submission_date->building_id;
                             $building = Building::find($eop_document_submission_date->building_id);
