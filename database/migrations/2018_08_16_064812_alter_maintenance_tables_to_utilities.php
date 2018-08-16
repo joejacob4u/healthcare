@@ -13,6 +13,7 @@ class AlterMaintenanceTablesToUtilities extends Migration
      */
     public function up()
     {
+        Schema::disableForeignKeyConstraints();
 
         Schema::table('maintenance_asset_categories', function (Blueprint $table) {
             $table->renameColumn('maintenance_physical_risk_id', 'utility_physical_risk_id');
