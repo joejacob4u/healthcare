@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Maintenance Category')
-@section('page_description','Manage maintenance category here.')
+@section('page_title','Incident History')
+@section('page_description','Manage incident histories here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -13,13 +13,18 @@
 
     <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Add Category of Equipment</h3>
+          <h3 class="box-title">Add Incident History</h3>
         </div>
         <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/categories">
+            <form class="form-inline" role="form" method="POST" action="/admin/equipment/incident-history">
                 <div class="form-group">
-                    <label for="name">Maintenance Category</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter category">
+                    <label for="name">Incident History</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter incident history">
+                </div>
+
+                <div class="form-group">
+                    <label for="name">Score</label>
+                    <input type="text" class="form-control" name="score" id="score" placeholder="score">
                 </div>
 
                 {{ csrf_field() }}
@@ -31,7 +36,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Categories of Equipment</h3>
+        <h3 class="box-title">Existing Incident Histories</h3>
 
       </div>
       <div class="box-body">
@@ -39,23 +44,23 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Asset Categories</th>
+                        <th>Score</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>Asset Categories</th>
+                        <th>Score</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($categories as $category)
-                    <tr id="tr-{{$category->id}}">
-                        <td>{{$category->name}}</td>
-                        <td>{!! link_to('admin/maintenance/categories/'.$category->id.'/asset-categories','Asset Categories',['class' => 'btn-xs btn-info']) !!}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteCategory('.$category->id.')']) !!}</td>
+                  @foreach($incident_histories as $incident_history)
+                    <tr id="tr-{{$incident_history->id}}">
+                        <td>{{$incident_history->name}}</td>
+                        <td>{{$incident_history->score}}</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIncidentHistory('.$incident_history->id.')']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -71,7 +76,7 @@
 
     <script>
 
-      function deleteCategory(id)
+      function deleteIncidentHistory(id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -79,7 +84,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/categories/delete') }}',
+                    url: '{{ url('admin/equipment/incident-history/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'id': id},
                     beforeSend:function()
                     {

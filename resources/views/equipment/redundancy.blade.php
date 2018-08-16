@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Physical Risks')
-@section('page_description','Manage physical risks here.')
+@section('page_title','Redundancy')
+@section('page_description','Manage redundancies here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -13,13 +13,13 @@
 
     <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Add Physical Risk</h3>
+          <h3 class="box-title">Add Redundancy</h3>
         </div>
         <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/physical-risks">
+            <form class="form-inline" role="form" method="POST" action="/admin/equipment/redundancy">
                 <div class="form-group">
-                    <label for="name">Physical Risk</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter physical risk">
+                    <label for="name">Redundancy</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter redundancy">
                 </div>
 
                 <div class="form-group">
@@ -36,7 +36,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Physical Risks</h3>
+        <h3 class="box-title">Existing Redundancies</h3>
 
       </div>
       <div class="box-body">
@@ -56,11 +56,11 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($physical_risks as $physical_risk)
-                    <tr id="tr-{{$physical_risk->id}}">
-                        <td>{{$physical_risk->name}}</td>
-                        <td>{{$physical_risk->score}}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deletePhysicalRisk('.$physical_risk->id.')']) !!}</td>
+                  @foreach($redundancies as $redundancy)
+                    <tr id="tr-{{$redundancy->id}}">
+                        <td>{{$redundancy->name}}</td>
+                        <td>{{$redundancy->score}}</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteRedundancy('.$redundancy->id.')']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -76,7 +76,7 @@
 
     <script>
 
-      function deletePhysicalRisk(id)
+      function deleteRedundancy(id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -84,7 +84,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/physical-risks/delete') }}',
+                    url: '{{ url('admin/equipment/redundancy/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'id': id},
                     beforeSend:function()
                     {

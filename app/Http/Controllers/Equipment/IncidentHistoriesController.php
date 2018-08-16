@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Maintenance\IncidentHistory;
+use App\Equipment\IncidentHistory;
 
 class IncidentHistoriesController extends Controller
 {
@@ -15,7 +15,7 @@ class IncidentHistoriesController extends Controller
     public function index()
     {
         $incident_histories = IncidentHistory::get();
-        return view('maintenance.incident-history', ['incident_histories' => $incident_histories]);
+        return view('equipment.incident-history', ['incident_histories' => $incident_histories]);
     }
 
     public function store(Request $request)

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Maintenance;
+namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Redundancy extends Model
 {
-    protected $table = 'maintenance_redundancies';
+    protected $table = 'utility_redundancies';
 
     protected $guarded = ['id'];
 }

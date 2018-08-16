@@ -12,7 +12,7 @@
 @include('layouts.partials.errors')
 
 <ol class="breadcrumb">
-    <li><a href="{{url('admin/maintenance/categories')}}">Categories</a></li>
+    <li><a href="{{url('admin/equipment/categories')}}">Categories</a></li>
     <li>Maintenance Asset Category for {{$category->name}}</li>
 </ol>
 
@@ -20,7 +20,7 @@
       <div class="box-header with-border">
         <h3 class="box-title">Existing Maintenance Asset Categories for {{$category->name}}</h3>
         <div class="box-tools pull-right">
-          <a href="{{url('admin/maintenance/categories/'.$category->id.'/asset-categories/add')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Maintenance Asset Categoryr</a>
+          <a href="{{url('admin/equipment/categories/'.$category->id.'/asset-categories/add')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Maintenance Asset Categoryr</a>
         </div>
       </div>
       <div class="box-body">
@@ -49,7 +49,7 @@
                         <td>{{$asset_category->name}}</td>
                         <td>{{$asset_category->required_by}}</td>
                         <td>{{$asset_category->service_life}}</td>
-                        <td>{!! link_to('admin/maintenance/categories/'.$category->id.'/asset-categories/edit/'.$asset_category->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                        <td>{!! link_to('admin/equipment/categories/'.$category->id.'/asset-categories/edit/'.$asset_category->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAssetCategory('.$asset_category->id.')']) !!}</td>
                     </tr>
                   @endforeach
@@ -74,7 +74,7 @@
           <h4 class="modal-title">Edit Asset Categories</h4>
         </div>
         <div class="modal-body">
-            <form class="form" role="form" method="POST" action="/admin/maintenance/categories/{{$category->id}}/asset-categories/edit">
+            <form class="form" role="form" method="POST" action="/admin/equipment/categories/{{$category->id}}/asset-categories/edit">
                 <div class="form-group">
                     <label for="name">Maintenance Asset Category</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Enter category">
@@ -131,7 +131,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/categories/asset-categories/delete') }}',
+                    url: '{{ url('admin/equipment/categories/asset-categories/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'id': id},
                     beforeSend:function()
                     {

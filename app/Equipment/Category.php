@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Maintenance;
+namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Category extends Model
 {
-    protected $table = 'maintenance_categories';
+    protected $table = 'utility_categories';
 
     protected $guarded = ['id'];
 
     public function assetCategories()
     {
-        return $this->hasMany('App\Maintenance\AssetCategory', 'maintenance_category_id');
+        return $this->hasMany('App\Equipment\AssetCategory', 'utility_category_id');
     }
 }

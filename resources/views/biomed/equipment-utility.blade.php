@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Incident History')
-@section('page_description','Manage incident histories here.')
+@section('page_title','Equipment Utility')
+@section('page_description','Manage equipment utilities here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -13,18 +13,13 @@
 
     <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Add Incident History</h3>
+          <h3 class="box-title">Add Equipment Utility</h3>
         </div>
         <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/incident-history">
+            <form class="form-inline" role="form" method="POST" action="/admin/biomed/equipment-utility">
                 <div class="form-group">
-                    <label for="name">Incident History</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter incident history">
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Score</label>
-                    <input type="text" class="form-control" name="score" id="score" placeholder="score">
+                    <label for="name">Equipment Utility</label>
+                    <input type="text" class="form-control" name="percentage" id="percentage" placeholder="Enter percentage">
                 </div>
 
                 {{ csrf_field() }}
@@ -36,31 +31,28 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Incident Histories</h3>
+        <h3 class="box-title">Existing Equipment Utilities</h3>
 
       </div>
       <div class="box-body">
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Score</th>
+                        <th>Percentage</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
-                        <th>Score</th>
+                        <th>Percentage</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($incident_histories as $incident_history)
-                    <tr id="tr-{{$incident_history->id}}">
-                        <td>{{$incident_history->name}}</td>
-                        <td>{{$incident_history->score}}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIncidentHistory('.$incident_history->id.')']) !!}</td>
+                  @foreach($equipment_utilities as $equipment_utility)
+                    <tr id="tr-{{$equipment_utility->id}}">
+                        <td>{{$equipment_utility->percentage}}%</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteEquipmentUtility('.$equipment_utility->id.')']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -76,7 +68,7 @@
 
     <script>
 
-      function deleteIncidentHistory(id)
+      function deleteEquipmentUtility(id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -84,7 +76,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/incident-history/delete') }}',
+                    url: '{{ url('admin/biomed/equipment-utility/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'id': id},
                     beforeSend:function()
                     {

@@ -52,15 +52,28 @@
            </a>
            <ul class="treeview-menu">
              <li><a href="{{url('admin/maintenance/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
-             <li><a href="{{url('admin/maintenance/categories')}}"><i class="fa fa-circle-o"></i>Categories of Equipment</a></li>
-             <li><a href="{{url('admin/maintenance/utility-function')}}"><i class="fa fa-circle-o"></i>Utility Functions</a></li>
-             <li><a href="{{url('admin/maintenance/physical-risks')}}"><i class="fa fa-circle-o"></i>Physical Risks</a></li>
-             <li><a href="{{url('admin/maintenance/requirement-frequency')}}"><i class="fa fa-circle-o"></i>Requirement Frequency</a></li>
-              <li><a href="{{url('admin/maintenance/incident-history')}}"><i class="fa fa-circle-o"></i>Incident History</a></li>
-              <li><a href="{{url('admin/maintenance/redundancy')}}"><i class="fa fa-circle-o"></i>Redundancy</a></li>
               <li><a href="{{url('admin/maintenance/work-order-audit')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
            </ul>
        </li>
+
+        <li class="treeview">
+           <a href="#">
+             <i class="fa fa-files-o"></i>
+             <span>Equipment</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i></span>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+             <li><a href="{{url('admin/equipment/categories')}}"><i class="fa fa-circle-o"></i>Categories of Equipment</a></li>
+             <li><a href="{{url('admin/equipment/utility-function')}}"><i class="fa fa-circle-o"></i>Utility Functions</a></li>
+             <li><a href="{{url('admin/equipment/physical-risks')}}"><i class="fa fa-circle-o"></i>Physical Risks</a></li>
+             <li><a href="{{url('admin/equipment/requirement-frequency')}}"><i class="fa fa-circle-o"></i>Requirement Frequency</a></li>
+             <li><a href="{{url('admin/equipment/incident-history')}}"><i class="fa fa-circle-o"></i>Incident History</a></li>
+             <li><a href="{{url('admin/equipment/redundancy')}}"><i class="fa fa-circle-o"></i>Redundancy</a></li>
+           </ul>
+       </li>
+
 
         <li class="treeview">
            <a href="#">
@@ -74,6 +87,7 @@
               <li><a href="{{url('admin/biomed/spare-parts')}}"><i class="fa fa-circle-o"></i>Spare Parts</a></li>
               <li><a href="{{url('admin/biomed/current-states')}}"><i class="fa fa-circle-o"></i>Current States</a></li>
               <li><a href="{{url('admin/biomed/mission-criticality')}}"><i class="fa fa-circle-o"></i>Mission Criticality</a></li>
+              <li><a href="{{url('admin/biomed/equipment-utility')}}"><i class="fa fa-circle-o"></i>Equipment Utility</a></li>
            </ul>
        </li>
 

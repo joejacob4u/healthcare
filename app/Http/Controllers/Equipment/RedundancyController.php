@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Maintenance\Redundancy;
+use App\Equipment\Redundancy;
 
 class RedundancyController extends Controller
 {
@@ -15,7 +15,7 @@ class RedundancyController extends Controller
     public function index()
     {
         $redundancies = Redundancy::get();
-        return view('maintenance.redundancy', ['redundancies' => $redundancies]);
+        return view('equipment.redundancy', ['redundancies' => $redundancies]);
     }
 
     public function store(Request $request)

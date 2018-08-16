@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Maintenance\RequirementFrequency;
+use App\Equipment\RequirementFrequency;
 
 class RequirementFrequencyController extends Controller
 {
@@ -16,7 +16,7 @@ class RequirementFrequencyController extends Controller
     public function index()
     {
         $requirement_frequencies = RequirementFrequency::get();
-        return view('maintenance.requirement-frequency', ['requirement_frequencies' => $requirement_frequencies]);
+        return view('equipment.requirement-frequency', ['requirement_frequencies' => $requirement_frequencies]);
     }
 
     public function store(Request $request)

@@ -214,6 +214,44 @@ Route::post('rooms/delete', 'Admin\RoomController@destroy');
 
 //end Healthsystem management routes
 
+//Equipment Routes
+
+Route::get('admin/equipment/categories', 'Equipment\CategoriesController@index');
+Route::post('admin/equipment/categories', 'Equipment\CategoriesController@store');
+Route::post('admin/equipment/categories/delete', 'Equipment\CategoriesController@delete');
+
+Route::get('admin/equipment/categories/{category_id}/asset-categories', 'Equipment\AssetCategoriesController@index');
+Route::post('admin/equipment/categories/{category_id}/asset-categories', 'Equipment\AssetCategoriesController@store');
+Route::post('admin/equipment/categories/asset-categories/delete', 'Equipment\AssetCategoriesController@delete');
+Route::get('admin/equipment/categories/{category_id}/asset-categories/add', 'Equipment\AssetCategoriesController@create');
+Route::post('admin/equipment/categories/{category_id}/asset-categories/edit/{asset_category_id}', 'Equipment\AssetCategoriesController@save');
+Route::get('admin/equipment/categories/{category_id}/asset-categories/edit/{asset_category_id}', 'Equipment\AssetCategoriesController@edit');
+
+Route::get('admin/equipment/utility-function', 'Equipment\UtilityFunctionsController@index');
+Route::post('admin/equipment/utility-function', 'Equipment\UtilityFunctionsController@store');
+Route::post('admin/equipment/utility-function/delete', 'Equipment\UtilityFunctionsController@delete');
+
+Route::get('admin/equipment/physical-risks', 'Equipment\PhysicalRisksController@index');
+Route::post('admin/equipment/physical-risks', 'Equipment\PhysicalRisksController@store');
+Route::post('admin/equipment/physical-risks/delete', 'Equipment\PhysicalRisksController@delete');
+
+Route::get('admin/equipment/requirement-frequency', 'Equipment\RequirementFrequencyController@index');
+Route::post('admin/equipment/requirement-frequency', 'Equipment\RequirementFrequencyController@store');
+Route::post('admin/equipment/requirement-frequency/delete', 'Equipment\RequirementFrequencyController@delete');
+
+Route::get('admin/equipment/incident-history', 'Equipment\IncidentHistoriesController@index');
+Route::post('admin/equipment/incident-history', 'Equipment\IncidentHistoriesController@store');
+Route::post('admin/equipment/incident-history/delete', 'Equipment\IncidentHistoriesController@delete');
+
+Route::get('admin/equipment/redundancy', 'Equipment\RedundancyController@index');
+Route::post('admin/equipment/redundancy', 'Equipment\RedundancyController@store');
+Route::post('admin/equipment/redundancy/delete', 'Equipment\RedundancyController@delete');
+
+
+
+
+
+
 //Maintenance routes
 
 Route::get('admin/maintenance/trades', 'Maintenance\TradeController@index');
@@ -224,36 +262,6 @@ Route::get('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\Problems
 Route::post('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@store');
 Route::post('admin/maintenance/problems/delete', 'Maintenance\ProblemsController@delete');
 
-Route::get('admin/maintenance/categories', 'Maintenance\CategoriesController@index');
-Route::post('admin/maintenance/categories', 'Maintenance\CategoriesController@store');
-Route::post('admin/maintenance/categories/delete', 'Maintenance\CategoriesController@delete');
-
-Route::get('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@index');
-Route::post('admin/maintenance/categories/{category_id}/asset-categories', 'Maintenance\AssetCategoriesController@store');
-Route::post('admin/maintenance/categories/asset-categories/delete', 'Maintenance\AssetCategoriesController@delete');
-Route::get('admin/maintenance/categories/{category_id}/asset-categories/add', 'Maintenance\AssetCategoriesController@create');
-Route::post('admin/maintenance/categories/{category_id}/asset-categories/edit/{asset_category_id}', 'Maintenance\AssetCategoriesController@save');
-Route::get('admin/maintenance/categories/{category_id}/asset-categories/edit/{asset_category_id}', 'Maintenance\AssetCategoriesController@edit');
-
-Route::get('admin/maintenance/utility-function', 'Maintenance\UtilityFunctionsController@index');
-Route::post('admin/maintenance/utility-function', 'Maintenance\UtilityFunctionsController@store');
-Route::post('admin/maintenance/utility-function/delete', 'Maintenance\UtilityFunctionsController@delete');
-
-Route::get('admin/maintenance/physical-risks', 'Maintenance\PhysicalRisksController@index');
-Route::post('admin/maintenance/physical-risks', 'Maintenance\PhysicalRisksController@store');
-Route::post('admin/maintenance/physical-risks/delete', 'Maintenance\PhysicalRisksController@delete');
-
-Route::get('admin/maintenance/requirement-frequency', 'Maintenance\RequirementFrequencyController@index');
-Route::post('admin/maintenance/requirement-frequency', 'Maintenance\RequirementFrequencyController@store');
-Route::post('admin/maintenance/requirement-frequency/delete', 'Maintenance\RequirementFrequencyController@delete');
-
-Route::get('admin/maintenance/incident-history', 'Maintenance\IncidentHistoriesController@index');
-Route::post('admin/maintenance/incident-history', 'Maintenance\IncidentHistoriesController@store');
-Route::post('admin/maintenance/incident-history/delete', 'Maintenance\IncidentHistoriesController@delete');
-
-Route::get('admin/maintenance/redundancy', 'Maintenance\RedundancyController@index');
-Route::post('admin/maintenance/redundancy', 'Maintenance\RedundancyController@store');
-Route::post('admin/maintenance/redundancy/delete', 'Maintenance\RedundancyController@delete');
 
 Route::get('admin/maintenance/work-order-audit', 'Maintenance\WorkOrderAuditController@index');
 Route::post('admin/maintenance/work-order-audit', 'Maintenance\WorkOrderAuditController@store');
@@ -288,6 +296,11 @@ Route::post('admin/biomed/current-states/delete', 'Biomed\CurrentStatesControlle
 Route::get('admin/biomed/mission-criticality', 'Biomed\MissionCriticalitiesController@index');
 Route::post('admin/biomed/mission-criticality', 'Biomed\MissionCriticalitiesController@store');
 Route::post('admin/biomed/mission-criticality/delete', 'Biomed\MissionCriticalitiesController@delete');
+
+Route::get('admin/biomed/equipment-utility', 'Biomed\EquipmentUtilitiesController@index');
+Route::post('admin/biomed/equipment-utility', 'Biomed\EquipmentUtilitiesController@store');
+Route::post('admin/biomed/equipment-utility/delete', 'Biomed\EquipmentUtilitiesController@delete');
+
 
 
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Maintenance\UtilityFunction;
+use App\Equipment\UtilityFunction;
 
 class UtilityFunctionsController extends Controller
 {
@@ -15,7 +15,7 @@ class UtilityFunctionsController extends Controller
 
     public function index()
     {
-        return view('maintenance.utility-functions', ['utility_functions' => UtilityFunction::get()]);
+        return view('equipment.utility-functions', ['utility_functions' => UtilityFunction::get()]);
     }
 
     public function store(Request $request)

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Maintenance\PhysicalRisk;
+use App\Equipment\PhysicalRisk;
 
 class PhysicalRisksController extends Controller
 {
@@ -15,7 +15,7 @@ class PhysicalRisksController extends Controller
 
     public function index()
     {
-        return view('maintenance.physical-risks', ['physical_risks' => PhysicalRisk::get()]);
+        return view('equipment.physical-risks', ['physical_risks' => PhysicalRisk::get()]);
     }
 
     public function store(Request $request)

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Maintenance;
+namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
 
 class RequirementFrequency extends Model
 {
-    protected $table = 'maintenance_frequency_requirements';
+    protected $table = 'utility_frequency_requirements';
 
     protected $guarded = ['id'];
 }

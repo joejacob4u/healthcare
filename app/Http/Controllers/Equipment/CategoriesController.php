@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Maintenance\Category;
+use App\Equipment\Category;
 
 class CategoriesController extends Controller
 {
@@ -15,7 +15,7 @@ class CategoriesController extends Controller
 
     public function index()
     {
-        return view('maintenance.category', ['categories' => Category::get()]);
+        return view('equipment.category', ['categories' => Category::get()]);
     }
 
     public function store(Request $request)

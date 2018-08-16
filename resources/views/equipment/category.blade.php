@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Utility Function')
-@section('page_description','Manage utility function here.')
+@section('page_title','Maintenance Category')
+@section('page_description','Manage maintenance category here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -13,18 +13,13 @@
 
     <div class="box box-primary">
         <div class="box-header with-border">
-          <h3 class="box-title">Add Utility Function</h3>
+          <h3 class="box-title">Add Category of Equipment</h3>
         </div>
         <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/utility-function">
+            <form class="form-inline" role="form" method="POST" action="/admin/equipment/categories">
                 <div class="form-group">
-                    <label for="name">Utility Function</label>
-                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter utility function">
-                </div>
-
-                <div class="form-group">
-                    <label for="name">Score</label>
-                    <input type="text" class="form-control" name="score" id="score" placeholder="score">
+                    <label for="name">Maintenance Category</label>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Enter category">
                 </div>
 
                 {{ csrf_field() }}
@@ -36,7 +31,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Utility Functions</h3>
+        <h3 class="box-title">Existing Categories of Equipment</h3>
 
       </div>
       <div class="box-body">
@@ -44,23 +39,23 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Score</th>
+                        <th>Asset Categories</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>Score</th>
+                        <th>Asset Categories</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($utility_functions as $utility_function)
-                    <tr id="tr-{{$utility_function->id}}">
-                        <td>{{$utility_function->name}}</td>
-                        <td>{{$utility_function->score}}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteUtilityFunction('.$utility_function->id.')']) !!}</td>
+                  @foreach($categories as $category)
+                    <tr id="tr-{{$category->id}}">
+                        <td>{{$category->name}}</td>
+                        <td>{!! link_to('admin/equipment/categories/'.$category->id.'/asset-categories','Asset Categories',['class' => 'btn-xs btn-info']) !!}</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteCategory('.$category->id.')']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -76,7 +71,7 @@
 
     <script>
 
-      function deleteUtilityFunction(id)
+      function deleteCategory(id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -84,7 +79,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/utility-function/delete') }}',
+                    url: '{{ url('admin/equipment/categories/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'id': id},
                     beforeSend:function()
                     {

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Maintenance;
+namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
 
 class UtilityFunction extends Model
 {
-    protected $table = 'maintenance_utility_functions';
+    protected $table = 'utility_utility_functions';
 
     protected $guarded = ['id'];
 }
