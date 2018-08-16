@@ -275,6 +275,23 @@ Route::post('admin/maintenance/shifts/add', 'Maintenance\ShiftsController@store'
 Route::get('admin/maintenance/shifts/edit/{id}', 'Maintenance\ShiftsController@edit');
 Route::post('admin/maintenance/shifts/edit/{id}', 'Maintenance\ShiftsController@save');
 
+//Admin Biomed routes
+
+Route::get('admin/biomed/spare-parts', 'Biomed\SparePartsController@index');
+Route::post('admin/biomed/spare-parts', 'Biomed\SparePartsController@store');
+Route::post('admin/biomed/spare-parts/delete', 'Biomed\SparePartsController@delete');
+
+Route::get('admin/biomed/current-states', 'Biomed\CurrentStatesController@index');
+Route::post('admin/biomed/current-states', 'Biomed\CurrentStatesController@store');
+Route::post('admin/biomed/current-states/delete', 'Biomed\CurrentStatesController@delete');
+
+Route::get('admin/biomed/mission-criticality', 'Biomed\MissionCriticalitiesController@index');
+Route::post('admin/biomed/mission-criticality', 'Biomed\MissionCriticalitiesController@store');
+Route::post('admin/biomed/mission-criticality/delete', 'Biomed\MissionCriticalitiesController@delete');
+
+
+
+
 
 
 

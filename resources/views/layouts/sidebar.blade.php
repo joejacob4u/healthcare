@@ -62,6 +62,22 @@
            </ul>
        </li>
 
+        <li class="treeview">
+           <a href="#">
+             <i class="fa fa-files-o"></i>
+             <span>Bio-Med</span>
+             <span class="pull-right-container">
+               <i class="fa fa-angle-left pull-right"></i></span>
+             </span>
+           </a>
+           <ul class="treeview-menu">
+              <li><a href="{{url('admin/biomed/spare-parts')}}"><i class="fa fa-circle-o"></i>Spare Parts</a></li>
+              <li><a href="{{url('admin/biomed/current-states')}}"><i class="fa fa-circle-o"></i>Current States</a></li>
+              <li><a href="{{url('admin/biomed/mission-criticality')}}"><i class="fa fa-circle-o"></i>Mission Criticality</a></li>
+           </ul>
+       </li>
+
+
 
        <li class="treeview">
             <a href="#">
