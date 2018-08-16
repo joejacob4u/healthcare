@@ -17,7 +17,7 @@ class AlterMaintenanceTablesToUtilities extends Migration
         Schema::table('maintenance_asset_categories', function (Blueprint $table) {
             $table->renameColumn('maintenance_physical_risk_id', 'utility_physical_risk_id');
             $table->renameColumn('maintenance_utility_function_id', 'utility_utility_function_id');
-            $table->dropForeign('maintenance_asset_categories_ibfk_1');
+            $table->dropForeign('maintenance_asset_categories_maintenance_category_id_foreign');
         });
 
         Schema::rename('maintenance_asset_categories', 'utility_asset_categories');
