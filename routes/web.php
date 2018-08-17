@@ -247,6 +247,11 @@ Route::get('admin/equipment/redundancy', 'Equipment\RedundancyController@index')
 Route::post('admin/equipment/redundancy', 'Equipment\RedundancyController@store');
 Route::post('admin/equipment/redundancy/delete', 'Equipment\RedundancyController@delete');
 
+Route::get('admin/equipment/maintenance-requirement', 'Equipment\MaintenanceRequirementsController@index');
+Route::post('admin/equipment/maintenance-requirement', 'Equipment\MaintenanceRequirementsController@store');
+Route::post('admin/equipment/maintenance-requirement/delete', 'Equipment\MaintenanceRequirementsController@delete');
+
+
 
 
 

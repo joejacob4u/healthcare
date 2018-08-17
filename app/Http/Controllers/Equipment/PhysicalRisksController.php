@@ -21,7 +21,7 @@ class PhysicalRisksController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_physical_risks,name',
+            'name' => 'required|unique:equipment_physical_risks,name',
             'score' => 'required|numeric'
         ]);
 

@@ -22,7 +22,7 @@ class RequirementFrequencyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_frequency_requirements,name',
+            'name' => 'required|unique:equipment_frequency_requirements,name',
             'score' => 'required|numeric'
         ]);
 

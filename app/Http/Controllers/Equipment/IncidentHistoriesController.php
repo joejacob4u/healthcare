@@ -21,7 +21,7 @@ class IncidentHistoriesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_incident_histories,name',
+            'name' => 'required|unique:equipment_incident_histories,name',
             'score' => 'required|numeric'
         ]);
 

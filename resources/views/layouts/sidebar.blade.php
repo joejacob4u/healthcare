@@ -71,6 +71,7 @@
              <li><a href="{{url('admin/equipment/requirement-frequency')}}"><i class="fa fa-circle-o"></i>Requirement Frequency</a></li>
              <li><a href="{{url('admin/equipment/incident-history')}}"><i class="fa fa-circle-o"></i>Incident History</a></li>
              <li><a href="{{url('admin/equipment/redundancy')}}"><i class="fa fa-circle-o"></i>Redundancy</a></li>
+             <li><a href="{{url('admin/equipment/maintenance-requirement')}}"><i class="fa fa-circle-o"></i>Maintenance Requirement</a></li>
            </ul>
        </li>
 
@@ -87,7 +88,6 @@
               <li><a href="{{url('admin/biomed/spare-parts')}}"><i class="fa fa-circle-o"></i>Spare Parts</a></li>
               <li><a href="{{url('admin/biomed/current-states')}}"><i class="fa fa-circle-o"></i>Current States</a></li>
               <li><a href="{{url('admin/biomed/mission-criticality')}}"><i class="fa fa-circle-o"></i>Mission Criticality</a></li>
-              <li><a href="{{url('admin/biomed/equipment-utility')}}"><i class="fa fa-circle-o"></i>Equipment Utility</a></li>
            </ul>
        </li>
 

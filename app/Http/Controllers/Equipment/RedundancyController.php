@@ -21,7 +21,7 @@ class RedundancyController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_redundancies,name',
+            'name' => 'required|unique:equipment_redundancies,name',
             'score' => 'required|numeric'
         ]);
 

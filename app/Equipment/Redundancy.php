@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Redundancy extends Model
 {
-    protected $table = 'utility_redundancies';
+    protected $table = 'equipment_redundancies';
 
     protected $guarded = ['id'];
 }

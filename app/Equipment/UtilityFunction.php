@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class UtilityFunction extends Model
 {
-    protected $table = 'utility_utility_functions';
+    protected $table = 'equipment_equipment_functions';
 
     protected $guarded = ['id'];
 }

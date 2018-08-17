@@ -21,7 +21,7 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:maintenance_categories,name'
+            'name' => 'required|unique:equipment_categories,name'
         ]);
 
         if (Category::create($request->all())) {
