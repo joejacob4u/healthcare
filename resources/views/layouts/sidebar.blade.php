@@ -86,8 +86,9 @@
            </a>
            <ul class="treeview-menu">
               <li><a href="{{url('admin/biomed/spare-parts')}}"><i class="fa fa-circle-o"></i>Spare Parts</a></li>
-              <li><a href="{{url('admin/biomed/current-states')}}"><i class="fa fa-circle-o"></i>Current States</a></li>
+              <li><a href="{{url('admin/biomed/current-states')}}"><i class="fa fa-circle-o"></i>Current State</a></li>
               <li><a href="{{url('admin/biomed/mission-criticality')}}"><i class="fa fa-circle-o"></i>Mission Criticality</a></li>
+              <li><a href="{{url('admin/biomed/equipment-users')}}"><i class="fa fa-circle-o"></i>Equipment Users</a></li>
            </ul>
        </li>
 

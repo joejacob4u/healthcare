@@ -306,6 +306,11 @@ Route::get('admin/biomed/equipment-utility', 'Biomed\EquipmentUtilitiesControlle
 Route::post('admin/biomed/equipment-utility', 'Biomed\EquipmentUtilitiesController@store');
 Route::post('admin/biomed/equipment-utility/delete', 'Biomed\EquipmentUtilitiesController@delete');
 
+Route::get('admin/biomed/equipment-users', 'Biomed\EquipmentUsersController@index');
+Route::post('admin/biomed/equipment-users', 'Biomed\EquipmentUsersController@store');
+Route::post('admin/biomed/equipment-users/delete', 'Biomed\EquipmentUsersController@delete');
+
+
 
 
 
