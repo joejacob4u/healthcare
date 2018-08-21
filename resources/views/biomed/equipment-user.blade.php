@@ -51,7 +51,7 @@
                 <tbody>
                   @foreach($equipment_users as $equipment_user)
                     <tr id="tr-{{$equipment_user->id}}">
-                        <td>{{$equipment_user->percentage}}%</td>
+                        <td>{{$equipment_user->name}}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteEquipmentUser('.$equipment_user->id.')']) !!}</td>
                     </tr>
                   @endforeach
