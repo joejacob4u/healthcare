@@ -10,7 +10,8 @@ class CategoriesController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('master');
+        $this->middleware('master')->except('assetCategories');
+        $this->middleware('system_admin')->only('assetCategories');
     }
 
     public function index()
@@ -27,6 +28,12 @@ class CategoriesController extends Controller
         if (Category::create($request->all())) {
             return back()->with('success', 'Category created!');
         }
+    }
+
+    public function assetCategories(Request $request)
+    {
+        $category = Category::find($request->category_id);
+        return response()->json(['asset_categories' => $category->assetCategories]);
     }
 
     public function delete(Request $request)

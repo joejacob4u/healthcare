@@ -113,6 +113,12 @@ class BuildingController extends Controller
         }
     }
 
+    public function fetchDepartments(Request $request)
+    {
+        $building = Building::find($request->building_id);
+        return response()->json(['departments' => $building->departments]);
+    }
+
     public function uploadImages(Request $request)
     {
         $dir = 'building_images/'.uniqid();

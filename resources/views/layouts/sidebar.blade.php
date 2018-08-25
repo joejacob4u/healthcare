@@ -203,6 +203,8 @@
          </ul>
      </li>
 
+     <li><a href="{{url('equipment')}}"><i class="fa fa-circle-o"></i>Equipment</a></li>
+
      @endif
 
       @if(session()->has('building_id'))

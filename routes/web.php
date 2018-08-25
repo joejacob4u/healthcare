@@ -196,6 +196,7 @@ Route::post('sites/{site_id}/buildings/edit/{id}', 'Admin\BuildingController@sav
 Route::post('sites/buildings/delete', 'Admin\BuildingController@delete');
 Route::post('sites/buildings/upload/images', 'Admin\BuildingController@uploadImages');
 Route::post('sites/buildings/images/fetch', 'Admin\BuildingController@fetchImages');
+Route::post('buildings/fetch/departments', 'Admin\BuildingController@fetchDepartments');
 
 Route::get('sites/{site_id}/buildings/{building_id}/departments', 'Admin\DepartmentsController@index');
 Route::get('buildings/{building_id}/departments/add', 'Admin\DepartmentsController@add');
@@ -218,6 +219,7 @@ Route::post('rooms/delete', 'Admin\RoomController@destroy');
 
 Route::get('admin/equipment/categories', 'Equipment\CategoriesController@index');
 Route::post('admin/equipment/categories', 'Equipment\CategoriesController@store');
+Route::post('equipment/categories/fetch/asset-categories', 'Equipment\CategoriesController@assetCategories');
 Route::post('admin/equipment/categories/delete', 'Equipment\CategoriesController@delete');
 
 Route::get('admin/equipment/categories/{category_id}/asset-categories', 'Equipment\AssetCategoriesController@index');
@@ -309,6 +311,20 @@ Route::post('admin/biomed/equipment-utility/delete', 'Biomed\EquipmentUtilitiesC
 Route::get('admin/biomed/equipment-users', 'Biomed\EquipmentUsersController@index');
 Route::post('admin/biomed/equipment-users', 'Biomed\EquipmentUsersController@store');
 Route::post('admin/biomed/equipment-users/delete', 'Biomed\EquipmentUsersController@delete');
+
+//System Admin Equipment Routes
+
+Route::get('equipment', 'Equipment\EquipmentController@index');
+Route::get('equipment/create', 'Equipment\EquipmentController@create');
+Route::post('equipment', 'Equipment\EquipmentController@store');
+Route::post('equipment/edit', 'Equipment\EquipmentController@save');
+Route::get('equipment/edit/{equipment_id}', 'Equipment\EquipmentController@edit');
+
+
+
+
+
+
 
 
 
