@@ -68,13 +68,12 @@ class AssetCategoriesController extends Controller
         }
 
         $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id');
-        $equipment_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id');
+        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id');
 
 
         $standard_labels = StandardLabel::whereIn('accreditation_id', $accreditation_ids)->pluck('label', 'id')->prepend(0, 'Please select');
-        ;
         $eops = EOP::whereIn('standard_label_id', $standard_label_ids)->pluck('name', 'id')->prepend(0, 'Please select');
-        return view('equipment.asset-category.edit', ['asset_category' => $asset_category,'standard_labels' => $standard_labels,'accreditations' => $accreditations,'standard_label_ids' => $standard_label_ids,'accreditation_ids' => $accreditation_ids,'eops' => $eops,'physical_risks' => $physical_risks,'equipment_functions' => $equipment_functions]);
+        return view('equipment.asset-category.edit', ['asset_category' => $asset_category,'standard_labels' => $standard_labels,'accreditations' => $accreditations,'standard_label_ids' => $standard_label_ids,'accreditation_ids' => $accreditation_ids,'eops' => $eops,'physical_risks' => $physical_risks,'utility_functions' => $utility_functions]);
     }
 
     public function save(Request $request, $category_id)
