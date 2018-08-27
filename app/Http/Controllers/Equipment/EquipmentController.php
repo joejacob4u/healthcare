@@ -21,7 +21,7 @@ class EquipmentController extends Controller
 
     public function index()
     {
-        $equipments = Equipment::get();
+        $equipments = Equipment::where('building_id', session('building_id'))->get();
         return view('equipment.equipment.index')->with('equipments', $equipments);
     }
 
@@ -31,7 +31,8 @@ class EquipmentController extends Controller
         $categories = Category::pluck('name', 'id')->prepend('Please select a category', 0);
         $requirement_frequencies = RequirementFrequency::pluck('name', 'id')->prepend('Please select a requirement frequency', 0);
         $redundancies = Redundancy::pluck('name', 'id')->prepend('Please select a redundancy', 0);
-        return view('equipment.equipment.add', ['hcos' => $hcos,'categories' => $categories,'requirement_frequencies' => $requirement_frequencies,'redundancies' => $redundancies]);
+        $departments = BuildingDepartment::where('building_id', session('building_id'))->pluck('name', 'id')->prepend('Please select a department', 0);
+        return view('equipment.equipment.add', ['hcos' => $hcos,'categories' => $categories,'requirement_frequencies' => $requirement_frequencies,'redundancies' => $redundancies,'departments' => $departments]);
     }
 
     public function store(Request $request)
@@ -66,7 +67,8 @@ class EquipmentController extends Controller
         $categories = Category::pluck('name', 'id')->prepend('Please select a category', 0);
         $requirement_frequencies = RequirementFrequency::pluck('name', 'id')->prepend('Please select a requirement frequency', 0);
         $redundancies = Redundancy::pluck('name', 'id')->prepend('Please select a redundancy', 0);
-        return view('equipment.equipment.edit', ['equipment' => $equipment,'hcos' => $hcos,'categories' => $categories,'requirement_frequencies' => $requirement_frequencies,'redundancies' => $redundancies]);
+        $departments = BuildingDepartment::where('building_id', session('building_id'))->pluck('name', 'id')->prepend('Please select a department', 0);
+        return view('equipment.equipment.edit', ['equipment' => $equipment,'hcos' => $hcos,'categories' => $categories,'requirement_frequencies' => $requirement_frequencies,'redundancies' => $redundancies,'departments' => $departments]);
     }
 
     public function save(Request $request)

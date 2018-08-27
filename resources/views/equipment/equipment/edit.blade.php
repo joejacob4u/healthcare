@@ -38,26 +38,23 @@
                   </div>
               </div>
 
+            <div class="form-group">
+                  {!! Form::label('equipment_pics_path', 'Equipment Pics:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('equipment_pics_path',$equipment->equipment_pics_path,'true','true') !!}
+                  </div>
+              </div>
+
 
             <div class="form-group">
-                {!! Form::label('hco_id', 'HCO:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('hco_id', $hcos, $equipment->building->site->hco->id, ['class' => 'form-control selectpicker','id' => 'hco_id']); !!}
-                </div>
-            </div>
-            <div class="form-group">
-                {!! Form::label('site_id', 'Site:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('site_id', $equipment->building->site->hco->sites->pluck('name','id'), $equipment->building->site->id, ['class' => 'form-control','id' => 'site_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
+                  {!! Form::label('building', 'Building:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('building_name', session('building_name'), ['class' => 'form-control', 'placeholder' => 'Building','disabled' => true]) !!}
+                  </div>
+              </div>
+            
+            {!! Form::hidden('building_id', session('building_id')); !!}
 
-            <div class="form-group">
-                {!! Form::label('building_id', 'Building:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('building_id', $equipment->building->site->buildings->pluck('name','id'), $equipment->building->id, ['class' => 'form-control','id' => 'building_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
 
             <div class="form-group">
                 {!! Form::label('equipment_category_id', 'Equipment Category:', ['class' => 'col-lg-2 control-label']) !!}
@@ -147,7 +144,7 @@
             <div class="form-group">
                 {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('department_id', $equipment->building->departments->pluck('name','id'), $equipment->department_id, ['class' => 'form-control','id' => 'department_id','data-live-search' => "true"]); !!}
+                {!! Form::select('department_id', $departments, $equipment->department_id, ['class' => 'form-control','id' => 'department_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 

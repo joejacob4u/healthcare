@@ -38,26 +38,21 @@
                   </div>
               </div>
 
+             <div class="form-group">
+                  {!! Form::label('equipment_pics_path', 'Equipment Pics:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('equipment_pics_path','equipments/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
+                  </div>
+              </div>
 
-            <div class="form-group">
-                {!! Form::label('hco_id', 'HCO:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('hco_id', $hcos, Request::old('hco_id'), ['class' => 'form-control selectpicker','id' => 'hco_id']); !!}
-                </div>
-            </div>
-            <div class="form-group">
-                {!! Form::label('site_id', 'Site:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('site_id', [], '', ['class' => 'form-control','id' => 'site_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('building_id', 'Building:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('building_id', [], '', ['class' => 'form-control','id' => 'building_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
+              <div class="form-group">
+                  {!! Form::label('building', 'Building:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('building_name', session('building_name'), ['class' => 'form-control', 'placeholder' => 'Building','disabled' => true]) !!}
+                  </div>
+              </div>
+            
+            {!! Form::hidden('building_id', session('building_id')); !!}
 
             <div class="form-group">
                 {!! Form::label('equipment_category_id', 'Equipment Category:', ['class' => 'col-lg-2 control-label']) !!}
@@ -74,9 +69,9 @@
             </div>
 
             <div class="form-group">
-                {!! Form::label('equipment_frequency_requirement_id', 'Requirement Frequency:', ['class' => 'col-lg-2 control-label']) !!}
+                {!! Form::label('equipment_frequency_requirement_id', 'Maintenance Requirement Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('equipment_frequency_requirement_id', $requirement_frequencies, '', ['class' => 'form-control','id' => 'equipment_frequency_requirement_id','data-live-search' => "true"]); !!}
+                {!! Form::select('equipment_frequency_requirement_id', $requirement_frequencies, '', ['class' => 'form-control selectpicker','id' => 'equipment_frequency_requirement_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
@@ -84,7 +79,7 @@
             <div class="form-group">
                 {!! Form::label('maintenance_redundancy_id', 'Redundancy:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('maintenance_redundancy_id', $redundancies, '', ['class' => 'form-control','id' => 'maintenance_redundancy_id','data-live-search' => "true"]); !!}
+                {!! Form::select('maintenance_redundancy_id', $redundancies, '', ['class' => 'form-control selectpicker','id' => 'maintenance_redundancy_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
@@ -134,7 +129,7 @@
               </div>
 
               <div class="form-group">
-                  {!! Form::label('identification_number', 'Equipment Identification Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  {!! Form::label('identification_number', 'Equipment Inventory Identification:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::text('identification_number', Request::old('identification_number'), ['class' => 'form-control']) !!}
                   </div>
@@ -143,7 +138,7 @@
             <div class="form-group">
                 {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('department_id', [], '', ['class' => 'form-control','id' => 'department_id','data-live-search' => "true"]); !!}
+                {!! Form::select('department_id', $departments, '', ['class' => 'form-control selectpicker','id' => 'department_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
@@ -177,125 +172,6 @@
     </div>
 
     <script>
-        $("#hco_id").change(function(){
-        
-        var hco_id = $("#hco_id").val();
-
-        $.ajax({
-          type: 'POST',
-          url: '{{ url('system-admin/accreditation/fetch/sites') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'hco_id': hco_id },
-          beforeSend:function()
-          {
-            $('#accreditation_modal .callout').show();
-          },
-          success:function(data)
-          {
-            $('#site_id').html('');
-
-            var html = '<option value="0">Select Site</option>';
-
-            $.each(data.sites, function(index, value) {
-                html += '<option value="'+value.id+'">'+value.name+' ('+value.address+' ) - #'+value.site_id+'</option>';
-            });
-
-            $('#site_id').append(html);
-            $('#site_id').selectpicker('refresh');
-            $('#accreditation_modal .callout').hide();
-          },
-          complete:function()
-          {
-             $('.overlay').remove();
-          },
-          error:function()
-          {
-            // failed request; give feedback to user
-          }
-        });
-
-
-
-      });
-
-      $("#site_id").change(function(){
-        
-        var site_id = $("#site_id").val();
-
-        $.ajax({
-          type: 'POST',
-          url: '{{ url('system-admin/accreditation/fetch/buildings') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'site_id': site_id },
-          beforeSend:function()
-          {
-            $('#accreditation_modal .callout').show();
-          },
-          success:function(data)
-          {
-            $('#building_id').html('');
-
-            var html = '<option value="0">Select Building</option>';
-
-            $.each(data.buildings, function(index, value) {
-                html += '<option value="'+value.id+'">'+value.name+'- #'+value.building_id+'</option>';
-            });
-
-            $('#building_id').append(html);
-            $('#building_id').selectpicker('refresh');
-            $('#accreditation_modal .callout').hide();
-
-          },
-          complete:function()
-          {
-             $('.overlay').remove();
-          },
-          error:function()
-          {
-            // failed request; give feedback to user
-          }
-        });
-
-
-
-      });
-
-      $("#building_id").change(function(){
-        
-        var building_id = $("#building_id").val();
-
-        $.ajax({
-          type: 'POST',
-          url: '{{ url('system-admin/accreditation/fetch/accreditation') }}',
-          data: { '_token' : '{{ csrf_token() }}', 'building_id': building_id },
-          beforeSend:function()
-          {
-            $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-          },
-          success:function(data)
-          {
-            $('#accreditation_id').html('');
-
-            var html = '<option value="0">Select Accreditation</option>';
-
-            $.each(data.accreditations, function(index, value) {
-                html += '<option value="'+value.id+'">'+value.name+'</option>';
-            });
-
-            $('#accreditation_id').append(html);
-            $('#accreditation_id').selectpicker('render');
-            
-
-          },
-          complete:function()
-          {
-             $('.overlay').remove();
-          },
-          error:function()
-          {
-            // failed request; give feedback to user
-          }
-        });
-
-      });
 
     $("#manufacturer_date").flatpickr({
         enableTime: true,
@@ -325,7 +201,7 @@
                     });
 
                     $('#room_id').append(html);
-                    $('#room_id').selectpicker('render');
+                    $('#room_id').selectpicker('refresh');
                 },
                 complete:function()
                 {
@@ -365,7 +241,7 @@
                     });
 
                     $('#equipment_asset_category_id').append(html);
-                    $('#equipment_asset_category_id').selectpicker('render');
+                    $('#equipment_asset_category_id').selectpicker('refresh');
                 },
                 complete:function()
                 {
@@ -381,44 +257,6 @@
         
       });
 
-    $("#building_id").change(function(){
-
-        if($(this).val() != 0)
-        {
-                $.ajax({
-                type: 'POST',
-                url: '{{ url('buildings/fetch/departments') }}',
-                data: { '_token' : '{{ csrf_token() }}', 'building_id': $(this).val() },
-                beforeSend:function()
-                {
-                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-                },
-                success:function(data)
-                {
-                    $('#department_id').html('');
-
-                    var html = '<option value="0">Select Department</option>';
-
-                    $.each(data.departments, function(index, value) {
-                        html += '<option value="'+value.id+'">'+value.name+'</option>';
-                    });
-
-                    $('#department_id').append(html);
-                    $('##department_id').selectpicker('render');
-                },
-                complete:function()
-                {
-                    $('.overlay').remove();
-                },
-                error:function()
-                {
-                    // failed request; give feedback to user
-                }
-            });
-
-        }
-        
-      });
 
 
 

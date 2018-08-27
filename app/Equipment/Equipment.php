@@ -14,4 +14,9 @@ class Equipment extends Model
     {
         return $this->belongsTo('App\Regulatory\Building', 'building_id');
     }
+
+    public function room()
+    {
+        return $this->belongsTo('App\Regulatory\Room', 'room_id');
+    }
 }

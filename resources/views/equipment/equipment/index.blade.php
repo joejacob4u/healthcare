@@ -13,7 +13,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Equipments</h3>
+        <h3 class="box-title">Existing Equipments for <strong>{{session('building_name')}}</strong></h3>
 
         <div class="box-tools pull-right">
           <a href="{{url('equipment/create')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Equipment</a>
@@ -25,7 +25,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Serial Number</th>
-                        <th>Building</th>
+                        <th>Room Number</th>
+                        <th>Eq ID Number</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -34,7 +35,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Serial Number</th>
-                        <th>Building</th>
+                        <th>Room Number</th>
+                        <th>Eq ID Number</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -44,7 +46,8 @@
                     <tr>
                       <td>{{$equipment->name}}</td>
                       <td>{{$equipment->serial_number}}</td>
-                      <td>{{$equipment->building->name}}</td>
+                      <td>{{$equipment->room->room_number}}</td>
+                      <td>{{$equipment->identification_number}}</td>
                       <td>{{link_to('equipment/edit/'.$equipment->id,'Edit', ['class' => 'btn-xs btn-warning'] )}}</td>
                       <td>{{link_to('','Delete', ['class' => 'btn-xs btn-danger'] )}}</td>
                     </tr>
