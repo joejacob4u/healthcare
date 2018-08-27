@@ -19,4 +19,14 @@ class AssetCategory extends Model
     {
         return $this->belongsToMany('App\Regulatory\EOP', 'equipment_asset_category_to_eop', 'equipment_asset_category_id', 'eop_id');
     }
+
+    public function physicalRisk()
+    {
+        return $this->belongsTo('App\Equipment\PhysicalRisk', 'equipment_physical_risk_id');
+    }
+
+    public function utilityFunction()
+    {
+        return $this->belongsTo('App\Equipment\UtilityFunction', 'equipment_utility_function_id');
+    }
 }

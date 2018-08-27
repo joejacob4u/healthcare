@@ -27,6 +27,7 @@
                         <th>Serial Number</th>
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
+                        <th>Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -37,6 +38,7 @@
                         <th>Serial Number</th>
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
+                        <th>Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -48,6 +50,7 @@
                       <td>{{$equipment->serial_number}}</td>
                       <td>{{$equipment->room->room_number}}</td>
                       <td>{{$equipment->identification_number}}</td>
+                      <td><span class="label label-default">{{$equipment->score()}}</span></td>
                       <td>{{link_to('equipment/edit/'.$equipment->id,'Edit', ['class' => 'btn-xs btn-warning'] )}}</td>
                       <td>{{link_to('','Delete', ['class' => 'btn-xs btn-danger'] )}}</td>
                     </tr>

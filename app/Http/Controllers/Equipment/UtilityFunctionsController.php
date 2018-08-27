@@ -15,13 +15,13 @@ class UtilityFunctionsController extends Controller
 
     public function index()
     {
-        return view('equipment.utility-functions', ['equipment_functions' => UtilityFunction::get()]);
+        return view('equipment.utility-functions', ['utility_functions' => UtilityFunction::get()]);
     }
 
     public function store(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|unique:equipment_equipment_functions,name',
+            'name' => 'required|unique:equipment_utility_functions,name',
             'score' => 'required|numeric'
         ]);
 
