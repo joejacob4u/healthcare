@@ -41,7 +41,7 @@ class AssetCategoriesController extends Controller
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
             'equipment_physical_risk_id' => 'required|exists:equipment_physical_risks,id',
-            'equipment_equipment_function_id' => 'required|exists:equipment_equipment_functions,id'
+            'equipment_utility_function_id' => 'required|exists:equipment_utility_functions,id'
         ]);
 
         $category = Category::find($category_id);
@@ -83,7 +83,7 @@ class AssetCategoriesController extends Controller
             'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
             'equipment_physical_risk_id' => 'required|exists:equipment_physical_risks,id',
-            'equipment_equipment_function_id' => 'required|exists:equipment_equipment_functions,id'
+            'equipment_utility_function_id' => 'required|exists:equipment_utility_functions,id'
 
         ]);
 
