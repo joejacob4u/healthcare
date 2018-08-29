@@ -25,14 +25,24 @@ class Equipment extends Model
         return $this->belongsTo('App\Equipment\AssetCategory', 'equipment_asset_category_id');
     }
 
-    public function requirementFrequency()
+    public function maintenanceRequirement()
     {
-        return $this->belongsTo('App\Equipment\RequirementFrequency', 'equipment_frequency_requirement_id');
+        return $this->belongsTo('App\Equipment\MaintenanceRequirement', 'equipment_maintenance_requirement_id');
     }
 
     public function redundancy()
     {
         return $this->belongsTo('App\Equipment\Redundancy', 'maintenance_redundancy_id');
+    }
+
+    public function missionCriticality()
+    {
+        return $this->belongsTo('App\Biomed\MissionCriticality', 'biomed_mission_criticality_id');
+    }
+
+    public function incidentHistory()
+    {
+        return $this->belongsTo('App\Equipment\IncidentHistory', 'equipment_incident_history_id');
     }
 
     public function score()
@@ -45,7 +55,7 @@ class Equipment extends Model
 
         //now lets do requirement frequency and redundancy
 
-        $score += ($this->requirementFrequency->score + $this->redundancy->score);
+        $score += ($this->maintenanceRequirement->score + $this->redundancy->score + $this->missionCriticality->score + $this->incidentHistory->score);
 
         return $score;
     }

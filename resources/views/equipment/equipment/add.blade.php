@@ -69,9 +69,9 @@
             </div>
 
             <div class="form-group">
-                {!! Form::label('equipment_frequency_requirement_id', 'Maintenance Requirement Frequency:', ['class' => 'col-lg-2 control-label']) !!}
+                {!! Form::label('equipment_maintenance_requirement_id', 'Maintenance Requirement Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('equipment_frequency_requirement_id', $requirement_frequencies, '', ['class' => 'form-control selectpicker','id' => 'equipment_frequency_requirement_id','data-live-search' => "true"]); !!}
+                {!! Form::select('equipment_maintenance_requirement_id', $maintenance_requirements, '', ['class' => 'form-control selectpicker','id' => 'equipment_maintenance_requirement_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
@@ -83,7 +83,40 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                {!! Form::label('biomed_mission_criticality_id', 'Mission Criticality:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('biomed_mission_criticality_id', $mission_criticalities, '', ['class' => 'form-control selectpicker','id' => 'biomed_mission_criticality_idd','data-live-search' => "true"]); !!}
+                </div>
+            </div>
 
+            <div class="form-group">
+                {!! Form::label('equipment_incident_history_id', 'Incident Histories:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('equipment_incident_history_id', $incident_histories, '', ['class' => 'form-control selectpicker','id' => 'equipment_incident_history_id','data-live-search' => "true"]); !!}
+                </div>
+            </div>
+
+            <div class="form-group">
+                  {!! Form::label('baseline_date', 'Baseline date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('baseline_date', Request::old('baseline_date'), ['class' => 'form-control','id' => 'baseline_date']) !!}
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  {!! Form::label('preventive_maintenance_procedure', 'Preventive Maintenance Procedure:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('preventive_maintenance_procedure', Request::old('preventive_maintenance_procedure'), ['class' => 'form-control','id' => 'preventive_maintenance_procedure']) !!}
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  {!! Form::label('preventive_maintenance_procedure_uploade_path', 'Preventive Maintenance Procedure Files:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('preventive_maintenance_procedure_uploade_path','equipments/preventive_maintenance_procedure/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
+                  </div>
+              </div>
 
 
               <div class="form-group">
@@ -108,7 +141,7 @@
               </div>
 
               <div class="form-group">
-                  {!! Form::label('manufacturer_date', 'Manufacturer Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  {!! Form::label('manufacturer_date', 'Installation Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::text('manufacturer_date', Request::old('manufacturer_date'), ['class' => 'form-control','id' => 'manufacturer_date']) !!}
                   </div>
@@ -173,9 +206,10 @@
 
     <script>
 
-    $("#manufacturer_date").flatpickr({
-        enableTime: true,
-        dateFormat: "Y-m-d H:i",
+    $("#manufacturer_date,#baseline_date").flatpickr({
+        enableTime: false,
+        dateFormat: "Y-m-d",
+        altFormat: "F j, Y"
     });
 
     $("#department_id").change(function(){

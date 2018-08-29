@@ -68,7 +68,6 @@
              <li><a href="{{url('admin/equipment/categories')}}"><i class="fa fa-circle-o"></i>Categories of Equipment</a></li>
              <li><a href="{{url('admin/equipment/utility-function')}}"><i class="fa fa-circle-o"></i>Utility Functions</a></li>
              <li><a href="{{url('admin/equipment/physical-risks')}}"><i class="fa fa-circle-o"></i>Physical Risks</a></li>
-             <li><a href="{{url('admin/equipment/requirement-frequency')}}"><i class="fa fa-circle-o"></i>Requirement Frequency</a></li>
              <li><a href="{{url('admin/equipment/incident-history')}}"><i class="fa fa-circle-o"></i>Incident History</a></li>
              <li><a href="{{url('admin/equipment/redundancy')}}"><i class="fa fa-circle-o"></i>Redundancy</a></li>
              <li><a href="{{url('admin/equipment/maintenance-requirement')}}"><i class="fa fa-circle-o"></i>Maintenance Requirement</a></li>

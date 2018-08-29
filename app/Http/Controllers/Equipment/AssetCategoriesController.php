@@ -67,8 +67,8 @@ class AssetCategoriesController extends Controller
             $accreditation_ids[] = $eop->standardLabel->accreditation_id;
         }
 
-        $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id');
-        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id');
+        $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
+        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
 
 
         $standard_labels = StandardLabel::whereIn('accreditation_id', $accreditation_ids)->pluck('label', 'id')->prepend(0, 'Please select');
