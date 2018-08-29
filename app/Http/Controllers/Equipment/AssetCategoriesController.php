@@ -93,7 +93,7 @@ class AssetCategoriesController extends Controller
             if (!empty($request->eop_id)) {
                 $asset_category->eops()->sync($request->eop_id);
             }
-            return redirect('admin/maintenance/categories/'.$category_id.'/asset-categories')->with('success', 'Asset Category saved!');
+            return redirect('admin/equipment/categories/'.$category_id.'/asset-categories')->with('success', 'Asset Category saved!');
         }
     }
 

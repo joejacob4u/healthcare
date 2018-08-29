@@ -56,14 +56,14 @@
                 <div class="form-group">
                     {!! Form::label('maintenance_physical_risk_id', 'Physical Risk:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('equipment_physical_risk_id', $physical_risks, $asset_category->maintenance_physical_risk_id, ['class' => 'form-control selectpicker','id' => 'maintenance_physical_risk_id']) !!}
+                        {!! Form::select('equipment_physical_risk_id', $physical_risks, $asset_category->equipment_physical_risk_id, ['class' => 'form-control selectpicker','id' => 'maintenance_physical_risk_id']) !!}
                     </div>
                 </div>
 
                  <div class="form-group">
                     {!! Form::label('maintenance_utility_function_id', 'Utility Function:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('equipment_utility_function_id', $utility_functions, $asset_category->maintenance_utility_function_id, ['class' => 'form-control selectpicker','id' => 'maintenance_utility_function_id']) !!}
+                        {!! Form::select('equipment_utility_function_id', $utility_functions, $asset_category->equipment_utility_function_id, ['class' => 'form-control selectpicker','id' => 'maintenance_utility_function_id']) !!}
                     </div>
                 </div>
 
