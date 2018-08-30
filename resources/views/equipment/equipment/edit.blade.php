@@ -23,29 +23,6 @@
 
             <fieldset>
 
-              <!-- Name -->
-              <div class="form-group">
-                  {!! Form::label('name', 'Equipment Name:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('name', $equipment->name, ['class' => 'form-control', 'placeholder' => 'Equipment Name']) !!}
-                  </div>
-              </div>
-
-            <div class="form-group">
-                  {!! Form::label('description', 'Equipment Description:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::textarea('description', $equipment->description, ['class' => 'form-control', 'placeholder' => 'Equipment Description (optional)']) !!}
-                  </div>
-              </div>
-
-            <div class="form-group">
-                  {!! Form::label('equipment_pics_path', 'Equipment Pics:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! HTML::dropzone('equipment_pics_path',$equipment->equipment_pics_path,'true','true') !!}
-                  </div>
-              </div>
-
-
             <div class="form-group">
                   {!! Form::label('building', 'Building:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
@@ -70,6 +47,64 @@
                 {!! Form::select('equipment_asset_category_id', App\Equipment\Category::find($equipment->equipment_category_id)->assetCategories->pluck('name','id'), $equipment->equipment_asset_category_id, ['class' => 'form-control','id' => 'equipment_asset_category_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
+
+
+              <!-- Name -->
+              <div class="form-group">
+                  {!! Form::label('name', 'Equipment Name:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('name', $equipment->name, ['class' => 'form-control', 'placeholder' => 'Equipment Name']) !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('description', 'Equipment Description:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('description', $equipment->description, ['class' => 'form-control', 'placeholder' => 'Equipment Description (optional)','rows' => 3]) !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('equipment_pics_path', 'Equipment Pics:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('equipment_pics_path',$equipment->equipment_pics_path,'true','true') !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('manufacturer', 'Manufacturer:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('manufacturer', $equipment->manufacturer, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('model_number', 'Model Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('model_number', $equipment->model_number, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('serial_number', 'Serial Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('serial_number', $equipment->serial_number, ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('preventive_maintenance_procedure', 'Preventive Maintenance Procedure:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('preventive_maintenance_procedure', $equipment->preventive_maintenance_procedure, ['class' => 'form-control','id' => 'preventive_maintenance_procedure']) !!}
+                  </div>
+            </div>
+
+            <div class="form-group">
+                  {!! Form::label('preventive_maintenance_procedure_uploade_path', 'Preventive Maintenance Procedure Files:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('preventive_maintenance_procedure_uploade_path',$equipment->preventive_maintenance_procedure_uploade_path,'true','true') !!}
+                  </div>
+              </div>
 
 
             <div class="form-group">
@@ -110,41 +145,8 @@
                   </div>
             </div>
 
-            <div class="form-group">
-                  {!! Form::label('preventive_maintenance_procedure', 'Preventive Maintenance Procedure:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::textarea('preventive_maintenance_procedure', $equipment->preventive_maintenance_procedure, ['class' => 'form-control','id' => 'preventive_maintenance_procedure']) !!}
-                  </div>
-            </div>
-
-            <div class="form-group">
-                  {!! Form::label('preventive_maintenance_procedure_uploade_path', 'Preventive Maintenance Procedure Files:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! HTML::dropzone('preventive_maintenance_procedure_uploade_path',$equipment->preventive_maintenance_procedure_uploade_path,'true','true') !!}
-                  </div>
-              </div>
 
 
-              <div class="form-group">
-                  {!! Form::label('manufacturer', 'Manufacturer:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('manufacturer', $equipment->manufacturer, ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-            <div class="form-group">
-                  {!! Form::label('model_number', 'Model Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('model_number', $equipment->model_number, ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('serial_number', 'Serial Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('serial_number', $equipment->serial_number, ['class' => 'form-control']) !!}
-                  </div>
-              </div>
 
               <div class="form-group">
                   {!! Form::label('manufacturer_date', 'Installation Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}

@@ -27,7 +27,11 @@
                         <th>Serial Number</th>
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
-                        <th>Score</th>
+                        <th>USL Score</th>
+                        <th>Mission Criticality Score</th>
+                        <th>EM Number Score</th>
+                        <th>EM Rating Score</th>
+                        <th>Adjusted EM Rating Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -38,7 +42,11 @@
                         <th>Serial Number</th>
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
-                        <th>Score</th>
+                        <th>USL Score</th>
+                        <th>Mission Criticality Score</th>
+                        <th>EM Number Score</th>
+                        <th>EM Rating Score</th>
+                        <th>Adjusted EM Rating Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -50,7 +58,11 @@
                       <td>{{$equipment->serial_number}}</td>
                       <td>{{$equipment->room->room_number}}</td>
                       <td>{{$equipment->identification_number}}</td>
-                      <td><span class="label label-default">{{$equipment->score()}}</span></td>
+                      <td><span class="label label-default">{{$equipment->USLScore()}}</span></td>
+                      <td><span class="label label-default">{{$equipment->missionCriticalityRatingScore()}}</span></td>
+                      <td><span class="label label-default">{{$equipment->EMNumberScore()}}</span></td>
+                      <td><span class="label label-default">{{$equipment->EMRatingScore()}}</span></td>
+                      <td><span class="label label-default">{{$equipment->AdjustedEMRScore()}}</span></td>
                       <td>{{link_to('equipment/edit/'.$equipment->id,'Edit', ['class' => 'btn-xs btn-warning'] )}}</td>
                       <td>{{link_to('','Delete', ['class' => 'btn-xs btn-danger'] )}}</td>
                     </tr>

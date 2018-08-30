@@ -23,28 +23,6 @@
 
             <fieldset>
 
-              <!-- Name -->
-              <div class="form-group">
-                  {!! Form::label('name', 'Equipment Name:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('name', Request::old('name'), ['class' => 'form-control', 'placeholder' => 'Equipment Name']) !!}
-                  </div>
-              </div>
-
-            <div class="form-group">
-                  {!! Form::label('description', 'Equipment Description:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::textarea('description', Request::old('description'), ['class' => 'form-control', 'placeholder' => 'Equipment Description (optional)']) !!}
-                  </div>
-              </div>
-
-             <div class="form-group">
-                  {!! Form::label('equipment_pics_path', 'Equipment Pics:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! HTML::dropzone('equipment_pics_path','equipments/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
-                  </div>
-              </div>
-
               <div class="form-group">
                   {!! Form::label('building', 'Building:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
@@ -68,13 +46,70 @@
                 </div>
             </div>
 
+
+              <!-- Name -->
+              <div class="form-group">
+                  {!! Form::label('name', 'Equipment Name:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('name', Request::old('name'), ['class' => 'form-control', 'placeholder' => 'Equipment Name']) !!}
+                  </div>
+              </div>
+
             <div class="form-group">
-                {!! Form::label('equipment_maintenance_requirement_id', 'Maintenance Requirement Frequency:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('equipment_maintenance_requirement_id', $maintenance_requirements, '', ['class' => 'form-control selectpicker','id' => 'equipment_maintenance_requirement_id','data-live-search' => "true"]); !!}
-                </div>
+                  {!! Form::label('description', 'Equipment Description:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('description', Request::old('description'), ['class' => 'form-control', 'placeholder' => 'Equipment Description (optional)','rows' => 3]) !!}
+                  </div>
+              </div>
+
+             <div class="form-group">
+                  {!! Form::label('equipment_pics_path', 'Equipment Pics:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('equipment_pics_path','equipments/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
+                  </div>
+              </div>
+
+                            <div class="form-group">
+                  {!! Form::label('manufacturer', 'Manufacturer:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('manufacturer', Request::old('manufacturer'), ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('model_number', 'Model Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('model_number', Request::old('model_number'), ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+              <div class="form-group">
+                  {!! Form::label('serial_number', 'Serial Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('serial_number', Request::old('serial_number'), ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+            <div class="form-group">
+                  {!! Form::label('identification_number', 'Equipment Inventory Identification:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('identification_number', Request::old('identification_number'), ['class' => 'form-control']) !!}
+                  </div>
+              </div>
+
+                <div class="form-group">
+                  {!! Form::label('preventive_maintenance_procedure', 'Preventive Maintenance Procedure:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('preventive_maintenance_procedure', Request::old('preventive_maintenance_procedure'), ['class' => 'form-control','id' => 'preventive_maintenance_procedure']) !!}
+                  </div>
             </div>
 
+            <div class="form-group">
+                  {!! Form::label('preventive_maintenance_procedure_uploade_path', 'Preventive Maintenance Procedure Files:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('preventive_maintenance_procedure_uploade_path','equipments/preventive_maintenance_procedure/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
+                  </div>
+              </div>
 
             <div class="form-group">
                 {!! Form::label('maintenance_redundancy_id', 'Redundancy:', ['class' => 'col-lg-2 control-label']) !!}
@@ -98,56 +133,13 @@
             </div>
 
             <div class="form-group">
-                  {!! Form::label('baseline_date', 'Baseline date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('baseline_date', Request::old('baseline_date'), ['class' => 'form-control','id' => 'baseline_date']) !!}
-                  </div>
-            </div>
-
-            <div class="form-group">
-                  {!! Form::label('preventive_maintenance_procedure', 'Preventive Maintenance Procedure:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::textarea('preventive_maintenance_procedure', Request::old('preventive_maintenance_procedure'), ['class' => 'form-control','id' => 'preventive_maintenance_procedure']) !!}
-                  </div>
-            </div>
-
-            <div class="form-group">
-                  {!! Form::label('preventive_maintenance_procedure_uploade_path', 'Preventive Maintenance Procedure Files:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! HTML::dropzone('preventive_maintenance_procedure_uploade_path','equipments/preventive_maintenance_procedure/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
-                  </div>
-              </div>
-
-
-              <div class="form-group">
-                  {!! Form::label('manufacturer', 'Manufacturer:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('manufacturer', Request::old('manufacturer'), ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-            <div class="form-group">
-                  {!! Form::label('model_number', 'Model Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('model_number', Request::old('model_number'), ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('serial_number', 'Serial Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('serial_number', Request::old('serial_number'), ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
                   {!! Form::label('manufacturer_date', 'Installation Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::text('manufacturer_date', Request::old('manufacturer_date'), ['class' => 'form-control','id' => 'manufacturer_date']) !!}
                   </div>
               </div>
 
-              <div class="form-group">
+            <div class="form-group">
                   {!! Form::label('estimated_replacement_cost', 'Estimated Replacement Cost:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::text('estimated_replacement_cost', Request::old('estimated_replacement_cost'), ['class' => 'form-control']) !!}
@@ -161,12 +153,23 @@
                   </div>
               </div>
 
-              <div class="form-group">
-                  {!! Form::label('identification_number', 'Equipment Inventory Identification:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+
+
+            <div class="form-group">
+                  {!! Form::label('baseline_date', 'Baseline date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('identification_number', Request::old('identification_number'), ['class' => 'form-control']) !!}
+                      {!! Form::text('baseline_date', Request::old('baseline_date'), ['class' => 'form-control','id' => 'baseline_date']) !!}
                   </div>
-              </div>
+            </div>
+
+
+            <div class="form-group">
+                {!! Form::label('equipment_maintenance_requirement_id', 'Maintenance Requirement Frequency:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('equipment_maintenance_requirement_id', $maintenance_requirements, '', ['class' => 'form-control selectpicker','id' => 'equipment_maintenance_requirement_id','data-live-search' => "true"]); !!}
+                </div>
+            </div>
+
 
             <div class="form-group">
                 {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
