@@ -45,40 +45,44 @@ class Equipment extends Model
     {
         return $this->belongsTo('App\Equipment\IncidentHistory', 'equipment_incident_history_id');
     }
-
-    public function USLScore()
+    
+    public function calculateEquipmentServiceAge()
     {
-        //calculate difference between manufacture date and current date
-
         $end = time();
         $start = new DateTime($this->manufacturer_date);
         $end   = new DateTime("@$end");
         $diff  = $start->diff($end);
-        $equipment_age_in_months = ($diff->format('%y') * 12 + $diff->format('%m') > 0) ? $diff->format('%y') * 12 + $diff->format('%m') : 1;
+        return ($diff->format('%y') * 12 + $diff->format('%m') > 0) ? $diff->format('%y') * 12 + $diff->format('%m') : 1;
+    }
+
+    public function USLScore()
+    {
+        $equipment_age_in_months = $this->calculateEquipmentServiceAge();
 
         //get service life for category
 
         $service_life_in_months = ($this->assetCategory->service_life > 0) ? $this->assetCategory->service_life : 1;
 
+        if ($service_life_in_months <= 12) {
+            return 1;
+        }
+
         //calculate percentage number
 
-        $percentage = 100 - round(($equipment_age_in_months / $service_life_in_months) * 100, 0);
-
+        $percentage = 100 - number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
  
         //lets figure out what category they are in
 
-        if ($percentage >= 90) {
-            $score = 1;
-        } elseif ($percentage < 90 and $percentage >= 75) {
+        if ($percentage < 100 and $percentage >= 76) {
             $score = 2;
-        } elseif ($percentage < 75 and $percentage >= 50) {
+        } elseif ($percentage < 75 and $percentage >= 51) {
             $score = 3;
         } elseif ($percentage < 50 and $percentage >= 25) {
-            $score = 3;
-        } elseif ($percentage < 25 and $percentage >= 10) {
             $score = 4;
-        } elseif ($percentage <= 10) {
+        } elseif ($percentage < 24 and $percentage >= 10) {
             $score = 5;
+        } elseif ($percentage <= 9) {
+            $score = 6;
         }
 
         return $score;
@@ -102,7 +106,7 @@ class Equipment extends Model
 
         $score += $this->USLScore();
 
-        return round($score/3.2, 2);
+        return number_format($score/3.2, 2);
     }
 
     public function EMNumberScore()
@@ -140,6 +144,18 @@ class Equipment extends Model
 
     public function FCINumber()
     {
-        return round((100 - $this->USLScore()) * .0033, 3);
+        $equipment_age_in_months = $this->calculateEquipmentServiceAge();
+
+        //get service life for category
+
+        $service_life_in_months = ($this->assetCategory->service_life > 0) ? $this->assetCategory->service_life : 1;
+
+        if ($service_life_in_months <= 12) {
+            return 0.01;
+        }
+
+        $usl_percentage = 100 - number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
+
+        return number_format((100 - $usl_percentage) * .0033, 3);
     }
 }
