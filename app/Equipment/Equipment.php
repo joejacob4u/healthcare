@@ -62,7 +62,7 @@ class Equipment extends Model
 
         //calculate percentage number
 
-        $percentage = round(($equipment_age_in_months / $service_life_in_months) * 100, 0);
+        $percentage = 100 - round(($equipment_age_in_months / $service_life_in_months) * 100, 0);
 
  
         //lets figure out what category they are in
@@ -136,5 +136,10 @@ class Equipment extends Model
         $score += ($this->missionCriticality->score + (2 *$this->maintenanceRequirement->score)) * $this->assetCategory->utilityFunction->score + (2 * $this->assetCategory->physicalRisk->score);
 
         return $score;
+    }
+
+    public function FCINumber()
+    {
+        return round((100 - $this->USLScore()) * .0033, 3);
     }
 }

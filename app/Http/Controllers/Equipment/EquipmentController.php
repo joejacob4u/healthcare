@@ -110,4 +110,45 @@ class EquipmentController extends Controller
             return redirect('/equipment')->with('success', 'Equipment has been saved.');
         }
     }
+
+    public function download()
+    {
+        $equipments = Equipment::where('building_id', session('building_id'))->get();
+        
+        $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
+
+        $csv->insertOne([
+            'Name',
+            'Category',
+            'Category Asset',
+            'Description',
+            'Maintenance Requirement',
+            'Redundancy',
+            'Mission Criticality',
+            'Incident History',
+            'Preventive Maintenance Procedure',
+            'Room',
+            'Standard Label',
+            'Standard Label Text',
+            'EOP Name',
+            'EOP Text',
+            'Finding',
+            'Potential to cause harm',
+            'Policy Issue',
+            'Finding created at:',
+            'Measure of Success',
+            'Benefit',
+            'Plan of Action',
+            'Last Assigned To',
+            'Due Date',
+            'Status'
+        ]);
+
+        foreach (json_decode(json_encode($findings), true) as $finding) {
+            $csv->insertOne($finding);
+        }
+
+        $csv->output('action_sheet_healthsystem_'.date('Y-m-d:H:i:s').'.csv');
+        exit;
+    }
 }

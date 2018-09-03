@@ -16,10 +16,12 @@
         <h3 class="box-title">Existing Equipments for <strong>{{session('building_name')}}</strong></h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('equipment/create')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Equipment</a>
+          <a href="{{url('equipment/download')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Equipment</a>
         </div>
       </div>
       <div class="box-body">
+        <div class="pull-left"><a href="#" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-save"></span> Download</a></div>
+        <br/>
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
@@ -28,6 +30,7 @@
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
                         <th>USL Score</th>
+                        <th>FCI #</th>
                         <th>Mission Criticality Score</th>
                         <th>EM Number Score</th>
                         <th>EM Rating Score</th>
@@ -43,6 +46,7 @@
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
                         <th>USL Score</th>
+                        <th>FCI #</th>
                         <th>Mission Criticality Score</th>
                         <th>EM Number Score</th>
                         <th>EM Rating Score</th>
@@ -59,6 +63,7 @@
                       <td>{{$equipment->room->room_number}}</td>
                       <td>{{$equipment->identification_number}}</td>
                       <td><span class="label label-default">{{$equipment->USLScore()}}</span></td>
+                      <td><span class="label label-default">{{$equipment->FCINumber()}}</span></td>
                       <td><span class="label label-default">{{$equipment->missionCriticalityRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->EMNumberScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->EMRatingScore()}}</span></td>
