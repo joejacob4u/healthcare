@@ -155,6 +155,15 @@
                   </div>
               </div>
 
+            <div class="form-group">
+                  {!! Form::label('utilization', 'Annual Utilization %:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('utilization', $equipment->utilization, ['class' => 'form-control','id' => 'utilization']) !!}
+                  </div>
+              </div>
+
+
+
               <div class="form-group">
                   {!! Form::label('estimated_replacement_cost', 'Estimated Replacement Cost:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">

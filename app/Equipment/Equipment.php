@@ -100,7 +100,7 @@ class Equipment extends Model
 
         //now lets do requirement frequency and redundancy
 
-        $score += ($this->maintenanceRequirement->score + $this->redundancy->score + $this->missionCriticality->score + $this->incidentHistory->score);
+        $score += ($this->maintenanceRequirement->score + $this->missionCriticality->score + $this->incidentHistory->score);
 
         //add usl score too
 
@@ -122,24 +122,20 @@ class Equipment extends Model
 
     public function EMRatingScore()
     {
-        // EM Rating Score - Mission Critical Rating + (2xRisk) + (2xMaintenance)
+        // ((Mission Critical + (2x Risk) + (2x Maintenance)+1))/2
 
-        $score = 0;
+        $score = (($this->missionCriticality->score + (2 * $this->assetCategory->physicalRisk->score) + (2 * $this->maintenanceRequirement->score) + 1))/2;
 
-        $score += $this->missionCriticality->score + (2 *$this->maintenanceRequirement->score) + (2 * $this->assetCategory->physicalRisk->score);
-
-        return $score;
+        return number_format($score, 2);
     }
 
     public function AdjustedEMRScore()
     {
-        // Adjusted EMR = (Mission Critical Rating + (2xMaintenance))x Utilization + (2xRisk)
+        // ((((Mission Critical + (2x Maintenance)) x (Utilization/100) + (2x Risk)) x 0.1) - 0.01
 
-        $score = 0;
+        $score = ((($this->missionCriticality->score + (2 * $this->maintenanceRequirement->score)) * ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score)) * 0.1) - 0.01;
 
-        $score += ($this->missionCriticality->score + (2 *$this->maintenanceRequirement->score)) * $this->assetCategory->utilityFunction->score + (2 * $this->assetCategory->physicalRisk->score);
-
-        return $score;
+        return number_format($score, 2);
     }
 
     public function FCINumber()
