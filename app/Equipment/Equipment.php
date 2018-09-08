@@ -21,6 +21,7 @@ class Equipment extends Model
         return $this->belongsTo('App\Regulatory\Room', 'room_id');
     }
 
+
     public function assetCategory()
     {
         return $this->belongsTo('App\Equipment\AssetCategory', 'equipment_asset_category_id');

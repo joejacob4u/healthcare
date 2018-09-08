@@ -40,7 +40,7 @@
             </div>
 
             <div class="form-group">
-                {!! Form::label('equipment_asset_category_id', 'Equipment Asset Category Id:', ['class' => 'col-lg-2 control-label']) !!}
+                {!! Form::label('equipment_asset_category_id', 'Equipment Asset Category:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
                 {!! Form::select('equipment_asset_category_id', [], '', ['class' => 'form-control','id' => 'equipment_asset_category_id','data-live-search' => "true"]); !!}
                 </div>

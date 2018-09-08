@@ -120,37 +120,68 @@ class EquipmentController extends Controller
         $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
 
         $csv->insertOne([
-            'Name',
-            'Category',
-            'Category Asset',
-            'Description',
-            'Maintenance Requirement',
+            'Equipment Name',
+            'Building',
+            'Equipment Category',
+            'Equipment Asset Category',
+            'Equipment Description',
+            'Manufacturer',
+            'Model Number',
+            'Serial Number',
+            'Equipment Inventory Identification',
+            'Preventive Maintenance Procedure',
             'Redundancy',
             'Mission Criticality',
             'Incident History',
-            'Preventive Maintenance Procedure',
+            'Installation Date',
+            'Annual Utilization %',
+            'Estimated Replacement Cost',
+            'Estimated Deferred Maintenance Cost per Year',
+            'Baseline date:',
+            'Maintenance Requirement Frequency',
+            'Department',
             'Room',
-            'Standard Label',
-            'Standard Label Text',
-            'EOP Name',
-            'EOP Text',
-            'Finding',
-            'Potential to cause harm',
-            'Policy Issue',
-            'Finding created at:',
-            'Measure of Success',
-            'Benefit',
-            'Plan of Action',
-            'Last Assigned To',
-            'Due Date',
-            'Status'
+            'USL Score',
+            'FCI #',
+            'MIssion Criticality Score',
+            'EM Number Score',
+            'EM Rating Score',
+            'Adjusted EM Rating Score'
         ]);
 
-        foreach (json_decode(json_encode($findings), true) as $finding) {
-            $csv->insertOne($finding);
+        foreach ($equipments as $equipment) {
+            $csv->insertOne([
+                $equipment->name,
+                session('building_name'),
+                $equipment->assetCategory->category->name,
+                $equipment->assetCategory->name,
+                $equipment->description,
+                $equipment->manufacturer,
+                $equipment->model_number,
+                $equipment->serial_number,
+                $equipment->identification_number,
+                $equipment->preventive_maintenance_procedure,
+                $equipment->redundancy->name,
+                $equipment->missionCriticality->name,
+                $equipment->incidentHistory->name,
+                $equipment->manufacturer_date,
+                $equipment->utilization,
+                $equipment->estimated_replacement_cost,
+                $equipment->estimated_deferred_maintenance_cost,
+                $equipment->baseline_date,
+                $equipment->maintenanceRequirement->name,
+                $equipment->room->buildingDepartment->name,
+                $equipment->room->room_number,
+                $equipment->USLScore(),
+                $equipment->FCINumber(),
+                $equipment->missionCriticalityRatingScore(),
+                $equipment->EMNumberScore(),
+                $equipment->EMRatingScore(),
+                $equipment->AdjustedEMRScore()
+            ]);
         }
 
-        $csv->output('action_sheet_healthsystem_'.date('Y-m-d:H:i:s').'.csv');
+        $csv->output('equipments_for_'.session('building_name').'_'.date('Y-m-d:H:i:s').'.csv');
         exit;
     }
 }
