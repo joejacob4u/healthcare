@@ -123,24 +123,30 @@ class Equipment extends Model
 
     public function EMRatingScore()
     {
-        // ((Mission Critical + (2x Risk) + (2x Maintenance)+1))/2
+        // mission critical rating + (2×risk) + (2×maintenance)
 
-        $score = (($this->missionCriticality->score + (2 * $this->assetCategory->physicalRisk->score) + (2 * $this->maintenanceRequirement->score) + 1))/2;
+        $score = (($this->missionCriticality->score + (2 * $this->assetCategory->physicalRisk->score) + (2 * $this->maintenanceRequirement->score)));
 
         return number_format($score, 2);
     }
 
     public function AdjustedEMRScore()
     {
-        // ((((Mission Critical + (2x Maintenance)) x (Utilization/100) + (2x Risk)) x 0.1) - 0.01
+        //First mission criticality + (2 * maint requirement)
 
         $score = $this->missionCriticality->score + (2 * $this->maintenanceRequirement->score);
 
+        //second multiply above with (Utilization % divided by 100) + (2 x physical risk)
+
         $score *= ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score);
+
+        // Multiply above by 0.1
 
         $score *= 0.1;
 
-        $score -= 0.01;
+        // After all this subtract 0.01 to get the adjusted EM Rating
+
+        $score -= 0.02;
 
         return number_format($score, 2);
     }
