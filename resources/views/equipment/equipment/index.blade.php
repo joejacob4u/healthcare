@@ -31,7 +31,6 @@
                         <th>Eq ID Number</th>
                         <th>USL Score</th>
                         <th>FCI #</th>
-                        <th>Mission Criticality Score</th>
                         <th>EM Number Score</th>
                         <th>EM Rating Score</th>
                         <th>Adjusted EM Rating Score</th>
@@ -47,7 +46,6 @@
                         <th>Eq ID Number</th>
                         <th>USL Score</th>
                         <th>FCI #</th>
-                        <th>Mission Criticality Score</th>
                         <th>EM Number Score</th>
                         <th>EM Rating Score</th>
                         <th>Adjusted EM Rating Score</th>
@@ -64,7 +62,6 @@
                       <td>{{$equipment->identification_number}}</td>
                       <td><span class="label label-default">{{$equipment->USLScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->FCINumber()}}</span></td>
-                      <td><span class="label label-default">{{$equipment->missionCriticalityRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->EMNumberScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->EMRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->AdjustedEMRScore()}}</span></td>
