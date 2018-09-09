@@ -136,17 +136,35 @@ class Equipment extends Model
 
         $score = $this->missionCriticality->score + (2 * $this->maintenanceRequirement->score);
 
+        echo "mission criticality + (2 * maint requirement) => ".$this->missionCriticality->score." + (2 * ".$this->maintenanceRequirement->score.") =>".$score."<br/>";
+
         //second multiply above with (Utilization % divided by 100) + (2 x physical risk)
+
+        echo $score." * ";
 
         $score *= ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score);
 
+        echo "(Utilization % divided by 100) + (2 x physical risk) => (".$this->utilization." / 100) + (2 * ".$this->assetCategory->physicalRisk->score.") = ".$score."<br/>";
+
         // Multiply above by 0.1
+
+        echo $score." * 0.1 =";
 
         $score *= 0.1;
 
+        echo $score."<br/>";
+
         // After all this subtract 0.01 to get the adjusted EM Rating
 
+        echo $score." - 0.02 =";
+
         $score -= 0.02;
+
+        echo $score."<br/>";
+
+        echo number_format($score, 2);
+
+        exit;
 
         return number_format($score, 2);
     }
