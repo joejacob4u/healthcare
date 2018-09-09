@@ -185,6 +185,6 @@ class Equipment extends Model
 
         $usl_percentage = number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
 
-        return number_format($usl_percentage * .0033, 3);
+        return number_format($usl_percentage * .003, 3);
     }
 }
