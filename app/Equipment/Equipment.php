@@ -166,7 +166,7 @@ class Equipment extends Model
 
         // exit;
 
-        $score = ((($this->missionCriticality->score + 2 * $this->maintenanceRequirement->score) * ($this->utilization / 100) + 2 * $this->assetCategory->physicalRisk->score) * 0.1) - 0.02;
+        $score = ((($this->missionCriticality->score + (2 * $this->maintenanceRequirement->score)) * ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score)) * 0.1) - 0.02;
 
         return number_format($score, 2);
     }
