@@ -241,6 +241,44 @@
               @endforeach
             </ul>
           </li>
+          <li class="treeview" id="healthsystem_tree">
+            <a href="#">
+              <i class="fa fa-circle-o"></i><span>Maintenance</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i></span>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                  <li class="treeview">
+                    <a href="#">
+                      <i class="fa fa-circle-o"></i><span>Equipment Maintenance</span>
+                      <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i></span>
+                      </span>
+                    </a>
+                <ul class="treeview-menu">
+                  <li><a href=""><i class="fa fa-circle-o"></i>Equipment</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>PM</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i><span>Deferred Maintenance</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i></span>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href=""><i class="fa fa-circle-o"></i>Equipment</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>PM</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
+                </ul>
+              </li>
+            </ul>
+          </li>
 
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Construction</a></li>
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS</a></li>

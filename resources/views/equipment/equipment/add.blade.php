@@ -97,6 +97,53 @@
                   </div>
               </div>
 
+            <div class="form-group">
+                {!! Form::label('is_warranty_availabled', 'Warranty:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('is_warranty_available', ['' => 'Please select',1 => 'Yes',0 => 'No'], '', ['class' => 'form-control','id' => 'is_warranty_available']); !!}
+                </div>
+            </div>
+
+            <div id="warranty_div" style="display:none">
+
+                <div class="form-group">
+                  {!! Form::label('warranty_start_date', 'Warranty Start Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('warranty_start_date', Request::old('warranty_start_date'), ['class' => 'form-control','id' => 'warranty_start_date']) !!}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  {!! Form::label('warranty_end_date', 'Warranty End Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('warranty_end_date', Request::old('warranty_end_date'), ['class' => 'form-control','id' => 'warranty_end_date']) !!}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  {!! Form::label('warranty_company_info', 'Warrant Company Info:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('warranty_company_info', Request::old('warranty_company_info'), ['class' => 'form-control', 'placeholder' => 'Company name, point of contact, phone number, address, email of company providing warranty.','rows' => 3]) !!}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  {!! Form::label('warranty_files_path', 'Warranty Files:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! HTML::dropzone('warranty_files_path','equipments/warranty_files/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
+                  </div>
+              </div>
+
+                <div class="form-group">
+                  {!! Form::label('warranty_description', 'Warranty Description:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('warranty_description', Request::old('warranty_description'), ['class' => 'form-control','id' => 'warranty_description','rows' => 3]) !!}
+                  </div>
+                </div>
+
+            </div>
+
+
                 <div class="form-group">
                   {!! Form::label('preventive_maintenance_procedure', 'Preventive Maintenance Procedure:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
@@ -217,7 +264,7 @@
 
     <script>
 
-    $("#manufacturer_date,#baseline_date").flatpickr({
+    $("#manufacturer_date,#baseline_date,#warranty_start_date,#warranty_end_date").flatpickr({
         enableTime: false,
         dateFormat: "Y-m-d",
         altFormat: "F j, Y"
@@ -300,6 +347,17 @@
 
         }
         
+      });
+
+      $("#is_warranty_available").change(function(){
+          
+          if($(this).val() == 1){
+              $('#warranty_div').show();
+          }
+          else{
+             $('#warranty_div').hide(); 
+          }
+
       });
 
 

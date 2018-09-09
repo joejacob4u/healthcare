@@ -134,7 +134,13 @@ class Equipment extends Model
     {
         // ((((Mission Critical + (2x Maintenance)) x (Utilization/100) + (2x Risk)) x 0.1) - 0.01
 
-        $score = ((($this->missionCriticality->score + (2 * $this->maintenanceRequirement->score)) * ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score)) * 0.1) - 0.01;
+        $score = $this->missionCriticality->score + (2 * $this->maintenanceRequirement->score);
+
+        $score *= ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score);
+
+        $score *= 0.1;
+
+        $score -= 0.01;
 
         return number_format($score, 2);
     }
@@ -153,6 +159,6 @@ class Equipment extends Model
 
         $usl_percentage = 100 - number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
 
-        return number_format((100 - $usl_percentage) * .0033, 3);
+        return number_format($usl_percentage * .0033, 3);
     }
 }
