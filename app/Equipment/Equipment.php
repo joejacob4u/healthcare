@@ -166,7 +166,11 @@ class Equipment extends Model
 
         // exit;
 
-        $score = ((($this->missionCriticality->score + (2 * $this->maintenanceRequirement->score)) * ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score)) * 0.1) - 0.02;
+        //$score = ((($this->missionCriticality->score + (2 * $this->maintenanceRequirement->score)) * ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score)) * 0.1) - 0.02;
+
+        // (Mission Criticality x Utilization % + 2 x Utilization x Maintenance Requirement + 200 x Physical Risk - 30) / 10
+
+        $score = ($this->missionCriticality->score * $this->utilization + 2 * $this->utilization * $this->maintenanceRequirement->score + 200 * $this->assetCategory->physicalRisk->score - 30) / 10;
 
         return number_format($score, 2);
     }
