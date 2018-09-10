@@ -68,14 +68,16 @@ class Equipment extends Model
             return 1;
         }
 
+
+        //calculate percentage number
+
+        $percentage = 100 - number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
+
         $array = ['equipment_age_in_months' => $equipment_age_in_months,'service_life_in_months' => $service_life_in_months,'percentage' => $percentage];
 
         print_r($array);
         exit;
 
-        //calculate percentage number
-
-        $percentage = 100 - number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
  
         //lets figure out what category they are in
 
