@@ -73,21 +73,16 @@ class Equipment extends Model
 
         $percentage = 100 - number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
 
-        $array = ['equipment_age_in_months' => $equipment_age_in_months,'service_life_in_months' => $service_life_in_months,'percentage' => $percentage];
-
-        print_r($array);
-        exit;
-
  
         //lets figure out what category they are in
 
-        if ($percentage < 100 and $percentage >= 76) {
+        if ($percentage <= 100 and $percentage >= 76) {
             $score = 2;
-        } elseif ($percentage < 75 and $percentage >= 51) {
+        } elseif ($percentage <= 75 and $percentage >= 51) {
             $score = 3;
-        } elseif ($percentage < 50 and $percentage >= 25) {
+        } elseif ($percentage <= 50 and $percentage >= 25) {
             $score = 4;
-        } elseif ($percentage < 24 and $percentage >= 10) {
+        } elseif ($percentage <= 24 and $percentage >= 10) {
             $score = 5;
         } elseif ($percentage <= 9) {
             $score = 6;
