@@ -21,6 +21,12 @@ class Equipment extends Model
         return $this->belongsTo('App\Regulatory\Room', 'room_id');
     }
 
+    public function category()
+    {
+        return $this->belongsTo('App\Equipment\Category', 'equipment_category_id');
+    }
+
+
 
     public function assetCategory()
     {
@@ -134,42 +140,6 @@ class Equipment extends Model
 
     public function AdjustedEMRScore()
     {
-        // //First mission criticality + (2 * maint requirement)
-
-        // $score = $this->missionCriticality->score + (2 * $this->maintenanceRequirement->score);
-
-        // echo "mission criticality + (2 * maint requirement) => ".$this->missionCriticality->score." + (2 * ".$this->maintenanceRequirement->score.") =>".$score."<br/>";
-
-        // //second multiply above with (Utilization % divided by 100) + (2 x physical risk)
-
-        // echo $score." * ";
-
-        // $score *= ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score);
-
-        // echo "(Utilization % divided by 100) + (2 x physical risk) => (".$this->utilization." / 100) + (2 * ".$this->assetCategory->physicalRisk->score.") = ".$score."<br/>";
-
-        // // Multiply above by 0.1
-
-        // echo $score." * 0.1 =";
-
-        // $score *= 0.1;
-
-        // echo $score."<br/>";
-
-        // // After all this subtract 0.01 to get the adjusted EM Rating
-
-        // echo $score." - 0.02 =";
-
-        // $score -= 0.02;
-
-        // echo $score."<br/>";
-
-        // echo number_format($score, 2);
-
-        // exit;
-
-        //$score = ((($this->missionCriticality->score + (2 * $this->maintenanceRequirement->score)) * ($this->utilization / 100) + (2 * $this->assetCategory->physicalRisk->score)) * 0.1) - 0.02;
-
         // (Mission Criticality x Utilization % + 2 x Utilization x Maintenance Requirement + 200 x Physical Risk - 30) / 10
 
         $score = ($this->missionCriticality->score * ($this->utilization / 100) + 2 * ($this->utilization / 100) * $this->maintenanceRequirement->score + 200 * $this->assetCategory->physicalRisk->score - 30) / 10;

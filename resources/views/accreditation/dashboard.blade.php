@@ -25,7 +25,7 @@
 
             <div class="tab-content">
             <div id="findings_table" class="tab-pane fade in active">
-                <table class="table table-bordered tab-pane active" data-show="all" type="yajra" id="findings_table_data">
+                <table class="table table-bordered tab-pane active" data-show="all" type="custom" id="findings_table_data">
                     <thead>
                         <th>Accreditation</th>
                         <th>Accreditation Standard</th>
@@ -37,7 +37,7 @@
                 </table>
             </div>
             <div id="documents_table" class="tab-pane fade">
-                <table class="table table-bordered tab-pane" id="hco_documents_table" type="yajra">
+                <table class="table table-bordered tab-pane" id="hco_documents_table" type="custom">
                     <thead>
                         <th>Accreditation</th>
                         <th>Accreditation Standard</th>
@@ -55,7 +55,7 @@
                 </div>
                 <br/>
                 <p><strong>Last updated at {{\Carbon\Carbon::now()->toDayDateTimeString() }}</strong></p>
-                <table class="table table-striped" id="document-action-plan-table" type="yajra">
+                <table class="table table-striped" id="document-action-plan-table" type="custom">
                     <thead>
                             <th>Site</th>
                             <th>Site ID</th>
@@ -83,7 +83,7 @@
                     </ul>
                 </div>
 
-                <table class="table table-bordered tab-pane" type="yajra">
+                <table class="table table-bordered tab-pane" type="custom">
                     <thead>
                         <th>Intensity</th>
                         <th>Limited</th>
@@ -127,7 +127,7 @@
                     </ul>
                     </div>
                 </div>
-                <table id="action-plan-table" class="table table-striped" type="yajra">
+                <table id="action-plan-table" class="table table-striped" type="custom">
                     <thead>
                         <tr>
                             <th>Site</th>

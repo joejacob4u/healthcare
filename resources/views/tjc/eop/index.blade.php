@@ -34,7 +34,7 @@
 
         <div class="tab-content">
             <div id="added_to_checklist" class="tab-pane fade in active">
-                <table id="added_to_checklist_table" class="table table-bordered" type="yajra" style="width:100%">
+                <table id="added_to_checklist_table" class="table table-bordered" type="custom" style="width:100%">
                     <thead>
                         <tr>
                             <th>EOP #</th>
@@ -46,7 +46,7 @@
                 </table>
             </div>
             <div id="not_added_to_checklist" class="tab-pane fade">
-                <table id="not_added_to_checklist_table" class="table table-bordered" type="yajra" style="width:100%">
+                <table id="not_added_to_checklist_table" class="table table-bordered" type="custom" style="width:100%">
                     <thead>
                         <tr>
                             <th>EOP #</th>

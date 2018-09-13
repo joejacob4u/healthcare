@@ -29,7 +29,7 @@
         </div>
       </div>
       <div class="box-body">
-        <table id="action-plan-table" class="table table-striped" type="yajra">
+        <table id="action-plan-table" class="table table-striped" type="custom">
                 <thead>
                     <tr>
                         <th>Site</th>

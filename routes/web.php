@@ -321,6 +321,13 @@ Route::post('equipment/edit', 'Equipment\EquipmentController@save');
 Route::get('equipment/edit/{equipment_id}', 'Equipment\EquipmentController@edit');
 Route::get('equipment/download', 'Equipment\EquipmentController@download');
 
+//User equipment routes
+
+Route::get('equipment/view/{filter}', 'Equipment\EquipmentController@equipmentView');
+
+
+
+
 
 
 

@@ -19,12 +19,19 @@ class EquipmentController extends Controller
     public function __construct()
     {
         $this->middleware('system_admin');
+        $this->middleware('user')->only('equipmentView');
     }
 
     public function index()
     {
         $equipments = Equipment::where('building_id', session('building_id'))->get();
         return view('equipment.equipment.index')->with('equipments', $equipments);
+    }
+
+    public function equipmentView($filter)
+    {
+        $equipments = Equipment::where('building_id', session('building_id'))->get();
+        return view('equipment.equipment.'.$filter.'-view')->with('equipments', $equipments);
     }
 
     public function create()
