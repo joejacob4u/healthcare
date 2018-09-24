@@ -13,6 +13,8 @@ use App\Equipment\Equipment;
 use App\Equipment\MaintenanceRequirement;
 use App\Biomed\MissionCriticality;
 use App\Equipment\IncidentHistory;
+use App\Equipment\WorkOrder;
+use Carbon\Carbon;
 
 class EquipmentController extends Controller
 {
@@ -67,10 +69,32 @@ class EquipmentController extends Controller
             'room_id' => 'required',
             'biomed_mission_criticality_id' => 'not_in:0',
             'equipment_incident_history_id' => 'not_in:0',
-            'baseline_date' => 'required'
+            'baseline_date' => 'required',
+            'frequency' => 'required|not_in:0'
         ]);
 
-        if (Equipment::create($request->except(['hco_id','site_id']))) {
+        if ($equipment = Equipment::create($request->except(['hco_id','site_id']))) {
+
+            //lets calculate work order dates
+
+
+            $work_order_dates = $equipment->calculateEquipmentWorkOrderDates();
+
+            if (isset($work_order_dates)) {
+                foreach ($work_order_dates as $work_order_date) {
+
+                    //save each work order one by one
+                    
+                    $equipment->workOrders()->save(new WorkOrder([
+                        'name' => 'Work Order for '.$equipment->name.' for '.Carbon::parse($work_order_date)->toFormattedDateString(),
+                        'work_order_date' => $work_order_date,
+                        'building_id' => session('building_id'),
+                        'equipment_id' => $equipment->id,
+                        'status' => 'pending_initialization'
+                    ]));
+                }
+            }
+
             return redirect('/equipment')->with('success', 'New equipment has been added.');
         }
     }
@@ -109,13 +133,40 @@ class EquipmentController extends Controller
             'room_id' => 'required',
             'biomed_mission_criticality_id' => 'not_in:0',
             'equipment_incident_history_id' => 'not_in:0',
-            'baseline_date' => 'required'
+            'baseline_date' => 'required',
+            'frequency' => 'required|not_in:0'
 
         ]);
 
         $equipment = Equipment::find($request->equipment_id);
 
+        $current_baseline_date = $equipment->baseline_date;
+
         if ($equipment->update($request->except(['hco_id','site_id','equipment_id']))) {
+            if ($current_baseline_date != $request->baseline_date) {
+
+                //delete existing work order dates
+
+                Equipment::where('building_id', session('building_id'))->where('equipment_id', $equipment->id)->delete();
+
+                $work_order_dates = $equipment->calculateEquipmentWorkOrderDates();
+
+                if (isset($work_order_dates)) {
+                    foreach ($work_order_dates as $work_order_date) {
+    
+                        //save each work order one by one
+                        
+                        $equipment->workOrders()->save(new WorkOrder([
+                            'name' => 'Work Order for '.$equipment->name.' for '.Carbon::parse($work_order_date)->toFormattedDateString(),
+                            'work_order_date' => $work_order_date,
+                            'building_id' => session('building_id'),
+                            'equipment_id' => $equipment->id,
+                            'status' => 'pending_initialization'
+                        ]));
+                    }
+                }
+            }
+            
             return redirect('/equipment')->with('success', 'Equipment has been saved.');
         }
     }

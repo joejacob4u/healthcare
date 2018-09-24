@@ -38,5 +38,9 @@
   <script src="{{ asset ("/bower_components/dropzone/dist/dropzone.js") }}" type="text/javascript"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
+  <script>
+    Dropzone.autoDiscover = false;
+  </script>
+
   @yield('head')
 </head>
