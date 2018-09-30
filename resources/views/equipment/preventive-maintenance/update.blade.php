@@ -42,23 +42,13 @@
                     <form id="loginForm" method="POST" action="{{url('equipment/pm/work-orders/update/'.$work_order->id)}}" novalidate="novalidate">
                         <div class="form-group">
                             <label for="is_in_house">Employment Type:</label>
-                            <select class="form-control" name="is_in_house" id="is_in_house">
-                                <option value="-1">Please Select</option>
-                                <option value="1">In-House</option>
-                                <option value="0">External</option>
-                            </select>
+                            {!! Form::select('is_in_house', ['-1' => 'Please select',1 => 'In-House',0 => 'External'], $work_order->is_in_house, ['class' => 'form-control','id' => 'is_in_house']); !!}
                             <span class="help-block">This field is required.</span>
                         </div>
-                        <div id="in_house_div" style="display:none;">
+                        <div id="in_house_div" @if($work_order->is_in_house == 1) style="" @else style="display:none;"  @endif>
                             <div class="form-group">
                                 <label for="status" class="control-label">Status</label>
-                                <select class="form-control" name="status" id="status" value="{{$work_order->status}}">
-                                    <option value="0">Please Select</option>
-                                    <option value="ongoing">Ongoing</option>
-                                    <option value="open">Open - Parts on Order</option>
-                                    <option value="bcm">BCM (Beyond Capable Maintenance) - Major Capital Needs are Required</option>
-                                    <option value="compliant">Complete and Compliant</option>
-                                </select>
+                                {!! Form::select('status', ['0' => 'Please select','ongoing' => 'Ongoing','open' => 'Open - Parts on Order','bcm' => 'BCM (Beyond Capable Maintenance) - Major Capital Needs are Required','compliant' => 'Complete and Compliant'], $work_order->status, ['class' => 'form-control','id' => 'status']); !!}
                                 <span class="help-block">Required</span>
                             </div>
 
@@ -91,6 +81,7 @@
                         
                         <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
                         <button type="submit" class="btn btn-success btn-block">Submit</button>
+                        {{ csrf_field()}}
                     </form>
                 </div>
             </div>
@@ -110,14 +101,14 @@
     $('#is_in_house').change(function(){
 
         if($(this).val() == 0){
-            $('#start_time').val(moment().format("YYYY-MM-DD HH:mm A"));
-            $('#end_time').val(moment().format("YYYY-MM-DD HH:mm A"));
+            $('#start_time').val('');
             $('#comment').text('File Upload and Compliant');
             $('#status').val('compliant');
-            $('#in_house_div').hide();
+            $('#in_house_div').show();
         }
         else{
             $('#start_time').val('');
+            $('#start_time').closest('.help-block').html('');
             $('#end_time').val('');
             $('#status').val('0');
             $('#in_house_div').show();
@@ -128,7 +119,16 @@
     $("#start_time,#end_time").flatpickr({
         enableTime: true,
         dateFormat: "Y-m-d h:i K",
-        altFormat: "F j,Y h:i K"
+        altFormat: "F j,Y h:i K",
+    });
+
+    $("#end_time").focus(function(){
+        if(!$("#start_time").val()){
+            $('#start_time').focus();
+            alert('You will need to set start time first.');
+
+        }
+
     });
 
 

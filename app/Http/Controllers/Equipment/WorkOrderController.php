@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Equipment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\WorkOrder;
+use Storage;
 
 class WorkOrderController extends Controller
 {
@@ -35,7 +36,7 @@ class WorkOrderController extends Controller
         $this->validate($request, [
             'is_in_house' => 'required|not_in:-1',
             'start_time' => 'required',
-            'end_time' => 'required_if:status,!=,ongoing',
+            'end_time' => 'required_unless:status,ongoing',
             'status' => 'not_in:0',
             'parts_on_order' => 'required_if:status,==,open',
             'comment' => 'required_if:status,==,bcm'
@@ -49,7 +50,9 @@ class WorkOrderController extends Controller
             }
         }
 
-        if (WorkOrder::create($request->all())) {
+        $work_order = WorkOrder::find($work_order_id);
+
+        if ($work_order->update($request->all())) {
             return redirect('equipment/pm/work-orders/update/'.$work_order_id)->with('success', 'Work Order Updated!');
         }
     }
