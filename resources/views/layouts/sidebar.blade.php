@@ -259,7 +259,7 @@
                 <ul class="treeview-menu">
                   <li><a href="{{url('equipment/view/equipment')}}"><i class="fa fa-circle-o"></i>Equipment</a></li>
                   <li><a href="{{url('equipment/view/risk-assessment')}}"><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
-                  <li><a href="{{url('equipment/pm/work-orders')}}"><i class="fa fa-circle-o"></i>PM</a></li>
+                  <li><a href="{{url('equipment/pm/work-orders')}}"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
                   <li><a href="{{url('equipment/view/capital-planning')}}"><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
                 </ul>
               </li>

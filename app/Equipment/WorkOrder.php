@@ -30,4 +30,9 @@ class WorkOrder extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    public function workOrderStatuses()
+    {
+        return $this->belongsToMany('App\Equipment\WorkOrderStatus', 'equipment_work_order-equipment_work_order_status', 'equipment_work_order_id', 'equipment_work_order_status_id')->withPivot('comment', 'attachment');
+    }
 }

@@ -328,6 +328,7 @@ Route::get('equipment/pm/work-orders', 'Equipment\WorkOrderController@index');
 Route::get('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\WorkOrderController@update');
 Route::post('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\WorkOrderController@save');
 Route::post('equipment/work-orders/fetch', 'Equipment\WorkOrderController@fetch');
+Route::post('equipment/work-orders/status', 'Equipment\WorkOrderController@saveStatus');
 
 
 

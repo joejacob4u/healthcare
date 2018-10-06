@@ -45,42 +45,111 @@
                             {!! Form::select('is_in_house', ['-1' => 'Please select',1 => 'In-House',0 => 'External'], $work_order->is_in_house, ['class' => 'form-control','id' => 'is_in_house']); !!}
                             <span class="help-block">This field is required.</span>
                         </div>
-                        <div id="in_house_div" @if($work_order->is_in_house == 1) style="" @else style="display:none;"  @endif>
-                            <div class="form-group">
-                                <label for="status" class="control-label">Status</label>
-                                {!! Form::select('status', ['0' => 'Please select','ongoing' => 'Ongoing','open' => 'Open - Parts on Order','bcm' => 'BCM (Beyond Capable Maintenance) - Major Capital Needs are Required','compliant' => 'Complete and Compliant'], $work_order->status, ['class' => 'form-control','id' => 'status']); !!}
-                                <span class="help-block">Required</span>
-                            </div>
 
-                            <div class="form-group">
-                                <label for="start_time" class="control-label">Start Time</label>
-                                <input type="text" class="form-control" id="start_time" name="start_time" value="{{$work_order->start_time}}" required="" title="Time of work initialization" placeholder="Time of work initialization">
-                                <span class="help-block"></span>
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <div class="pull-right">
+                                    <button type="button" onclick="fireStatusModal()" class="btn btn-success btn-sm">Add Status</button>
+                                </div>
+                                <h5>Status History</h5>
                             </div>
-                            <div class="form-group">
-                                <label for="end_time" class="control-label">End Time</label>
-                                <input type="text" class="form-control" id="end_time" name="end_time" value="{{$work_order->end_time}}" required="" title="Time of work conclusion" placeholder="Time of work conclusion">
-                                <span class="help-block"></span>
-                            </div>
-                            <div class="form-group">
-                                <label for="parts_on_order" class="control-label">Parts on Order</label>
-                                <textarea class="form-control" rows="3" id="parts_on_order" name="parts_on_order" value="{{$work_order->parts_on_order}}"></textarea>
-                                <span class="help-block">Required if status is set to 'Open'</span>
-                            </div>
-                            <div class="form-group">
-                                <label for="comment" class="control-label">Comment</label>
-                                <textarea class="form-control" rows="3" id="comment" name="comment" value="{{$work_order->comment}}"></textarea>
-                                <span class="help-block">Required if status is set to 'BCM'</span>
+                            <div class="panel-body">
+                                @foreach($work_order->workOrderStatuses as $work_order_status)
+                                    @if($work_order_status->id == '1')
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h4>{{$work_order_status->name}}</h4></div>
+                                            <div class="panel-body">
+                                                <strong>Job started at {{\Carbon\Carbon::parse($work_order->start_time)->format('F j, Y  h:i A')}}</strong>
+                                                
+                                                @if(!empty($work_order_status->pivot->comment))
+                                                    <br><br><blockquote>{{$work_order_status->pivot->comment}}</blockquote>
+                                                @endif
+
+                                                @if(!empty($work_order_status->pivot->attachment))
+                                                    @php
+                                                    $no_of_files = count(Storage::disk('s3')->files($work_order_status->pivot->attachment));
+                                                    @endphp
+
+                                                    @if($no_of_files > 0) 
+                                                        <br><br>{!! HTML::dropzone('attachment_'.$work_order_status->id, $work_order_status->pivot->attachment,'true','false') !!}
+                                                    @endif
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endif
+                                    
+                                    @if($work_order_status->id == '2')
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h4>{{$work_order_status->name}}</h4></div>
+                                            <div class="panel-body">
+                                            <strong>Job started at {{\Carbon\Carbon::parse($work_order->start_time)->format('F j, Y  h:i A')}}</strong>
+                                            <br><br><strong>Job ended at {{\Carbon\Carbon::parse($work_order->end_time)->format('F j, Y  h:i A')}}</strong>
+                                            @if(!empty($work_order_status->pivot->comment))
+                                                <br><br><blockquote>{{$work_order_status->pivot->comment}}</blockquote>
+                                            @endif
+                                            @if(!empty($work_order_status->pivot->attachment))
+                                                @php
+                                                $no_of_files = count(Storage::disk('s3')->files($work_order_status->pivot->attachment));
+                                                @endphp
+
+                                                @if($no_of_files > 0) 
+                                                   <br><br> {!! HTML::dropzone('attachment_'.$work_order_status->id, $work_order_status->pivot->attachment,'true','false') !!}
+                                                @endif
+                                            @endif
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($work_order_status->id == '3')
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h4>{{$work_order_status->name}}</h4></div>
+                                            <div class="panel-body">
+                                            <strong>Job started at {{\Carbon\Carbon::parse($work_order->start_time)->format('F j, Y  h:i A')}}</strong>
+                                            <br><br><strong>Job ended at {{\Carbon\Carbon::parse($work_order->end_time)->format('F j, Y  h:i A')}}</strong>
+                                            @if(!empty($work_order_status->pivot->comment))
+                                                <br><br><blockquote>{{$work_order_status->pivot->comment}}</blockquote>
+                                            @endif
+                                            @if(!empty($work_order_status->pivot->attachment))
+                                                @php
+                                                $no_of_files = count(Storage::disk('s3')->files($work_order_status->pivot->attachment));
+                                                @endphp
+
+                                                @if($no_of_files > 0) 
+                                                   <br><br> {!! HTML::dropzone('attachment_'.$work_order_status->id, $work_order_status->pivot->attachment,'true','false') !!}
+                                                @endif
+                                            @endif
+                                            </div>
+                                        </div>
+                                    @endif
+                                    @if($work_order_status->id == '4')
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading"><h4>{{$work_order_status->name}}</h4></div>
+                                            <div class="panel-body">
+                                            <strong>Job started at {{\Carbon\Carbon::parse($work_order->start_time)->format('F j, Y  h:i A')}}</strong>
+                                            <br><br><strong>Job ended at {{\Carbon\Carbon::parse($work_order->end_time)->format('F j, Y  h:i A')}}</strong>
+                                            @if(!empty($work_order_status->pivot->comment))
+                                                <br><br><blockquote>{{$work_order_status->pivot->comment}}</blockquote>
+                                            @endif
+                                            @if(!empty($work_order_status->pivot->attachment))
+                                                @php
+                                                $no_of_files = count(Storage::disk('s3')->files($work_order_status->pivot->attachment));
+                                                @endphp
+
+                                                @if($no_of_files > 0) 
+                                                   <br><br> {!! HTML::dropzone('attachment_'.$work_order_status->id, $work_order_status->pivot->attachment,'true','false') !!}
+                                                @endif
+                                            @endif
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                @endforeach
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="attachment" class="control-label">Attachments</label>
-                            {!! HTML::dropzone('attachment','equipments/pm/work_order/'.$work_order->id,'true','true') !!}
-                            <span class="help-block"></span>
+                        <div id="in_house_div" @if($work_order->is_in_house == 1) style="" @else style="display:none;"  @endif>
                         </div>
                         
                         <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
-                        <button type="submit" class="btn btn-success btn-block">Submit</button>
+                        <button type="submit" class="btn btn-success btn-block">Save</button>
                         {{ csrf_field()}}
                     </form>
                 </div>
@@ -94,35 +163,183 @@
       <!-- /.box-footer-->
     </div>
 
+    <!-- Status Modal -->
+    <div id="statusModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Add Status</h4>
+        </div>
+        <div class="modal-body">
+            <div class="well">
+            {!! Form::open(['url' => 'equipment/work-orders/status', 'class' => 'form-horizontal']) !!}
+                
+                <div class="form-group">
+                    {!! Form::label('status', 'Status', ['class' => 'col-lg-2 control-label'] )  !!}
+                    <div class="col-lg-10">
+                        {!!  Form::select('status', $work_order_statuses->prepend('Please Select',0)->toArray(), '0', ['class' => 'form-control','id' => 'status']) !!}
+                        <span class="help-block">This is required. Fill this out first.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('start_time', 'Start Time:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::text('start_time', $value = null, ['class' => 'form-control', 'placeholder' => 'start time','id' => 'start_time']) !!}
+                        <span class="help-block">Start Time is required.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('end_time', 'End Time:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::text('end_time', $value = null, ['class' => 'form-control', 'placeholder' => 'end time','id' => 'end_time']) !!}
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    {!! Form::label('comment', 'Comment', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::textarea('comment', $value = null, ['class' => 'form-control', 'rows' => 3,'id' => 'comment']) !!}
+                        <span class="help-block">Comment on status.</span>
+                    </div>
+                </div>
+
+                <input type='hidden' name='equipment_work_order_id' id="equipment_work_order_id" value="{{$work_order->id}}">
+
+                <div class="form-group">
+                    {!! Form::label('attachment', 'Attachment', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        <input type='hidden' name='attachment' id="attachment" value=''>
+                        <div id='' class='dropzone'></div>
+                        <span class="help-block"></span>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-success">Add Status</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+        </div>
+        {!! Form::close()  !!}
+    </div>
+    </div>
+
     <script src="{{ asset ("/bower_components/moment/moment.js") }}" type="text/javascript"></script>
 
     <script>
 
+    function fireStatusModal()
+    {
+        if($('#is_in_house').val() != -1)
+        {
+            if($('#is_in_house').val() == 0){
+                @if(empty($work_order->start_time))
+
+                $("#start_time").flatpickr({
+                        enableTime: false,
+                        dateFormat: "Y-m-d",
+                        altFormat: "F j,Y",
+                        altInput: true
+                });
+
+                @else
+
+                $('#start_time').val('{{$work_order->start_time}}');
+                    $('#start_time').prop('readonly',true);
+
+
+                @endif
+
+                @if(empty($work_order->end_time))
+
+                $("#end_time").flatpickr({
+                        enableTime: false,
+                        dateFormat: "Y-m-d",
+                        altFormat: "F j,Y",
+                        altInput: true
+                });
+
+                @else
+                    $('#end_time').val('{{$work_order->end_time}}');
+                    $('#end_time').prop('readonly',true);
+
+
+
+                @endif
+
+
+                $('#comment').text('File Upload and Compliant');
+                $('#status').val('4');
+            }
+            else if($('#is_in_house').val() == 1){
+                @if(empty($work_order->start_time))
+                
+                    $("#start_time").flatpickr({
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i:S",
+                            altFormat: "F j,Y h:i K",
+                            altInput: true
+                    });
+
+                @else
+
+                    $('#start_time').val('{{$work_order->start_time}}');
+                    $('#start_time').prop('readonly',true);
+
+                @endif
+
+                @if(empty($work_order->end_time))
+
+                    $("#end_time").flatpickr({
+                            enableTime: true,
+                            dateFormat: "Y-m-d H:i:S",
+                            altFormat: "F j,Y h:i K",
+                            altInput: true,
+                    });
+
+                @else
+                    $('#end_time').val('{{$work_order->end_time}}');
+                    $('#end_time').prop('readonly',true);
+                @endif
+            }
+
+            var dropzone_id = moment().unix();
+            var dropzone_path = 'equipments/pm/work_order/'+dropzone_id;
+            $('#statusModal .dropzone').attr('id','dropzone_'+dropzone_id);
+            createDropZone('dropzone_'+dropzone_id,dropzone_path);
+            $('#statusModal').modal('show');
+        }
+        else
+        {
+            alert('You must set employment type first.');
+        }
+    }
+
     $('#is_in_house').change(function(){
 
         if($(this).val() == 0){
-            $('#start_time').val('');
+            
             $('#comment').text('File Upload and Compliant');
-            $('#status').val('compliant');
-            $('#in_house_div').show();
+            $('#status').val('4');
+            $('.dropzone').next().html( "Attachment is required.");
+            $('#end_time').next().html( "End time is required.");
         }
         else{
-            $('#start_time').val('');
-            $('#start_time').closest('.help-block').html('');
-            $('#end_time').val('');
-            $('#status').val('0');
-            $('#in_house_div').show();
+            
         }
 
     });
 
-    $("#start_time,#end_time").flatpickr({
-        enableTime: true,
-        dateFormat: "Y-m-d h:i K",
-        altFormat: "F j,Y h:i K",
-    });
 
     $("#end_time").focus(function(){
+        
         if(!$("#start_time").val()){
             $('#start_time').focus();
             alert('You will need to set start time first.');
@@ -130,6 +347,92 @@
         }
 
     });
+
+    $('#status').change(function(){
+
+        if($(this).val() == 1)
+        {
+            $('#end_time').hide();
+            $('#comment').next().html( "Comment is preferred but optional.");
+            $('.dropzone').next().html( "Attachment is optional.");
+        }
+        else if($(this).val() == 2)
+        {
+            $('#end_time').show();
+            $('#comment').next().html( "Comment is required.");
+            $('#end_time').next().html( "End time is required.");
+            $('#comment').attr('placeholder','Please elaborate on parts on order.');
+            $('.dropzone').next().html( "Attachment is optional.");
+        }
+        else if($(this).val() == 3)
+        {
+            $('#end_time').show();
+            $('#comment').next().html( "Comment is required.");
+            $('#end_time').next().html( "End time is required.");
+            $('#comment').attr('placeholder','Please elaborate why the status is a BCM.');
+            $('.dropzone').next().html( "Attachment is optional.");
+        }
+        else if($(this).val() == 4)
+        {
+            $('#end_time').show();
+            $('#end_time').next().html( "End time is required.");
+            $('#comment').next().html( "Comment is optional.");
+            
+            if($('#is_in_house').val() == 0)
+            {
+                $('.dropzone').next().html( "Attachment is required.");
+            }
+            else
+            {
+                $('.dropzone').next().html( "Attachment is optional.");
+            }
+            
+        }
+
+    });
+
+    function createDropZone(dropzone_id,dropzone_path)
+    {
+        var s3url = '<?php echo env('S3_URL'); ?>';
+
+        $('#attachment').val(dropzone_path);
+
+        $('#'+dropzone_id).dropzone({ 
+            url: '/dropzone/upload' ,
+            paramName: 'file',
+            maxFilesize: 4,
+            autoDiscover: false,
+            addRemoveLinks: true,
+            init: function() {
+                this.on('sending', function(file, xhr, formData){
+                    formData.append('_token', $('meta[name=\"csrf-token\"]').attr('content'));
+                    formData.append('folder', dropzone_path);
+                    if (file.type.indexOf('image/') == -1)
+                    {
+                        //this.emit('thumbnail', file, '/images/document.png');
+                    }
+
+                });
+
+
+                this.on('success', function(file, xhr){
+                    console.log('file uploaded'+file);
+                });
+                this.on('removedfile', function(file) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/dropzone/delete',
+                        data: {file: file.name,directory:dropzone_path, _token: $('meta[name=\"csrf-token\"]').attr('content')},
+                        dataType: 'html',
+                        success: function(data){
+
+                        }
+                    });
+
+                });
+            },
+        });
+    }
 
 
     </script>
