@@ -37,11 +37,6 @@ class WorkOrderController extends Controller
     {
         $this->validate($request, [
             'is_in_house' => 'required|not_in:-1',
-            'start_time' => 'required',
-            'end_time' => 'required_unless:status,ongoing',
-            'status' => 'not_in:0',
-            'parts_on_order' => 'required_if:status,==,open',
-            'comment' => 'required_if:status,==,bcm'
         ]);
 
         if ($request->is_in_house == 0) {
@@ -61,14 +56,30 @@ class WorkOrderController extends Controller
 
     public function saveStatus(Request $request)
     {
+        $this->validate($request, [
+            'start_time' => 'required',
+            'end_time' => 'required',
+            'status' => 'not_in:0',
+            'comment' => 'required_if:status,==,3|required_if:status,==,2',
+            'is_in_house' => 'not_in:-1'
+        ]);
+
+        if ($request->is_in_house == 0) {
+            $no_of_files = count(Storage::disk('s3')->files($request->attachment));
+
+            if ($no_of_files < 1) {
+                return back()->with('warning', 'You must upload file(s)');
+            }
+        }
+
         $work_order = WorkOrder::find($request->equipment_work_order_id);
 
-        if ($work_order->update(['start_time' => $request->start_time,'end_time' => $request->end_time])) {
-            $status = WorkOrderStatus::find($request->status);
+        $work_order->update(['is_in_house' => $request->is_in_house]);
+
+        $status = WorkOrderStatus::find($request->status);
             
-            $work_order->workOrderStatuses()->save($status, ['comment' => $request->comment,'attachment' => $request->attachment]);
+        $work_order->workOrderStatuses()->save($status, ['comment' => $request->comment,'attachment' => $request->attachment,'start_time' => $request->start_time,'end_time' => $request->end_time,'user_id' =>$request->user_id]);
             
-            return redirect('equipment/pm/work-orders/update/'.$request->equipment_work_order_id)->with('success', 'Work Order Updated!');
-        }
+        return redirect('equipment/pm/work-orders/update/'.$request->equipment_work_order_id)->with('success', 'Work Order Updated!');
     }
 }

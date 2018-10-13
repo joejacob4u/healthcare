@@ -41,8 +41,8 @@
                 <div class="well">
                     <form id="loginForm" method="POST" action="{{url('equipment/pm/work-orders/update/'.$work_order->id)}}" novalidate="novalidate">
                         <div class="form-group">
-                            <label for="is_in_house">Employment Type:</label>
-                            {!! Form::select('is_in_house', ['-1' => 'Please select',1 => 'In-House',0 => 'External'], $work_order->is_in_house, ['class' => 'form-control','id' => 'is_in_house']); !!}
+                            <label for="is_in_house_picker">Employment Type:</label>
+                            {!! Form::select('is_in_house_picker', ['-1' => 'Please select',1 => 'In-House',0 => 'External'], $work_order->is_in_house, ['class' => 'form-control','id' => 'is_in_house_picker']); !!}
                             <span class="help-block">This field is required.</span>
                         </div>
 
@@ -57,9 +57,10 @@
                                 @foreach($work_order->workOrderStatuses as $work_order_status)
                                     @if($work_order_status->id == '1')
                                         <div class="panel panel-default">
-                                            <div class="panel-heading"><h4>{{$work_order_status->name}}</h4></div>
+                                            <div class="panel-heading"><h4>{{$work_order_status->name}} : [{{ App\User::find($work_order_status->pivot->user_id)->name}}]</h4></div>
                                             <div class="panel-body">
-                                                <strong>Job started at {{\Carbon\Carbon::parse($work_order->start_time)->format('F j, Y  h:i A')}}</strong>
+                                                <strong>Job started at {{\Carbon\Carbon::parse($work_order->start_time)->format('F j, Y  h:i A')}}</strong><br>
+                                                <strong>Job ended at {{\Carbon\Carbon::parse($work_order->end_time)->format('F j, Y  h:i A')}}</strong><br>
                                                 
                                                 @if(!empty($work_order_status->pivot->comment))
                                                     <br><br><blockquote>{{$work_order_status->pivot->comment}}</blockquote>
@@ -148,8 +149,7 @@
                         <div id="in_house_div" @if($work_order->is_in_house == 1) style="" @else style="display:none;"  @endif>
                         </div>
                         
-                        <input type="hidden" id="user_id" name="user_id" value="{{Auth::user()->id}}">
-                        <button type="submit" class="btn btn-success btn-block">Save</button>
+                        <a href="{{url('equipment/pm/work-orders')}}" class="btn btn-success btn-block">Save</a>
                         {{ csrf_field()}}
                     </form>
                 </div>
@@ -214,11 +214,13 @@
                 <div class="form-group">
                     {!! Form::label('attachment', 'Attachment', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        <input type='hidden' name='attachment' id="attachment" value=''>
-                        <div id='' class='dropzone'></div>
+                        {!! HTML::dropzone('attachment','equipments/pm/work_order/'.$work_order->id.'/'.strtotime('now'),'true','true') !!}
                         <span class="help-block"></span>
                     </div>
                 </div>
+
+                <input type='hidden' name='user_id' id="user_id" value='{{Auth::user()->id}}'>
+                <input type='hidden' name='is_in_house' id="is_in_house" value=''>
             
             </div>
         </div>
@@ -235,12 +237,14 @@
 
     <script>
 
+
+
     function fireStatusModal()
     {
-        if($('#is_in_house').val() != -1)
+        if($('#is_in_house_picker').val() != -1)
         {
-            if($('#is_in_house').val() == 0){
-                @if(empty($work_order->start_time))
+            if($('#is_in_house_picker').val() == 0){
+               
 
                 $("#start_time").flatpickr({
                         enableTime: false,
@@ -249,15 +253,7 @@
                         altInput: true
                 });
 
-                @else
 
-                $('#start_time').val('{{$work_order->start_time}}');
-                    $('#start_time').prop('readonly',true);
-
-
-                @endif
-
-                @if(empty($work_order->end_time))
 
                 $("#end_time").flatpickr({
                         enableTime: false,
@@ -266,20 +262,11 @@
                         altInput: true
                 });
 
-                @else
-                    $('#end_time').val('{{$work_order->end_time}}');
-                    $('#end_time').prop('readonly',true);
-
-
-
-                @endif
-
 
                 $('#comment').text('File Upload and Compliant');
                 $('#status').val('4');
             }
-            else if($('#is_in_house').val() == 1){
-                @if(empty($work_order->start_time))
+            else if($('#is_in_house_picker').val() == 1){
                 
                     $("#start_time").flatpickr({
                             enableTime: true,
@@ -288,14 +275,6 @@
                             altInput: true
                     });
 
-                @else
-
-                    $('#start_time').val('{{$work_order->start_time}}');
-                    $('#start_time').prop('readonly',true);
-
-                @endif
-
-                @if(empty($work_order->end_time))
 
                     $("#end_time").flatpickr({
                             enableTime: true,
@@ -303,18 +282,14 @@
                             altFormat: "F j,Y h:i K",
                             altInput: true,
                     });
-
-                @else
-                    $('#end_time').val('{{$work_order->end_time}}');
-                    $('#end_time').prop('readonly',true);
-                @endif
             }
 
-            var dropzone_id = moment().unix();
-            var dropzone_path = 'equipments/pm/work_order/'+dropzone_id;
-            $('#statusModal .dropzone').attr('id','dropzone_'+dropzone_id);
-            createDropZone('dropzone_'+dropzone_id,dropzone_path);
+            // var dropzone_id = moment().unix();
+            // var dropzone_path = 'equipments/pm/work_order/'+dropzone_id;
+            // $('#statusModal .dropzone').attr('id','dropzone_'+dropzone_id);
+            // createDropZone('dropzone_'+dropzone_id,dropzone_path);
             $('#statusModal').modal('show');
+            $('#is_in_house').val($('#is_in_house_picker').val());
         }
         else
         {
@@ -322,7 +297,7 @@
         }
     }
 
-    $('#is_in_house').change(function(){
+    $('#is_in_house_picker').change(function(){
 
         if($(this).val() == 0){
             
@@ -352,30 +327,23 @@
 
         if($(this).val() == 1)
         {
-            $('#end_time').hide();
             $('#comment').next().html( "Comment is preferred but optional.");
             $('.dropzone').next().html( "Attachment is optional.");
         }
         else if($(this).val() == 2)
         {
-            $('#end_time').show();
             $('#comment').next().html( "Comment is required.");
-            $('#end_time').next().html( "End time is required.");
             $('#comment').attr('placeholder','Please elaborate on parts on order.');
             $('.dropzone').next().html( "Attachment is optional.");
         }
         else if($(this).val() == 3)
         {
-            $('#end_time').show();
             $('#comment').next().html( "Comment is required.");
-            $('#end_time').next().html( "End time is required.");
             $('#comment').attr('placeholder','Please elaborate why the status is a BCM.');
             $('.dropzone').next().html( "Attachment is optional.");
         }
         else if($(this).val() == 4)
         {
-            $('#end_time').show();
-            $('#end_time').next().html( "End time is required.");
             $('#comment').next().html( "Comment is optional.");
             
             if($('#is_in_house').val() == 0)
