@@ -42,7 +42,8 @@ class TJCChecklistEOPController extends Controller
         $checklist_eops = DB::table('tjc_checklist_eops')
                         ->join('eop', 'eop.id', '=', 'tjc_checklist_eops.eop_id')
                         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                        ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text')
+                        ->join('accreditation', 'standard_label.accreditation_id', '=', 'accreditation.id')
+                        ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text', 'accreditation.name as accreditation_name')
                         ->where('healthsystem_id', Auth::user()->healthsystem_id);
 
         return Datatables::of($checklist_eops)
@@ -52,6 +53,14 @@ class TJCChecklistEOPController extends Controller
                 ->addColumn('standard_label', function ($checklist_eop) {
                     return $checklist_eop->standard_label;
                 })
+                ->addColumn('standard_label', function ($checklist_eop) {
+                    return $checklist_eop->standard_label;
+                })
+                ->addColumn('accreditation_name', function ($checklist_eop) {
+                    return $checklist_eop->accreditation_name;
+                })
+
+
                 ->addColumn('remove_eop', function ($checklist_eop) {
                     return '<a onclick="removeFromChecklist('.$checklist_eop->id.')" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-trash"></span> Remove from Checklist</a>';
                 })->addColumn('eop_text', function ($checklist_eop) {
@@ -63,7 +72,8 @@ class TJCChecklistEOPController extends Controller
     {
         $available_eops = DB::table('eop')
                         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                        ->select('eop.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text')
+                        ->join('accreditation', 'standard_label.accreditation_id', '=', 'accreditation.id')
+                        ->select('eop.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text', 'accreditation.name as accreditation_name')
                         ->whereNotIn('eop.id', TJCChecklistEOP::pluck('eop_id'))
                         ->where('standard_label.accreditation_id', 1);
 
@@ -73,6 +83,9 @@ class TJCChecklistEOPController extends Controller
                 })
                 ->addColumn('standard_label', function ($available_eop) {
                     return $available_eop->standard_label;
+                })
+                ->addColumn('accreditation_name', function ($available_eop) {
+                    return $available_eop->accreditation_name;
                 })
                 ->addColumn('add_eop', function ($available_eop) {
                     return '<a onclick="addToChecklist('.$available_eop->id.')" class="btn btn-success btn-xs"><span class="glyphicon glyphicon-plus"></span> Add to Checklist</a>';

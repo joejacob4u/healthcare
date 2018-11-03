@@ -55,7 +55,7 @@ class EOP extends Model
 
     public function getDocumentBaseLineDate($building_id)
     {
-        return DB::table('eop_document_baseline_dates')->where('building_id', $building_id)->where('eop_id', $this->id)->select('baseline_date', 'is_baseline_disabled', 'comment')->where('accreditation_id', session('accreditation_id'))->first();
+        return DB::table('eop_document_baseline_dates')->where('building_id', $building_id)->where('eop_id', $this->id)->select('baseline_date', 'is_baseline_disabled', 'comment')->first();
     }
 
     public function getNextDocumentUploadDate()

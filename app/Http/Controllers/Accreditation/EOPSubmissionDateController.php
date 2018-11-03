@@ -8,12 +8,13 @@ use App\Regulatory\EOPDocumentSubmissionDate;
 use App\Regulatory\EOPDocument;
 use App\Regulatory\EOP;
 use App\User;
+use App\Regulatory\Building;
 
 class EOPSubmissionDateController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('user');
+        $this->middleware('user')->except(['submissionDateCron']);
     }
 
 
@@ -96,6 +97,30 @@ class EOPSubmissionDateController extends Controller
     {
         if (EOPDocumentSubmissionDate::destroy($request->id)) {
             return 'true';
+        }
+    }
+
+    public function submissionDateCron()
+    {
+        //step 1 : get all buildings from submission dates table
+
+        $distinct_submission_dates = EOPDocumentSubmissionDate::distinct()->get(['building_id']);
+
+        //step 2 : loop each building
+
+        foreach ($distinct_submission_dates as $distinct_submission_date) {
+
+            //step 3 : get all submission dates for that building
+            $building = Building::find($distinct_submission_date->building_id);
+
+            foreach ($building->submissionDates as $submission_date) {
+                $eop = EOP::find($submission_date->eop_id);
+                foreach ($eop->calculateDocumentDates($eop->getDocumentBaseLineDate($building->id)->baseline_date) as $date) {
+                    if (EOPDocumentSubmissionDate::where([['accreditation_id','=',$eop->standardLabel->accreditation->id],['eop_id','=',$eop->id],['building_id','=',$building->id],['submission_date','=',$date]])->count() == 0) {
+                        EOPDocumentSubmissionDate::create(['accreditation_id' => $eop->standardLabel->accreditation->id,'eop_id' => $eop->id,'building_id' => $building->id,'submission_date' => $date,'status' => 'pending_upload','user_id' => '']);
+                    }
+                }
+            }
         }
     }
 }

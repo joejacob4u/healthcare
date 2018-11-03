@@ -107,7 +107,11 @@
                   @foreach($submission_dates as $submission_date)
                     <tr id="tr-{{$submission_date->id}}">
                         <td>{{$submission_date->submission_date->toFormattedDateString() }}</td>
-                        <td>{{ App\User::find($submission_date->user_id)->name }}</td>
+                        @if($submission_date->user_id != 0 )
+                            <td>{{ App\User::find($submission_date->user_id)->name }}</td>
+                            @else
+                            <td>N/A</td>
+                        @endif
                         <td>{{ $submission_date->status}}</td>
                         <td>{!! link_to('system-admin/accreditation/eop/'.$eop->id.'/submission_date/'.$submission_date->id.'/documents','View Activity',['class' => 'btn-xs btn-primary']) !!}</td>
                         @if($submission_date->status == 'non-compliant')

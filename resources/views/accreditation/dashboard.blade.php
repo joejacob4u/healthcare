@@ -17,10 +17,10 @@
         <div class="box-body">
             <ul class="nav nav-pills">
                 <li class="active"><a data-toggle="pill" href="#findings_table">HCO Findings</a></li>
-                <li><a data-toggle="pill" href="#safer_action_plan">Findings Action Plan</a></li>
+                <li><a data-toggle="pill" href="#safer_action_plan">HCO Findings Action Plan</a></li>
                 <li><a data-toggle="pill" href="#documents_table">HCO Documents</a></li>
-                <li><a data-toggle="pill" href="#documents_action_plan">Documents Action Plan</a></li>
-                <li><a data-toggle="pill" href="#safer_matrix_table">Safer Matrix</a></li>
+                <li><a data-toggle="pill" href="#documents_action_plan">HCO Documents Action Plan</a></li>
+                <li><a data-toggle="pill" href="#safer_matrix_table">Building SAFER Matrix</a></li>
             </ul>
 
             <div class="tab-content">

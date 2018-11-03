@@ -24,8 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')
-        //          ->hourly();
+
+        //populate submission dates annually
+        $schedule->call('App\Http\Controllers\Accreditation\EOPSubmissionDateController@submissionDateCron')->dailyAt('06:00');
     }
 
     /**

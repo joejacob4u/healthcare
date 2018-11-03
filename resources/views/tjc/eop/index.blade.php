@@ -40,6 +40,7 @@
                             <th>EOP #</th>
                             <th>EOP Text</th>
                             <th>Standard Label</th>
+                            <th>Accreditation</th>
                             <th>Remove</th>
                         </tr>
                     </thead>
@@ -52,6 +53,7 @@
                             <th>EOP #</th>
                             <th>EOP Text</th>
                             <th>Standard Label</th>
+                            <th>Accreditation</th>
                             <th>Add</th>
                         </tr>
                     </thead>
@@ -125,6 +127,7 @@
             {data: 'eop_name', name: 'eop.name'},
             {data: 'eop_text', name: 'eop.text'},
             {data: 'standard_label', name: 'standard_label.label'},
+            {data: 'accreditation_name', name: 'accreditation.name'},
             {data: 'remove_eop', name: 'remove_eop',searchable: false},
         ],
         initComplete: function(settings, json) {
@@ -144,6 +147,7 @@
             {data: 'eop_name', name: 'eop.name'},
             {data: 'eop_text', name: 'eop.text'},
             {data: 'standard_label', name: 'standard_label.label'},
+            {data: 'accreditation_name', name: 'accreditation.name'},
             {data: 'add_eop', name: 'add_eop',searchable: false},
         ],
         initComplete: function(settings, json) {

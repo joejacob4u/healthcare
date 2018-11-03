@@ -33,4 +33,9 @@ class Building extends Model
     {
         return $this->hasMany('App\Regulatory\BuildingDepartment', 'building_id');
     }
+
+    public function submissionDates()
+    {
+        return $this->hasMany('App\Regulatory\EOPDocumentSubmissionDate', 'building_id');
+    }
 }

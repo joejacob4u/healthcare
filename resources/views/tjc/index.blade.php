@@ -39,6 +39,7 @@
                         <table class="table table-bordered">
                             <thead>
                             <tr>
+                                <th>Accreditation</th>
                                 <th>Standard Label</th>
                                 <th>EOP#</th>
                                 <th>EOP Text</th>
@@ -52,6 +53,7 @@
                             <tbody>
                                 @foreach($tjc_checklist->tjcChecklistStatuses as $tjc_checklist_status)
                                 <tr>
+                                    <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->standardLabel->accreditation->name }}</td>
                                     <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->standardLabel->label }}</td>
                                     <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->name }}</td>
                                     <td>{{ $tjc_checklist_status->tjcChecklistEOP->eop->text }}</td>
