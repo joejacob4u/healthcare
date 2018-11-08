@@ -20,4 +20,9 @@ class TJCChecklistEOP extends Model
     {
         return $this->hasMany('App\Regulatory\TJCChecklistEOP', 'tjc_checklist_eop_id');
     }
+
+    public function tjcChecklistStatuses()
+    {
+        return $this->hasMany('App\Regulatory\TJCChecklistStatus', 'tjc_checklist_eop_id');
+    }
 }

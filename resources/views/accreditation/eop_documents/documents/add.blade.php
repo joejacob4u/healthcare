@@ -63,7 +63,6 @@
 
     <script src="{{ asset ("/bower_components/moment/moment.js") }}" type="text/javascript"></script>
 
-
     <script>
 
     $("#document_date").flatpickr({

@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Equipments')
+@section('page_title','Equipment')
 @section('page_description','Manage equipments here')
 
 @section('content')

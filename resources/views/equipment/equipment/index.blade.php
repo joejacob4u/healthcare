@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Equipments')
+@section('page_title','Equipment')
 @section('page_description','Manage equipments here')
 
 @section('content')
@@ -85,8 +85,8 @@
                       <td>{{$equipment->serial_number}}</td>
                       <td>{{$equipment->room->room_number}}</td>
                       <td>{{$equipment->identification_number}}</td>
-                      <td><span class="label label-default">{{$equipment->USLScore()}}</span></td>
-                      <td><span class="label label-default">{{$equipment->FCINumber()}}</span></td>
+                      <td><span class="label label-default">{{$equipment->USLScore()}} / 6</span></td>
+                      <td><span class="label label-default">{{$equipment->FCINumber()}} / 0.300</span></td>
                       <td><span class="label label-default">{{$equipment->EMNumberScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->EMRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$equipment->AdjustedEMRScore()}}</span></td>

@@ -4,7 +4,7 @@
 @parent
 
 @endsection
-@section('page_title','Equipments')
+@section('page_title','Equipment')
 @section('page_description','Manage equipments here')
 
 @section('content')
@@ -51,9 +51,9 @@
                       <td>{{$equipment->redundancy->name}}</td>
                       
                       @if($equipment->EMNumberScore() > 11)
-                        <td><small class="label bg-red">High Risk ({{$equipment->EMNumberScore()}})</small></td>
+                        <td><small class="label bg-red">High Risk ({{$equipment->EMNumberScore()}}) / 20</small></td>
                       @else
-                        <td><small class="label bg-green">Low Risk ({{$equipment->EMNumberScore()}})</small></td>
+                        <td><small class="label bg-green">Low Risk ({{$equipment->EMNumberScore()}}) / 20</small></td>
                       @endif
                       
                     </tr>

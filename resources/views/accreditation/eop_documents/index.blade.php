@@ -14,7 +14,7 @@
 
 <ol class="breadcrumb">
     <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="/system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>"> Accreditation Requirement</a></li>
+    <li><a href="/system-admin/accreditation/{{ $eop->standardLabel->accreditation_id }}/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>"> Accreditation Requirement</a></li>
     <li class="active">Documentation</li>
 </ol>
 
@@ -110,7 +110,7 @@
                         @if($submission_date->user_id != 0 )
                             <td>{{ App\User::find($submission_date->user_id)->name }}</td>
                             @else
-                            <td>N/A</td>
+                            <td>Action Required</td>
                         @endif
                         <td>{{ $submission_date->status}}</td>
                         <td>{!! link_to('system-admin/accreditation/eop/'.$eop->id.'/submission_date/'.$submission_date->id.'/documents','View Activity',['class' => 'btn-xs btn-primary']) !!}</td>

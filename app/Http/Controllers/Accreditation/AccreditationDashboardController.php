@@ -106,6 +106,7 @@ class AccreditationDashboardController extends Controller
         
         foreach ($hco->accreditations as $accreditation) {
             foreach ($accreditation->accreditationRequirements as $requirement) {
+                dd($requirement->standardLabels);
 
                 //$baseline_dates_set = DB::table()->where('eop_id',)->where()
                 $status = DB::table('eop')
@@ -122,7 +123,7 @@ class AccreditationDashboardController extends Controller
 
                 $eops = DB::table('eop')->leftJoin('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')->whereIn('standard_label.id', $requirement->standardLabels->pluck('id'))->where('eop.documentation', 1)->pluck('eop.id');
                 $baseline_dates = DB::table('eop_document_baseline_dates')->whereIn('eop_id', $eops)->whereIn('building_id', $buildings)->where('accreditation_id', $accreditation->id)->count();
-                $missing_baseline_dates = count($eops) - $baseline_dates;
+                $missing_baseline_dates = (count($eops) * count($buildings)) - $baseline_dates;
 
 
 

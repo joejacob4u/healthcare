@@ -32,7 +32,19 @@
     <div class="box-body">
         <div class="list-group">
             @foreach($tjc_checklists as $tjc_checklist)
-                <a href="#" class="list-group-item" id="li_{{$tjc_checklist->id}}">Surveyor for {{$tjc_checklist->surveyor_name}} (<small>{{$tjc_checklist->surveyor_email}}</small>) <button class="btn btn-danger btn-xs pull-right" onclick="deleteTJCChecklist('{{$tjc_checklist->id}}')"><span class="glyphicon glyphicon-trash"></span> Delete</button><button data-toggle="modal" href="#modal_{{$tjc_checklist->id}}" class="btn btn-warning btn-xs pull-right"><span class="glyphicon glyphicon-info-sign"></span>Surveyor Info</button><button data-toggle="collapse" href="#collapse_{{$tjc_checklist->id}}" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span> Show List</button></a>
+                <a href="#" class="list-group-item" id="li_{{$tjc_checklist->id}}">
+                    <h4 class="list-group-item-heading">Created by : <strong>{{App\User::find($tjc_checklist->user_id)->name }}</strong> at <strong>{{ \Carbon\Carbon::parse($tjc_checklist->created_at)->toFormattedDateString() }}</strong> for {{ $tjc_checklist->activity }} <button class="btn btn-danger btn-xs pull-right" onclick="deleteTJCChecklist('{{$tjc_checklist->id}}')"><span class="glyphicon glyphicon-trash"></span> Delete</button><button data-toggle="modal" href="#modal_{{$tjc_checklist->id}}" class="btn btn-warning btn-xs pull-right"><span class="glyphicon glyphicon-info-sign"></span>Surveyor Info</button><button data-toggle="collapse" href="#collapse_{{$tjc_checklist->id}}" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span> Show List</button></h4>
+                    <p class="list-group-item-text">
+                        <strong>Status:</strong>
+                        @php $tjc_checklist_progress = $tjc_checklist->tjcChecklistStatusStatusesSnapshot();   @endphp
+                        <span class="label label-default">Not Set : {{$tjc_checklist_progress['not_set']}}</span>
+                        <span class="label label-primary">N/A : {{$tjc_checklist_progress['na']}}</span>
+                        <span class="label label-success">Compliant : {{$tjc_checklist_progress['c']}}</span>
+                        <span class="label label-warning">IOU : {{$tjc_checklist_progress['iou']}}</span>
+                        <span class="label label-danger">Non-Compliant : {{$tjc_checklist_progress['nc']}}</span>
+                    </p>
+                </a>
+                
                 <div id="collapse_{{$tjc_checklist->id}}" class="panel-collapse panel-info collapse">
                     <div class="panel-heading"><strong>EOPs</strong> <small>Below are the eops that should be inspected.</small></div>
                     <div class="panel-body">
