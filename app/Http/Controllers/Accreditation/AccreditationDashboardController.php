@@ -106,7 +106,6 @@ class AccreditationDashboardController extends Controller
         
         foreach ($hco->accreditations as $accreditation) {
             foreach ($accreditation->accreditationRequirements as $requirement) {
-                dd($requirement->standardLabels);
 
                 //$baseline_dates_set = DB::table()->where('eop_id',)->where()
                 $status = DB::table('eop')
