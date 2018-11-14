@@ -34,14 +34,14 @@
             @foreach($tjc_checklists as $tjc_checklist)
                 <a href="#" class="list-group-item" id="li_{{$tjc_checklist->id}}">
                     <h4 class="list-group-item-heading">Created by : <strong>{{App\User::find($tjc_checklist->user_id)->name }}</strong> at <strong>{{ \Carbon\Carbon::parse($tjc_checklist->created_at)->toFormattedDateString() }}</strong> for {{ $tjc_checklist->activity }} <button class="btn btn-danger btn-xs pull-right" onclick="deleteTJCChecklist('{{$tjc_checklist->id}}')"><span class="glyphicon glyphicon-trash"></span> Delete</button><button data-toggle="modal" href="#modal_{{$tjc_checklist->id}}" class="btn btn-warning btn-xs pull-right"><span class="glyphicon glyphicon-info-sign"></span>Surveyor Info</button><button data-toggle="collapse" href="#collapse_{{$tjc_checklist->id}}" class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-th-list"></span> Show List</button></h4>
-                    <p class="list-group-item-text">
+                    <p id="snapshot-{{$tjc_checklist->id}}" class="list-group-item-text">
                         <strong>Status:</strong>
                         @php $tjc_checklist_progress = $tjc_checklist->tjcChecklistStatusStatusesSnapshot();   @endphp
-                        <span class="label label-default">Not Set : {{$tjc_checklist_progress['not_set']}}</span>
-                        <span class="label label-primary">N/A : {{$tjc_checklist_progress['na']}}</span>
-                        <span class="label label-success">Compliant : {{$tjc_checklist_progress['c']}}</span>
-                        <span class="label label-warning">IOU : {{$tjc_checklist_progress['iou']}}</span>
-                        <span class="label label-danger">Non-Compliant : {{$tjc_checklist_progress['nc']}}</span>
+                        <span class="label label-default not_set">Not Set : {{$tjc_checklist_progress['not_set']}}</span>
+                        <span class="label label-primary na">N/A : {{$tjc_checklist_progress['na']}}</span>
+                        <span class="label label-success c">Compliant : {{$tjc_checklist_progress['c']}}</span>
+                        <span class="label label-warning iou">IOU : {{$tjc_checklist_progress['iou']}}</span>
+                        <span class="label label-danger nc">Non-Compliant : {{$tjc_checklist_progress['nc']}}</span>
                     </p>
                 </a>
                 
@@ -293,6 +293,9 @@ function showInspectionModal(tjc_checklist_id)
 }
 
 $( "select" ).change(function() {
+    
+    var field = $(this).data('field');
+
     if($(this).val() != 0){
         $.ajax({
         type: 'POST',
@@ -307,9 +310,29 @@ $( "select" ).change(function() {
         },
         success:function(data)
         {
-            if(data == 'true')
+            if(data.status == 'success')
             {
                 dialog.modal('hide');
+                
+                $.each( data.snapshot, function( key, value ) {
+                    
+                    if(key == 'not_set'){
+                        $('#snapshot-'+data.tjc_checklist_id+' .'+key).html('Not Set : ' +value);
+                    }
+                    if(key == 'na'){
+                        $('#snapshot-'+data.tjc_checklist_id+' .'+key).html('N/A : ' +value);
+                    }
+                    if(key == 'c'){
+                        $('#snapshot-'+data.tjc_checklist_id+' .'+key).html('Compliant : ' +value);
+                    }
+                    if(key == 'nc'){
+                        $('#snapshot-'+data.tjc_checklist_id+' .'+key).html('Non-Compliant : ' +value);
+                    }
+                    if(key == 'iou'){
+                        $('#snapshot-'+data.tjc_checklist_id+' .'+key).html('IOU : ' +value);
+                    }
+
+                });
             }
         },
         error:function()
@@ -325,6 +348,11 @@ $( "select" ).change(function() {
     }
   
 });
+
+function update_status_view(tjc_checklist_id)
+{
+
+}
 
 function deleteTJCChecklist(tjc_checklist_id)
 {

@@ -120,7 +120,13 @@ class TJCChecklistController extends Controller
         $tjc_checklist_status = TJCChecklistStatus::find($request->tjc_checklist_status_id);
         
         if ($tjc_checklist_status->update([$request->field => $request->value])) {
-            return 'true';
+            $tjc_checklist_snapshot = $tjc_checklist_status->tjcChecklist->tjcChecklistStatusStatusesSnapshot();
+            
+            return response()->json([
+                'status' => 'success',
+                'snapshot' => $tjc_checklist_snapshot,
+                'tjc_checklist_id' => $tjc_checklist_status->tjcChecklist->id
+            ]);
         }
     }
 
