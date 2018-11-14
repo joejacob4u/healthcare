@@ -296,8 +296,7 @@ $( "select" ).change(function() {
     
     var field = $(this).data('field');
 
-    if($(this).val() != 0){
-        $.ajax({
+    $.ajax({
         type: 'POST',
         url: '{{ asset('tjc_checklist/status/update') }}',
         data: { '_token' : '{{ csrf_token() }}', 'tjc_checklist_status_id': $(this).data('tjc_checklist_status_id'),'value': $(this).val(),'field': $(this).data('field')},
@@ -344,8 +343,6 @@ $( "select" ).change(function() {
             $('.overlay').remove();
         }
     });
-
-    }
   
 });
 

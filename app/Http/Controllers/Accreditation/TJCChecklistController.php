@@ -118,8 +118,9 @@ class TJCChecklistController extends Controller
     public function update(Request $request)
     {
         $tjc_checklist_status = TJCChecklistStatus::find($request->tjc_checklist_status_id);
+
         
-        if ($tjc_checklist_status->update([$request->field => $request->value])) {
+        if ($tjc_checklist_status->update([$request->field => $request->value ])) {
             $tjc_checklist_snapshot = $tjc_checklist_status->tjcChecklist->tjcChecklistStatusStatusesSnapshot();
             
             return response()->json([
