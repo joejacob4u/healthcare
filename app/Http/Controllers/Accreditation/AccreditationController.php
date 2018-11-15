@@ -127,12 +127,12 @@ class AccreditationController extends Controller
 
         EOPDocumentBaselineDate::updateOrCreate(
             ['eop_id' => $request->eop_id, 'building_id' => session('building_id'),
-            'baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled,'accreditation_id' => $request->accreditation_id]
+            'baseline_date' => $request->baseline_date,'comment' => $request->comment,'is_baseline_disabled' => $request->is_baseline_disabled,'accreditation_id' => $request->accreditation_id,'accreditation_requirement_id' => session('accreditation_requirement_id')]
         );
 
         if (!$request->is_baseline_disabled) {
             foreach ($eop->calculateDocumentDates($request->baseline_date) as $date) {
-                EOPDocumentSubmissionDate::create(['accreditation_id' => session('accreditation_id'),'eop_id' => $eop->id,'building_id' => session('building_id'),'submission_date' => $date,'status' => 'pending_upload','user_id' => Auth::user()->id]);
+                EOPDocumentSubmissionDate::create(['accreditation_id' => session('accreditation_id'),'eop_id' => $eop->id,'building_id' => session('building_id'),'submission_date' => $date,'status' => 'pending_upload','user_id' => Auth::user()->id,'accreditation_requirement_id' => $request->accreditation_requirement_id]);
             }
         }
 

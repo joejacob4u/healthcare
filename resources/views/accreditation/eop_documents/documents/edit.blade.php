@@ -19,22 +19,6 @@
     <li class="active">New Upload</li>
 </ol>
 
-@if(Auth::user()->isVerifier())
-
-<div class="box">
-    <div class="box-header with-border">
-        <h3 class="box-title">@if($document->status == 'initial') Pending Verification @else Update Status @endif</h3>
-    </div>
-    <div class="box-body">
-        <button onclick="confirmCompliant()" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Documents are Compliant</button>
-        <button onclick="confirmNonCompliant()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Documents are Non-Compliant</button>
-    </div>
-<!-- /.box-body -->
-</div>
-
-@endif
-
-
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Comments</h3>
@@ -98,6 +82,21 @@
                </div>
       <!-- /.box-body -->
       <div class="box-footer">
+        @if(Auth::user()->isVerifier())
+
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">@if($document->status == 'initial') Pending Verification @else Update Status @endif</h3>
+            </div>
+            <div class="box-body">
+                <button onclick="confirmCompliant()" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Documents are Compliant</button>
+                <button onclick="confirmNonCompliant()" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span> Documents are Non-Compliant</button>
+            </div>
+        <!-- /.box-body -->
+        </div>
+
+        @endif
+
 
       </div>
       <!-- /.box-footer-->

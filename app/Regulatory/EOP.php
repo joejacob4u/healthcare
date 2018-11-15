@@ -53,15 +53,15 @@ class EOP extends Model
         return $this->belongsToMany('App\Regulatory\Building', 'eop_document_baseline_dates', 'eop_id', 'building_id')->withPivot('baseline_date');
     }
 
-    public function getDocumentBaseLineDate($building_id)
+    public function getDocumentBaseLineDate($building_id, $accreditation_requirement_id)
     {
-        return DB::table('eop_document_baseline_dates')->where('building_id', $building_id)->where('eop_id', $this->id)->select('baseline_date', 'is_baseline_disabled', 'comment')->first();
+        return DB::table('eop_document_baseline_dates')->where('building_id', $building_id)->where('eop_id', $this->id)->where('accreditation_requirement_id', $accreditation_requirement_id)->select('baseline_date', 'is_baseline_disabled', 'comment')->first();
     }
 
-    public function getNextDocumentUploadDate()
+    public function getNextDocumentUploadDate($accreditation_requirement_id)
     {
-        if (!empty($this->getDocumentBaseLineDate(session('building_id'))->baseline_date)) {
-            $document_dates = $this->calculateDocumentDates($this->getDocumentBaseLineDate(session('building_id'))->baseline_date, true);
+        if (!empty($this->getDocumentBaseLineDate(session('building_id'), $accreditation_requirement_id)->baseline_date)) {
+            $document_dates = $this->calculateDocumentDates($this->getDocumentBaseLineDate(session('building_id'), $accreditation_requirement_id)->baseline_date, true);
             if (!empty(end($document_dates))) {
                 return end($document_dates);
             } else {

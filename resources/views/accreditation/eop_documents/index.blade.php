@@ -12,9 +12,14 @@
 @include('layouts.partials.errors')
 @include('layouts.partials.warning')
 
+@php
+$accreditation_requirement_id = (!$submission_dates->isEmpty()) ? $submission_dates->first()->accreditation_requirement_id : session('accreditation_requirement_id');
+
+@endphp
+
 <ol class="breadcrumb">
     <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="/system-admin/accreditation/{{ $eop->standardLabel->accreditation_id }}/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>"> Accreditation Requirement</a></li>
+    <li><a href="/system-admin/accreditation/{{ $eop->standardLabel->accreditation_id }}/accreditation_requirement/<?php echo $accreditation_requirement_id; ?>"> Accreditation Requirement</a></li>
     <li class="active">Documentation</li>
 </ol>
 
@@ -31,12 +36,12 @@
             @if($eop->frequency == 'per_needed' || $eop->frequency == 'as_needed')
                 Please upload documents as per policy / per needed
             @else
-            <p>        
-                @if(!empty($eop->getDocumentBaseLineDate(session('building_id'))))
-                    @if($eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
-                        Baseline date N/A - {{ $eop->getDocumentBaseLineDate(session('building_id'))->comment }}@if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
+            <p>      
+                @if(!empty($eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)))
+                    @if($eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)->is_baseline_disabled)
+                        Baseline date N/A - {{ $eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)->comment }}@if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
                     @else
-                        Baseline Date : {{ \Carbon\Carbon::parse($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)->toFormattedDateString() }} @if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
+                        Baseline Date : {{ \Carbon\Carbon::parse($eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)->baseline_date)->toFormattedDateString() }} @if(Auth::user()->isAdmin())<a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Edit Baseline Date</a>@endif
                     @endif
                 @else
                     <a data-toggle="modal" data-target="#baselineDateModal" href="#" class="btn btn-link btn-sm"><span class="glyphicon glyphicon-pencil"></span> Set Baseline Date to Start Uploading Documents</a>
@@ -49,13 +54,13 @@
         <div class="callout callout-success">
             <h4>Upcoming Upload Date</h4>
             <p>
-            @if(!empty($eop->getDocumentBaseLineDate(session('building_id'))))
-                @if($eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
+            @if(!empty($eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)))
+                @if($eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)->is_baseline_disabled)
                     Upcoming Upload Date Unavailable
-                @elseif($eop->getNextDocumentUploadDate(session('building_id')) == 'cannot_find_date')
+                @elseif($eop->getNextDocumentUploadDate($accreditation_requirement_id) == 'cannot_find_date')
                     Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
-                @elseif($eop->getNextDocumentUploadDate(session('building_id')) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate(session('building_id')))) 
-                    {{ \Carbon\Carbon::parse($eop->getNextDocumentUploadDate(session('building_id')))->toFormattedDateString() }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'))}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
+                @elseif($eop->getNextDocumentUploadDate($accreditation_requirement_id) != 'cannot_find_date' && !empty($eop->getNextDocumentUploadDate(session('building_id')))) 
+                    {{ \Carbon\Carbon::parse($eop->getNextDocumentUploadDate($accreditation_requirement_id))->toFormattedDateString() }} <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('{{$eop->getNextDocumentUploadDate(session('building_id'),$accreditation_requirement_id)}}')"><span class="glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @elseif($eop->frequency == 'per_needed' || $eop->frequency == 'as_needed')
                     Next date is per policy / per needed <button class="btn btn-primary btn-xs pull-right" onclick="uploadDocumentFiles('any-date')"><span class="glyphicon glyphicon glyphicon-circle-arrow-right"></span> Start Submission</button>
                 @else 
@@ -70,9 +75,9 @@
 
 </div>
 
-@if(!empty($eop->getDocumentBaseLineDate(session('building_id'))) && !$eop->getDocumentBaseLineDate(session('building_id'))->is_baseline_disabled)
+@if(!empty($eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)) && !$eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)->is_baseline_disabled)
 
-@if(!empty($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'))->baseline_date)))
+@if(!empty($eop->calculateDocumentDates($eop->getDocumentBaseLineDate(session('building_id'),$accreditation_requirement_id)->baseline_date)))
 
 
 @endif
@@ -83,7 +88,7 @@
         <h4>Document Submitted Dates</h4>
       </div>
       <div class="box-body">
-            <table id="documents_table" class="table table-striped">
+            <table id="documents_table" class="table table-striped" type="custom">
                 <thead>
                     <tr>
                         <th>Required Submission Date</th>
@@ -106,7 +111,7 @@
                 
                   @foreach($submission_dates as $submission_date)
                     <tr id="tr-{{$submission_date->id}}">
-                        <td>{{$submission_date->submission_date->toFormattedDateString() }}</td>
+                        <td><span>{{$submission_date->submission_date}}</span>{{$submission_date->submission_date->toFormattedDateString() }}</td>
                         @if($submission_date->user_id != 0 )
                             <td>{{ App\User::find($submission_date->user_id)->name }}</td>
                             @else
@@ -158,6 +163,8 @@
 
                   {!! Form::hidden('building_id',session('building_id')) !!}
                   {!! Form::hidden('accreditation_id',session('accreditation_id')) !!}
+                  {!! Form::hidden('accreditation_requirement_id', $accreditation_requirement_id) !!}
+
                   {!! Form::hidden('eop_id',$eop->id) !!}
                   
               </div>
@@ -190,6 +197,7 @@
             {!! Form::hidden('status','pending_upload') !!}
             {!! Form::hidden('eop_id',$eop->id) !!}
             {!! Form::hidden('accreditation_id',session('accreditation_id')) !!}
+            {!! Form::hidden('accreditation_requirement_id', session('accreditation_requirement_id')) !!}
             {!! Form::hidden('user_id',Auth::user()->id) !!}
             <button type="submit" class="btn btn-primary" id="submit_btn">Start Submission</button>
           {!! Form::close()  !!}
@@ -205,6 +213,12 @@
 
 
 <script>
+
+    $(document).ready(function() {
+        $('#documents_table').DataTable( {
+            "order": [[ 0, "desc" ]]
+        } );
+    } );
 
 
     $("#baseline_date").flatpickr({
@@ -277,4 +291,11 @@ function removeSubmissionDate(id)
 
 </script>
 
+<style>
+
+#documents_table td span {
+    display:none; 
+}
+
+</style>
 @endsection

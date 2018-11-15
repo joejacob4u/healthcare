@@ -11,6 +11,13 @@
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
+@php
+
+$accreditation_requirement_id = (isset($finding)) ? $finding->accreditation_requirement_id : session('accreditation_requirement_id');
+
+@endphp
+
+
 <ol class="breadcrumb">
     <li><a href="{{url('system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>')}}"><i class="fa fa-dashboard"></i> Accreditation Requirement</a></li>
     <li><a href="{{url('system-admin/accreditation/eop/status/'.$finding->eop_id)}}">Status</a></li>

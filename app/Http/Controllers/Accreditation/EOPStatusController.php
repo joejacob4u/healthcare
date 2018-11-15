@@ -33,7 +33,7 @@ class EOPStatusController extends Controller
     {
         $eop = EOP::find($eop_id);
         $building = Building::find(session('building_id'));
-        $findings = EOPFinding::where('building_id', session('building_id'))->where('eop_id', $eop_id)->where('accreditation_id', session('accreditation_id'))->orderBy('id', 'desc')->get();
+        $findings = EOPFinding::where('building_id', session('building_id'))->where('eop_id', $eop_id)->where('accreditation_id', session('accreditation_id'))->where('accreditation_requirement_id', session('accreditation_requirement_id'))->orderBy('id', 'desc')->get();
         return view('accreditation.status', ['eop' => $eop,'building' => $building,'findings' => $findings]);
     }
 

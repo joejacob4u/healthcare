@@ -116,8 +116,8 @@ class EOPSubmissionDateController extends Controller
             foreach ($building->submissionDates as $submission_date) {
                 $eop = EOP::find($submission_date->eop_id);
                 foreach ($eop->calculateDocumentDates($eop->getDocumentBaseLineDate($building->id)->baseline_date) as $date) {
-                    if (EOPDocumentSubmissionDate::where([['accreditation_id','=',$eop->standardLabel->accreditation->id],['eop_id','=',$eop->id],['building_id','=',$building->id],['submission_date','=',$date]])->count() == 0) {
-                        EOPDocumentSubmissionDate::create(['accreditation_id' => $eop->standardLabel->accreditation->id,'eop_id' => $eop->id,'building_id' => $building->id,'submission_date' => $date,'status' => 'pending_upload','user_id' => '']);
+                    if (EOPDocumentSubmissionDate::where([['accreditation_id','=',$eop->standardLabel->accreditation->id],['eop_id','=',$eop->id],['building_id','=',$building->id],['submission_date','=',$date],['accreditation_requirement_id',$submission_date->accreditation_requirement_id]])->count() == 0) {
+                        EOPDocumentSubmissionDate::create(['accreditation_id' => $eop->standardLabel->accreditation->id,'eop_id' => $eop->id,'building_id' => $building->id,'submission_date' => $date,'status' => 'pending_upload','user_id' => '','accreditation_requirement_id' => $submission_date->accreditation_requirement_id]);
                     }
                 }
             }
