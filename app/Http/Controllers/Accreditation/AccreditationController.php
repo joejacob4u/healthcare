@@ -20,7 +20,7 @@ class AccreditationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('user')->except('fetchManyStandardLabels');
+        $this->middleware('user')->except(['fetchManyStandardLabels','setAccreditationRequirement']);
         $this->middleware('master')->only('fetchManyStandardLabels');
     }
 
@@ -156,5 +156,10 @@ class AccreditationController extends Controller
         }
 
         return response()->json(['standard_labels' => $standard_labels]);
+    }
+
+    public function setAccreditationRequirement(Request $request)
+    {
+        Session::put('accreditation_requirement_id', $request->accreditation_requirement_id);
     }
 }

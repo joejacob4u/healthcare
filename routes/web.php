@@ -120,6 +120,9 @@ Route::post('system-admin/accreditation/fetch/buildings', 'Accreditation\Accredi
 Route::post('system-admin/accreditation/fetch/accreditation', 'Accreditation\AccreditationController@fetchAccreditations');
 Route::post('system-admin/accreditation/fetch/accreditation_requirements', 'Accreditation\AccreditationController@fetchAccreditationRequirements');
 
+Route::post('accreditation-requirement/set', 'Accreditation\AccreditationController@setAccreditationRequirement');
+
+
 Route::get('system-admin/accreditation/eop/{eop_id}/submission_dates', 'Accreditation\EOPSubmissionDateController@index');
 Route::post('system-admin/accreditation/eop/{eop_id}/submission_date', 'Accreditation\EOPSubmissionDateController@store');
 Route::post('system-admin/accreditation/eop/{eop_id}/submission_date/delete', 'Accreditation\EOPSubmissionDateController@destroy');

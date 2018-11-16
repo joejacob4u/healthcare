@@ -18,7 +18,7 @@ $accreditation_requirement_id = (!$submission_dates->isEmpty()) ? $submission_da
 @endphp
 
 <ol class="breadcrumb">
-    <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li><a href="{{url('accreditation/dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
     <li><a href="/system-admin/accreditation/{{ $eop->standardLabel->accreditation_id }}/accreditation_requirement/<?php echo $accreditation_requirement_id; ?>"> Accreditation Requirement</a></li>
     <li class="active">Documentation</li>
 </ol>
@@ -163,7 +163,7 @@ $accreditation_requirement_id = (!$submission_dates->isEmpty()) ? $submission_da
 
                   {!! Form::hidden('building_id',session('building_id')) !!}
                   {!! Form::hidden('accreditation_id',session('accreditation_id')) !!}
-                  {!! Form::hidden('accreditation_requirement_id', $accreditation_requirement_id) !!}
+                  {!! Form::hidden('accreditation_requirement_id', $accreditation_requirement_id,['id' => 'accreditation_requirement_id']) !!}
 
                   {!! Form::hidden('eop_id',$eop->id) !!}
                   
@@ -179,6 +179,36 @@ $accreditation_requirement_id = (!$submission_dates->isEmpty()) ? $submission_da
     </div>
   </div>
   <!--End Baseline Date Modal -->
+
+    <!-- Accreditation Requirement Modal -->
+
+
+  <div class="modal fade" id="accreditation_requirement_modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Choose your Accreditation Requirement</h4>
+        </div>
+        <div class="modal-body">
+            <p class="bg-danger">You will need to set accreditation requirement first. You can set the baseline date after its set.</p>
+                      <div class="form-group">
+                {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'control-label']) !!}
+                {!! Form::select('accreditation_requirement_id', $accreditation_requirements ,Request::old('accreditation_requirement_id'), ['class' => 'form-control','id' => 'accreditation_requirement_id']) !!}
+            </div>
+
+        </div>
+        <div class="modal-footer">
+        <button type="button" class="btn btn-primary" id="set-btn">Set</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
 
 <!-- Start Submission Modal -->
   <div class="modal fade" id="startSubmissionModal" role="dialog">
@@ -208,6 +238,8 @@ $accreditation_requirement_id = (!$submission_dates->isEmpty()) ? $submission_da
     </div>
   </div>
   <!--Start Submission Modal -->
+
+
 
 <script src="{{ asset ("/bower_components/moment/moment.js") }}" type="text/javascript"></script>
 
@@ -241,16 +273,18 @@ $accreditation_requirement_id = (!$submission_dates->isEmpty()) ? $submission_da
 
 function startSubmission(date)
 {
-    if(date == 'anydate')
-    {
 
-    }
-    else
-    {
-        $('#submission_date_verbiage').text('Do you want to start submission for '+moment(date).format('MMMM Do YYYY')+' ?');
-        $('#submission_date').val(date);
-        $('#startSubmissionModal').modal('show');
-    }
+        if(date == 'anydate')
+        {
+
+        }
+        else
+        {
+            $('#submission_date_verbiage').text('Do you want to start submission for '+moment(date).format('MMMM Do YYYY')+' ?');
+            $('#submission_date').val(date);
+            $('#startSubmissionModal').modal('show');
+        }
+
 }
 
 function removeSubmissionDate(id)
@@ -288,6 +322,43 @@ function removeSubmissionDate(id)
     });
 
 }
+
+$("#baselineDateModal").on('shown.bs.modal', function () {
+    if($('#baselineDateModal #accreditation_requirement_id').val() == ''){
+                $('#baselineDateModal').modal('hide');
+        $('#accreditation_requirement_modal').modal('show');
+
+    }
+});
+
+$('#set-btn').click(function(){
+
+    var accreditation_requirement_id = $('#accreditation_requirement_modal #accreditation_requirement_id').val();
+
+    $.ajax({
+        type: 'POST',
+        url: '{{ url('accreditation-requirement/set') }}',
+        data: { '_token' : '{{ csrf_token() }}','accreditation_requirement_id' : accreditation_requirement_id },
+        beforeSend:function()
+        {
+            
+        },
+        success:function(data)
+        {
+            location.reload();
+        },
+        error:function(data)
+        {
+
+        },
+        complete: function(data)
+        {
+        }
+    });
+
+    
+});
+
 
 </script>
 
