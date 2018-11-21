@@ -7,21 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 class StandardLabel extends Model
 {
     protected $table = 'standard_label';
-    protected $fillable = ['label','text','description','accreditation_id'];
+    protected $fillable = ['label','text','description','accreditation_requirement_id'];
 
-    public function accreditationRequirements()
+    public function accreditationRequirement()
     {
-      return $this->belongsToMany('App\Regulatory\AccreditationRequirement','standard-label_accrediation-requirement','standard_label_id','accrediation_requirement_id');
+        return $this->belongsTo('App\Regulatory\AccreditationRequirement', 'accreditation_requirement_id');
     }
 
     public function eops()
     {
-      return $this->hasMany('App\Regulatory\EOP','standard_label_id');
+        return $this->hasMany('App\Regulatory\EOP', 'standard_label_id');
     }
 
-    public function accreditation()
+    public function accreditations()
     {
-      return $this->belongsTo('App\Regulatory\Accreditation','accreditation_id');
+        return $this->belongsToMany('App\Regulatory\Accreditation', 'accreditations-standard_labels', 'standard_label_id', 'accreditation_id');
     }
-
 }

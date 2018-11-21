@@ -12,8 +12,8 @@ class HCOController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin', ['except' => ['add', 'create','edit','save']]);
-        $this->middleware('admin', ['only' => ['add', 'create','edit','save']]);
+        $this->middleware('system_admin', ['except' => ['index','add', 'create','edit','save']]);
+        $this->middleware('master', ['only' => ['index','add', 'create','edit','save']]);
     }
 
     public function index($healthsystem_id)

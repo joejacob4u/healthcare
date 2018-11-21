@@ -11,18 +11,16 @@ class Accreditation extends Model
 
     public function accreditationRequirements()
     {
-      return $this->belongsToMany('App\Regulatory\AccreditationRequirement','accr_accr-requirement','accrediation_id','accrediation-requirement_id');
+        return $this->belongsToMany('App\Regulatory\AccreditationRequirement', 'accr_accr-requirement', 'accrediation_id', 'accrediation-requirement_id');
     }
 
     public function standardLabels()
     {
-      return $this->hasMany('App\Regulatory\StandardLabel','accreditation_id');
+        return $this->belongsToMany('App\Regulatory\StandardLabel', 'accreditations-standard_labels', 'accreditation_id', 'standard_label_id');
     }
 
     public function hcos()
     {
-      return $this->belongsToMany('App\Regulatory\HCO','hco_accreditation','accreditation_id','hco_id');
+        return $this->belongsToMany('App\Regulatory\HCO', 'hco_accreditation', 'accreditation_id', 'hco_id');
     }
-  
-
 }

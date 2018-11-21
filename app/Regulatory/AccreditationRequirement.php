@@ -17,7 +17,7 @@ class AccreditationRequirement extends Model
 
     public function standardLabels()
     {
-        return $this->belongsToMany('App\Regulatory\StandardLabel', 'standard-label_accrediation-requirement', 'accrediation_requirement_id', 'standard_label_id');
+        return $this->hasMany('App\Regulatory\StandardLabel', 'accreditation_requirement_id');
     }
 
     /**

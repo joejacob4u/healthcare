@@ -47,15 +47,15 @@
               <div class="form-group">
                   {!! Form::label('accreditation', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::select('accreditation_id', $accreditations, $standard_label->accreditation_id, ['class' => 'form-control selectpicker']); !!}
+                      {!! Form::select('accreditation_id[]', $accreditations, $standard_label->accreditations->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true','id' => 'accreditation_id']); !!}
                   </div>
               </div>
 
 
                 <div class="form-group">
-                    {!! Form::label('accreditation_requirements', 'Accreditation Requirement:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('accreditation_requirement_id', 'Accreditation Requirement:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('accreditation_requirements[]', $accreditation_requirements, $standard_label->accreditationRequirements->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true']); !!}
+                        {!! Form::select('accreditation_requirement_id', $accreditation_requirements, $standard_label->accreditation_requirement_id, ['class' => 'form-control selectpicker','id' => 'accreditation_requirement_id']); !!}
                     </div>
                 </div>
 
@@ -78,5 +78,43 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+        <script>
+
+    $( "#accreditation_id" ).change(function() {
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('admin/standard-label/fetch/multiple/accreditation-requirements') }}',
+                data: { '_token' : '{{ csrf_token() }}', 'accreditations': JSON.stringify($(this).val()) },
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    $('#accreditation_requirement_id').html('');
+
+                    var html = '<option value="0">Select Requirement</option>';
+
+                    $.each(data.accreditation_requirements, function(index, value) {
+                        html += '<option value="'+value.id+'">'+value.name+'</option>';
+                    });
+
+                    $('#accreditation_requirement_id').append(html);
+                    $('#accreditation_requirement_id').selectpicker('refresh');
+                },
+                complete:function()
+                {
+                    $('.overlay').remove();
+                },
+                error:function()
+                {
+                    // failed request; give feedback to user
+                }
+            });
+
+    });
+
+    </script>
 
 @endsection

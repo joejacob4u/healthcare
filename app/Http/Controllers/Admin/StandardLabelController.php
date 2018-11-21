@@ -32,7 +32,7 @@ class StandardLabelController extends Controller
         $accreditation_requirement = AccreditationRequirement::find($request->accreditation_requirement);
 
         foreach ($standard_labels as $key => $standard_label) {
-            if ($standard_label->accreditationRequirements->contains($request->accreditation_requirement)) {
+            if ($standard_label->accreditation_requirement_id == $request->accreditation_requirement) {
                 $filtered_standard_labels[] = $standard_labels->pull($key);
             }
         }
@@ -56,16 +56,16 @@ class StandardLabelController extends Controller
         $this->validate($request, [
           'label' => 'required',
           'text' => 'required',
-          'accreditation_requirements' => 'required',
+          'accreditation_requirements' => 'not_in:0',
           'accreditation_id' => 'required'
         ]);
 
-        foreach ($request->accreditation_requirements as $accreditation_requirement) {
-            $aAccreditationRequirements[] = AccreditationRequirement::find($accreditation_requirement);
+        foreach ($request->accreditation_id as $accreditation) {
+            $aAccreditations[] = Accreditation::find($accreditation);
         }
 
         if ($standard_label = StandardLabel::create($request->all())) {
-            if ($standard_label->accreditationRequirements()->saveMany($aAccreditationRequirements)) {
+            if ($standard_label->accreditations()->saveMany($aAccreditations)) {
                 return redirect('admin/standard-label')->with('success', 'Standard Label created!');
             }
         }
@@ -73,9 +73,16 @@ class StandardLabelController extends Controller
 
     public function edit($id)
     {
-        $accreditation_requirements = AccreditationRequirement::pluck('name', 'id');
-        $accreditations = Accreditation::pluck('name', 'id');
         $standard_label = StandardLabel::find($id);
+        
+        $available_accreditations = $standard_label->accreditations->pluck('id')->toArray();
+
+        $accreditations = Accreditation::pluck('name', 'id');
+
+        $accreditation_requirements = AccreditationRequirement::whereHas('accreditations', function ($q) use ($available_accreditations) {
+            $q->whereIn('id', $available_accreditations);
+        })->pluck('name', 'id');
+
 
         return view('admin.standard-label.edit', [
         'accreditation_requirements' => $accreditation_requirements,
@@ -97,12 +104,12 @@ class StandardLabelController extends Controller
 
         $standard_label = StandardLabel::find($id);
 
-        foreach ($request->accreditation_requirements as $accreditation_requirement) {
-            $aAccreditationRequirements[] = AccreditationRequirement::find($accreditation_requirement)->id;
+        foreach ($request->accreditation_id as $accreditation) {
+            $aAccreditations[] = Accreditation::find($accreditation);
         }
 
         if ($standard_label->update($request->all())) {
-            if ($standard_label->accreditationRequirements()->sync($aAccreditationRequirements)) {
+            if ($standard_label->accreditations()->sync($aAccreditations)) {
                 return redirect('admin/standard-label')->with('success', 'Standard Label updated!');
             }
         }
@@ -115,10 +122,25 @@ class StandardLabelController extends Controller
         }
     }
 
-    public function fetchAccreditationRequirements(request $request)
+    public function fetchAccreditationRequirements(Request $request)
     {
         $accreditation= Accreditation::find($request->accreditation);
         return $accreditation->accreditationRequirements;
+    }
+
+    public function fetchMultipleAccreditationRequirements(Request $request)
+    {
+        $accreditations = json_decode($request->accreditations);
+
+        $accreditation_requirements = [];
+
+        foreach ($accreditations as $accreditation) {
+            foreach (Accreditation::find($accreditation)->accreditationRequirements as $accreditation_requirement) {
+                $accreditation_requirements[] = $accreditation_requirement;
+            }
+        }
+
+        return response()->json(['accreditation_requirements' => $accreditation_requirements]);
     }
 
     public function fetchEOPS(Request $request)

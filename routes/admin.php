@@ -33,6 +33,7 @@ Route::post('standard-label/edit/{id}', 'StandardLabelController@save');
 Route::get('standard-label/delete/{id}', 'StandardLabelController@delete');
 Route::post('standard-label/filter', 'StandardLabelController@filter');
 Route::post('standard-label/fetch/accreditation-requirements', 'StandardLabelController@fetchAccreditationRequirements');
+Route::post('standard-label/fetch/multiple/accreditation-requirements', 'StandardLabelController@fetchMultipleAccreditationRequirements');
 
 
 Route::get('standard-label/{standard_label}/eop', 'EOPController@index');

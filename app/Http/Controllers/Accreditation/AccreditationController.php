@@ -34,11 +34,19 @@ class AccreditationController extends Controller
     {
         $building = Building::find(session('building_id'));
         $accreditation = Accreditation::find($accreditation_id);
+        
         $accreditation_requirement = AccreditationRequirement::find($accreditation_requirement_id);
+
+        $standard_labels = AccreditationRequirement::whereHas('accreditations', function ($query) use ($accreditation) {
+            $query->where('id', $accreditation->id);
+        })
+        ->find($accreditation_requirement_id)->standardLabels;
+
+
         Session::put('accreditation_id', $accreditation_id);
         Session::put('accreditation_requirement_id', $accreditation_requirement_id);
 
-        return view('accreditation.index', ['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building]);
+        return view('accreditation.index', ['accreditation' => $accreditation,'accreditation_requirement' => $accreditation_requirement,'building' => $building,'standard_labels' => $standard_labels]);
     }
 
     public function fetchBuildings(Request $request)
