@@ -24,23 +24,23 @@
 
               <!-- Name -->
               <div class="form-group">
-                  {!! Form::label('label', 'Label:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('label', 'Standard Label:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::text('label', $value = null, ['class' => 'form-control', 'placeholder' => 'label']) !!}
                   </div>
               </div>
 
               <div class="form-group">
-                  {!! Form::label('text', 'Text:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('text', ' Standard Text:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('text', $value = null, ['class' => 'form-control', 'placeholder' => 'Text']) !!}
+                      {!! Form::textarea('text', $value = null, ['class' => 'form-control', 'placeholder' => 'Text','rows' => '3']) !!}
                   </div>
               </div>
 
               <div class="form-group">
-                  {!! Form::label('description', 'Description:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('description', 'Rationale:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::textarea('description', $value = null, ['class' => 'form-control', 'placeholder' => 'description']) !!}
+                      {!! Form::textarea('description', $value = null, ['class' => 'form-control', 'placeholder' => 'rationale']) !!}
                   </div>
               </div>
 

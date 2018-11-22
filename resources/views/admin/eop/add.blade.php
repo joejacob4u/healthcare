@@ -77,6 +77,14 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('accreditations', 'Accreditations:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('accreditations[]', $accreditations, Request::old('accreditations'), ['class' => 'form-control selectpicker','multiple' => 'true']) !!}
+                    </div>
+                </div>
+
+
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">

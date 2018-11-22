@@ -76,9 +76,9 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('accreditation', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('accreditations', 'Accreditations:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::text('accreditation', $eop->standardLabel->accreditation->name, ['class' => 'form-control', 'disabled' => true]) !!}
+                        {!! Form::select('accreditations[]', $accreditations, $eop->accreditations->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => 'true']) !!}
                     </div>
                 </div>
 

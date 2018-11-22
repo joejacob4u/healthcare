@@ -70,6 +70,7 @@
                           </tfoot>
                           <tbody>
                             @foreach($standard_label->eops as $eop)
+                              @if($eop->accreditations->contains('id',$accreditation->id))
                               <tr>
                                 <td>{{$eop->name}}</td>
                                 <td>{{$eop->text}}</td>
@@ -78,6 +79,7 @@
                                 <td>@if($eop->risk == 1) Yes @else No @endif</td>
                                 <td>{!! link_to('system-admin/accreditation/eop/status/'.$eop->id,'Findings',['class' => 'btn-xs btn-primary']) !!}</td>
                               </tr>
+                              @endif
                             @endforeach
                           </tbody>
                         </table>

@@ -23,4 +23,9 @@ class Accreditation extends Model
     {
         return $this->belongsToMany('App\Regulatory\HCO', 'hco_accreditation', 'accreditation_id', 'hco_id');
     }
+
+    public function eops()
+    {
+        return $this->belongsToMany('App\Regulatory\EOP', 'accreditations_eops', 'accreditation_id', 'eop_id');
+    }
 }

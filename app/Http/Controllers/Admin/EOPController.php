@@ -7,118 +7,117 @@ use App\Http\Controllers\Controller;
 use App\Regulatory\StandardLabel;
 use App\Regulatory\EOP;
 use App\Regulatory\SubCOP;
-
-
+use App\Regulatory\Accreditation;
 
 class EOPController extends Controller
 {
     public function index($standard_label)
     {
         $standard_label = StandardLabel::find($standard_label);
-        return view('admin.eop.index',['standard_label' => $standard_label]);
+        return view('admin.eop.index', ['standard_label' => $standard_label]);
     }
 
     public function create($standard_label)
     {
         $standard_label = StandardLabel::find($standard_label);
-        $cops = SubCOP::pluck('label','id');
-        return view('admin.eop.add',['standard_label' => $standard_label,'cops' => $cops->prepend('No COPs','no_cops'),'occupancy_types' => $this->occupancy_types()]);
+        $accreditations = Accreditation::pluck('name', 'id');
+        $cops = SubCOP::pluck('label', 'id');
+        return view('admin.eop.add', ['standard_label' => $standard_label,'cops' => $cops->prepend('No COPs', 'no_cops'),'occupancy_types' => $this->occupancy_types(),'accreditations' => $accreditations]);
     }
 
-    public function store(Request $request,$standard_label)
+    public function store(Request $request, $standard_label)
     {
-        $this->validate($request,[
+        $this->validate($request, [
           'name' => 'required',
           'text' => 'required',
           'documentation' => 'required',
           'frequency' => 'required',
           'risk' => 'required',
-          'occupancy_type' => 'required'
+          'occupancy_type' => 'required',
+          'accreditations' => 'required|array',
+          'accreditations.*' => 'exists:accreditation,id'
         ]);
 
         $standardLabel = StandardLabel::find($standard_label);
 
 
 
-        if($eop = $standardLabel->eops()->create($request->all()))
-        {
-          if(!empty($request->cops))
-          {
-              foreach($request->cops as $cop)
-              {
-                $aCops[] = SubCOP::find($cop);
-              }
+        if ($eop = $standardLabel->eops()->create($request->all())) {
+            foreach ($request->accreditations as $accreditation) {
+                $aAccreditations[] = Accreditation::find($accreditation);
+            }
 
-              if($eop->subCOPs()->saveMany($aCops))
-              {
-                return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
-              }
-          }
-          else
-          {
-              return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP created successfully');
-          }
+            $eop->accreditations()->saveMany($aAccreditations);
 
+            if (!empty($request->cops)) {
+                foreach ($request->cops as $cop) {
+                    $aCops[] = SubCOP::find($cop);
+                }
+
+                $eop->subCOPs()->saveMany($aCops);
+            }
+
+            return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP created successfully');
         }
-
     }
 
-    public function edit($standard_label,$eop)
+    public function edit($standard_label, $eop)
     {
         $standard_label = StandardLabel::find($standard_label);
         $eop = EOP::find($eop);
-        $cops = SubCOP::pluck('label','id');
-        return view('admin.eop.edit',['standard_label' => $standard_label, 'eop' => $eop,'cops' => $cops->prepend('No COPs','no_cops'),'occupancy_types' => $this->occupancy_types()]);
+        $cops = SubCOP::pluck('label', 'id');
+        $accreditations = Accreditation::pluck('name', 'id');
+        return view('admin.eop.edit', ['standard_label' => $standard_label, 'eop' => $eop,'cops' => $cops->prepend('No COPs', 'no_cops'),'occupancy_types' => $this->occupancy_types(),'accreditations' => $accreditations]);
     }
 
-    public function save(Request $request,$standard_label,$eop)
+    public function save(Request $request, $standard_label, $eop)
     {
-        $this->validate($request,[
+        $this->validate($request, [
           'name' => 'required',
           'text' => 'required',
           'documentation' => 'required',
           'frequency' => 'required',
           'risk' => 'required',
-          'occupancy_type' => 'required'
+          'occupancy_type' => 'required',
+          'accreditations' => 'required|array',
+          'accreditations.*' => 'exists:accreditation,id'
         ]);
 
         $standardLabel = StandardLabel::find($standard_label);
         $eop = EOP::find($eop);
         $eop->update($request->all());
 
-        if($standardLabel->eops()->save($eop))
-        {
-            if(!empty($request->cops))
-            {
-                foreach($request->cops as $cop)
-                {
-                  $aCops[] = SubCOP::find($cop)->id;
+        if ($standardLabel->eops()->save($eop)) {
+            foreach ($request->accreditations as $accreditation) {
+                $aAccreditations[] = Accreditation::find($accreditation)->id;
+            }
+
+            $eop->accreditations()->sync($aAccreditations);
+
+            if (!empty($request->cops)) {
+                foreach ($request->cops as $cop) {
+                    $aCops[] = SubCOP::find($cop)->id;
                 }
 
-                if($eop->subCOPs()->sync($aCops))
-                {
-                  return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP saved successfully');
+                if ($eop->subCOPs()->sync($aCops)) {
+                    return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
                 }
-            }
-            else
-            {
-                return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success','EOP saved successfully');
+            } else {
+                return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
             }
         }
-
     }
 
-    public function delete($standard_label,$eop)
+    public function delete($standard_label, $eop)
     {
-      if(EOP::destroy($eop))
-      {
-        return redirect('admin/standard-label/'.$standard_label.'/eop')->with('error','EOP deleted successfully');
-      }
+        if (EOP::destroy($eop)) {
+            return redirect('admin/standard-label/'.$standard_label.'/eop')->with('error', 'EOP deleted successfully');
+        }
     }
 
     public function occupancy_types()
     {
-      return [
+        return [
         'assembly-a-1' => 'Assembly A-1',
         'assembly-a-2' => 'Assembly A-2',
         'assembly-a-3' => 'Assembly A-3',
@@ -147,6 +146,4 @@ class EOPController extends Controller
         'utility_misc' => 'Utility and Misc'
       ];
     }
-
-
 }
