@@ -56,8 +56,8 @@ class StandardLabelController extends Controller
         $this->validate($request, [
           'label' => 'required',
           'text' => 'required',
-          'accreditation_requirements' => 'not_in:0',
-          'accreditation_id' => 'required'
+          'accreditation_id' => 'required',
+          'accreditation_requirement_id' => 'required'
         ]);
 
         foreach ($request->accreditation_id as $accreditation) {
@@ -97,15 +97,14 @@ class StandardLabelController extends Controller
         $this->validate($request, [
           'label' => 'required',
           'text' => 'required',
-          'accreditation_requirements' => 'required',
-          'accreditation_id' => 'required'
-
+          'accreditation_id' => 'required',
+          'accreditation_requirement_id' => 'required'
         ]);
 
         $standard_label = StandardLabel::find($id);
 
         foreach ($request->accreditation_id as $accreditation) {
-            $aAccreditations[] = Accreditation::find($accreditation);
+            $aAccreditations[] = Accreditation::find($accreditation)->id;
         }
 
         if ($standard_label->update($request->all())) {
