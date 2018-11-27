@@ -42,9 +42,11 @@ class TJCChecklistEOPController extends Controller
         $checklist_eops = DB::table('tjc_checklist_eops')
                         ->join('eop', 'eop.id', '=', 'tjc_checklist_eops.eop_id')
                         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                        ->join('accreditation', 'standard_label.accreditation_id', '=', 'accreditation.id')
+                        ->join('accreditations_eops', 'accreditations_eops.eop_id', '=', 'eop.id')
+                        ->join('accreditation', 'accreditation.id', '=', 'accreditations_eops.accreditation_id')
                         ->select('tjc_checklist_eops.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text', 'accreditation.name as accreditation_name')
-                        ->where('healthsystem_id', Auth::user()->healthsystem_id);
+                        ->where('healthsystem_id', Auth::user()->healthsystem_id)
+                        ->where('accreditations_eops.accreditation_id', 1);
 
         return Datatables::of($checklist_eops)
                 ->addColumn('eop_name', function ($checklist_eop) {
@@ -72,10 +74,11 @@ class TJCChecklistEOPController extends Controller
     {
         $available_eops = DB::table('eop')
                         ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-                        ->join('accreditation', 'standard_label.accreditation_id', '=', 'accreditation.id')
+                        ->join('accreditations_eops', 'accreditations_eops.eop_id', '=', 'eop.id')
+                        ->join('accreditation', 'accreditation.id', '=', 'accreditations_eops.accreditation_id')
                         ->select('eop.id', 'eop.name as eop_name', 'standard_label.label as standard_label', 'eop.text as eop_text', 'accreditation.name as accreditation_name')
                         ->whereNotIn('eop.id', TJCChecklistEOP::pluck('eop_id'))
-                        ->where('standard_label.accreditation_id', 1);
+                        ->where('accreditations_eops.accreditation_id', 1);
 
         return Datatables::of($available_eops)
                 ->addColumn('eop_name', function ($available_eop) {
