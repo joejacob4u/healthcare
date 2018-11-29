@@ -30,8 +30,8 @@ class AssetCategoriesController extends Controller
         $accreditations = Accreditation::pluck('name', 'id');
         $category = Category::find($category_id);
         $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
-        $equipment_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
-        return view('equipment.asset-category.add', ['accreditations' => $accreditations,'category' => $category,'physical_risks' => $physical_risks,'equipment_functions' => $equipment_functions]);
+        $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
+        return view('equipment.asset-category.add', ['accreditations' => $accreditations,'category' => $category,'physical_risks' => $physical_risks,'utility_functions' => $utility_functions]);
     }
 
     public function store(Request $request, $category_id)
@@ -64,14 +64,20 @@ class AssetCategoriesController extends Controller
 
         foreach ($asset_category->eops as $eop) {
             $standard_label_ids[] = $eop->standardLabel->id;
-            $accreditation_ids[] = $eop->standardLabel->accreditation_id;
+            
+            foreach ($eop->standardLabel->accreditations->pluck('id')->toArray() as $accreditation_id) {
+                $accreditation_ids[] = $accreditation_id;
+            }
         }
 
         $physical_risks = PhysicalRisk::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
         $utility_functions = UtilityFunction::orderBy('score', 'desc')->pluck('name', 'id')->prepend('Please select', 0);
 
 
-        $standard_labels = StandardLabel::whereIn('accreditation_id', $accreditation_ids)->pluck('label', 'id')->prepend(0, 'Please select');
+        $standard_labels = StandardLabel::whereHas('accreditations', function ($query) {
+            $query->whereIn('id', $accreditation_ids);
+        })->pluck('label', 'id')->prepend(0, 'Please select');
+
         $eops = EOP::whereIn('standard_label_id', $standard_label_ids)->pluck('name', 'id')->prepend(0, 'Please select');
         return view('equipment.asset-category.edit', ['asset_category' => $asset_category,'standard_labels' => $standard_labels,'accreditations' => $accreditations,'standard_label_ids' => $standard_label_ids,'accreditation_ids' => $accreditation_ids,'eops' => $eops,'physical_risks' => $physical_risks,'utility_functions' => $utility_functions]);
     }
