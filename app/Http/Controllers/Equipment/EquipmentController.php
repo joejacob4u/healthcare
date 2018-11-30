@@ -89,8 +89,7 @@ class EquipmentController extends Controller
                         'name' => 'Work Order for '.$equipment->name.' for '.Carbon::parse($work_order_date)->toFormattedDateString(),
                         'work_order_date' => $work_order_date,
                         'building_id' => session('building_id'),
-                        'equipment_id' => $equipment->id,
-                        'status' => 'pending_initialization'
+                        'equipment_id' => $equipment->id
                     ]));
                 }
             }
