@@ -33,6 +33,12 @@ class EOP extends Model
         return $this->belongsToMany('App\Regulatory\SubCOP', 'eop_sub-cop', 'eop_id', 'sub_cop_id');
     }
 
+    public function assetCategories()
+    {
+        return $this->belongsToMany('App\Equipment\AssetCategory', 'equipment_asset_category_to_eop', 'eop_id', 'equipment_asset_category_id');
+    }
+
+
     public function documentSubmissionDates()
     {
         return $this->hasMany('App\Regulatory\EOPDocumentSubmissionDate', 'eop_id');
@@ -80,6 +86,11 @@ class EOP extends Model
     public function getFindingCount($status)
     {
         return DB::table('eop_findings')->where('eop_id', $this->id)->where('status', $status)->count();
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->name . ' (' . $this->text .' )';
     }
 
     public function calculateDocumentDates($baseline_date, $list_all = false)
@@ -141,6 +152,10 @@ class EOP extends Model
             break;
 
         case 'as-needed':
+          return [];
+          break;
+          
+          case 'no_frequency':
           return [];
           break;
 

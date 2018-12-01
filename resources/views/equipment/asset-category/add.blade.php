@@ -68,25 +68,11 @@
                 </div>
 
 
-                <div class="form-group">
-                    {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('accreditation_id[]', $accreditations, Request::old('accreditation_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'accreditation_id']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('standard_label_id', 'Standard Label:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('standard_label_id[]', [], Request::old('standard_label_id'), ['class' => 'form-control selectpicker','placeholder' => 'Please select','id' => 'standard_label_id','multiple' => true]) !!}
-                    </div>
-                </div>
-
 
                 <div class="form-group">
                     {!! Form::label('eop_id', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('eop_id[]', [], Request::old('eop_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id']) !!}
+                        {!! Form::select('eop_id[]', $eops, Request::old('eop_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
                     </div>
                 </div>
 
@@ -117,90 +103,6 @@
 
     <script>
 
-    $('#accreditation_id').change(function(){
-        if($(this).val() != 0)
-        {
-            $.ajax({
-                type: 'POST',
-                url: '{{ url('accreditation/fetch/standard-labels') }}',
-                data: { '_token' : '{{ csrf_token() }}', 'accreditations': JSON.stringify($('#accreditation_id').val()) },
-                beforeSend:function()
-                {
-                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-                },
-                success:function(data)
-                {
-                    $('#standard_label_id').html('');
-
-                    var html = '<option value="0">Select Standard Label</option>';
-
-
-                    $.each(data.standard_labels, function(index, value) {
-                        html += '<option value="'+value.id+'">'+value.label+'</option>';
-                    });
-
-                    $('#standard_label_id').append(html);
-                    $('#standard_label_id').selectpicker('refresh');
-                },
-                complete:function()
-                {
-                    $('.overlay').remove();
-                },
-                error:function()
-                {
-                    // failed request; give feedback to user
-                }
-            });
-
-        }
-
-
-    });
-
-    var eop_array = {};
-
-    $('#standard_label_id').change(function(){
-        
-        eop_array = {};
-
-        if($(this).val() != 0)
-        {
-            $.ajax({
-                type: 'POST',
-                url: '{{ url('standard-labels/fetch/eops') }}',
-                data: { '_token' : '{{ csrf_token() }}', 'standard_labels': JSON.stringify($('#standard_label_id').val()) },
-                beforeSend:function()
-                {
-                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-                },
-                success:function(data)
-                {
-                    $('#eop_id').html('');
-
-                    var html = '<option value="0">Select EOPs</option>';
-
-                    $.each(data.eops, function(index, value) {
-                        html += '<option value="'+value.id+'">'+value.name+'</option>';
-                        eop_array[value.id] = value.frequency;
-                    });
-
-                    $('#eop_id').append(html);
-                    $('#eop_id').selectpicker('refresh');
-                },
-                complete:function()
-                {
-                    $('.overlay').remove();
-                },
-                error:function()
-                {
-                    // failed request; give feedback to user
-                }
-            });
-
-        }
-
-
-    });
 
 
     </script>

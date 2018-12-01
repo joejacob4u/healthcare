@@ -21,6 +21,7 @@
 </ol>
 
 
+
 <div class="callout callout-info">
     <h4>EOP : {{$eop->name}}</h4>
     @if(!empty($tolerant_dates))
@@ -146,5 +147,6 @@ function removeSubmissionDate(id)
 }
 
 </script>
+
 
 @endsection

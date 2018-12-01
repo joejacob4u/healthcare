@@ -38,4 +38,9 @@ class Building extends Model
     {
         return $this->hasMany('App\Regulatory\EOPDocumentSubmissionDate', 'building_id');
     }
+
+    public function equipments()
+    {
+        return $this->hasMany('App\Equipment\Equipment', 'building_id');
+    }
 }

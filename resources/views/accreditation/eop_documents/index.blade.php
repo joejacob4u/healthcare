@@ -23,6 +23,9 @@ $accreditation_requirement_id = (!$submission_dates->isEmpty()) ? $submission_da
     <li class="active">Documentation</li>
 </ol>
 
+@if(count($equipments) < 1)
+
+
 
 <div class="callout callout-info">
     <h4>EOP : {{$eop->name}}</h4>
@@ -369,4 +372,96 @@ $('#set-btn').click(function(){
 }
 
 </style>
+
+@else
+
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Document Submitted Dates - <strong>(Equipment Detected for EOP)</strong></h3>
+
+        <div class="box-tools pull-right">
+          <div class="pull-left"><a href="{{url('equipment/download')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-save"></span> Download</a></div>
+        </div>
+      </div>
+      <div class="box-body">
+                <table id="example" class="table table-striped" type="custom">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Asset Category</th>
+                        <th>Description</th>
+                        <th>Frequency</th>
+                        <th>Date Required</th>
+                        <th>User</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Category</th>
+                        <th>Asset Category</th>
+                        <th>Description</th>
+                        <th>Frequency</th>
+                        <th>Date Required</th>
+                        <th>User</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+
+                @foreach($equipments as $equipment)
+                                  
+                  @foreach($equipment->workOrders->where('building_id', session('building_id'))->where('equipment_id',$equipment->id) as $work_order)
+                    <tr>
+                      <td>{{$work_order->name}}</td>
+                      <td>{{$work_order->equipment->category->name}}</td>
+                      <td>{{$work_order->equipment->assetCategory->name}}</td>
+                      <td>{{$work_order->equipment->description}}</td>
+                      <td>{{$work_order->equipment->frequency}}</td>
+                      <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
+                      @if($work_order->user_id == 0)
+                        <td>N/A</td> 
+                      @else
+                        <td>{{$work_order->user->name}}</td>
+                      @endif 
+
+                      <td>{{$work_order->status}}</td>
+
+                        <td>{{link_to('equipment/pm/work-orders','Go to Work Order', ['class' => 'btn-xs btn btn-info'] )}}</td>
+
+                    
+                    </tr>
+
+                    @endforeach
+                  @endforeach
+                </tbody>
+            </table>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        Footer
+      </div>
+      <!-- /.box-footer-->
+    </div>
+
+
+  <script>
+  $(document).ready(function(){
+      $('[data-toggle="popover"]').popover(); 
+
+      $('table').DataTable( {
+        "order": [[ 5, "desc" ],[6,"desc"]]
+    } );
+  });
+  </script>
+
+
+
+
+@endif
+
 @endsection

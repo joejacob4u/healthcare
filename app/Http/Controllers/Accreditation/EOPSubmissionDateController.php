@@ -10,6 +10,7 @@ use App\Regulatory\EOP;
 use App\User;
 use App\Regulatory\Building;
 use App\Regulatory\AccreditationRequirement;
+use App\Equipment\Equipment;
 
 class EOPSubmissionDateController extends Controller
 {
@@ -27,9 +28,10 @@ class EOPSubmissionDateController extends Controller
     public function index($eop_id)
     {
         $eop = EOP::find($eop_id);
+        $equipments = Equipment::where('building_id', session('building_id'))->whereIn('equipment_asset_category_id', $eop->assetCategories->pluck('id')->toArray())->get();
         $submission_dates = EOPDocumentSubmissionDate::where('eop_id', $eop->id)->where('building_id', session('building_id'))->get();
         $accreditation_requirements = AccreditationRequirement::pluck('name', 'id');
-        return view('accreditation.eop_documents.index', ['eop' => $eop, 'submission_dates' => $submission_dates,'accreditation_requirements' => $accreditation_requirements]);
+        return view('accreditation.eop_documents.index', ['eop' => $eop, 'submission_dates' => $submission_dates,'accreditation_requirements' => $accreditation_requirements,'equipments' => $equipments]);
     }
 
     /**

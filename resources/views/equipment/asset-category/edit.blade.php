@@ -67,26 +67,10 @@
                     </div>
                 </div>
 
-
-
-                <div class="form-group">
-                    {!! Form::label('accreditation_id', 'Accreditation:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('accreditation_id[]', $accreditations, $accreditation_ids, ['class' => 'form-control selectpicker','multiple' => true,'id' => 'accreditation_id']) !!}
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('standard_label_id', 'Standard Label:', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('standard_label_id[]', $standard_labels, $standard_label_ids, ['class' => 'form-control selectpicker','placeholder' => 'Please select','id' => 'standard_label_id','multiple' => true]) !!}
-                    </div>
-                </div>
-
                 <div class="form-group">
                     {!! Form::label('eop_id', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('eop_id[]', $eops, $asset_category->eops->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id']) !!}
+                        {!! Form::select('eop_id[]', $eops, $asset_category->eops->pluck('id')->toArray(), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
                     </div>
                 </div>
 
