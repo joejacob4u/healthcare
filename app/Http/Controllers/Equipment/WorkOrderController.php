@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Equipment\WorkOrder;
 use Storage;
 use App\Equipment\WorkOrderStatus;
+use App\Equipment\Equipment;
 
 class WorkOrderController extends Controller
 {
@@ -17,8 +18,18 @@ class WorkOrderController extends Controller
 
     public function index()
     {
-        $work_orders = WorkOrder::where('building_id', session('building_id'))->get();
-        return view('equipment.preventive-maintenance.index', ['work_orders' => $work_orders]);
+        if (isset($_REQUEST['equipment_id'])) {
+            $work_orders = WorkOrder::where('building_id', session('building_id'))->where('equipment_id', $_REQUEST['equipment_id'])->get();
+        } else {
+            $work_orders = WorkOrder::where('building_id', session('building_id'))->get();
+        }
+        
+        
+        $equipments = Equipment::whereHas('workOrders', function ($query) {
+            $query->where('building_id', session('building_id'));
+        })->pluck('name', 'id');
+
+        return view('equipment.preventive-maintenance.index', ['work_orders' => $work_orders,'equipments' => $equipments]);
     }
 
     public function update($work_order_id)

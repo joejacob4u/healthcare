@@ -59,6 +59,21 @@ class Equipment extends Model
     {
         return $this->hasMany('App\Equipment\WorkOrder', 'equipment_id');
     }
+
+    public function lastWorkOrderStatus()
+    {
+        $status = 1;
+
+        foreach ($this->workOrders as $work_order) {
+            foreach ($work_order->workOrderStatuses() as $work_order_status) {
+                if ($work_order_status->id > $status) {
+                    $status = $work_order_status->id;
+                }
+            }
+        }
+
+        return WorkOrderStatus::find($status)->name;
+    }
     
     public function calculateEquipmentServiceAge()
     {

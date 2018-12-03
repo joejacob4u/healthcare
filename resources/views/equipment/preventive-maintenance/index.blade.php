@@ -12,6 +12,28 @@
 @include('layouts.partials.errors')
 
     <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Search for Equipment</h3>
+
+          <div class="box-tools pull-right">
+          </div>
+
+        </div>
+        <div class="box-body">
+          
+
+            <div class="form-group">
+                <div class="col-lg-10">
+                    {!! Form::select('equipment_id',$equipments->prepend('Please select equipment',0), $value = '', ['class' => 'form-control selectpicker','data-live-search' => "true","data-size" => "false",'id' => 'equipment_id']) !!}
+                </div>
+            </div>
+
+        </div>
+        <!-- /.box-body -->
+        <!-- /.box-footer-->
+      </div>
+
+    <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Preventive Maintenance View for Equipments in <strong>{{session('building_name')}}</strong></h3>
 
@@ -94,6 +116,13 @@
       $('table').DataTable( {
         "order": [[ 5, "desc" ],[6,"desc"]]
     } );
+
+    $('#equipment_id').change(function(){
+
+      if($(this).val() != 0){
+        window.location.href = "/equipment/pm/work-orders?equipment_id="+$(this).val(); 
+      }
+    });
   });
   </script>
 @endsection

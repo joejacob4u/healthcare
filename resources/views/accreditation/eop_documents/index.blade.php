@@ -383,8 +383,6 @@ $('#set-btn').click(function(){
         </div>
       </div>
       <div class="box-body">
-        <div class="pull-left"><a href="{{url('equipment/download')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-save"></span> Download</a></div>
-        <br/>
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
@@ -392,6 +390,7 @@ $('#set-btn').click(function(){
                         <th>Serial Number</th>
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
+                        <th>Status</th>
                         <th>Work Order</th>
                     </tr>
                 </thead>
@@ -401,6 +400,7 @@ $('#set-btn').click(function(){
                         <th>Serial Number</th>
                         <th>Room Number</th>
                         <th>Eq ID Number</th>
+                        <th>Status</th>
                         <th>Work Order</th>
                     </tr>
                 </tfoot>
@@ -411,6 +411,7 @@ $('#set-btn').click(function(){
                       <td>{{$equipment->serial_number}}</td>
                       <td>{{$equipment->room->room_number}}</td>
                       <td>{{$equipment->identification_number}}</td>
+                      <td>{{$equipment->lastWorkOrderStatus()}}</td>
                       <td>{{link_to('equipment/pm/work-orders','Go to Work Order', ['class' => 'btn-xs btn btn-info'] )}}</td>
                     </tr>
                   @endforeach
