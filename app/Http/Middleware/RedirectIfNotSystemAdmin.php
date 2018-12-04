@@ -26,6 +26,9 @@ class RedirectIfNotSystemAdmin
             if (Auth::guard('admin')->check()) {
                 return $next($request);
             }
+            if (Auth::guard('master')->check()) {
+                return $next($request);
+            }
         }
 
         return redirect('/login');
