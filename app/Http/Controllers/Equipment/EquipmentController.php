@@ -85,12 +85,16 @@ class EquipmentController extends Controller
 
                     //save each work order one by one
                     
-                    $equipment->workOrders()->save(new WorkOrder([
+                    $work_order = $equipment->workOrders()->save(new WorkOrder([
                         'name' => 'Work Order for '.$equipment->name.' for '.Carbon::parse($work_order_date)->toFormattedDateString(),
                         'work_order_date' => $work_order_date,
                         'building_id' => session('building_id'),
                         'equipment_id' => $equipment->id
                     ]));
+
+                    //set status as pending
+
+                    $work_order->workOrderStatuses()->save('2');
                 }
             }
 

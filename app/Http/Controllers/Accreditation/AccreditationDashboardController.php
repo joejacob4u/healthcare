@@ -42,7 +42,7 @@ class AccreditationDashboardController extends Controller
                             ->leftJoin('buildings', 'buildings.id', '=', 'eop_findings.building_id')
                             ->leftJoin('sites', 'sites.id', '=', 'buildings.site_id')
                             ->leftJoin('eop', 'eop.id', '=', 'eop_findings.eop_id')
-                            ->whereIn('eop.standard_label_id', $requirement->standardLabels()->pluck('standard_label_id'))
+                            ->whereIn('eop.standard_label_id', $requirement->standardLabels()->pluck('id'))
                             ->where('sites.hco_id', session('hco_id'))
                             ->where('eop_findings.accreditation_id', $accreditation->id)->groupBy('status')->get();
 

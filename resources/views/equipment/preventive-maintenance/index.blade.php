@@ -84,11 +84,11 @@
                         <td>{{$work_order->user->name}}</td>
                       @endif 
 
-                      <td>{{$work_order->status}}</td>
+                      <td>{{$work_order->getLastWorkOrderStatus()}}</td>
 
-                      @if($work_order->status == 'pending_initialization')
+                      @if($work_order->getLastWorkOrderStatus() == 'Pending')
                         <td>{{link_to('equipment/pm/work-orders/update/'.$work_order->id,'Start Work Order', ['class' => 'btn-xs btn btn-primary'] )}}</td>
-                      @elseif($work_order->status == 'ongoing')
+                      @elseif($work_order->getLastWorkOrderStatus() == 'Open - Parts on Order')
                         <td>{{link_to('equipment/pm/work-orders/update/'.$work_order->id,'Resume Work Order', ['class' => 'btn-xs btn btn-warning'] )}}</td>
                       @else
                         <td>{{link_to('equipment/pm/work-orders/update/'.$work_order->id,'Update Work Order', ['class' => 'btn-xs btn btn-info'] )}}</td>
