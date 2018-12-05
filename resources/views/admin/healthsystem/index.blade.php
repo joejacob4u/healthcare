@@ -11,7 +11,7 @@
         <h3 class="box-title">Healthcare System</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('healthsystem/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Healthcare System</a>
+          <a href="{{url('admin/healthsystem/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Healthcare System</a>
         </div>
       </div>
       <div class="box-body">
@@ -43,8 +43,8 @@
                         <td>{{$healthsystem->state}}</td>
                         <td>{{$healthsystem->admin_phone}}</td>
                         <td>{{$healthsystem->admin_email}}</td>
-                        <td>{!! link_to('healthsystem/'.$healthsystem->id.'/hco','HCO',['class' => 'btn-xs btn-info']) !!}</td>
-                        <td>{!! link_to('healthsystem/edit/'.$healthsystem->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                        <td>{!! link_to('admin/healthsystem/'.$healthsystem->id.'/hco','HCO',['class' => 'btn-xs btn-info']) !!}</td>
+                        <td>{!! link_to('admin/healthsystem/edit/'.$healthsystem->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                     @endforeach
                 </tbody>

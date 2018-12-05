@@ -11,7 +11,7 @@ class RoomController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin');
+        $this->middleware('master');
     }
     /**
      * Display a listing of the resource.
@@ -56,7 +56,7 @@ class RoomController extends Controller
         ]);
 
         if ($room = Room::create($request->all())) {
-            return redirect('buildings/'.$room->buildingDepartment->building->id.'/departments/'.$request->department_id.'/rooms')->with('success', 'New Room Created!');
+            return redirect('admin/buildings/'.$room->buildingDepartment->building->id.'/departments/'.$request->department_id.'/rooms')->with('success', 'New Room Created!');
         }
     }
 

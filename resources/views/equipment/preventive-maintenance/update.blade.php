@@ -22,18 +22,26 @@
       <div class="box-body">
                 <div class="row">
                 <div class="list-group">
-                    <a href="#" class="list-group-item list-group-item-info">
+                    <a href="#" class="list-group-item list-group-item-default">
                         <h4 class="list-group-item-heading">Equipment Info</h4>
                         <p class="list-group-item-text" id="equipment_info"><strong>Manufacturer</strong> : {{$work_order->equipment->manufacturer}}&emsp; <strong>Model</strong> : {{$work_order->equipment->model_number}}&emsp; <strong>Serial Number</strong> :  {{$work_order->equipment->serial_number}}&emsp; <strong>ID #</strong> :  {{$work_order->equipment->identification_number}}&emsp; <strong>Location (Room)</strong> :  {{$work_order->equipment->room->room_number}}</p>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-warning">
+                    <a href="#" class="list-group-item list-group-item-default">
                         <h4 class="list-group-item-heading">Equipment Description</h4>
                         <p class="list-group-item-text" id="equipment_description">{{$work_order->equipment->description}}</p>
                     </a>
-                    <a href="#" class="list-group-item list-group-item-danger">
+                    <a href="#" class="list-group-item list-group-item-default">
                         <h4 class="list-group-item-heading">Preventive Maintenance Procedure</h4>
                         <p class="list-group-item-text" id="equipment_pm_procedure">{{$work_order->equipment->preventive_maintenance_procedure}}</p>
                     </a>
+                    @if(count(Storage::disk('s3')->files($work_order->equipment->preventive_maintenance_procedure_uploade_path)))
+                    <a href="#" class="list-group-item list-group-item-default">
+                        <h4 class="list-group-item-heading">Preventive Maintenance Files</h4>
+                            @foreach(Storage::disk('s3')->files($work_order->equipment->preventive_maintenance_procedure_uploade_path) as $file)
+                             <p class="list-group-item-text"><a href="{{Storage::disk('s3')->url($file)}}" target="_blank" class="btn btn-xs"><span class="glyphicon glyphicon-save"></span> {{$file}}</a></p>
+                            @endforeach
+                    </a>
+                    @endif
                 </div>
              </div>
             <div class="row">

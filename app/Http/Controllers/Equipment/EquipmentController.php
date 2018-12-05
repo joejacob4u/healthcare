@@ -94,7 +94,7 @@ class EquipmentController extends Controller
 
                     //set status as pending
 
-                    $work_order->workOrderStatuses()->save('2');
+                    $work_order->workOrderStatuses()->sync([2]);
                 }
             }
 

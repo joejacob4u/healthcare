@@ -72,3 +72,64 @@ Route::get('work/assignees', 'WorkOrders\AssigneesController@index');
 Route::get('work/assignees/add', 'WorkOrders\AssigneesController@create');
 Route::post('work/assignees/add', 'WorkOrders\AssigneesController@store');
 Route::get('work/assignees/edit/{id}', 'WorkOrders\AssigneesController@edit');
+
+// Healthsystem management routes
+
+Route::get('healthsystem', 'HealthsystemController@index');
+Route::get('healthsystem/add', 'HealthsystemController@add');
+Route::post('healthsystem/add', 'HealthsystemController@create');
+Route::get('healthsystem/edit/{id}', 'HealthsystemController@edit');
+Route::post('healthsystem/edit/{id}', 'HealthsystemController@save');
+Route::post('healthsystem/delete', 'HealthsystemController@delete');
+
+Route::get('healthsystem/{healthsystem_id}/hco', 'HCOController@index');
+Route::get('healthsystem/{healthsystem_id}/hco/add', 'HCOController@add');
+Route::post('healthsystem/{healthsystem_id}/hco/add', 'HCOController@create');
+Route::get('healthsystem/{healthsystem_id}/hco/edit/{id}', 'HCOController@edit');
+Route::post('healthsystem/{healthsystem_id}/hco/edit/{id}', 'HCOController@save');
+Route::post('healthsystem/hco/delete', 'HCOController@delete');
+
+Route::get('healthsystem/users', 'UsersController@index');
+Route::get('healthsystem/users/add', 'UsersController@create');
+Route::post('healthsystem/users/add', 'UsersController@store');
+Route::get('healthsystem/users/edit/{id}', 'UsersController@edit');
+Route::post('healthsystem/users/edit/{id}', 'UsersController@save');
+Route::post('healthsystem/users/delete', 'UsersController@delete');
+
+Route::get('healthsystem/prospects', 'ProspectsController@index');
+Route::get('healthsystem/prospects/details/{id}', 'ProspectsController@details');
+
+
+Route::get('hco/{hco_id}/sites', 'SiteController@index');
+Route::get('hco/{hco_id}/sites/add', 'SiteController@add');
+Route::post('hco/{hco_id}/sites/add', 'SiteController@create');
+Route::get('hco/{hco_id}/sites/edit/{id}', 'SiteController@edit');
+Route::post('hco/{hco_id}/sites/edit/{id}', 'SiteController@save');
+Route::post('hco/sites/delete', 'SiteController@delete');
+
+Route::get('sites/{site_id}/buildings', 'BuildingController@index');
+Route::get('sites/{site_id}/buildings/add', 'BuildingController@add');
+Route::post('sites/{site_id}/buildings/add', 'BuildingController@create');
+Route::get('sites/{site_id}/buildings/edit/{id}', 'BuildingController@edit');
+Route::post('sites/{site_id}/buildings/edit/{id}', 'BuildingController@save');
+Route::post('sites/buildings/delete', 'BuildingController@delete');
+Route::post('sites/buildings/upload/images', 'BuildingController@uploadImages');
+Route::post('sites/buildings/images/fetch', 'BuildingController@fetchImages');
+Route::post('buildings/fetch/departments', 'BuildingController@fetchDepartments');
+
+Route::get('sites/{site_id}/buildings/{building_id}/departments', 'DepartmentsController@index');
+Route::get('buildings/{building_id}/departments/add', 'DepartmentsController@add');
+Route::post('buildings/{building_id}/departments/add', 'DepartmentsController@store');
+Route::get('buildings/{building_id}/departments/{department_id}/edit', 'DepartmentsController@edit');
+Route::post('buildings/{building_id}/departments/{department_id}/edit', 'DepartmentsController@save');
+Route::post('departments/delete', 'DepartmentsController@delete');
+
+Route::get('buildings/{building_id}/departments/{department_id}/rooms', 'RoomController@index');
+Route::get('departments/{department_id}/rooms/create', 'RoomController@create');
+Route::post('departments/{department_id}/rooms/create', 'RoomController@store');
+Route::get('departments/{department_id}/rooms/{room_id}/edit', 'RoomController@edit');
+Route::post('departments/{department_id}/rooms/{room_id}/edit', 'RoomController@update');
+Route::post('rooms/delete', 'RoomController@destroy');
+
+
+//end Healthsystem management routes

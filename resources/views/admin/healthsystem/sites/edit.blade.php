@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'hco/'.$hco->id.'/sites/edit/'.$site->id, 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'/sites/edit/'.$site->id, 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -49,7 +49,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('hco/'.$hco->id.'/sites', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('admin/hco/'.$hco->id.'/sites', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         <button type="button" onclick="deleteSite('{{$site->id}}')" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span> Delete</button>
                         {!! Form::submit('Update Site', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
@@ -76,7 +76,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('hco/sites/delete') }}',
+              url: '{{ asset('admin/hco/sites/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {
@@ -86,7 +86,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = "{{url('hco/'.$hco->id.'/sites')}}";
+                    window.location = "{{url('admin/hco/'.$hco->id.'/sites')}}";
                   }
                   else {
                     bootbox.alert("Something went wrong, try again later");

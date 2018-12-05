@@ -208,6 +208,10 @@
                   </div>
               </div>
 
+              <div class="callout callout-info" id="eop_div" style="display:none">
+
+              </div>
+
 
 
             <div class="form-group">
@@ -356,6 +360,52 @@
         }
         
       });
+
+        $("#equipment_asset_category_id").change(function(){
+
+        if($(this).val() != 0)
+        {
+                $.ajax({
+                type: 'POST',
+                url: '{{ url('equipment/categories/fetch/asset-category-details') }}',
+                data: { '_token' : '{{ csrf_token() }}', 'asset_category_id': $(this).val() },
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    $('#eop_div').html('<h4>EOP Info</h4>');
+
+                    var html = '';
+
+                    $('#preventive_maintenance_procedure').val(data.asset_category.pm_procedure);
+
+                    $.each(data.asset_category.eops, function(index, value) {
+                        html +=  `<a href="#" class="list-group-item  list-group-item-info active">
+                            <h4>${value.standard_label.label} - EOP : ${value.name}</h4>
+                            <p>${value.text}</p>
+                        </a>`;
+                    });
+
+                    $('#eop_div').append(html);
+                    $('#eop_div').show();
+                },
+                complete:function()
+                {
+                    $('.overlay').remove();
+                },
+                error:function()
+                {
+                    // failed request; give feedback to user
+                }
+            });
+
+        }
+        
+      });
+
+
 
       $("#is_warranty_available").change(function(){
           

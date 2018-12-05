@@ -115,9 +115,9 @@
                </span>
              </a>
              <ul class="treeview-menu">
-               <li><a href="{{url('healthsystem')}}"><i class="fa fa-circle-o"></i>Health System</a></li>
-               <li><a href="{{url('healthsystem/users')}}"><i class="fa fa-circle-o"></i>System Admins</a></li>
-               <li><a href="{{url('healthsystem/prospects')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
+               <li><a href="{{url('admin/healthsystem')}}"><i class="fa fa-circle-o"></i>Health System</a></li>
+               <li><a href="{{url('admin/healthsystem/users')}}"><i class="fa fa-circle-o"></i>System Admins</a></li>
+               <li><a href="{{url('admin/healthsystem/prospects')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
              </ul>
          </li>
     </ul>

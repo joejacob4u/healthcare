@@ -15,7 +15,7 @@
         <h3 class="box-title">Buildings for {{$site->name}}</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('sites/'.$site->id.'/buildings/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Building</a>
+          <a href="{{url('admin/sites/'.$site->id.'/buildings/add')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Building</a>
         </div>
       </div>
       <div class="box-body">
@@ -47,8 +47,8 @@
                       <td>{{$building->name}}</td>
                       <td>@foreach($building->accreditations as $accreditation) {{$accreditation->name}},  @endforeach</td>
                       <td>{{strtoupper(implode(' ',explode('_',$building->occupancy_type)))}}</td>
-                      <td>{!! link_to('sites/'.$site->id.'/buildings/'.$building->id.'/departments','Departments',['class' => 'btn-xs btn-info']) !!}</td>
-                      <td>{!! link_to('sites/'.$site->id.'/buildings/edit/'.$building->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                      <td>{!! link_to('admin/sites/'.$site->id.'/buildings/'.$building->id.'/departments','Departments',['class' => 'btn-xs btn-info']) !!}</td>
+                      <td>{!! link_to('admin/sites/'.$site->id.'/buildings/edit/'.$building->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -56,7 +56,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        <a href="{{url('hco/'.$site->hco->id.'/sites')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        <a href="{{url('admin/hco/'.$site->hco->id.'/sites')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
       </div>
       <!-- /.box-footer-->
     </div>

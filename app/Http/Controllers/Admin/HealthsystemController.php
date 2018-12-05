@@ -49,7 +49,7 @@ class HealthsystemController extends Controller
       
 
         if (HealthSystem::create($request->all())) {
-            return redirect('healthsystem')->with('success', 'New Health System added!');
+            return redirect('admin/healthsystem')->with('success', 'New Health System added!');
         }
     }
 

@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'healthsystem/'.$healthsystem->id.'/hco/add', 'class' => 'form-horizontal','files' => true]) !!}
+        {!! Form::open(['url' => 'admin/healthsystem/'.$healthsystem->id.'/hco/add', 'class' => 'form-horizontal','files' => true]) !!}
 
             <fieldset>
 
@@ -68,7 +68,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('healthsystem/'.$healthsystem->id.'/hco', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('admin/healthsystem/'.$healthsystem->id.'/hco', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         {!! Form::submit('Add HCO Client', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>

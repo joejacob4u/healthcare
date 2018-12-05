@@ -11,7 +11,7 @@ class DepartmentsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin');
+        $this->middleware('master');
     }
 
     public function index($site_id, $building_id)
@@ -34,7 +34,7 @@ class DepartmentsController extends Controller
         ]);
 
         if ($department = BuildingDepartment::create($request->all())) {
-            return redirect('sites/'.$department->building->site->id.'/buildings/'.$request->building_id.'/departments')->with('success', 'New department created!');
+            return redirect('admin/sites/'.$department->building->site->id.'/buildings/'.$request->building_id.'/departments')->with('success', 'New department created!');
         }
     }
 
@@ -54,7 +54,7 @@ class DepartmentsController extends Controller
         $department = BuildingDepartment::find($department_id);
 
         if ($department->update($request->all())) {
-            return redirect('sites/'.$department->building->site->id.'/buildings/'.$request->building_id.'/departments')->with('success', 'Department updated!');
+            return redirect('admin/sites/'.$department->building->site->id.'/buildings/'.$request->building_id.'/departments')->with('success', 'Department updated!');
         }
     }
 

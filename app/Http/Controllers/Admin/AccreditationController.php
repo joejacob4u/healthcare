@@ -29,7 +29,7 @@ class AccreditationController extends Controller
 
       if($accreditation = Accreditation::create($request->all()))
       {
-        return redirect('admin/accreditation')->with('success','Accreditation created!');
+        return redirect('admin/admin/accreditation')->with('success','Accreditation created!');
       }
     }
 
@@ -43,7 +43,7 @@ class AccreditationController extends Controller
     {
         if(Accreditation::destroy($id))
         {
-          return redirect('admin/accreditation')->with('errors','Accreditation deleted!');
+          return redirect('admin/admin/accreditation')->with('errors','Accreditation deleted!');
         }
     }
 

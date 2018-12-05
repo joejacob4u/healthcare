@@ -47,14 +47,14 @@ class UsersController extends Controller
                 $m->to($user->email, $user->name)->subject('Welcome to HealthCare Compliance 365');
             });
     
-            return redirect('healthsystem/users/')->with('success', 'New system admin has been added!');
+            return redirect('admin/healthsystem/users/')->with('success', 'New system admin has been added!');
         }
     }
 
     public function delete(Request $request)
     {
         if (User::destroy($request->id)) {
-            return redirect('healthsystem/users/')->with('success', 'system admin has been deleted!');
+            return redirect('admin/healthsystem/users/')->with('success', 'system admin has been deleted!');
         }
     }
 }

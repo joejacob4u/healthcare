@@ -158,62 +158,36 @@ Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/comment/add'
 
 // Healthsystem management routes
 
-Route::get('healthsystem', 'Admin\HealthsystemController@index');
-Route::get('healthsystem/add', 'Admin\HealthsystemController@add');
-Route::post('healthsystem/add', 'Admin\HealthsystemController@create');
-Route::get('healthsystem/edit/{id}', 'Admin\HealthsystemController@edit');
-Route::post('healthsystem/edit/{id}', 'Admin\HealthsystemController@save');
-Route::post('healthsystem/delete', 'Admin\HealthsystemController@delete');
+Route::get('hco/{hco_id}/sites', 'Frontend\SiteController@index');
+Route::get('hco/{hco_id}/sites/add', 'Frontend\SiteController@add');
+Route::post('hco/{hco_id}/sites/add', 'Frontend\SiteController@create');
+Route::get('hco/{hco_id}/sites/edit/{id}', 'Frontend\SiteController@edit');
+Route::post('hco/{hco_id}/sites/edit/{id}', 'Frontend\SiteController@save');
+Route::post('hco/sites/delete', 'Frontend\SiteController@delete');
 
-Route::get('healthsystem/{healthsystem_id}/hco', 'Admin\HCOController@index');
-Route::get('healthsystem/{healthsystem_id}/hco/add', 'Admin\HCOController@add');
-Route::post('healthsystem/{healthsystem_id}/hco/add', 'Admin\HCOController@create');
-Route::get('healthsystem/{healthsystem_id}/hco/edit/{id}', 'Admin\HCOController@edit');
-Route::post('healthsystem/{healthsystem_id}/hco/edit/{id}', 'Admin\HCOController@save');
-Route::post('healthsystem/hco/delete', 'Admin\HCOController@delete');
+Route::get('sites/{site_id}/buildings', 'Frontend\BuildingController@index');
+Route::get('sites/{site_id}/buildings/add', 'Frontend\BuildingController@add');
+Route::post('sites/{site_id}/buildings/add', 'Frontend\BuildingController@create');
+Route::get('sites/{site_id}/buildings/edit/{id}', 'Frontend\BuildingController@edit');
+Route::post('sites/{site_id}/buildings/edit/{id}', 'Frontend\BuildingController@save');
+Route::post('sites/buildings/delete', 'Frontend\BuildingController@delete');
+Route::post('sites/buildings/upload/images', 'Frontend\BuildingController@uploadImages');
+Route::post('sites/buildings/images/fetch', 'Frontend\BuildingController@fetchImages');
+Route::post('buildings/fetch/departments', 'Frontend\BuildingController@fetchDepartments');
 
-Route::get('healthsystem/users', 'Admin\UsersController@index');
-Route::get('healthsystem/users/add', 'Admin\UsersController@create');
-Route::post('healthsystem/users/add', 'Admin\UsersController@store');
-Route::get('healthsystem/users/edit/{id}', 'Admin\UsersController@edit');
-Route::post('healthsystem/users/edit/{id}', 'Admin\UsersController@save');
-Route::post('healthsystem/users/delete', 'Admin\UsersController@delete');
+Route::get('sites/{site_id}/buildings/{building_id}/departments', 'Frontend\DepartmentsController@index');
+Route::get('buildings/{building_id}/departments/add', 'Frontend\DepartmentsController@add');
+Route::post('buildings/{building_id}/departments/add', 'Frontend\DepartmentsController@store');
+Route::get('buildings/{building_id}/departments/{department_id}/edit', 'Frontend\DepartmentsController@edit');
+Route::post('buildings/{building_id}/departments/{department_id}/edit', 'Frontend\DepartmentsController@save');
+Route::post('departments/delete', 'Frontend\DepartmentsController@delete');
 
-Route::get('healthsystem/prospects', 'Admin\ProspectsController@index');
-Route::get('healthsystem/prospects/details/{id}', 'Admin\ProspectsController@details');
-
-
-
-Route::get('hco/{hco_id}/sites', 'Admin\SiteController@index');
-Route::get('hco/{hco_id}/sites/add', 'Admin\SiteController@add');
-Route::post('hco/{hco_id}/sites/add', 'Admin\SiteController@create');
-Route::get('hco/{hco_id}/sites/edit/{id}', 'Admin\SiteController@edit');
-Route::post('hco/{hco_id}/sites/edit/{id}', 'Admin\SiteController@save');
-Route::post('hco/sites/delete', 'Admin\SiteController@delete');
-
-Route::get('sites/{site_id}/buildings', 'Admin\BuildingController@index');
-Route::get('sites/{site_id}/buildings/add', 'Admin\BuildingController@add');
-Route::post('sites/{site_id}/buildings/add', 'Admin\BuildingController@create');
-Route::get('sites/{site_id}/buildings/edit/{id}', 'Admin\BuildingController@edit');
-Route::post('sites/{site_id}/buildings/edit/{id}', 'Admin\BuildingController@save');
-Route::post('sites/buildings/delete', 'Admin\BuildingController@delete');
-Route::post('sites/buildings/upload/images', 'Admin\BuildingController@uploadImages');
-Route::post('sites/buildings/images/fetch', 'Admin\BuildingController@fetchImages');
-Route::post('buildings/fetch/departments', 'Admin\BuildingController@fetchDepartments');
-
-Route::get('sites/{site_id}/buildings/{building_id}/departments', 'Admin\DepartmentsController@index');
-Route::get('buildings/{building_id}/departments/add', 'Admin\DepartmentsController@add');
-Route::post('buildings/{building_id}/departments/add', 'Admin\DepartmentsController@store');
-Route::get('buildings/{building_id}/departments/{department_id}/edit', 'Admin\DepartmentsController@edit');
-Route::post('buildings/{building_id}/departments/{department_id}/edit', 'Admin\DepartmentsController@save');
-Route::post('departments/delete', 'Admin\DepartmentsController@delete');
-
-Route::get('buildings/{building_id}/departments/{department_id}/rooms', 'Admin\RoomController@index');
-Route::get('departments/{department_id}/rooms/create', 'Admin\RoomController@create');
-Route::post('departments/{department_id}/rooms/create', 'Admin\RoomController@store');
-Route::get('departments/{department_id}/rooms/{room_id}/edit', 'Admin\RoomController@edit');
-Route::post('departments/{department_id}/rooms/{room_id}/edit', 'Admin\RoomController@update');
-Route::post('rooms/delete', 'Admin\RoomController@destroy');
+Route::get('buildings/{building_id}/departments/{department_id}/rooms', 'Frontend\RoomController@index');
+Route::get('departments/{department_id}/rooms/create', 'Frontend\RoomController@create');
+Route::post('departments/{department_id}/rooms/create', 'Frontend\RoomController@store');
+Route::get('departments/{department_id}/rooms/{room_id}/edit', 'Frontend\RoomController@edit');
+Route::post('departments/{department_id}/rooms/{room_id}/edit', 'Frontend\RoomController@update');
+Route::post('rooms/delete', 'Frontend\RoomController@destroy');
 
 
 //end Healthsystem management routes
@@ -223,6 +197,7 @@ Route::post('rooms/delete', 'Admin\RoomController@destroy');
 Route::get('admin/equipment/categories', 'Equipment\CategoriesController@index');
 Route::post('admin/equipment/categories', 'Equipment\CategoriesController@store');
 Route::post('equipment/categories/fetch/asset-categories', 'Equipment\CategoriesController@assetCategories');
+Route::post('equipment/categories/fetch/asset-category-details', 'Equipment\CategoriesController@assetCategoryDetails');
 Route::post('admin/equipment/categories/delete', 'Equipment\CategoriesController@delete');
 
 Route::get('admin/equipment/categories/{category_id}/asset-categories', 'Equipment\AssetCategoriesController@index');

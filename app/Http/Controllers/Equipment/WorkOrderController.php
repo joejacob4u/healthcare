@@ -19,9 +19,9 @@ class WorkOrderController extends Controller
     public function index()
     {
         if (isset($_REQUEST['equipment_id'])) {
-            $work_orders = WorkOrder::where('building_id', session('building_id'))->where('equipment_id', $_REQUEST['equipment_id'])->get();
+            $work_orders = WorkOrder::where('building_id', session('building_id'))->where('equipment_id', $_REQUEST['equipment_id'])->whereBetween('work_order_date', [$_REQUEST['from'], $_REQUEST['to']])->get();
         } else {
-            $work_orders = WorkOrder::where('building_id', session('building_id'))->get();
+            $work_orders = WorkOrder::where('building_id', session('building_id'))->where('work_order_date','<',date('Y-m-d',strtotime('tomorrow')))->get();
         }
         
         

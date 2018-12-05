@@ -57,7 +57,7 @@ class EOPController extends Controller
                 $eop->subCOPs()->saveMany($aCops);
             }
 
-            return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP created successfully');
+            return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP created successfully');
         }
     }
 
@@ -100,10 +100,10 @@ class EOPController extends Controller
                 }
 
                 if ($eop->subCOPs()->sync($aCops)) {
-                    return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
+                    return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
                 }
             } else {
-                return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
+                return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
             }
         }
     }
@@ -111,7 +111,7 @@ class EOPController extends Controller
     public function delete($standard_label, $eop)
     {
         if (EOP::destroy($eop)) {
-            return redirect('admin/standard-label/'.$standard_label.'/eop')->with('error', 'EOP deleted successfully');
+            return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('error', 'EOP deleted successfully');
         }
     }
 

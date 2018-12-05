@@ -15,7 +15,7 @@
         <h3 class="box-title">Rooms for {{$department->name}}</h3>
 
         <div class="box-tools pull-right">
-          <a href="{{url('departments/'.$department->id.'/rooms/create')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Room</a>
+          <a href="{{url('admin/departments/'.$department->id.'/rooms/create')}}" type="button" class="btn btn-block btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add Room</a>
         </div>
       </div>
       <div class="box-body">
@@ -60,7 +60,7 @@
                       <td>{{$room->beds}}</td>
                       <td>{{$room->unused_space_sq_ft}}</td>
                       <td>{{$room->operating_rooms}}</td>
-                      <td>{!! link_to('departments/'.$department->id.'/rooms/'.$room->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                      <td>{!! link_to('admin/departments/'.$department->id.'/rooms/'.$room->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -68,7 +68,7 @@
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        <a href="{{url('sites/'.$department->building->site->id.'/buildings/'.$department->building->id.'/departments')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
+        <a href="{{url('admin/sites/'.$department->building->site->id.'/buildings/'.$department->building->id.'/departments')}}" class="btn btn-primary btn-warning"><span class="glyphicon glyphicon-arrow-left"></span> Back</a>
       </div>
       <!-- /.box-footer-->
     </div>

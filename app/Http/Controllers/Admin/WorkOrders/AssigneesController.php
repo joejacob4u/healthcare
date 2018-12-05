@@ -28,7 +28,7 @@ class AssigneesController extends Controller
 
       if(Assignee::create($request->all()))
       {
-        return redirect('admin/work/assignee')->with('success','New assignee created!');
+        return redirect('admin/admin/work/assignee')->with('success','New assignee created!');
       }
     }
 

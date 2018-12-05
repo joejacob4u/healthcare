@@ -11,7 +11,6 @@
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
-//put some help texts here
 
   @php
 

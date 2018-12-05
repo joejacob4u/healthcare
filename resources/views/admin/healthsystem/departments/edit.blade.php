@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'buildings/'.$department->building->id.'/departments/'.$department->id.'/edit', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/buildings/'.$department->building->id.'/departments/'.$department->id.'/edit', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -40,7 +40,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('sites/'.$department->building->site->id.'/buildings/'.$department->building->id.'/departments', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('admin/sites/'.$department->building->site->id.'/buildings/'.$department->building->id.'/departments', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         {!! Form::submit('Edit Department', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        {{ link_to('#', $title = 'Delete', $attributes = ['class' => 'btn btn-danger pull-right','onclick' => 'deleteDepartment('.$department->id.')'], $secure = null)}}
+        {{ link_to('admin/#', $title = 'Delete', $attributes = ['class' => 'btn btn-danger pull-right','onclick' => 'deleteDepartment('.$department->id.')'], $secure = null)}}
       </div>
      
 
@@ -68,7 +68,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('departments/delete') }}',
+              url: '{{ asset('admin/departments/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'department_id': department_id },
               beforeSend:function()
               {
@@ -78,7 +78,7 @@
               {
                   if(data == 'true')
                   {
-                    window.location = "{{url('sites/'.$department->building->site->id.'/buildings/'.$department->building->id.'/departments')}}";
+                    window.location = "{{url('admin/sites/'.$department->building->site->id.'/buildings/'.$department->building->id.'/departments')}}";
                   }
                   else {
                     bootbox.alert("Something went wrong, try again later");

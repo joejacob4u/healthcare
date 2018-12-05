@@ -31,6 +31,13 @@
                   </div>
               </div>
 
+              <div class="form-group">
+                  {!! Form::label('pm_procedure', 'PM Procedure:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::textarea('pm_procedure', Request::old('pm_procedure'), ['class' => 'form-control', 'placeholder' => 'PM Procedure','rows' => '4']) !!}
+                  </div>
+              </div>
+
                 <div class="form-group">
                     {!! Form::label('service_life', 'Service Life:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">

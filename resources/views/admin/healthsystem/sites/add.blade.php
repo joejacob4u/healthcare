@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'hco/'.$hco->id.'/sites/add', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'admin/hco/'.$hco->id.'/sites/add', 'class' => 'form-horizontal']) !!}
 
             <fieldset>
 
@@ -51,7 +51,7 @@
                 <!-- Submit Button -->
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        {{ link_to('hco/'.$hco->id.'/sites', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
+                        {{ link_to('admin/hco/'.$hco->id.'/sites', $title = 'Cancel', $attributes = ['class' => 'btn btn-warning'], $secure = null)}}
                         {!! Form::submit('Add Site', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>

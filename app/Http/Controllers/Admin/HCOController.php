@@ -12,8 +12,7 @@ class HCOController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin', ['except' => ['index','add', 'create','edit','save']]);
-        $this->middleware('master', ['only' => ['index','add', 'create','edit','save']]);
+        $this->middleware('master');
     }
 
     public function index($healthsystem_id)
@@ -55,7 +54,7 @@ class HCOController extends Controller
 
         if ($hco = $healthsystem->HCOs()->create($request->all())) {
             if ($hco->accreditations()->saveMany($aAccreditations)) {
-                return redirect('healthsystem/'.$healthsystem_id.'/hco')->with('success', 'HCO created successfully.');
+                return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success', 'HCO created successfully.');
             }
         }
     }
@@ -93,7 +92,7 @@ class HCOController extends Controller
 
         if ($healthsystem->HCOs()->where('id', $id)->update(request()->except(['_token','accreditations']))) {
             if (HCO::find($id)->accreditations()->sync($aAccreditations)) {
-                return redirect('healthsystem/'.$healthsystem_id.'/hco')->with('success', 'HCO updated successfully.');
+                return redirect('admin/healthsystem/'.$healthsystem_id.'/hco')->with('success', 'HCO updated successfully.');
             }
         }
     }

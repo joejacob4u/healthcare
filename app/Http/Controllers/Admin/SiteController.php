@@ -11,7 +11,7 @@ class SiteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin');
+        $this->middleware('master');
     }
     
     public function index($hco_id)
@@ -37,7 +37,7 @@ class SiteController extends Controller
         $hco = HCO::find($hco_id);
 
         if ($hco->sites()->create($request->all())) {
-            return redirect('hco/'.$hco_id.'/sites')->with('success', 'New site added!');
+            return redirect('admin/hco/'.$hco_id.'/sites')->with('success', 'New site added!');
         }
     }
 
@@ -59,7 +59,7 @@ class SiteController extends Controller
         $hco = HCO::find($hco_id);
 
         if ($hco->sites()->where('id', $id)->update(request()->except(['_token']))) {
-            return redirect('hco/'.$hco_id.'/sites')->with('success', 'Site updated!');
+            return redirect('admin/hco/'.$hco_id.'/sites')->with('success', 'Site updated!');
         }
     }
 
