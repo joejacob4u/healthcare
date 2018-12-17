@@ -298,19 +298,19 @@
          <ul class="treeview-menu">
             <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Ligature Point Risk Assessment</a></li>
            <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Advanced Palliative Care </a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Ambulatory Care TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Behavioral Healthcare TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Comprehensive Cardiac Center TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Critical Access Hospital TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Disease Specific Care TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Home Care TJC Checklist </a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Integrated Care TJC Checklist  </a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Medication Compounding TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Nursing Care Center TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Office Based Surgery TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Palliative Care TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Patient Blood Management TJC Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Perinatal Core TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Ambulatory Care Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Behavioral Healthcare Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Comprehensive Cardiac Center Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Critical Access Hospital Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Disease Specific Care Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Home Care Checklist </a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Integrated Care Checklist  </a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Medication Compounding Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Nursing Care Center Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Office Based Surgery Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Palliative Care Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Patient Blood Management Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Perinatal Core Checklist</a></li>
 
          </ul>
       </li>
