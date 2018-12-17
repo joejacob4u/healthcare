@@ -157,6 +157,8 @@ Route::get('system-admin/accreditation/eop/status/{eop_id}/finding/{finding_id}'
 Route::post('system-admin/accreditation/eop/status/{eop_id}/finding/comment/add', 'Accreditation\EOPStatusController@createComment');
 
 // Healthsystem management routes
+Route::get('healthsystem/hco', 'Frontend\HCOController@index');
+
 
 Route::get('hco/{hco_id}/sites', 'Frontend\SiteController@index');
 Route::get('hco/{hco_id}/sites/add', 'Frontend\SiteController@add');

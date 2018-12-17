@@ -213,7 +213,7 @@
            <li style="white-space: pre-line;"><a href="{{url('users/prospects')}}"><i class="fa fa-circle-o"></i>Prospects</a></li>
          </ul>
      </li>
-     <li style="white-space: pre-line;"><a href="{{url('healthsystem/'.Auth::guard('system_user')->user()->healthsystem_id.'/hco')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
+     <li style="white-space: pre-line;"><a href="{{url('healthsystem/hco')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
      <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>

@@ -15,7 +15,7 @@ class Equipment extends Model
 
     public function inventories()
     {
-        return $this->hasMany('App\Equipment\Inventory', 'equipment_id');
+        return $this->hasManyThrough();
     }
 
     public function baselineDates()
