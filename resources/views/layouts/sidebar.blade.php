@@ -24,7 +24,7 @@
   <!-- sidebar menu: : style can be found in sidebar.less -->
   @if(Auth::guard('admin')->check())
     <ul class="sidebar-menu">
-      <li class="header text-yellow"><strong>ADMIN</strong></li>
+      <li style="white-space: pre-line;" class="header text-yellow"><strong>ADMIN</strong></li>
       <li class="treeview">
            <a href="#">
              <i class="fa fa-files-o"></i>
@@ -34,11 +34,11 @@
              </span>
            </a>
            <ul class="treeview-menu">
-             <li><a href="{{url('admin/accreditation')}}"><i class="fa fa-circle-o"></i>Accreditation</a></li>
-             <li><a href="{{url('admin/accreditation-requirements')}}"><i class="fa fa-circle-o"></i>Accreditation Requirements</a></li>
-             <li><a href="{{url('admin/standard-label')}}"><i class="fa fa-circle-o"></i>TJC Standards & EP's</a></li>
-             <li><a href="{{url('admin/aorn')}}"><i class="fa fa-circle-o"></i>AORN Standards</a></li>
-             <li><a href="{{url('admin/cop')}}"><i class="fa fa-circle-o"></i>CMS COP</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/accreditation')}}"><i class="fa fa-circle-o"></i>Accreditation</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/accreditation-requirements')}}"><i class="fa fa-circle-o"></i>Accreditation Requirements</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/standard-label')}}"><i class="fa fa-circle-o"></i>TJC Standards & EP's</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/aorn')}}"><i class="fa fa-circle-o"></i>AORN Standards</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/cop')}}"><i class="fa fa-circle-o"></i>CMS COP</a></li>
            </ul>
        </li>
 
@@ -51,8 +51,8 @@
              </span>
            </a>
            <ul class="treeview-menu">
-             <li><a href="{{url('admin/maintenance/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
-              <li><a href="{{url('admin/maintenance/work-order-audit')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
+              <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/work-order-audit')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
            </ul>
        </li>
 
@@ -65,12 +65,12 @@
              </span>
            </a>
            <ul class="treeview-menu">
-             <li><a href="{{url('admin/equipment/categories')}}"><i class="fa fa-circle-o"></i>Categories of Equipment</a></li>
-             <li><a href="{{url('admin/equipment/utility-function')}}"><i class="fa fa-circle-o"></i>Utility Functions</a></li>
-             <li><a href="{{url('admin/equipment/physical-risks')}}"><i class="fa fa-circle-o"></i>Physical Risks</a></li>
-             <li><a href="{{url('admin/equipment/incident-history')}}"><i class="fa fa-circle-o"></i>Incident History</a></li>
-             <li><a href="{{url('admin/equipment/redundancy')}}"><i class="fa fa-circle-o"></i>Redundancy</a></li>
-             <li><a href="{{url('admin/equipment/maintenance-requirement')}}"><i class="fa fa-circle-o"></i>Maintenance Requirement</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/equipment/categories')}}"><i class="fa fa-circle-o"></i>Categories of Equipment</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/equipment/utility-function')}}"><i class="fa fa-circle-o"></i>Utility Functions</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/equipment/physical-risks')}}"><i class="fa fa-circle-o"></i>Physical Risks</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/equipment/incident-history')}}"><i class="fa fa-circle-o"></i>Incident History</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/equipment/redundancy')}}"><i class="fa fa-circle-o"></i>Redundancy</a></li>
+             <li style="white-space: pre-line;"><a href="{{url('admin/equipment/maintenance-requirement')}}"><i class="fa fa-circle-o"></i>Maintenance Requirement</a></li>
            </ul>
        </li>
 
@@ -84,10 +84,10 @@
              </span>
            </a>
            <ul class="treeview-menu">
-              <li><a href="{{url('admin/biomed/spare-parts')}}"><i class="fa fa-circle-o"></i>Spare Parts</a></li>
-              <li><a href="{{url('admin/biomed/current-states')}}"><i class="fa fa-circle-o"></i>Current State</a></li>
-              <li><a href="{{url('admin/biomed/mission-criticality')}}"><i class="fa fa-circle-o"></i>Mission Criticality</a></li>
-              <li><a href="{{url('admin/biomed/equipment-users')}}"><i class="fa fa-circle-o"></i>Equipment Users</a></li>
+              <li style="white-space: pre-line;"><a href="{{url('admin/biomed/spare-parts')}}"><i class="fa fa-circle-o"></i>Spare Parts</a></li>
+              <li style="white-space: pre-line;"><a href="{{url('admin/biomed/current-states')}}"><i class="fa fa-circle-o"></i>Current State</a></li>
+              <li style="white-space: pre-line;"><a href="{{url('admin/biomed/mission-criticality')}}"><i class="fa fa-circle-o"></i>Mission Criticality</a></li>
+              <li style="white-space: pre-line;"><a href="{{url('admin/biomed/equipment-users')}}"><i class="fa fa-circle-o"></i>Equipment Users</a></li>
            </ul>
        </li>
 
@@ -102,7 +102,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{url('admin/work/assignees')}}"><i class="fa fa-circle-o"></i>Assignees</a></li>
+              <li style="white-space: pre-line;"><a href="{{url('admin/work/assignees')}}"><i class="fa fa-circle-o"></i>Assignees</a></li>
             </ul>
         </li>
 
@@ -115,9 +115,9 @@
                </span>
              </a>
              <ul class="treeview-menu">
-               <li><a href="{{url('admin/healthsystem')}}"><i class="fa fa-circle-o"></i>Health System</a></li>
-               <li><a href="{{url('admin/healthsystem/users')}}"><i class="fa fa-circle-o"></i>System Admins</a></li>
-               <li><a href="{{url('admin/healthsystem/prospects')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
+               <li style="white-space: pre-line;"><a href="{{url('admin/healthsystem')}}"><i class="fa fa-circle-o"></i>Health System</a></li>
+               <li style="white-space: pre-line;"><a href="{{url('admin/healthsystem/users')}}"><i class="fa fa-circle-o"></i>System Admins</a></li>
+               <li style="white-space: pre-line;"><a href="{{url('admin/healthsystem/prospects')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
              </ul>
          </li>
     </ul>
@@ -126,7 +126,7 @@
 @if(Auth::guard('system_user')->check())
   @if(Auth::guard('system_user')->user()->role->name == 'System Admin')
   <ul class="sidebar-menu">
-    <li class="header text-yellow"><strong>SYSTEM ADMIN</strong></li>
+    <li style="white-space: pre-line;" class="header text-yellow"><strong>SYSTEM ADMIN</strong></li>
     <li class="treeview">
          <a href="#">
            <i class="fa fa-files-o"></i>
@@ -136,11 +136,11 @@
            </span>
          </a>
          <ul class="treeview-menu">
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Administrative Leaders</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Business Units</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Users</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Administrative Leaders</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Business Units</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Users</a></li>
          </ul>
      </li>
      <li class="treeview">
@@ -152,8 +152,8 @@
            </span>
          </a>
          <ul class="treeview-menu">
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Compliance Leaders</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Verifiers</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Compliance Leaders</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Verifiers</a></li>
          </ul>
      </li>
      <li class="treeview">
@@ -165,9 +165,9 @@
            </span>
          </a>
          <ul class="treeview-menu">
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Common Problems</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Users</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Schedule</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Common Problems</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Users</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Schedule</a></li>
          </ul>
      </li>
      <li class="treeview">
@@ -179,10 +179,10 @@
            </span>
          </a>
          <ul class="treeview-menu">
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Project</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Project</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
          </ul>
      </li>
      <li class="treeview">
@@ -194,10 +194,10 @@
            </span>
          </a>
          <ul class="treeview-menu">
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Common Problems</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS Users</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS Schedule</a></li>
-           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Common Problems</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS Users</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS Schedule</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
          </ul>
      </li>
     <li class="treeview">
@@ -209,11 +209,11 @@
            </span>
          </a>
          <ul class="treeview-menu">
-           <li><a href="{{url('users')}}"><i class="fa fa-circle-o"></i>Users</a></li>
-           <li><a href="{{url('users/prospects')}}"><i class="fa fa-circle-o"></i>Prospects</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('users')}}"><i class="fa fa-circle-o"></i>Users</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('users/prospects')}}"><i class="fa fa-circle-o"></i>Prospects</a></li>
          </ul>
      </li>
-     <li><a href="{{url('healthsystem/'.Auth::guard('system_user')->user()->healthsystem_id.'/hco')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
+     <li style="white-space: pre-line;"><a href="{{url('healthsystem/'.Auth::guard('system_user')->user()->healthsystem_id.'/hco')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
      <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>
@@ -223,8 +223,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
-            <li><a href="{{url('system_admin/verifiers')}}"><i class="fa fa-circle-o"></i>Verifiers</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('system_admin/verifiers')}}"><i class="fa fa-circle-o"></i>Verifiers</a></li>
           </ul>
       </li>
       <li class="treeview">
@@ -236,8 +236,8 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('projects')}}"><i class="fa fa-circle-o"></i>Projects</a></li>
-            <li><a href="{{url('project/ranking-questions')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('projects')}}"><i class="fa fa-circle-o"></i>Projects</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('project/ranking-questions')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
           </ul>
       </li>
       <li class="treeview">
@@ -249,15 +249,15 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{url('workflows')}}"><i class="fa fa-circle-o"></i>Workflows</a></li>
-            <li><a href="{{url('workflows/approval-level-leaders')}}"><i class="fa fa-circle-o"></i>Approval Level Leaders</a></li>
-            <li><a href="{{url('workflows/administrative-leaders')}}"><i class="fa fa-circle-o"></i>Administrative Leaders</a></li>
-            <li><a href="{{url('workflows/accreditation-compliance-leaders')}}"><i class="fa fa-circle-o"></i>Accreditation Compliance Leaders</a></li>
-            <li><a href="{{url('workflows/business-units')}}"><i class="fa fa-circle-o"></i>Business Units</a></li>
-            <li><a href="{{url('workflows/financial-category-codes')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('workflows')}}"><i class="fa fa-circle-o"></i>Workflows</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('workflows/approval-level-leaders')}}"><i class="fa fa-circle-o"></i>Approval Level Leaders</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('workflows/administrative-leaders')}}"><i class="fa fa-circle-o"></i>Administrative Leaders</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('workflows/accreditation-compliance-leaders')}}"><i class="fa fa-circle-o"></i>Accreditation Compliance Leaders</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('workflows/business-units')}}"><i class="fa fa-circle-o"></i>Business Units</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('workflows/financial-category-codes')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
           </ul>
       </li>
-      <li><a href="{{url('tjc_checklist/eops')}}"><i class="fa fa-circle-o"></i>TJC Checklist</a></li>
+      <li style="white-space: pre-line;"><a href="{{url('tjc_checklist/eops')}}"><i class="fa fa-circle-o"></i>TJC Checklist</a></li>
 
       @if(Auth::guard('system_user')->user()->role->name == 'System Admin' || Auth::guard('system_user')->user()->role->name == 'Facility Manager/Director')
 
@@ -270,20 +270,20 @@
            </span>
          </a>
          <ul class="treeview-menu">
-            <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Trade / Common Problems</a></li>
-           <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Maintenance Users</a></li>
-           <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Maintenance Schedule</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Trade / Common Problems</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Maintenance Users</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Maintenance Schedule</a></li>
          </ul>
      </li>
 
      @if(session()->has('building_id'))
-      <li><a href="{{url('equipment')}}"><i class="fa fa-circle-o"></i>Equipment</a></li>
+      <li style="white-space: pre-line;"><a href="{{url('equipment')}}"><i class="fa fa-circle-o"></i>Equipment</a></li>
      @endif
 
      @endif
 
       @if(session()->has('building_id'))
-        <li class="header text-yellow"><i class="fa fa-building" aria-hidden="true"></i>&emsp;<strong> {{strtoupper(session('building_name'))}}</strong></li>
+        <li style="white-space: pre-line;" class="header text-yellow"><i class="fa fa-building" aria-hidden="true"></i>&emsp;<strong> {{strtoupper(session('building_name'))}}</strong></li>
         @endif
 
         @if(session()->has('building_id'))
@@ -296,21 +296,21 @@
            </span>
          </a>
          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i>Ligament POint Risk Assessment</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Advanced Palliative Care </a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Ambulatory Care TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Behavioral Healthcare TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Comprehensive Cardiac Center TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Critical Access Hospital TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Disease Specific Care TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Home Care TJC Checklist </a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Integrated Care TJC Checklist  </a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Medication Compounding TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Nursing Care Center TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Office Based Surgery TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Palliative Care TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Patient Blood Management TJC Checklist</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Perinatal Core TJC Checklist</a></li>
+            <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Ligature Point Risk Assessment</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Advanced Palliative Care </a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Ambulatory Care TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Behavioral Healthcare TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Comprehensive Cardiac Center TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Critical Access Hospital TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Disease Specific Care TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Home Care TJC Checklist </a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Integrated Care TJC Checklist  </a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Medication Compounding TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Nursing Care Center TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Office Based Surgery TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Palliative Care TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Patient Blood Management TJC Checklist</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Perinatal Core TJC Checklist</a></li>
 
          </ul>
       </li>
@@ -322,8 +322,8 @@
               </span>
             </a>
             <ul class="treeview-menu">
-              <li><a href="{{url('accreditation/dashboard')}}"><i class="fa fa-circle-o text-blue"></i> <span>Dashboard</span></a></li>
-              <li><a href="{{url('tjc_checklist')}}"><i class="fa fa-circle-o text-yellow"></i> <span>TJC Checklist</span></a></li>
+              <li style="white-space: pre-line;"><a href="{{url('accreditation/dashboard')}}"><i class="fa fa-circle-o text-blue"></i> <span>Dashboard</span></a></li>
+              <li style="white-space: pre-line;"><a href="{{url('tjc_checklist')}}"><i class="fa fa-circle-o text-yellow"></i> <span>TJC Checklist</span></a></li>
               @foreach($sidebar_building->accreditations as $accreditation)
                   <li class="treeview @if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/*')) active @endif">
                     <a href="#">
@@ -334,7 +334,7 @@
                     </a>
                 <ul class="treeview-menu">
                   @foreach($accreditation->accreditationRequirements as $accreditation_requirement)
-                    <li class="@if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)) active @endif" style="white-space: pre-line;"><a href="{{url('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
+                    <li style="white-space: pre-line;" class="@if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)) active @endif"><a href="{{url('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
                   @endforeach
                 </ul>
               </li>
@@ -358,10 +358,10 @@
                       </span>
                     </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('equipment/view/equipment')}}"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
-                  <li><a href="{{url('equipment/view/risk-assessment')}}"><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
-                  <li><a href="{{url('equipment/pm/work-orders')}}"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
-                  <li><a href="{{url('equipment/view/capital-planning')}}"><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
+                  <li style="white-space: pre-line;"><a href="{{url('equipment/view/equipment')}}"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
+                  <li style="white-space: pre-line;"><a href="{{url('equipment/view/risk-assessment')}}"><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
+                  <li style="white-space: pre-line;"><a href="{{url('equipment/pm/work-orders')}}"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
+                  <li style="white-space: pre-line;"><a href="{{url('equipment/view/capital-planning')}}"><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
                 </ul>
               </li>
               <li class="treeview">
@@ -372,8 +372,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href=""><i class="fa fa-circle-o"></i>Work Orders</a></li>
-                  <li><a href=""><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
+                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>Work Orders</a></li>
+                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
                 </ul>
               </li>
             </ul>
@@ -388,12 +388,12 @@
            </span>
          </a>
          <ul class="treeview-menu">
-            <li><a href="#"><i class="fa fa-circle-o"></i>Select Project</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Homes</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Defining</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Initiating</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Executing</a></li>
-           <li><a href="#"><i class="fa fa-circle-o"></i>Closeout</a></li>
+            <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Select Project</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Homes</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Defining</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Initiating</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Executing</a></li>
+           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Closeout</a></li>
          </ul>
      </li>
           <li class="treeview">
@@ -405,10 +405,10 @@
            </span>
          </a>
          <ul class="treeview-menu">
-            <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
-           <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
-           <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Capital Planning</a></li>
-           <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Demand Maintenance Work Orders</a></li>
+            <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Capital Planning</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Demand Maintenance Work Orders</a></li>
          </ul>
      </li>
           <li class="treeview" id="healthsystem_tree">
@@ -427,10 +427,10 @@
                       </span>
                     </a>
                 <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
                 </ul>
               </li>
               <li class="treeview">
@@ -441,8 +441,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Work Orders</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Work Orders</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
                 </ul>
               </li>
             </ul>
@@ -464,10 +464,10 @@
                       </span>
                     </a>
                 <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Infection Prevention Rounds</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Pharmacy Rounds</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Quality of Care Rounds</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Patient Safety Rounds</a></li>                
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Infection Prevention Rounds</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Pharmacy Rounds</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Quality of Care Rounds</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Patient Safety Rounds</a></li>                
                 </ul>
               </li>
               <li class="treeview">
@@ -478,8 +478,8 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href=""><i class="fa fa-circle-o"></i>On Internal Customers</a></li>
-                  <li><a href=""><i class="fa fa-circle-o"></i>On Patients</a></li>
+                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>On Internal Customers</a></li>
+                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>On Patients</a></li>
                 </ul>
               </li>
               <li class="treeview">
@@ -490,11 +490,11 @@
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Nurse Huddle Meeting</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Daily Count</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Daily</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Weekly Rounding</a></li>
-                  <li><a href="#"><i class="fa fa-circle-o"></i>Call Light Log</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Nurse Huddle Meeting</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Daily Count</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Daily</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Weekly Rounding</a></li>
+                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Call Light Log</a></li>
                 </ul>
               </li>
             </ul>
@@ -510,7 +510,7 @@
 
 @if(Auth::guard('contractor')->check())
   <ul class="sidebar-menu">
-    <li class="header text-yellow"><strong>PROSPECT</strong></li>
+    <li style="white-space: pre-line;" class="header text-yellow"><strong>PROSPECT</strong></li>
     <li class="treeview">
          <a href="#">
            <i class="fa fa-files-o"></i>
@@ -520,7 +520,7 @@
            </span>
          </a>
          <ul class="treeview-menu">
-           <li><a href="{{url('contractor/prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify</a></li>
+           <li style="white-space: pre-line;"><a href="{{url('contractor/prequalify')}}"><i class="fa fa-circle-o"></i>Prequalify</a></li>
          </ul>
      </li>
   </ul>
