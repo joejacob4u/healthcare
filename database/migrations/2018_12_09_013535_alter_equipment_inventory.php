@@ -14,6 +14,7 @@ class AlterEquipmentInventory extends Migration
     public function up()
     {
         Schema::table('equipments', function (Blueprint $table) {
+            Schema::disableForeignKeyConstraints();
             
             //rename some columns
             $table->renameColumn('preventive_maintenance_procedure_uploade_path', 'preventive_maintenance_procedure_upload_path');
