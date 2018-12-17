@@ -16,8 +16,6 @@ class AlterEquipmentInventory extends Migration
         Schema::table('equipments', function (Blueprint $table) {
             Schema::disableForeignKeyConstraints();
 
-            $table->dropColumn('equipment_incident_history_id');
-            $table->dropColumn('maintenance_redundancy_id');
             
             //rename some columns
             $table->renameColumn('preventive_maintenance_procedure_uploade_path', 'preventive_maintenance_procedure_upload_path');

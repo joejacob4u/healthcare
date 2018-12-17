@@ -25,8 +25,6 @@ class CreateEquipmentsTable extends Migration
             $table->string('description');
             $table->unsignedInteger('equipment_frequency_requirement_id');
             $table->foreign('equipment_frequency_requirement_id', 'effr_id')->on('equipment_frequency_requirements')->references('id')->onDelete('cascade');
-            $table->unsignedInteger('maintenance_redundancy_id');
-            $table->foreign('maintenance_redundancy_id', 'emr_id')->on('maintenance_redundancies')->references('id')->onDelete('cascade');
             $table->string('manufacturer');
             $table->string('model_number');
             $table->string('serial_number');
