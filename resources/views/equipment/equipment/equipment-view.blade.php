@@ -27,9 +27,7 @@
                         <th>Category</th>
                         <th>Asset Category</th>
                         <th>Description</th>
-                        <th>Eq ID Number</th>
-                        <th>Room</th>
-                        <th>More Info</th>
+                        <th>Inventory</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -38,9 +36,7 @@
                         <th>Category</th>
                         <th>Asset Category</th>
                         <th>Description</th>
-                        <th>Eq ID Number</th>
-                        <th>Room</th>
-                        <th>More Info</th>
+                        <th>Inventory</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -50,14 +46,12 @@
                       <td>{{$equipment->category->name}}</td>
                       <td>{{$equipment->assetCategory->name}}</td>
                       <td>{{$equipment->description}}</td>
-                      <td>{{$equipment->identification_number}}</td>
-                      <td>{{$equipment->room->room_number}}</td>
                       
                       @php
-                        $html = '<strong>Maintenance Requirement : </strong>'.$equipment->maintenanceRequirement->name.'<br/><strong>Manufacturer : </strong>'.$equipment->manufacturer.'<br/><strong>Model Number : </strong>'.$equipment->model_number.'<br/><strong>Serial Number : </strong>'.$equipment->serial_number.'<br/><strong>Installation : </strong>'.$equipment->manufacturer_date;
+                        $html = '';
                       @endphp
 
-                      <td>{{link_to('#info-'.$equipment->id,'More Info', ['class' => 'btn-xs btn-primary','data-toggle' => 'popover','title' => 'More Info for '.$equipment->name,'data-placement' => 'left','data-trigger' => 'click','data-html' => "true",'data-content' => $html] )}}</td>
+                      <td>{{link_to('#info-'.$equipment->id,'Inventory', ['class' => 'btn-xs btn-primary','data-toggle' => 'popover','title' => 'More Info for '.$equipment->name,'data-placement' => 'left','data-trigger' => 'click','data-html' => "true",'data-content' => $html] )}}</td>
                     </tr>
 
                   @endforeach

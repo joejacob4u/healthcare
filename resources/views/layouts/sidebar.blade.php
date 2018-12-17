@@ -287,6 +287,33 @@
         @endif
 
         @if(session()->has('building_id'))
+        <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>Assessments</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i>Ligament POint Risk Assessment</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Advanced Palliative Care </a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Ambulatory Care TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Behavioral Healthcare TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Comprehensive Cardiac Center TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Critical Access Hospital TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Disease Specific Care TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Home Care TJC Checklist </a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Integrated Care TJC Checklist  </a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Medication Compounding TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Nursing Care Center TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Office Based Surgery TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Palliative Care TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Patient Blood Management TJC Checklist</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Perinatal Core TJC Checklist</a></li>
+
+         </ul>
+      </li>
           <li class="treeview @if(\Request::is('system-admin/accreditation/*')) active @endif" id="healthsystem_tree">
             <a href="#">
               <i class="fa fa-circle-o"></i><span>Accreditation</span>
@@ -352,7 +379,23 @@
             </ul>
           </li>
 
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Construction</a></li>
+           <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>Construction</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+            <li><a href="#"><i class="fa fa-circle-o"></i>Select Project</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Homes</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Defining</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Initiating</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Executing</a></li>
+           <li><a href="#"><i class="fa fa-circle-o"></i>Closeout</a></li>
+         </ul>
+     </li>
           <li class="treeview">
          <a href="#">
            <i class="fa fa-files-o"></i>
@@ -368,8 +411,94 @@
            <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Demand Maintenance Work Orders</a></li>
          </ul>
      </li>
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>BioMed</a></li>
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Rounding</a></li>
+          <li class="treeview" id="healthsystem_tree">
+            <a href="#">
+              <i class="fa fa-circle-o"></i><span> Biomed</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i></span>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                  <li class="treeview">
+                    <a href="#">
+                      <i class="fa fa-circle-o"></i><span>Equipment</span>
+                      <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i></span>
+                      </span>
+                    </a>
+                <ul class="treeview-menu">
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i><span>Demand Maintenance</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i></span>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Work Orders</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li class="treeview" id="healthsystem_tree">
+            <a href="#">
+              <i class="fa fa-circle-o"></i><span> Rounding</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i></span>
+              </span>
+            </a>
+            <ul class="treeview-menu">
+                  <li class="treeview">
+                    <a href="#">
+                      <i class="fa fa-circle-o"></i><span>Patient Safety</span>
+                      <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i></span>
+                      </span>
+                    </a>
+                <ul class="treeview-menu">
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Infection Prevention Rounds</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Pharmacy Rounds</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Quality of Care Rounds</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Patient Safety Rounds</a></li>                
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i><span>Leadership Rounding</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i></span>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href=""><i class="fa fa-circle-o"></i>On Internal Customers</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>On Patients</a></li>
+                </ul>
+              </li>
+              <li class="treeview">
+                <a href="#">
+                  <i class="fa fa-circle-o"></i><span>Hourly Rounding</span>
+                  <span class="pull-right-container">
+                    <i class="fa fa-angle-left pull-right"></i></span>
+                  </span>
+                </a>
+                <ul class="treeview-menu">
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Nurse Huddle Meeting</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Daily Count</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Daily</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Weekly Rounding</a></li>
+                  <li><a href="#"><i class="fa fa-circle-o"></i>Call Light Log</a></li>
+                </ul>
+              </li>
+            </ul>
+          </li>
         @endif
 
 
