@@ -15,6 +15,11 @@ class AlterEquipmentInventory extends Migration
     {
         Schema::table('equipments', function (Blueprint $table) {
             Schema::disableForeignKeyConstraints();
+
+            $table->dropForeign(['biomed_mission_criticality_id','equipment_incident_history_id','maintenance_redundancy_id']);
+            $table->dropColumn('biomed_mission_criticality_id');
+            $table->dropColumn('equipment_incident_history_id');
+            $table->dropColumn('maintenance_redundancy_id');
             
             //rename some columns
             $table->renameColumn('preventive_maintenance_procedure_uploade_path', 'preventive_maintenance_procedure_upload_path');
@@ -29,9 +34,6 @@ class AlterEquipmentInventory extends Migration
             $table->dropColumn('room_id');
             $table->dropColumn('estimated_deferred_maintenance_cost');
             $table->dropColumn('estimated_replacement_cost');
-            $table->dropColumn('biomed_mission_criticality_id');
-            $table->dropColumn('equipment_incident_history_id');
-            $table->dropColumn('maintenance_redundancy_id');
             $table->dropColumn('baseline_date');
 
             //add new columns
