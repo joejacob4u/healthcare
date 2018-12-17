@@ -34,10 +34,10 @@
                         <h4 class="list-group-item-heading">Preventive Maintenance Procedure</h4>
                         <p class="list-group-item-text" id="equipment_pm_procedure">{{$work_order->equipment->preventive_maintenance_procedure}}</p>
                     </a>
-                    @if(count(Storage::disk('s3')->files($work_order->equipment->preventive_maintenance_procedure_uploade_path)))
+                    @if(count(Storage::disk('s3')->files($work_order->equipment->preventive_maintenance_procedure_upload_path)))
                     <a href="#" class="list-group-item list-group-item-default">
                         <h4 class="list-group-item-heading">Preventive Maintenance Files</h4>
-                            @foreach(Storage::disk('s3')->files($work_order->equipment->preventive_maintenance_procedure_uploade_path) as $file)
+                            @foreach(Storage::disk('s3')->files($work_order->equipment->preventive_maintenance_procedure_upload_path) as $file)
                              <p class="list-group-item-text"><a href="{{Storage::disk('s3')->url($file)}}" target="_blank" class="btn btn-xs"><span class="glyphicon glyphicon-save"></span> {{$file}}</a></p>
                             @endforeach
                     </a>

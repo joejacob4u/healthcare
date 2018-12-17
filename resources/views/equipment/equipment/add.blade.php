@@ -83,19 +83,6 @@
                   </div>
               </div>
 
-              <div class="form-group">
-                  {!! Form::label('serial_number', 'Serial Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('serial_number', Request::old('serial_number'), ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-            <div class="form-group">
-                  {!! Form::label('identification_number', 'Equipment Inventory Identification:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('identification_number', Request::old('identification_number'), ['class' => 'form-control']) !!}
-                  </div>
-              </div>
 
             <div class="form-group">
                 {!! Form::label('is_warranty_availabled', 'Warranty:', ['class' => 'col-lg-2 control-label']) !!}
@@ -105,20 +92,6 @@
             </div>
 
             <div id="warranty_div" style="display:none">
-
-                <div class="form-group">
-                  {!! Form::label('warranty_start_date', 'Warranty Start Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('warranty_start_date', Request::old('warranty_start_date'), ['class' => 'form-control','id' => 'warranty_start_date']) !!}
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  {!! Form::label('warranty_end_date', 'Warranty End Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('warranty_end_date', Request::old('warranty_end_date'), ['class' => 'form-control','id' => 'warranty_end_date']) !!}
-                  </div>
-                </div>
 
                 <div class="form-group">
                   {!! Form::label('warranty_company_info', 'Warrant Company Info:', ['class' => 'col-lg-2 control-label']) !!}
@@ -152,39 +125,12 @@
             </div>
 
             <div class="form-group">
-                  {!! Form::label('preventive_maintenance_procedure_uploade_path', 'Preventive Maintenance Procedure Files:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('preventive_maintenance_procedure_upload_path', 'Preventive Maintenance Procedure Files:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! HTML::dropzone('preventive_maintenance_procedure_uploade_path','equipments/preventive_maintenance_procedure/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
+                      {!! HTML::dropzone('preventive_maintenance_procedure_upload_path','equipments/preventive_maintenance_procedure/'.Auth::user()->healthsystem_id.'/'.strtotime('now'),'false','true') !!}
                   </div>
               </div>
 
-            <div class="form-group">
-                {!! Form::label('maintenance_redundancy_id', 'Redundancy:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('maintenance_redundancy_id', $redundancies, '', ['class' => 'form-control selectpicker','id' => 'maintenance_redundancy_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('biomed_mission_criticality_id', 'Mission Criticality:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('biomed_mission_criticality_id', $mission_criticalities, '', ['class' => 'form-control selectpicker','id' => 'biomed_mission_criticality_idd','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('equipment_incident_history_id', 'Incident Histories:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('equipment_incident_history_id', $incident_histories, '', ['class' => 'form-control selectpicker','id' => 'equipment_incident_history_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                  {!! Form::label('manufacturer_date', 'Installation Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('manufacturer_date', Request::old('manufacturer_date'), ['class' => 'form-control','id' => 'manufacturer_date']) !!}
-                  </div>
-              </div>
 
             <div class="form-group">
                   {!! Form::label('utilization', 'Annual Utilization %:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
@@ -193,33 +139,10 @@
                   </div>
               </div>
 
-
-            <div class="form-group">
-                  {!! Form::label('estimated_replacement_cost', 'Estimated Replacement Cost:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('estimated_replacement_cost', Request::old('estimated_replacement_cost'), ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
-              <div class="form-group">
-                  {!! Form::label('estimated_deferred_maintenance_cost', 'Estimated Deferred Maintenance Cost per Year:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('estimated_deferred_maintenance_cost', Request::old('estimated_deferred_maintenance_cost'), ['class' => 'form-control']) !!}
-                  </div>
-              </div>
-
               <div class="callout callout-info" id="eop_div" style="display:none">
 
               </div>
 
-
-
-            <div class="form-group">
-                  {!! Form::label('baseline_date', 'Baseline date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('baseline_date', Request::old('baseline_date'), ['class' => 'form-control','id' => 'baseline_date']) !!}
-                  </div>
-            </div>
 
             <div class="form-group">
                     {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
@@ -236,22 +159,6 @@
                 {!! Form::select('equipment_maintenance_requirement_id', $maintenance_requirements, '', ['class' => 'form-control selectpicker','id' => 'equipment_maintenance_requirement_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
-
-
-            <div class="form-group">
-                {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('department_id', $departments, '', ['class' => 'form-control selectpicker','id' => 'department_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('room_id', 'Room:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('room_id', [], '', ['class' => 'form-control','id' => 'room_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
 
 
 

@@ -56,48 +56,14 @@ class EquipmentController extends Controller
             'equipment_category_id' => 'required|not_in:0',
             'equipment_asset_category_id' => 'required|not_in:0',
             'equipment_maintenance_requirement_id' => 'required|not_in:0',
-            'maintenance_redundancy_id' => 'required|not_in:0',
             'manufacturer' => 'required',
             'model_number' => 'required',
-            'serial_number' => 'required|unique:equipments,serial_number',
-            'manufacturer_date' => 'required',
+            'is_warranty_available' => 'required',
             'utilization' => 'required|numeric|min:1|max:100',
-            'estimated_replacement_cost' => 'required',
-            'estimated_deferred_maintenance_cost' => 'required',
-            'identification_number' => 'required',
-            'department_id' => 'required',
-            'room_id' => 'required',
-            'biomed_mission_criticality_id' => 'not_in:0',
-            'equipment_incident_history_id' => 'not_in:0',
-            'baseline_date' => 'required',
             'frequency' => 'required|not_in:0'
         ]);
 
-        if ($equipment = Equipment::create($request->except(['hco_id','site_id']))) {
-
-            //lets calculate work order dates
-
-
-            $work_order_dates = $equipment->calculateEquipmentWorkOrderDates();
-
-            if (isset($work_order_dates)) {
-                foreach ($work_order_dates as $work_order_date) {
-
-                    //save each work order one by one
-                    
-                    $work_order = $equipment->workOrders()->save(new WorkOrder([
-                        'name' => 'Work Order for '.$equipment->name.' for '.Carbon::parse($work_order_date)->toFormattedDateString(),
-                        'work_order_date' => $work_order_date,
-                        'building_id' => session('building_id'),
-                        'equipment_id' => $equipment->id
-                    ]));
-
-                    //set status as pending
-
-                    $work_order->workOrderStatuses()->sync([2]);
-                }
-            }
-
+        if (Equipment::create($request->except(['hco_id','site_id']))) {
             return redirect('/equipment')->with('success', 'New equipment has been added.');
         }
     }
@@ -123,20 +89,11 @@ class EquipmentController extends Controller
             'equipment_category_id' => 'required',
             'equipment_asset_category_id' => 'required',
             'equipment_maintenance_requirement_id' => 'required',
-            'maintenance_redundancy_id' => 'required',
             'manufacturer' => 'required',
             'model_number' => 'required',
-            'serial_number' => 'required',
+            'is_warranty_available' => 'required',
             'manufacturer_date' => 'required',
             'utilization' => 'required|numeric|min:1|max:100',
-            'estimated_replacement_cost' => 'required',
-            'estimated_deferred_maintenance_cost' => 'required',
-            'identification_number' => 'required',
-            'department_id' => 'required',
-            'room_id' => 'required',
-            'biomed_mission_criticality_id' => 'not_in:0',
-            'equipment_incident_history_id' => 'not_in:0',
-            'baseline_date' => 'required',
             'frequency' => 'required|not_in:0'
 
         ]);

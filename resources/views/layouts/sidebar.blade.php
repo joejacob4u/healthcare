@@ -130,6 +130,79 @@
     <li class="treeview">
          <a href="#">
            <i class="fa fa-files-o"></i>
+           <span>General System</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Administrative Leaders</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Business Units</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Financial Category Codes</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Users</a></li>
+         </ul>
+     </li>
+     <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>Accreditation</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Compliance Leaders</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Verifiers</a></li>
+         </ul>
+     </li>
+     <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>Biomed</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Common Problems</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Users</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Schedule</a></li>
+         </ul>
+     </li>
+     <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>Construction</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Project</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
+         </ul>
+     </li>
+     <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>EVS</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Common Problems</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS Users</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS Schedule</a></li>
+           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
+         </ul>
+     </li>
+    <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
            <span>Users</span>
            <span class="pull-right-container">
              <i class="fa fa-angle-left pull-right"></i></span>
@@ -197,6 +270,7 @@
            </span>
          </a>
          <ul class="treeview-menu">
+            <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Trade / Common Problems</a></li>
            <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Maintenance Users</a></li>
            <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Maintenance Schedule</a></li>
          </ul>
@@ -243,7 +317,7 @@
           </li>
           <li class="treeview" id="healthsystem_tree">
             <a href="#">
-              <i class="fa fa-circle-o"></i><span>Maintenance</span>
+              <i class="fa fa-circle-o"></i><span> Facility Maintenance</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i></span>
               </span>
@@ -251,13 +325,13 @@
             <ul class="treeview-menu">
                   <li class="treeview">
                     <a href="#">
-                      <i class="fa fa-circle-o"></i><span>Equipment Maintenance</span>
+                      <i class="fa fa-circle-o"></i><span>Equipment</span>
                       <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i></span>
                       </span>
                     </a>
                 <ul class="treeview-menu">
-                  <li><a href="{{url('equipment/view/equipment')}}"><i class="fa fa-circle-o"></i>Equipment</a></li>
+                  <li><a href="{{url('equipment/view/equipment')}}"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
                   <li><a href="{{url('equipment/view/risk-assessment')}}"><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
                   <li><a href="{{url('equipment/pm/work-orders')}}"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
                   <li><a href="{{url('equipment/view/capital-planning')}}"><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
@@ -265,23 +339,35 @@
               </li>
               <li class="treeview">
                 <a href="#">
-                  <i class="fa fa-circle-o"></i><span>Deferred Maintenance</span>
+                  <i class="fa fa-circle-o"></i><span>Demand Maintenance</span>
                   <span class="pull-right-container">
                     <i class="fa fa-angle-left pull-right"></i></span>
                   </span>
                 </a>
                 <ul class="treeview-menu">
-                  <li><a href=""><i class="fa fa-circle-o"></i>Equipment</a></li>
-                  <li><a href=""><i class="fa fa-circle-o"></i>Risk Assessment</a></li>
-                  <li><a href=""><i class="fa fa-circle-o"></i>PM</a></li>
-                  <li><a href=""><i class="fa fa-circle-o"></i>Capital Planning</a></li>                
+                  <li><a href=""><i class="fa fa-circle-o"></i>Work Orders</a></li>
+                  <li><a href=""><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
                 </ul>
               </li>
             </ul>
           </li>
 
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Construction</a></li>
-          <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>EVS</a></li>
+          <li class="treeview">
+         <a href="#">
+           <i class="fa fa-files-o"></i>
+           <span>EVS</span>
+           <span class="pull-right-container">
+             <i class="fa fa-angle-left pull-right"></i></span>
+           </span>
+         </a>
+         <ul class="treeview-menu">
+            <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
+           <li><a href="{{url('admin/maintenance/users')}}"><i class="fa fa-circle-o"></i>PM Work Orders</a></li>
+           <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Capital Planning</a></li>
+           <li><a href="{{url('admin/maintenance/shifts')}}"><i class="fa fa-circle-o"></i>Demand Maintenance Work Orders</a></li>
+         </ul>
+     </li>
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>BioMed</a></li>
           <li><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Rounding</a></li>
         @endif
