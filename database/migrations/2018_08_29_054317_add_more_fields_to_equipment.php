@@ -14,8 +14,6 @@ class AddMoreFieldsToEquipment extends Migration
     public function up()
     {
         Schema::table('equipments', function (Blueprint $table) {
-            $table->unsignedInteger('biomed_mission_criticality_id')->after('maintenance_redundancy_id');
-            $table->foreign('biomed_mission_criticality_id', 'bmc_id')->references('id')->on('biomed_mission_criticalities')->onDelete('cascade');
             $table->unsignedInteger('equipment_incident_history_id')->after('biomed_mission_criticality_id');
             $table->foreign('equipment_incident_history_id', 'eih_id')->references('id')->on('equipment_incident_histories')->onDelete('cascade');
             $table->mediumText('preventive_maintenance_procedure')->after('equipment_incident_history_id');
