@@ -16,7 +16,7 @@ class AlterEquipmentInventory extends Migration
         Schema::table('equipments', function (Blueprint $table) {
             Schema::disableForeignKeyConstraints();
 
-            $table->dropForeign(['biomed_mission_criticality_id','equipment_incident_history_id','maintenance_redundancy_id']);
+            $table->dropForeign(['biomed_mission_criticality_id']);
             $table->dropColumn('biomed_mission_criticality_id');
             $table->dropColumn('equipment_incident_history_id');
             $table->dropColumn('maintenance_redundancy_id');
