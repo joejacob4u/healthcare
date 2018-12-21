@@ -68,11 +68,11 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                    @foreach($equipment->baselineDates as $baseline_date)
-                    <tr>
+                    @foreach($equipment->baselineDates->sortByDesc('date') as $baseline_date)
+                    <tr id="baseline-date-{{$baseline_date->id}}">
                         <td>{{$baseline_date->date->toFormattedDateString()}}</td>
                         <td>{{link_to('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory','Inventory', ['class' => 'btn-xs btn-info'] )}}</td>
-                        <td>Delete</td>
+                        <td>{{link_to('#','Delete', ['class' => 'btn-xs btn-danger','onclick' => 'deleteBaselineDate('.$baseline_date->id.')'] )}}</td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -91,6 +91,44 @@
         enableTime: false,
         dateFormat: "Y-m-d",
     });
+
+        function deleteBaselineDate(baseline_date_id)
+        {
+            bootbox.confirm("Do you really want to delete?", function(result)
+            {
+            if(result){
+
+                $.ajax({
+                type: 'POST',
+                url: '{{ asset('equipment/baseline-date/delete') }}',
+                data: { '_token' : '{{ csrf_token() }}', 'baseline_date_id': baseline_date_id },
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    if(data.status == 'success')
+                    {
+                        $('#baseline-date-'+baseline_date_id).remove();
+                    }
+                    else {
+                        bootbox.alert("Something went wrong, try again later");
+                    }
+                },
+                error:function()
+                {
+                    // failed request; give feedback to user
+                },
+                complete: function(data)
+                {
+                    $('.overlay').remove();
+                }
+                });
+            }
+            });
+        }
+
 
 
     </script>

@@ -304,17 +304,21 @@ Route::get('equipment/download', 'Equipment\EquipmentController@download');
 //Equipment Baseline Date
 Route::get('equipment/{equipment_id}/baseline-dates', 'Equipment\BaselineDateController@index');
 Route::post('equipment/{equipment_id}/baseline-dates', 'Equipment\BaselineDateController@store');
+Route::post('equipment/baseline-date/delete', 'Equipment\BaselineDateController@delete');
+
 
 //Equipment Inventory
 Route::get('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory', 'Equipment\InventoryController@index');
 Route::get('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory/add', 'Equipment\InventoryController@create');
-Route::post('equipment/{baseline_date_id}/inventory', 'Equipment\InventoryController@store');
-
+Route::post('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory', 'Equipment\InventoryController@store');
+Route::get('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory/edit/{inventory_id}', 'Equipment\InventoryController@edit');
+Route::post('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory/edit/{inventory_id}', 'Equipment\InventoryController@save');
+Route::post('equipment/inventory/delete', 'Equipment\InventoryController@delete');
 
 
 //User equipment routes
 
-Route::get('equipment/view/{filter}', 'Equipment\EquipmentController@equipmentView');
+Route::get('equipment/view', 'Equipment\EquipmentController@equipmentView');
 Route::get('equipment/pm/work-orders', 'Equipment\WorkOrderController@index');
 Route::get('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\WorkOrderController@update');
 Route::post('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\WorkOrderController@save');

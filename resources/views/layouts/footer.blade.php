@@ -64,6 +64,7 @@
 $(document).ready(function(){
     
     $("table[type!='custom']").DataTable({
+      order: [],
       iDisplayLength: 100,
       initComplete: function () {
           this.api().columns().every( function () {

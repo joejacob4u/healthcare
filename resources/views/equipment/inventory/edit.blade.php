@@ -15,7 +15,7 @@
     <li><a href="{{url('equipment')}}">Equipment</a></li>
     <li><a href="{{url('equipment/'.$baseline_date->id.'/baseline-dates')}}">{{$baseline_date->date->toFormattedDateString()}}</a></li>
     <li><a href="{{url('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory')}}">Inventory</a></li>
-    <li>Add Inventory</li>
+    <li>Edit Inventory</li>
 </ol>
 
 
@@ -27,96 +27,96 @@
         </div>
       </div>
       <div class="box-body">
-        {!! Form::open(['url' => 'equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory', 'class' => 'form-horizontal']) !!}
+        {!! Form::open(['url' => 'equipment/'.$inventory->baselineDate->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory/edit/'.$inventory->id, 'class' => 'form-horizontal']) !!}
 
             <div class="form-group">
                   {!! Form::label('name', 'Name:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('name', Request::old('name'), ['class' => 'form-control']) !!}
+                      {!! Form::text('name', $inventory->name, ['class' => 'form-control']) !!}
                   </div>
               </div>
 
              <div class="form-group">
                   {!! Form::label('serial_number', 'Serial Number:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('serial_number', Request::old('serial_number'), ['class' => 'form-control']) !!}
+                      {!! Form::text('serial_number', $inventory->serial_number, ['class' => 'form-control']) !!}
                   </div>
               </div>
 
             <div class="form-group">
                   {!! Form::label('identification_number', 'Equipment Inventory Identification:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('identification_number', Request::old('identification_number'), ['class' => 'form-control']) !!}
+                      {!! Form::text('identification_number', $inventory->identification_number, ['class' => 'form-control']) !!}
                   </div>
               </div>
 
               <div class="form-group">
                   {!! Form::label('warranty_period', 'Warranty Period:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::number('warranty_period', Request::old('warranty_period'), ['class' => 'form-control','id' => 'warranty_period']) !!}
+                      {!! Form::number('warranty_period', $inventory->warranty_period, ['class' => 'form-control','id' => 'warranty_period']) !!}
                   </div>
                 </div>
 
                 <div class="form-group">
                   {!! Form::label('warranty_start_date', 'Warranty Start Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('warranty_start_date', Request::old('warranty_start_date'), ['class' => 'form-control','id' => 'warranty_start_date']) !!}
+                      {!! Form::text('warranty_start_date', $inventory->warranty_start_date, ['class' => 'form-control','id' => 'warranty_start_date']) !!}
                   </div>
                 </div>
 
                 <div class="form-group">
                 {!! Form::label('maintenance_redundancy_id', 'Redundancy:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('maintenance_redundancy_id', $redundancies, '', ['class' => 'form-control selectpicker','id' => 'maintenance_redundancy_id','data-live-search' => "true"]); !!}
+                {!! Form::select('maintenance_redundancy_id', $redundancies, $inventory->maintenance_redundancy_id, ['class' => 'form-control selectpicker','id' => 'maintenance_redundancy_id','data-live-search' => "true"]); !!}
                 </div>
                 </div>
 
             <div class="form-group">
                 {!! Form::label('biomed_mission_criticality_id', 'Mission Criticality:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('biomed_mission_criticality_id', $mission_criticalities, '', ['class' => 'form-control selectpicker','id' => 'biomed_mission_criticality_idd','data-live-search' => "true"]); !!}
+                {!! Form::select('biomed_mission_criticality_id', $mission_criticalities, $inventory->biomed_mission_criticality_id, ['class' => 'form-control selectpicker','id' => 'biomed_mission_criticality_idd','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('equipment_incident_history_id', 'Incident Histories:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('equipment_incident_history_id', $incident_histories, '', ['class' => 'form-control selectpicker','id' => 'equipment_incident_history_id','data-live-search' => "true"]); !!}
+                {!! Form::select('equipment_incident_history_id', $incident_histories, $inventory->equipment_incident_history_id, ['class' => 'form-control selectpicker','id' => 'equipment_incident_history_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
             <div class="form-group">
                   {!! Form::label('installation_date', 'Installation Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('installation_date', Request::old('installation_date'), ['class' => 'form-control','id' => 'installation_date']) !!}
+                      {!! Form::text('installation_date', $inventory->installation_date, ['class' => 'form-control','id' => 'installation_date']) !!}
                   </div>
               </div>
 
               <div class="form-group">
                   {!! Form::label('estimated_deferred_maintenance_cost', 'Estimated Deferred Maintenance Cost per Year:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('estimated_deferred_maintenance_cost', Request::old('estimated_deferred_maintenance_cost'), ['class' => 'form-control']) !!}
+                      {!! Form::text('estimated_deferred_maintenance_cost', $inventory->estimated_deferred_maintenance_cost, ['class' => 'form-control']) !!}
                   </div>
               </div>
 
               <div class="form-group">
                   {!! Form::label('estimated_replacement_cost', 'Estimated Replacement Cost:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
-                      {!! Form::text('estimated_replacement_cost', Request::old('estimated_replacement_cost'), ['class' => 'form-control']) !!}
+                      {!! Form::text('estimated_replacement_cost', $inventory->estimated_replacement_cost, ['class' => 'form-control']) !!}
                   </div>
               </div>
 
               <div class="form-group">
                 {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('department_id', $departments, '', ['class' => 'form-control selectpicker','id' => 'department_id','data-live-search' => "true"]); !!}
+                {!! Form::select('department_id', $departments, $inventory->department_id, ['class' => 'form-control selectpicker','id' => 'department_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('room_id', 'Room:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('room_id', [], '', ['class' => 'form-control','id' => 'room_id','data-live-search' => "true"]); !!}
+                {!! Form::select('room_id', $rooms, $inventory->room_id, ['class' => 'form-control','id' => 'room_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 
@@ -126,7 +126,7 @@
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
                         {!! link_to('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory','Cancel', ['class' => 'btn btn-warning'] ) !!}
-                        {!! Form::submit('Add Inventory', ['class' => 'btn btn-success pull-right'] ) !!}
+                        {!! Form::submit('Edit Inventory', ['class' => 'btn btn-success pull-right'] ) !!}
                     </div>
                 </div>
 

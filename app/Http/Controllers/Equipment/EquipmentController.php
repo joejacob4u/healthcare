@@ -30,10 +30,10 @@ class EquipmentController extends Controller
         return view('equipment.equipment.index')->with('equipments', $equipments);
     }
 
-    public function equipmentView($filter)
+    public function equipmentView()
     {
         $equipments = Equipment::where('building_id', session('building_id'))->get();
-        return view('equipment.equipment.'.$filter.'-view')->with('equipments', $equipments);
+        return view('equipment.equipment.equipment-view')->with('equipments', $equipments);
     }
 
     public function create()

@@ -13,7 +13,7 @@
 
 <ol class="breadcrumb">
     <li><a href="{{url('equipment')}}">Equipment</a></li>
-    <li><a href="{{url('equipment/'.$baseline_date->id.'/baseline-dates')}}">{{$baseline_date->date->toFormattedDateString()}}</a></li>
+    <li><a href="{{url('equipment/'.$baseline_date->equipment->id.'/baseline-dates')}}">{{$baseline_date->date->toFormattedDateString()}}</a></li>
     <li>Inventory</li>
 </ol>
 
@@ -75,8 +75,8 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($baseline_date->inventories as $inventory)
-                    <tr>
+                  @foreach($baseline_date->inventories->sortByDesc('created_at') as $inventory)
+                    <tr id="inventory-{{$inventory->id}}">
                       <td>{{$inventory->name}}</td>
                       <td>{{$inventory->serial_number}}</td>
                       <td><span class="label label-default">{{$inventory->USLScore()}} / 6</span></td>
@@ -84,7 +84,8 @@
                       <td><span class="label label-default">{{$inventory->EMNumberScore()}}</span></td>
                       <td><span class="label label-default">{{$inventory->EMRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$inventory->AdjustedEMRScore()}}</span></td>
-                      <td></td>
+                      <td>{!! link_to('equipment/'.$inventory->baselineDate->equipment->id.'/baseline-date/'.$inventory->baselineDate->id.'/inventory/edit/'.$inventory->id,'Edit',['class' => 'btn-xs btn-warning','target' => '_blank']) !!}</td>
+                      <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteInventory('.$inventory->id.')']) !!}</td>                             
                     </tr>
                   @endforeach
                 </tbody>
@@ -101,6 +102,44 @@
         $(document).ready(function(){
             $('[data-toggle="popover"]').popover();
         });
+
+        function deleteInventory(inventory_id)
+        {
+            bootbox.confirm("Do you really want to delete?", function(result)
+            {
+            if(result){
+
+                $.ajax({
+                type: 'POST',
+                url: '{{ asset('equipment/inventory/delete') }}',
+                data: { '_token' : '{{ csrf_token() }}', 'inventory_id': inventory_id },
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    if(data.status == 'success')
+                    {
+                        $('#inventory-'+inventory_id).remove();
+                    }
+                    else {
+                        bootbox.alert("Something went wrong, try again later");
+                    }
+                },
+                error:function()
+                {
+                    // failed request; give feedback to user
+                },
+                complete: function(data)
+                {
+                    $('.overlay').remove();
+                }
+                });
+            }
+            });
+        }
+
 
         </script>
 

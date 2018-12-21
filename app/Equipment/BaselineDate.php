@@ -23,4 +23,9 @@ class BaselineDate extends Model
     {
         return $this->hasMany('App\Equipment\Inventory', 'baseline_date_id');
     }
+
+    public function workOrders()
+    {
+        return $this->hasMany('App\Equipment\WorkOrder', 'baseline_date_id');
+    }
 }
