@@ -61,7 +61,7 @@ class Inventory extends Model
 
         $service_life_in_months = ($this->baselineDate->equipment->assetCategory->service_life > 0) ? $this->baselineDate->equipment->assetCategory->service_life : 1;
 
-        if ($service_life_in_months <= 12) {
+        if ($equipment_age_in_months <= 12) {
             return 1;
         }
 
