@@ -47,7 +47,7 @@ class Inventory extends Model
     public function calculateEquipmentServiceAge()
     {
         $end = time();
-        $start = new DateTime($this->manufacturer_date);
+        $start = new DateTime($this->installation_date);
         $end   = new DateTime("@$end");
         $diff  = $start->diff($end);
         return ($diff->format('%y') * 12 + $diff->format('%m') > 0) ? $diff->format('%y') * 12 + $diff->format('%m') : 1;

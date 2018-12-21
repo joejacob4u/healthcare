@@ -14,6 +14,7 @@ class AddBaselineDateIdToEquipmentWorkOrders extends Migration
     public function up()
     {
         Schema::table('equipment_work_orders', function (Blueprint $table) {
+            Schema::disableForeignKeyConstraints();
             $table->unsignedInteger('baseline_date_id')->after('building_id');
             $table->foreign('baseline_date_id')->references('id')->on('equipment_baseline_dates')->onDelete('cascade');
         });
