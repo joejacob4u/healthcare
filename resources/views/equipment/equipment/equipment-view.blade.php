@@ -52,6 +52,7 @@
                         <th>Asset Category</th>
                         <th data-toggle="popover" title="USL Score" data-trigger="hover" data-content="{{$usl_text}}">USL Score</th>
                         <th data-toggle="popover" title="FCI#" data-trigger="hover" data-html="true" data-content="{{$fci_text}}">FCI #</th>
+                        <th>Mission Critical Rating</th>
                         <th data-toggle="popover" title="EM Number" data-trigger="hover" data-content="{{$em_number_text}}">EM Number Score</th>
                         <th data-toggle="popover" title="EM Rating" data-trigger="hover" data-content="{{$em_rating_text}}">EM Rating Score</th>
                         <th data-toggle="popover" title="Adjusted EM Rating" data-trigger="hover" data-content="{{$adjusted_em_rating_text}}">Adjusted EM Rating Score</th>
@@ -66,6 +67,7 @@
                         <th>Asset Category</th>
                         <th data-toggle="popover" title="USL Score" data-trigger="hover" data-content="{{$usl_text}}">USL Score</th>
                         <th data-toggle="popover" title="FCI#" data-trigger="hover" data-html="true" data-content="{{$fci_text}}">FCI #</th>
+                        <th>Mission Critical Rating</th>
                         <th data-toggle="popover" title="EM Number" data-trigger="hover" data-content="{{$em_number_text}}">EM Number Score</th>
                         <th data-toggle="popover" title="EM Rating" data-trigger="hover" data-content="{{$em_rating_text}}">EM Rating Score</th>
                         <th data-toggle="popover" title="Adjusted EM Rating" data-trigger="hover" data-content="{{$adjusted_em_rating_text}}">Adjusted EM Rating Score</th>
@@ -82,6 +84,7 @@
                       <td>{{$inventory->equipment->assetCategory->name}}</td>
                       <td><span class="label label-default">{{$inventory->USLScore()}} / 6</span></td>
                       <td><span class="label label-default">{{$inventory->FCINumber()}} / 0.300</span></td>
+                      <td><span class="label label-default">{{$inventory->missionCriticalityRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$inventory->EMNumberScore()}}</span></td>
                       <td><span class="label label-default">{{$inventory->EMRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$inventory->AdjustedEMRScore()}}</span></td>
