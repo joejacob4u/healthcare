@@ -57,6 +57,7 @@
                     <tr>
                         <th>Date</th>
                         <th>Inventory</th>
+                        <th>Work Orders</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -64,6 +65,7 @@
                     <tr>
                         <th>Date</th>
                         <th>Inventory</th>
+                        <th>Work Orders</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
@@ -72,6 +74,7 @@
                     <tr id="baseline-date-{{$baseline_date->id}}">
                         <td>{{$baseline_date->date->toFormattedDateString()}}</td>
                         <td>{{link_to('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory','Inventory', ['class' => 'btn-xs btn-info'] )}}</td>
+                        <td>{{$baseline_date->workOrders->count()}}</td>
                         <td>{{link_to('#','Delete', ['class' => 'btn-xs btn-danger','onclick' => 'deleteBaselineDate('.$baseline_date->id.')'] )}}</td>
                     </tr>
                     @endforeach

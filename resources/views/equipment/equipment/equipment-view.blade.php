@@ -177,6 +177,11 @@
               <h4 class="list-group-item-heading">Freqency</h4>
               <p class="list-group-item-text" id="frequency"></p>
             </a>
+            
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">Installation Date</h4>
+              <p class="list-group-item-text" id="installation_date"></p>
+            </a>
           </div>
         </div>
         <div class="modal-footer">
@@ -202,6 +207,7 @@
   });
 
   $('.info').click(function(){
+    
     var equipment_data = JSON.parse($(this).attr('data-equipment'));
     var inventory_data = JSON.parse($(this).attr('data-inventory'));
 
@@ -212,6 +218,7 @@
     $('#frequency').html(equipment_data.frequency);
     $('#serial_number').html(inventory_data.serial_number);
     $('#identification_number').html(inventory_data.identification_number);
+    $('#installation_date').html(inventory_data.identification_number);
     $('#info_modal').modal('show');
   });
 

@@ -51,7 +51,7 @@
               </div>
 
               <div class="form-group">
-                  {!! Form::label('warranty_period', 'Warranty Period:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  {!! Form::label('warranty_period', 'Warranty Period (months):', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::number('warranty_period', Request::old('warranty_period'), ['class' => 'form-control','id' => 'warranty_period']) !!}
                   </div>
@@ -63,6 +63,14 @@
                       {!! Form::text('warranty_start_date', Request::old('warranty_start_date'), ['class' => 'form-control','id' => 'warranty_start_date']) !!}
                   </div>
                 </div>
+
+                <div class="form-group">
+                  {!! Form::label('installation_date', 'Installation Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::text('installation_date', Request::old('installation_date'), ['class' => 'form-control','id' => 'installation_date']) !!}
+                  </div>
+              </div>
+
 
                 <div class="form-group">
                 {!! Form::label('maintenance_redundancy_id', 'Redundancy:', ['class' => 'col-lg-2 control-label']) !!}
@@ -85,12 +93,6 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                  {!! Form::label('installation_date', 'Installation Date:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::text('installation_date', Request::old('installation_date'), ['class' => 'form-control','id' => 'installation_date']) !!}
-                  </div>
-              </div>
 
               <div class="form-group">
                   {!! Form::label('estimated_deferred_maintenance_cost', 'Estimated Deferred Maintenance Cost per Year:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
