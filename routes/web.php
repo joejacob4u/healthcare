@@ -208,7 +208,7 @@ Route::post('admin/system-tier/edit/{system_tier_id}', 'Admin\SystemTierControll
 
 //Equipment Routes
 
-Route::get('admin/equipment/categories', 'Admin\CategoriesController@index');
+Route::get('admin/equipment/categories', 'Equipment\CategoriesController@index');
 Route::post('admin/equipment/categories', 'Equipment\CategoriesController@store');
 Route::post('equipment/categories/fetch/asset-categories', 'Equipment\CategoriesController@assetCategories');
 Route::post('equipment/categories/fetch/asset-category-details', 'Equipment\CategoriesController@assetCategoryDetails');
