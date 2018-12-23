@@ -28,7 +28,7 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>Required By</th>
+                        <th>System Tier</th>
                         <th>Service Life</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -37,7 +37,7 @@
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>Required By</th>
+                        <th>System Tier</th>
                         <th>Service Life</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -47,7 +47,7 @@
                   @foreach($category->assetCategories as $asset_category)
                     <tr id="tr-{{$asset_category->id}}">
                         <td>{{$asset_category->name}}</td>
-                        <td>{{$asset_category->required_by}}</td>
+                        <td>{{$asset_category->systemTier->name}}</td>
                         <td>{{$asset_category->service_life}}</td>
                         <td>{!! link_to('admin/equipment/categories/'.$category->id.'/asset-categories/edit/'.$asset_category->id,'Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAssetCategory('.$asset_category->id.')']) !!}</td>
