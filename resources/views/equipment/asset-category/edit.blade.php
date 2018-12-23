@@ -49,16 +49,9 @@
 
                 <!-- Phone -->
                 <div class="form-group">
-                    {!! Form::label('required_by', 'Required By:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('system_tier_id', 'System Tier:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                      {!! Form::select('required_by', [
-                          '0' => 'Please select',
-                          'evs' => 'EVS',
-                          'biomed' => 'Bio-Med',
-                          'maintenance' => 'Maintenance',
-                          'it' => 'Information Technology',
-                          'grounds_maintenance' => 'Grounds Maintenance'
-                        ], $asset_category->required_by, ['class' => 'form-control']) !!}
+                      {!! Form::select('system_tier_id', $system_tiers->append('Please select',0), $asset_category->system_tier_id, ['class' => 'form-control']) !!}
                     </div>
                 </div>
 

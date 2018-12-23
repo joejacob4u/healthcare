@@ -29,4 +29,9 @@ class AssetCategory extends Model
     {
         return $this->belongsTo('App\Equipment\UtilityFunction', 'equipment_utility_function_id');
     }
+
+    public function systemTier()
+    {
+        return $this->belongsTo('App\SystemTier', 'system_tier_id');
+    }
 }

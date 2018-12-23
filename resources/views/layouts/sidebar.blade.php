@@ -25,6 +25,7 @@
   @if(Auth::guard('admin')->check())
     <ul class="sidebar-menu">
       <li style="white-space: pre-line;" class="header text-yellow"><strong>ADMIN</strong></li>
+      <li style="white-space: pre-line;"><a href="{{url('admin/system-tiers')}}"><i class="fa fa-circle-o"></i>System Tiers</a></li>
       <li class="treeview">
            <a href="#">
              <i class="fa fa-files-o"></i>

@@ -135,7 +135,7 @@ class Inventory extends Model
 
         $score = ($this->missionCriticality->score * ($this->utilization / 100) + 2 * ($this->utilization / 100) * $this->baselineDate->equipment->maintenanceRequirement->score + 200 * $this->baselineDate->equipment->assetCategory->physicalRisk->score - 30) / 10;
 
-        return number_format($score, 2);
+        return $score;
     }
 
     public function FCINumber()
