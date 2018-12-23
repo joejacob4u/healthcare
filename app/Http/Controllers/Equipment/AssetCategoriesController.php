@@ -41,7 +41,6 @@ class AssetCategoriesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
             'equipment_physical_risk_id' => 'required|exists:equipment_physical_risks,id',
             'equipment_utility_function_id' => 'required|exists:equipment_utility_functions,id',
@@ -73,7 +72,6 @@ class AssetCategoriesController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'required_by' => 'not_in:0|required',
             'service_life' => 'required|numeric',
             'equipment_physical_risk_id' => 'required|exists:equipment_physical_risks,id',
             'equipment_utility_function_id' => 'required|exists:equipment_utility_functions,id',
