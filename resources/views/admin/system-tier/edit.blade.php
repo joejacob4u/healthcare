@@ -28,31 +28,6 @@
                   </div>
               </div>
 
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                <h3 class="box-title">Add Questionnaire</h3>
-                <div class="box-tools pull-right">
-                    <button class="btn btn-primary btn-sm" onclick="addQuestion()" type="button"><span class="glyphicon glyphicon-plus"></span> Add Question</button>
-                </div>
-                </div>
-
-                <div class="box-body" id="question-box">
-                    @foreach($system_tier->workOrderQuestionnaires as $work_order_questionnaire)
-                        <div class="row" id="question_{{$work_order_questionnaire->id}}">
-                        <div class="col-xs-10">
-                            <input type="text" class="form-control input-sm" name="questions[]" value="{{$work_order_questionnaire->question}}" id="question_{{$work_order_questionnaire->id}}" placeholder="Question">
-                        </div>
-                        <div class="col-xs-1">
-                            <button class="btn btn-danger btn-xs" type="button" onclick="deleteQuestion({{$work_order_questionnaire->id}})"><span class="glyphicon glyphicon-remove"></span></button>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-
-                <div class="box-footer">
-                </div>
-            </div>
-
 
                 <!-- Submit Button -->
                 <div class="form-group">

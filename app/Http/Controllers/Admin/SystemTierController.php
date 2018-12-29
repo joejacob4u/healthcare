@@ -44,13 +44,7 @@ class SystemTierController extends Controller
             'name' => 'required'
         ]);
 
-        if ($system_tier = SystemTier::create($request->except(['questions']))) {
-            if (isset($request->questions)) {
-                foreach ($request->questions as $key => $value) {
-                    $system_tier->workOrderQuestionnaires()->create(['question' => $value]);
-                }
-            }
-
+        if ($system_tier = SystemTier::create($request->all())) {
             return redirect('admin/system-tiers');
         }
     }
@@ -93,12 +87,6 @@ class SystemTierController extends Controller
         $system_tier = SystemTier::find($system_tier_id);
 
         if ($system_tier->update($request->except(['questions']))) {
-            if (isset($request->questions)) {
-                foreach ($request->questions as $key => $value) {
-                    $system_tier->workOrderQuestionnaires()->firstOrCreate(['question' => $value]);
-                }
-            }
-
             return redirect('admin/system-tiers');
         }
     }

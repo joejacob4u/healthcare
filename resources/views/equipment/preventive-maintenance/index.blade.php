@@ -59,7 +59,7 @@
                         <th>Date Required</th>
                         <th>User</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>View</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -71,8 +71,7 @@
                         <th>Frequency</th>
                         <th>Date Required</th>
                         <th>User</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <th>View</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -89,18 +88,6 @@
                       @else
                         <td>{{$work_order->user->name}}</td>
                       @endif 
-
-                      <td>{{$work_order->getLastWorkOrderStatus()}}</td>
-
-                      @if($work_order->getLastWorkOrderStatus() == 'Pending')
-                        <td>{{link_to('equipment/pm/work-orders/update/'.$work_order->id,'Start Work Order', ['class' => 'btn-xs btn btn-primary'] )}}</td>
-                      @elseif($work_order->getLastWorkOrderStatus() == 'Open - Parts on Order')
-                        <td>{{link_to('equipment/pm/work-orders/update/'.$work_order->id,'Resume Work Order', ['class' => 'btn-xs btn btn-warning'] )}}</td>
-                      @else
-                        <td>{{link_to('equipment/pm/work-orders/update/'.$work_order->id,'Update Work Order', ['class' => 'btn-xs btn btn-info'] )}}</td>
-                      @endif
-
-                    
                     </tr>
 
                   @endforeach

@@ -28,21 +28,6 @@
                   </div>
               </div>
 
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                <h3 class="box-title">Add Questionnaire</h3>
-                <div class="box-tools pull-right">
-                    <button class="btn btn-primary btn-sm" onclick="addQuestion()" type="button"><span class="glyphicon glyphicon-plus"></span> Add Question</button>
-                </div>
-                </div>
-
-                <div class="box-body" id="question-box">
-                </div>
-
-                <div class="box-footer">
-                </div>
-            </div>
-
 
                 <!-- Submit Button -->
                 <div class="form-group">
