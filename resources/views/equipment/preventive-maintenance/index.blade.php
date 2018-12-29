@@ -71,6 +71,7 @@
                         <th>Frequency</th>
                         <th>Date Required</th>
                         <th>User</th>
+                        <th>Status</th>
                         <th>View</th>
                     </tr>
                 </tfoot>
@@ -87,7 +88,9 @@
                         <td>N/A</td> 
                       @else
                         <td>{{$work_order->user->name}}</td>
-                      @endif 
+                      @endif
+                      <td>n/a</td>
+                      <td>{!! link_to('','View',['class' => 'btn-xs btn-info','target' => '_blank']) !!}</td>
                     </tr>
 
                   @endforeach

@@ -123,6 +123,36 @@
               </div>
 
             <div class="form-group">
+                {!! Form::label('meet_current_oem_specifications', 'Meet current OEM specifications:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('meet_current_oem_specifications', [1 => 'Yes',0 => 'No'], $equipment->meet_current_oem_specifications, ['class' => 'form-control','id' => 'is_warranty_available']); !!}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {!! Form::label('is_manufacturer_supported', 'Is manufacturer supported?:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('is_manufacturer_supported', [1 => 'Yes',0 => 'No'], $equipment->is_manufacturer_supported, ['class' => 'form-control','id' => 'is_manufacturer_supported']); !!}
+                </div>
+            </div>
+
+            <div class="form-group">
+                {!! Form::label('impact_of_device_failure', ' Impact of Device Failure on Patient Health?:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('impact_of_device_failure', ['minor' => 'Minor','major' => 'Major'], $equipment->impact_of_device_failure, ['class' => 'form-control','id' => 'impact_of_device_failure']); !!}
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                {!! Form::label('is_maintenance_supported', 'Is maintenence supported?:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('is_manufacturer_supported', ['yes' => 'Yes','no' => 'No','n/a' => 'N/A'], $equipment->is_manufacturer_supported, ['class' => 'form-control','id' => 'is_manufacturer_supported']); !!}
+                </div>
+            </div>
+
+
+            <div class="form-group">
                 {!! Form::label('is_warranty_availabled', 'Warranty:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
                 {!! Form::select('is_warranty_available', ['' => 'Please select',1 => 'Yes',0 => 'No'], $equipment->is_warranty_available, ['class' => 'form-control','id' => 'is_warranty_available']); !!}
