@@ -1,0 +1,244 @@
+@extends('layouts.app')
+
+@section('head')
+@parent
+
+@endsection
+@section('page_title','Inventory')
+@section('page_description','Inventories for this work order')
+
+@section('content')
+@include('layouts.partials.success')
+@include('layouts.partials.errors')
+
+<ol class="breadcrumb">
+    <li><a href="{{url('equipment/pm/work-orders')}}">Work Orders</a></li>
+    <li>Inventory for {{$work_order->name}}</li>
+</ol>
+
+<div class="callout callout-info">
+    <h4>Equipment Info</h4><br/>
+
+    <div class="row">
+        <div class="col-sm-4"><strong>Equipment Name : </strong> {{$work_order->equipment->name}}</div>
+        <div class="col-sm-4"><strong>Manufacturer : </strong> {{$work_order->equipment->manufacturer}}</div>
+        <div class="col-sm-4"><strong>Model Number : </strong> {{$work_order->equipment->model_number}}</div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-sm-2"><strong>Description</strong> </div>
+        <div class="col-sm-10">{{$work_order->equipment->description}}</div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-sm-4"><strong>Utilization : </strong> {{$work_order->equipment->utilization}} %</div>
+        <div class="col-sm-4"><strong>Frequency : </strong> {{$work_order->equipment->frequency}}</div>
+        <div class="col-sm-4"><strong>Asset Category : </strong> {{$work_order->equipment->assetCategory->name}}</div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-sm-2"><strong>PM Procedure</strong> </div>
+        <div class="col-sm-10">{{$work_order->equipment->preventive_maintenance_procedure}}</div>
+    </div>
+
+
+    
+
+
+</div>
+
+    <div class="box">
+      <div class="box-header with-border">
+        <h3 class="box-title">Preventive Maintenance View for Equipments in <strong>{{session('building_name')}}</strong></h3>
+
+        <div class="box-tools pull-right">
+        </div>
+      </div>
+      <div class="box-body">
+                <table id="example" class="table table-striped" type="custom">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Inventory</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Status</th>
+                        <th>Inventory</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Comment</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                  @foreach($work_order->workOrderInventories as $work_order_inventory)
+                    <tr>
+                      <td class="col-md-2">{!! Form::select('inventory_'.$work_order_inventory->id, $work_order_statuses->prepend('Please Select',0), $work_order_inventory->equipment_work_order_status_id, ['class' => 'form-control status','data-inventory-id' => $work_order_inventory->id,'data-field' => 'equipment_work_order_status_id']); !!}</td>
+                      <td class="col-md-2">{{$work_order_inventory->inventory->name}}<button data-inventory = "{{json_encode($work_order_inventory->inventory)}}" data-room="{{$work_order_inventory->inventory->room->room_number}}" class="btn btn-link btn-xs inventory-info"><span class="glyphicon glyphicon-info-sign"></span></button></td>
+                      <td class="col-md-2">{!! Form::text('start_time_'.$work_order_inventory->id, $work_order_inventory->start_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id,'data-field' => 'start_time']) !!}</td>
+                      <td class="col-md-2">{!! Form::text('end_time_'.$work_order_inventory->id, $work_order_inventory->end_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id ,'data-field' => 'end_time']) !!}</td>
+                      <td class="col-md-4">{!! Form::text('comment_'.$work_order_inventory->id, $work_order_inventory->comment, ['class' => 'form-control comment','data-inventory-id' => $work_order_inventory->id,'data-field' => 'comment']) !!}</td>
+                    </tr>
+
+                  @endforeach
+                </tbody>
+            </table>
+      </div>
+      <!-- /.box-body -->
+      <div class="box-footer">
+        
+      </div>
+      <!-- /.box-footer-->
+    </div>
+
+      <!-- Info Modal -->
+
+  <div class="modal fade" id="inventory_info_modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Inventory Info</h4>
+        </div>
+        <div class="modal-body">
+          <div class="list-group">
+            
+
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">Serial Number</h4>
+              <p class="list-group-item-text" id="serial_number"></p>
+            </a>
+
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">Identification Number</h4>
+              <p class="list-group-item-text" id="identification_number"></p>
+            </a>
+            
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">Installation Date</h4>
+              <p class="list-group-item-text" id="installation_date"></p>
+            </a>
+
+            <a href="#" class="list-group-item">
+              <h4 class="list-group-item-heading">Room Number</h4>
+              <p class="list-group-item-text" id="room_number"></p>
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- End of Info Modal -->
+
+
+
+  <script>
+
+  var work_order_id = '{{$work_order->id}}';
+  var timeoutId;
+
+  $(document).ready(function(){
+      
+      $('[data-toggle="popover"]').popover(); 
+
+      $(".date").flatpickr({
+        enableTime: true,
+        dateFormat: "Y-m-d H:i:S",
+        altInput: true,
+        altFormat: "M j, Y h:i K",
+        onChange: function(selectedDates, dateStr, instance) {
+            update_field(instance.element.dataset.inventoryId,instance.element.dataset.field,dateStr)
+        },
+      });
+
+      //save comment box
+
+      $('.comment').keypress(function () {
+
+        var inventory_id = $(this).attr('data-inventory-id');
+        var field = $(this).attr('data-field');
+        var value = $(this).val();
+
+        // If a timer was already started, clear it.
+        if (timeoutId) clearTimeout(timeoutId);
+
+        // Set timer that will save comment when it fires.
+        timeoutId = setTimeout(function () {
+            update_field(inventory_id,field,value);
+        }, 1500);
+     });
+
+     //status
+
+     $('select').change(function(){
+
+        var inventory_id = $(this).attr('data-inventory-id');
+        var field = $(this).attr('data-field');
+        var value = $(this).val();
+        update_field(inventory_id,field,value);
+
+     });
+
+     //inventory info
+
+     $('.inventory-info').click(function(){
+        var inventory_data = JSON.parse($(this).attr('data-inventory'));
+        $('#serial_number').html(inventory_data.serial_number);
+        $('#identification_number').html(inventory_data.identification_number);
+        $('#installation_date').html(inventory_data.installation_date);
+        $('#room_number').html($(this).attr('data-room'));
+        $('#inventory_info_modal').modal('show');
+     });
+
+     function update_field(inventory_id,field,value)
+     {
+        $.ajax({
+            type: 'POST',
+            url: '{{ url("equipment/pm/work-orders/".$work_order->id."/inventory/update") }}',
+            data: { '_token' : '{{ csrf_token() }}', 'field' : field, 'value' : value, 'inventory_id' : inventory_id },
+            
+            beforeSend:function()
+            {
+                dialog = bootbox.dialog({
+                    message: '<p class="text-center">Saving</p>',
+                    closeButton: false
+                });
+
+            },
+            
+            success:function(data)
+            {
+                if(data.status == 'success')
+                {
+                    dialog.modal('hide');
+                }
+            },
+
+            complete:function()
+            {
+                $('.overlay').remove();
+            },
+
+            error:function()
+            {
+                // failed request; give feedback to user
+            }
+        });
+
+     }
+    
+  });
+
+  </script>
+@endsection

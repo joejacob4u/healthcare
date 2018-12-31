@@ -90,7 +90,7 @@
                         <td>{{$work_order->user->name}}</td>
                       @endif
                       <td>n/a</td>
-                      <td>{!! link_to('','View',['class' => 'btn-xs btn-info','target' => '_blank']) !!}</td>
+                      <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
 
                   @endforeach

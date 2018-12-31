@@ -13,6 +13,8 @@ use App\Equipment\IncidentHistory;
 use App\Equipment\Redundancy;
 use App\Equipment\Inventory;
 use App\Regulatory\Room;
+use App\Equipment\WorkOrder;
+use App\Equipment\WorkOrderInventory;
 
 class InventoryController extends Controller
 {
@@ -52,7 +54,8 @@ class InventoryController extends Controller
         
         $baseline_date = BaselineDate::find($baseline_date_id);
         
-        if ($baseline_date->inventories()->create($request->all())) {
+        if ($inventory = $baseline_date->inventories()->create($request->all())) {
+            $this->create_work_order_inventories($inventory->id, $baseline_date->id);
             return redirect('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory')->with('success', 'New inventory created.');
         }
     }
@@ -93,6 +96,19 @@ class InventoryController extends Controller
     {
         if (Inventory::destroy($request->inventory_id)) {
             return response()->json(['status' => 'success']);
+        }
+    }
+
+    private function create_work_order_inventories($inventory_id, $baseline_date_id)
+    {
+        $work_orders = WorkOrder::where('baseline_date_id', $baseline_date_id)->get();
+
+        foreach ($work_orders as $work_order) {
+            WorkOrderInventory::insert([
+                'equipment_work_order_id' => $work_order->id,
+                'equipment_inventory_id' => $inventory_id,
+                'equipment_work_order_status_id' => 2,
+            ]);
         }
     }
 }

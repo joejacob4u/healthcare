@@ -337,6 +337,10 @@ Route::post('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\WorkOr
 Route::post('equipment/work-orders/fetch', 'Equipment\WorkOrderController@fetch');
 Route::post('equipment/work-orders/status', 'Equipment\WorkOrderController@saveStatus');
 
+Route::get('equipment/pm/work-orders/{work_order_id}/inventory', 'Equipment\WorkOrderInventoryController@index');
+Route::post('equipment/pm/work-orders/{work_order_id}/inventory/update', 'Equipment\WorkOrderInventoryController@update');
+
+
 Route::get('cron/test', 'Accreditation\EOPSubmissionDateController@submissionDateCron');
 
 

@@ -88,7 +88,7 @@
                       <td><span class="label label-default">{{$inventory->EMNumberScore()}} / 20</span></td>
                       <td><span class="label label-default">{{$inventory->EMRatingScore()}} / 30</span></td>
                       <td><span class="label label-default">{{$inventory->AdjustedEMRScore()}} %</span></td>
-                      <td>{{link_to('','Planning', ['class' => 'btn-xs btn-primary planning','data-estimated-replacement-cost' => $inventory->estimated_replacement_cost,'data-estimated-deferred-maintenance-cost' => $inventory->estimated_deferred_maintenance_cost] )}}</td>
+                      <td>{{link_to('#','Planning', ['class' => 'btn-xs btn-primary planning','data-estimated-replacement-cost' => $inventory->estimated_replacement_cost,'data-estimated-deferred-maintenance-cost' => $inventory->estimated_deferred_maintenance_cost] )}}</td>
                     </tr>
                     @endforeach
                   @endforeach
