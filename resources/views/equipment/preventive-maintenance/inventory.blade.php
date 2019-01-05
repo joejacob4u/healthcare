@@ -344,6 +344,7 @@
                     {
                         dialog.modal('hide');
                         $('#shift-modal').modal('hide');
+                        location.reload(true);
                     }
                 },
 

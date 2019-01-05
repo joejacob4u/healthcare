@@ -49,8 +49,6 @@ class WorkOrderShiftController extends Controller
                 $times[] = ['start_time' => $startTime->format('Y-m-d H:i:s'),'end_time' => $startTime->modify('+'.$interval.' minutes')->format('Y-m-d H:i:s')];
             }
 
-
-
             foreach ($work_order_inventories as $key => $work_order_inventory) {
                 $work_order_inventory->update($times[$key]);
             }
