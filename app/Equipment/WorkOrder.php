@@ -35,4 +35,18 @@ class WorkOrder extends Model
     {
         return $this->hasMany('App\Equipment\WorkOrderInventory', 'equipment_work_order_id');
     }
+
+    public function shifts()
+    {
+        return $this->hasMany('App\Equipment\WorkOrderShift', 'work_order_id');
+    }
+
+    public function hasInventories()
+    {
+        if ($this->workOrderInventories->count() > 0) {
+            return true;
+        }
+        
+        return false;
+    }
 }

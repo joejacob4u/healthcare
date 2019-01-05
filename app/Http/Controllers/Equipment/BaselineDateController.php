@@ -10,6 +10,7 @@ use App\Equipment\WorkOrder;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use App\User;
 
 class BaselineDateController extends Controller
 {
@@ -20,13 +21,14 @@ class BaselineDateController extends Controller
 
     public function index($equipment_id)
     {
-        return view('equipment.baseline.index', ['equipment' => Equipment::find($equipment_id)]);
+        return view('equipment.baseline.index', ['equipment' => Equipment::find($equipment_id),'users' => User::pluck('name', 'id')]);
     }
 
     public function store(Request $request, $equipment_id)
     {
         $this->validate($request, [
-            'date' => 'required'
+            'date' => 'required',
+            'user_id' => 'not_in:0'
         ]);
 
         $equipment = Equipment::find($equipment_id);

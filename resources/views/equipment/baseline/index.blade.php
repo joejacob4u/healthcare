@@ -28,9 +28,13 @@
           
             {!! Form::open(['url' => 'equipment/'.$equipment->id.'/baseline-dates']) !!}
             <div class="form-group">
-                <div class="col-lg-8">
-                    {!! Form::text('date', $value = '', ['class' => 'form-control','id' => 'date','placeholder' => 'Select Date']) !!}
+                <div class="col-lg-4">
+                    {!! Form::text('date', Request::old('date'), ['class' => 'form-control','id' => 'date','placeholder' => 'Select Date']) !!}
                 </div>
+                <div class="col-lg-4">
+                    {!! Form::select('user_id', $users->prepend('Select Assignee',0), Request::old('user_id'), ['class' => 'form-control','id' => 'user_id']); !!}
+                </div>
+
                 <div class="col-lg-4">
                     <button class="btn btn-success" id="search-button"><span class="glyphicon glyphicon-add"></span> Add Baseline Date</button>
                 </div>
@@ -73,8 +77,8 @@
                     @foreach($equipment->baselineDates->sortByDesc('date') as $baseline_date)
                     <tr id="baseline-date-{{$baseline_date->id}}">
                         <td>{{$baseline_date->date->toFormattedDateString()}}</td>
-                        <td>{{link_to('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory','Inventory', ['class' => 'btn-xs btn-info'] )}}</td>
-                        <td>{{$baseline_date->workOrders->count()}}</td>
+                        <td>{{link_to('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory','Inventory ('.$baseline_date->inventories->count().')', ['class' => 'btn-xs btn-info'] )}}</td>
+                        <td>{{$baseline_date->workOrders->where('building_id',session('building_id'))->count()}}</td>
                         <td>{{link_to('#','Delete', ['class' => 'btn-xs btn-danger','onclick' => 'deleteBaselineDate('.$baseline_date->id.')'] )}}</td>
                     </tr>
                     @endforeach

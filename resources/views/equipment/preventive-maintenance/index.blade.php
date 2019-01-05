@@ -77,6 +77,7 @@
                 </tfoot>
                 <tbody>
                   @foreach($work_orders as $work_order)
+                    @if($work_order->hasInventories())
                     <tr>
                       <td>{{$work_order->name}}</td>
                       <td>{{$work_order->equipment->category->name}}</td>
@@ -92,7 +93,7 @@
                       <td>n/a</td>
                       <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
-
+                    @endif
                   @endforeach
                 </tbody>
             </table>

@@ -40,11 +40,48 @@
         <div class="col-sm-2"><strong>PM Procedure</strong> </div>
         <div class="col-sm-10">{{$work_order->equipment->preventive_maintenance_procedure}}</div>
     </div>
+</div>
 
+<div class="box">
+    <div class="box-header with-border">
+        <h3 class="box-title">Shifts</h3>
+        <div class="box-tools pull-right">
+            <button class="btn btn-success" data-toggle="modal" data-target="#shift-modal"><span class="glyphicon glyphicon-plus"></span> Add Shift</button>
+        </div>
+    </div>
+    <div class="box-body">
+        <table id="example" class="table table-striped" type="custom">
+                <thead>
+                    <tr>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>User</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>User</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                  @foreach($work_order->shifts as $shift)
+                    <tr>
+                      <td>{{$shift->start_time->toDayDateTimeString()}}</td>
+                      <td>{{$shift->end_time->toDayDateTimeString()}}</td>
+                      <td>{{$shift->user->name}}</td>
+                    </tr>
 
-    
-
-
+                  @endforeach
+                </tbody>
+            </table>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer">
+        Footer
+    </div>
+    <!-- /.box-footer-->
 </div>
 
     <div class="box">
@@ -141,12 +178,44 @@
 
   <!-- End of Info Modal -->
 
+  <!-- Shift Modal -->
+  <div class="modal fade" id="shift-modal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Add a shift</h4>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="usr">Start Time:</label>
+            <input type="text" class="form-control" id="shift_start_time">
+         </div>
+         <div class="form-group">
+            <label for="usr">End Time:</label>
+            <input type="text" class="form-control" id="shift_end_time">
+         </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" onclick="saveShift()" class="btn btn-success">Add Shift</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!--End of Shift Modal -->
+
 
 
   <script>
 
   var work_order_id = '{{$work_order->id}}';
   var timeoutId;
+  var user_id = '{{Auth::user()->id}}';
 
   $(document).ready(function(){
       
@@ -161,6 +230,14 @@
             update_field(instance.element.dataset.inventoryId,instance.element.dataset.field,dateStr)
         },
       });
+
+    $("#shift_start_time,#shift_end_time").flatpickr({
+        enableTime: true,
+        dateFormat: "Y-m-d H:i:S",
+        altInput: true,
+        altFormat: "M j, Y h:i K",
+      });
+
 
       //save comment box
 
@@ -239,6 +316,51 @@
      }
     
   });
+
+  function saveShift()
+  {
+      var shift_start_time = $('#shift_start_time').val();
+      var shift_end_time = $('#shift_end_time').val();
+
+      if(shift_start_time && shift_end_time)
+      {
+            $.ajax({
+                type: 'POST',
+                url: '{{ url("equipment/pm/work-orders/".$work_order->id."/shift/add") }}',
+                data: { '_token' : '{{ csrf_token() }}', 'start_time' : shift_start_time, 'end_time' : shift_end_time, 'user_id' : user_id },
+                
+                beforeSend:function()
+                {
+                    dialog = bootbox.dialog({
+                        message: '<p class="text-center">Saving</p>',
+                        closeButton: false
+                    });
+
+                },
+                
+                success:function(data)
+                {
+                    if(data.status == 'success')
+                    {
+                        dialog.modal('hide');
+                        $('#shift-modal').modal('hide');
+                    }
+                },
+
+                complete:function()
+                {
+                    $('.overlay').remove();
+                },
+
+                error:function()
+                {
+                    // failed request; give feedback to user
+                }
+            });
+      }
+
+
+  }
 
   </script>
 @endsection

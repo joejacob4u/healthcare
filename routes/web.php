@@ -340,6 +340,10 @@ Route::post('equipment/work-orders/status', 'Equipment\WorkOrderController@saveS
 Route::get('equipment/pm/work-orders/{work_order_id}/inventory', 'Equipment\WorkOrderInventoryController@index');
 Route::post('equipment/pm/work-orders/{work_order_id}/inventory/update', 'Equipment\WorkOrderInventoryController@update');
 
+//work order shift
+Route::post('equipment/pm/work-orders/{work_order_id}/shift/add', 'Equipment\WorkOrderShiftController@add');
+
+
 
 Route::get('cron/test', 'Accreditation\EOPSubmissionDateController@submissionDateCron');
 
