@@ -9,6 +9,7 @@ use App\Equipment\WorkOrderInventory;
 use DateTime;
 use DateInterval;
 use DatePeriod;
+use Auth;
 
 class WorkOrderShiftController extends Controller
 {
@@ -46,7 +47,7 @@ class WorkOrderShiftController extends Controller
             $interval = intval((($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i) / count($work_order_inventories));
 
             while ($startTime < $endTime) {
-                $times[] = ['start_time' => $startTime->format('Y-m-d H:i:s'),'end_time' => $startTime->modify('+'.$interval.' minutes')->format('Y-m-d H:i:s')];
+                $times[] = ['start_time' => $startTime->format('Y-m-d H:i:s'),'end_time' => $startTime->modify('+'.$interval.' minutes')->format('Y-m-d H:i:s'),'user_id' => Auth::user()->id];
             }
 
             foreach ($work_order_inventories as $key => $work_order_inventory) {

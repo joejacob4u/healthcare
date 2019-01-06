@@ -28,4 +28,9 @@ class BaselineDate extends Model
     {
         return $this->hasMany('App\Equipment\WorkOrder', 'baseline_date_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
 }

@@ -60,6 +60,7 @@
                 <thead>
                     <tr>
                         <th>Date</th>
+                        <th>User</th>
                         <th>Inventory</th>
                         <th>Work Orders</th>
                         <th>Delete</th>
@@ -68,6 +69,7 @@
                 <tfoot>
                     <tr>
                         <th>Date</th>
+                        <th>User</th>
                         <th>Inventory</th>
                         <th>Work Orders</th>
                         <th>Delete</th>
@@ -77,6 +79,7 @@
                     @foreach($equipment->baselineDates->sortByDesc('date') as $baseline_date)
                     <tr id="baseline-date-{{$baseline_date->id}}">
                         <td>{{$baseline_date->date->toFormattedDateString()}}</td>
+                        <td>{{$baseline_date->user->name}}</td>
                         <td>{{link_to('equipment/'.$baseline_date->equipment->id.'/baseline-date/'.$baseline_date->id.'/inventory','Inventory ('.$baseline_date->inventories->count().')', ['class' => 'btn-xs btn-info'] )}}</td>
                         <td>{{$baseline_date->workOrders->where('building_id',session('building_id'))->count()}}</td>
                         <td>{{link_to('#','Delete', ['class' => 'btn-xs btn-danger','onclick' => 'deleteBaselineDate('.$baseline_date->id.')'] )}}</td>

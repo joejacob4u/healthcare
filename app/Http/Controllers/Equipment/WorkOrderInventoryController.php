@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Equipment\WorkOrder;
 use App\Equipment\WorkOrderStatus;
 use App\Equipment\WorkOrderInventory;
+use Auth;
 
 class WorkOrderInventoryController extends Controller
 {
@@ -76,7 +77,7 @@ class WorkOrderInventoryController extends Controller
     {
         $work_order_inventory = WorkOrderInventory::find($request->inventory_id);
 
-        if ($work_order_inventory->update([$request->field => $request->value])) {
+        if ($work_order_inventory->update([$request->field => $request->value,'user_id' => Auth::user()->id])) {
             return response()->json(['status' => 'success']);
         }
     }

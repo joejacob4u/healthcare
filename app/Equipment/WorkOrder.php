@@ -46,7 +46,18 @@ class WorkOrder extends Model
         if ($this->workOrderInventories->count() > 0) {
             return true;
         }
-        
+
         return false;
+    }
+
+    public function status()
+    {
+        $statuses = [];
+        
+        foreach ($this->workOrderInventories as $inventory) {
+            $statuses[] = $inventory->workOrderStatus->id;
+        }
+
+        return WorkOrderStatus::find(max($statuses))->name;
     }
 }

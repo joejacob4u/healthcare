@@ -1,11 +1,13 @@
 @extends('layouts.app')
 
 @section('head')
+    <script src="{{ asset ("/bower_components/moment/moment.js") }}" type="text/javascript"></script>
+
 @parent
 
 @endsection
 @section('page_title','Inventory')
-@section('page_description','Inventories for this work order')
+@section('page_description','Inventory for Baseline Date ( '.$work_order->baselineDate->date->toFormattedDateString().' )')
 
 @section('content')
 @include('layouts.partials.success')
@@ -114,10 +116,10 @@
                 <tbody>
                   @foreach($work_order->workOrderInventories as $work_order_inventory)
                     <tr>
-                      <td class="col-md-2">{!! Form::select('inventory_'.$work_order_inventory->id, $work_order_statuses->prepend('Please Select',0), $work_order_inventory->equipment_work_order_status_id, ['class' => 'form-control status','data-inventory-id' => $work_order_inventory->id,'data-field' => 'equipment_work_order_status_id']); !!}</td>
+                      <td class="col-md-2">{!! Form::select('inventory_'.$work_order_inventory->id, $work_order_statuses, $work_order_inventory->equipment_work_order_status_id, ['class' => 'form-control status','data-inventory-id' => $work_order_inventory->id,'data-field' => 'equipment_work_order_status_id']); !!}</td>
                       <td class="col-md-2">{{$work_order_inventory->inventory->name}}<button data-inventory = "{{json_encode($work_order_inventory->inventory)}}" data-room="{{$work_order_inventory->inventory->room->room_number}}" class="btn btn-link btn-xs inventory-info"><span class="glyphicon glyphicon-info-sign"></span></button></td>
                       <td class="col-md-2">{!! Form::text('start_time_'.$work_order_inventory->id, $work_order_inventory->start_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id,'data-field' => 'start_time']) !!}</td>
-                      <td class="col-md-2">{!! Form::text('end_time_'.$work_order_inventory->id, $work_order_inventory->end_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id ,'data-field' => 'end_time']) !!}</td>
+                      <td class="col-md-2">{!! Form::text('end_time_'.$work_order_inventory->id, $work_order_inventory->end_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id ,'data-field' => 'end_time']) !!} @if($work_order_inventory->user_id != 0)<small class="label pull-right bg-blue"><i class="fa fa-user"></i> {{$work_order_inventory->user->name}}</small>@endif</td>
                       <td class="col-md-4">{!! Form::text('comment_'.$work_order_inventory->id, $work_order_inventory->comment, ['class' => 'form-control comment','data-inventory-id' => $work_order_inventory->id,'data-field' => 'comment']) !!}</td>
                     </tr>
 
@@ -231,12 +233,39 @@
         },
       });
 
-    $("#shift_start_time,#shift_end_time").flatpickr({
+    var start_time_picker = $("#shift_start_time").flatpickr({
         enableTime: true,
         dateFormat: "Y-m-d H:i:S",
         altInput: true,
         altFormat: "M j, Y h:i K",
+        onChange: function(selectedDates, dateStr, instance) {
+            end_time_picker.setDate(dateStr)
+        },
+
       });
+
+    var end_time_picker = $("#shift_end_time").flatpickr({
+        enableTime: true,
+        dateFormat: "Y-m-d H:i:S",
+        altInput: true,
+        altFormat: "M j, Y h:i K",
+        onOpen: function(){
+            if(!$("#shift_start_time").val())
+            {
+                alert('Start time has to be set first.');
+            }
+        },
+        onClose: function(selectedDates, dateStr, instance) {
+            
+            if(moment(dateStr).isBefore($("#shift_start_time").val()))
+            {
+                end_time_picker.clear();
+                alert('End time has to be a value earlier than start time.');
+            }
+        },
+
+      });
+
 
 
       //save comment box

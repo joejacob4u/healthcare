@@ -41,7 +41,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Preventive Maintenance View for Equipments in <strong>{{session('building_name')}}</strong></h3>
+        <h3 class="box-title">Preventive Maintenance for Equipments in <strong>{{session('building_name')}}</strong></h3>
 
         <div class="box-tools pull-right">
           <div class="pull-left"><a href="{{url('equipment/download')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-save"></span> Download</a></div>
@@ -51,7 +51,6 @@
                 <table id="example" class="table table-striped" type="custom">
                 <thead>
                     <tr>
-                        <th>Name</th>
                         <th>Category</th>
                         <th>Asset Category</th>
                         <th>Description</th>
@@ -64,7 +63,6 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
                         <th>Category</th>
                         <th>Asset Category</th>
                         <th>Description</th>
@@ -76,21 +74,16 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($work_orders as $work_order)
+                  @foreach($work_orders->sortByDesc('work_order_date') as $work_order)
                     @if($work_order->hasInventories())
                     <tr>
-                      <td>{{$work_order->name}}</td>
                       <td>{{$work_order->equipment->category->name}}</td>
                       <td>{{$work_order->equipment->assetCategory->name}}</td>
                       <td>{{$work_order->equipment->description}}</td>
                       <td>{{$work_order->equipment->frequency}}</td>
                       <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
-                      @if($work_order->user_id == 0)
-                        <td>N/A</td> 
-                      @else
-                        <td>{{$work_order->user->name}}</td>
-                      @endif
-                      <td>n/a</td>
+                        <td>{{$work_order->baselineDate->user->name}}</td>
+                      <td>{{$work_order->status()}}</td>
                       <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
                     @endif
@@ -119,7 +112,7 @@
     });
 
       $('table').DataTable( {
-        "order": [[ 5, "desc" ],[6,"desc"]]
+        "order": [[ 5, "desc" ]]
     } );
 
     

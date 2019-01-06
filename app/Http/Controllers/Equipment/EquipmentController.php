@@ -60,7 +60,11 @@ class EquipmentController extends Controller
             'model_number' => 'required',
             'is_warranty_available' => 'required',
             'utilization' => 'required|numeric|min:1|max:100',
-            'frequency' => 'required|not_in:0'
+            'frequency' => 'required|not_in:0',
+            'meet_current_oem_specifications' => 'required',
+            'is_manufacturer_supported' => 'required',
+            'impact_of_device_failure' => 'required',
+            'is_manufacturer_supported' => 'required'
         ]);
 
         if (Equipment::create($request->except(['hco_id','site_id']))) {
@@ -94,8 +98,11 @@ class EquipmentController extends Controller
             'is_warranty_available' => 'required',
             'manufacturer_date' => 'required',
             'utilization' => 'required|numeric|min:1|max:100',
-            'frequency' => 'required|not_in:0'
-
+            'frequency' => 'required|not_in:0',
+            'meet_current_oem_specifications' => 'required',
+            'is_manufacturer_supported' => 'required',
+            'impact_of_device_failure' => 'required',
+            'is_manufacturer_supported' => 'required'
         ]);
 
         $equipment = Equipment::find($request->equipment_id);
