@@ -5,7 +5,7 @@
 
 @endsection
 @section('page_title','Inventory for '.$baseline_date->equipment->name.' for baseline date '.$baseline_date->date->toFormattedDateString())
-@section('page_description','Manage maintenance asset category here.')
+@section('page_description','Manage inventories here.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -54,9 +54,8 @@
                         <th>Serial Number</th>
                         <th data-toggle="popover" title="USL Score" data-trigger="hover" data-content="{{$usl_text}}">USL Score</th>
                         <th data-toggle="popover" title="FCI#" data-trigger="hover" data-html="true" data-content="{{$fci_text}}">FCI #</th>
-                        <th data-toggle="popover" title="EM Number" data-trigger="hover" data-content="{{$em_number_text}}">EM Number Score</th>
-                        <th data-toggle="popover" title="EM Rating" data-trigger="hover" data-content="{{$em_rating_text}}">EM Rating Score</th>
                         <th data-toggle="popover" title="Adjusted EM Rating" data-trigger="hover" data-content="{{$adjusted_em_rating_text}}">Adjusted EM Rating Score</th>
+                        <th>Equipment Risk Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -67,9 +66,8 @@
                         <th>Serial Number</th>
                         <th>USL Score</th>
                         <th>FCI #</th>
-                        <th>EM Number Score</th>
-                        <th>EM Rating Score</th>
                         <th>Adjusted EM Rating Score</th>
+                        <th>Equipment Risk Score</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -81,9 +79,8 @@
                       <td>{{$inventory->serial_number}}</td>
                       <td><span class="label label-default">{{$inventory->USLScore()}} / 6</span></td>
                       <td><span class="label label-default">{{$inventory->FCINumber()}} / 0.300</span></td>
-                      <td><span class="label label-default">{{$inventory->EMNumberScore()}}</span></td>
-                      <td><span class="label label-default">{{$inventory->EMRatingScore()}}</span></td>
                       <td><span class="label label-default">{{$inventory->AdjustedEMRScore()}}</span></td>
+                      <td><span class="label label-default">{{$inventory->equipmentRiskScore()}}</span></td>
                       <td>{!! link_to('equipment/'.$inventory->baselineDate->equipment->id.'/baseline-date/'.$inventory->baselineDate->id.'/inventory/edit/'.$inventory->id,'Edit',['class' => 'btn-xs btn-warning','target' => '_blank']) !!}</td>
                       <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteInventory('.$inventory->id.')']) !!}</td>                             
                     </tr>

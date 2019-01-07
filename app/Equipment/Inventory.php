@@ -154,4 +154,33 @@ class Inventory extends Model
 
         return number_format($usl_percentage * .003, 3);
     }
+
+    public function equipmentRiskScore()
+    {
+        $score = 0;
+
+        $inventory_age_in_months = $this->calculateEquipmentServiceAge();
+
+        if ($inventory_age_in_months > 60) {
+            $score += 1;
+        }
+
+        if (!$this->baselineDate->equipment->meet_current_oem_specifications) {
+            $score += 1;
+        }
+        if (!$this->baselineDate->equipment->is_manufacturer_supported) {
+            $score += 1;
+        }
+        if ($this->baselineDate->equipment->impact_of_device_failure == 'minor') {
+            $score += 1;
+        }
+        if ($this->baselineDate->equipment->impact_of_device_failure == 'major') {
+            $score += 2;
+        }
+        if (!$this->baselineDate->equipment->is_maintenance_supported) {
+            $score += 1;
+        }
+
+        return $score;
+    }
 }

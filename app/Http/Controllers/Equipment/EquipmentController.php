@@ -15,6 +15,7 @@ use App\Biomed\MissionCriticality;
 use App\Equipment\IncidentHistory;
 use App\Equipment\WorkOrder;
 use Carbon\Carbon;
+use App\Equipment\Inventory;
 
 class EquipmentController extends Controller
 {
@@ -175,38 +176,40 @@ class EquipmentController extends Controller
         ]);
 
         foreach ($equipments as $equipment) {
-            $csv->insertOne([
-                $equipment->name,
+            foreach ($equipment->inventories as $inventory) {
+                $csv->insertOne([
+                $inventory->equipment->name,
                 session('building_name'),
-                $equipment->assetCategory->category->name,
-                $equipment->assetCategory->name,
-                $equipment->description,
-                $equipment->manufacturer,
-                $equipment->model_number,
-                $equipment->serial_number,
-                $equipment->identification_number,
-                $equipment->preventive_maintenance_procedure,
-                $equipment->redundancy->name,
-                $equipment->missionCriticality->name,
-                $equipment->incidentHistory->name,
-                $equipment->manufacturer_date,
-                $equipment->utilization,
-                $equipment->estimated_replacement_cost,
-                $equipment->estimated_deferred_maintenance_cost,
-                $equipment->baseline_date,
-                $equipment->maintenanceRequirement->name,
-                $equipment->room->buildingDepartment->name,
-                $equipment->room->room_number,
-                $equipment->USLScore(),
-                $equipment->FCINumber(),
-                $equipment->missionCriticalityRatingScore(),
-                $equipment->EMNumberScore(),
-                $equipment->EMRatingScore(),
-                $equipment->AdjustedEMRScore()
+                $inventory->equipment->assetCategory->category->name,
+                $inventory->equipment->assetCategory->name,
+                $inventory->equipment->description,
+                $inventory->equipment->manufacturer,
+                $inventory->equipment->model_number,
+                $inventory->equipment->serial_number,
+                $inventory->equipment->identification_number,
+                $inventory->equipment->preventive_maintenance_procedure,
+                $inventory->redundancy->name,
+                $inventory->missionCriticality->name,
+                $inventory->incidentHistory->name,
+                $inventory->equipment->manufacturer_date,
+                $inventory->equipment->utilization,
+                $inventory->equipment->estimated_replacement_cost,
+                $inventory->equipment->estimated_deferred_maintenance_cost,
+                $inventory->equipment->baseline_date,
+                $inventory->equipment->maintenanceRequirement->name,
+                $inventory->room->buildingDepartment->name,
+                $inventory->room->room_number,
+                $inventory->USLScore(),
+                $inventory->FCINumber(),
+                $inventory->missionCriticalityRatingScore(),
+                $inventory->EMNumberScore(),
+                $inventory->EMRatingScore(),
+                $inventory->AdjustedEMRScore()
             ]);
+            }
         }
 
-        $csv->output('equipments_for_'.session('building_name').'_'.date('Y-m-d:H:i:s').'.csv');
+        $csv->output('equipment_inventories_for_'.session('building_name').'_'.date('Y-m-d:H:i:s').'.csv');
         exit;
     }
 }

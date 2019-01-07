@@ -164,7 +164,7 @@
             <div class="form-group">
                 {!! Form::label('is_maintenance_supported', 'Is maintenence supported?:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('is_manufacturer_supported', ['' => 'Please Select','yes' => 'Yes','no' => 'No','n/a' => 'N/A'], '', ['class' => 'form-control','id' => 'is_manufacturer_supported']); !!}
+                {!! Form::select('is_maintenance_supported', ['' => 'Please Select',1 => 'Yes',0 => 'No'], '', ['class' => 'form-control','id' => 'is_maintenance_supported']); !!}
                 </div>
             </div>
 

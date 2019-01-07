@@ -44,6 +44,25 @@
     </div>
 </div>
 
+@if(count($work_order->equipment->assetCategory->eops) > 0)
+
+<div class="callout callout-warning">
+    <h4>EOP</h4>
+
+    @foreach($work_order->equipment->assetCategory->eops as $eop)
+
+    <a href="#" class="list-group-item  list-group-item-info active">
+        <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
+        <p>{{$eop->text}}</p>
+    </a>
+
+    @endforeach
+</div>
+
+
+@endif
+
+
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Shifts</h3>
@@ -81,7 +100,7 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
-        Footer
+        Adding a shift will split time between 'Complete and Complaint' inventories below
     </div>
     <!-- /.box-footer-->
 </div>
