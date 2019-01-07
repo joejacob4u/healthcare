@@ -397,9 +397,6 @@ $('#set-btn').click(function(){
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>Serial Number</th>
-                        <th>Room Number</th>
-                        <th>Eq ID Number</th>
                         <th>Status</th>
                         <th>Work Order</th>
                     </tr>
@@ -408,9 +405,6 @@ $('#set-btn').click(function(){
                   @foreach($equipments as $equipment)
                     <tr>
                       <td>{{$equipment->name}}</td>
-                      <td>{{$equipment->serial_number}}</td>
-                      <td>{{$equipment->room->room_number}}</td>
-                      <td>{{$equipment->identification_number}}</td>
                       <td>{{$equipment->lastWorkOrderStatus()}}</td>
                       <td>{{link_to('equipment/pm/work-orders','Go to Work Order', ['class' => 'btn-xs btn btn-info'] )}}</td>
                     </tr>

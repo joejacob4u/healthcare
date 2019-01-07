@@ -46,12 +46,12 @@
 
 @if(count($work_order->equipment->assetCategory->eops) > 0)
 
-<div class="callout callout-warning">
+<div class="callout callout-info">
     <h4>EOP</h4>
 
     @foreach($work_order->equipment->assetCategory->eops as $eop)
 
-    <a href="#" class="list-group-item  list-group-item-info active">
+    <a href="#" class="list-group-item  list-group-item-info">
         <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
         <p>{{$eop->text}}</p>
     </a>
