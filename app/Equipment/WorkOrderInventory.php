@@ -10,7 +10,7 @@ class WorkOrderInventory extends Model
 
     protected $guarded = ['id'];
 
-    protected $dates = [];
+    protected $dates = ['updated_at'];
 
     public function inventory()
     {
