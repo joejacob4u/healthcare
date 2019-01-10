@@ -57,6 +57,7 @@
                         <th>Frequency</th>
                         <th>Date Required</th>
                         <th>User</th>
+                        <th>Avg Time Needed / Actual Duration</th>
                         <th>Status</th>
                         <th>View</th>
                     </tr>
@@ -69,6 +70,7 @@
                         <th>Frequency</th>
                         <th>Date Required</th>
                         <th>User</th>
+                        <th>Avg Time Needed / Actual Duration</th>
                         <th>Status</th>
                         <th>View</th>
                     </tr>
@@ -83,6 +85,7 @@
                       <td>{{$work_order->equipment->frequency}}</td>
                       <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
                         <td>{{$work_order->baselineDate->user->name}}</td>
+                        <td>{{ $work_order->avgDuration() }} ({{$work_order->duration()}}) mins</td>
                       <td>{{$work_order->status()}}</td>
                       <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>

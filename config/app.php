@@ -183,7 +183,7 @@ return [
         AdrianMejias\States\StatesServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
-        App\Providers\MacroServiceProvider::class
+        App\Providers\MacroServiceProvider::class,
 
     ],
 

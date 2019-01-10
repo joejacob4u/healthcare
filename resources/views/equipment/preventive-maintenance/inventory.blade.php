@@ -88,11 +88,13 @@
                 </tfoot>
                 <tbody>
                   @foreach($work_order->shifts as $shift)
+                    @if(!empty($shift->start_time) && !empty($shift->end_time))
                     <tr>
                       <td>{{$shift->start_time->toDayDateTimeString()}}</td>
                       <td>{{$shift->end_time->toDayDateTimeString()}}</td>
                       <td>{{$shift->user->name}}</td>
                     </tr>
+                    @endif
 
                   @endforeach
                 </tbody>
@@ -118,6 +120,7 @@
                     <tr>
                         <th>Status</th>
                         <th>Inventory</th>
+                        <th>Avg Time Needed / Actual Duration</th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Comment</th>
@@ -127,6 +130,7 @@
                     <tr>
                         <th>Status</th>
                         <th>Inventory</th>
+                        <th>Avg Time Needed / Actual Duration</th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Comment</th>
@@ -135,11 +139,12 @@
                 <tbody>
                   @foreach($work_order->workOrderInventories as $work_order_inventory)
                     <tr>
-                      <td class="col-md-2">{!! Form::select('inventory_'.$work_order_inventory->id, $work_order_statuses, $work_order_inventory->equipment_work_order_status_id, ['class' => 'form-control status','data-inventory-id' => $work_order_inventory->id,'data-field' => 'equipment_work_order_status_id']); !!} <small class="label pull-right bg-yellow"><i class="fa fa-clock-o"></i> {{$work_order_inventory->updated_at->toDayDateTimeString()}}</small></td>
+                      <td class="col-md-2">{!! Form::select('inventory_'.$work_order_inventory->id, $work_order_statuses, $work_order_inventory->equipment_work_order_status_id, ['class' => 'form-control status','data-inventory-id' => $work_order_inventory->id,'data-field' => 'equipment_work_order_status_id']); !!} <small class="label pull-right bg-yellow"><i class="fa fa-clock-o"></i>@if(!empty($work_order_inventory->updated_at)) {{$work_order_inventory->updated_at->toDayDateTimeString()}} @endif</small></td>
                       <td class="col-md-2">{{$work_order_inventory->inventory->name}}<button data-inventory = "{{json_encode($work_order_inventory->inventory)}}" data-room="{{$work_order_inventory->inventory->room->room_number}}" class="btn btn-link btn-xs inventory-info"><span class="glyphicon glyphicon-info-sign"></span></button></td>
+                      <td class="col-md-2">{{$work_order_inventory->avgTime()}} ({{$work_order_inventory->duration()}}) mins</td>
                       <td class="col-md-2">{!! Form::text('start_time_'.$work_order_inventory->id, $work_order_inventory->start_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id,'data-field' => 'start_time']) !!}</td>
                       <td class="col-md-2">{!! Form::text('end_time_'.$work_order_inventory->id, $work_order_inventory->end_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id ,'data-field' => 'end_time']) !!} @if($work_order_inventory->user_id != 0)<small class="label pull-right bg-blue"><i class="fa fa-user"></i> {{$work_order_inventory->user->name}}</small>@endif</td>
-                      <td class="col-md-4">{!! Form::text('comment_'.$work_order_inventory->id, $work_order_inventory->comment, ['class' => 'form-control comment','data-inventory-id' => $work_order_inventory->id,'data-field' => 'comment']) !!}</td>
+                      <td class="col-md-3">{!! Form::text('comment_'.$work_order_inventory->id, $work_order_inventory->comment, ['class' => 'form-control comment','data-inventory-id' => $work_order_inventory->id,'data-field' => 'comment']) !!}</td>
                     </tr>
 
                   @endforeach

@@ -53,6 +53,8 @@ class Inventory extends Model
         return ($diff->format('%y') * 12 + $diff->format('%m') > 0) ? $diff->format('%y') * 12 + $diff->format('%m') : 1;
     }
 
+
+
     public function USLScore()
     {
         $equipment_age_in_months = $this->calculateEquipmentServiceAge();

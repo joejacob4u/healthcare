@@ -60,4 +60,59 @@ class WorkOrder extends Model
 
         return WorkOrderStatus::find(max($statuses))->name;
     }
+
+    public function isComplete()
+    {
+        //check if all inventories under that work order are compliant
+
+        foreach ($this->workOrderInventories as $inventory) {
+            if ($inventory->equipment_work_order_status_id != 1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function avgDuration()
+    {
+        //iterate thru all work orders for the baseline date
+
+        $avgDuration = 0;
+        $count = 0;
+
+        foreach ($this->baselineDate->workOrders as $workOrder) {
+            if ($workOrder->isComplete()) {
+                foreach ($workOrder->workOrderInventories as $workOrderInventory) {
+                    $avgDuration += $workOrderInventory->avgTime();
+                }
+                
+                $count++;
+            }
+        }
+
+        if ($count > 0) {
+            return intval($avgDuration / $count);
+        } else {
+            return 'n/a';
+        }
+    }
+
+    public function duration()
+    {
+        $count = 0;
+        $duration = 0;
+
+        if ($this->isComplete()) {
+            foreach ($this->workOrderInventories as $workOrderInventory) {
+                $duration += $workOrderInventory->duration();
+                $count++;
+            }
+        }
+
+        if ($count > 0) {
+            return intval($duration / $count);
+        } else {
+            return 'n/a';
+        }
+    }
 }
