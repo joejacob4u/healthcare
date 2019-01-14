@@ -55,10 +55,16 @@ class WorkOrder extends Model
         $statuses = [];
         
         foreach ($this->workOrderInventories as $inventory) {
-            $statuses[] = $inventory->workOrderStatus->id;
+            if (!$inventory->workOrderInventoryTimes->isEmpty()) {
+                $statuses[] = $inventory->workOrderInventoryTimes->last()->workOrderStatus->id;
+            }
         }
 
-        return WorkOrderStatus::find(max($statuses))->name;
+        if (!empty($statuses)) {
+            return WorkOrderStatus::find(max($statuses))->name;
+        } else {
+            return 'Pending';
+        }
     }
 
     public function isComplete()
@@ -66,7 +72,11 @@ class WorkOrder extends Model
         //check if all inventories under that work order are compliant
 
         foreach ($this->workOrderInventories as $inventory) {
-            if ($inventory->equipment_work_order_status_id != 1) {
+            if (!$inventory->workOrderInventoryTimes->isEmpty()) {
+                if ($inventory->workOrderInventoryTimes->last()->workOrderStatus->id != 1) {
+                    return false;
+                }
+            } else {
                 return false;
             }
         }

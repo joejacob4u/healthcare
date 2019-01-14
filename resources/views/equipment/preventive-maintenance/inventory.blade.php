@@ -121,9 +121,7 @@
                         <th>Status</th>
                         <th>Inventory</th>
                         <th>Avg Time Needed / Actual Duration</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Comment</th>
+                        <th>Times</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -131,20 +129,16 @@
                         <th>Status</th>
                         <th>Inventory</th>
                         <th>Avg Time Needed / Actual Duration</th>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>Comment</th>
+                        <th>Times</th>
                     </tr>
                 </tfoot>
                 <tbody>
                   @foreach($work_order->workOrderInventories as $work_order_inventory)
                     <tr>
-                      <td class="col-md-2">{!! Form::select('inventory_'.$work_order_inventory->id, $work_order_statuses, $work_order_inventory->equipment_work_order_status_id, ['class' => 'form-control status','data-inventory-id' => $work_order_inventory->id,'data-field' => 'equipment_work_order_status_id']); !!} <small class="label pull-right bg-yellow"><i class="fa fa-clock-o"></i>@if(!empty($work_order_inventory->updated_at)) {{$work_order_inventory->updated_at->toDayDateTimeString()}} @endif</small></td>
-                      <td class="col-md-2">{{$work_order_inventory->inventory->name}}<button data-inventory = "{{json_encode($work_order_inventory->inventory)}}" data-room="{{$work_order_inventory->inventory->room->room_number}}" class="btn btn-link btn-xs inventory-info"><span class="glyphicon glyphicon-info-sign"></span></button></td>
-                      <td class="col-md-2">{{$work_order_inventory->avgTime()}} ({{$work_order_inventory->duration()}}) mins</td>
-                      <td class="col-md-2">{!! Form::text('start_time_'.$work_order_inventory->id, $work_order_inventory->start_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id,'data-field' => 'start_time']) !!}</td>
-                      <td class="col-md-2">{!! Form::text('end_time_'.$work_order_inventory->id, $work_order_inventory->end_time, ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id ,'data-field' => 'end_time']) !!} @if($work_order_inventory->user_id != 0)<small class="label pull-right bg-blue"><i class="fa fa-user"></i> {{$work_order_inventory->user->name}}</small>@endif</td>
-                      <td class="col-md-3">{!! Form::text('comment_'.$work_order_inventory->id, $work_order_inventory->comment, ['class' => 'form-control comment','data-inventory-id' => $work_order_inventory->id,'data-field' => 'comment']) !!}</td>
+                      <td>{{$work_order_inventory->workOrderStatus()}}</td>
+                      <td>{{$work_order_inventory->inventory->name}}<button data-inventory = "{{json_encode($work_order_inventory->inventory)}}" data-room="{{$work_order_inventory->inventory->room->room_number}}" class="btn btn-link btn-xs inventory-info"><span class="glyphicon glyphicon-info-sign"></span></button></td>
+                      <td>{{$work_order_inventory->avgTime()}} ({{$work_order_inventory->duration()}}) mins</td>
+                      <td><button onclick="openTimesModal({{$work_order_inventory->id}})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-time"></span> Times</button></td>
                     </tr>
 
                   @endforeach
@@ -235,6 +229,80 @@
 
   <!--End of Shift Modal -->
 
+    <!-- Times Modal -->
+  <div class="modal fade" id="times-modal" role="dialog">
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Times for Inventory Maintenance</h4>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group row">
+                <div class="col-xs-3">
+                    <label for="ex1">Status</label>
+                    {!! Form::select('equipment_work_order_status_id', $work_order_statuses->prepend('Please Select',''), '', ['class' => 'form-control','id' => 'equipment_work_order_status_id']); !!}
+                </div>
+                <div class="col-xs-3">
+                    <label for="ex2">Start Time</label>
+                    {!! Form::text('start_time', '', ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id,'data-field' => 'start_time','id' => 'start_time']) !!}
+                </div>
+                <div class="col-xs-3">
+                    <label for="ex3">End Time</label>
+                    {!! Form::text('end_time', '', ['class' => 'form-control date','data-inventory-id' => $work_order_inventory->id,'data-field' => 'end_time','id' => 'end_time']) !!}
+                </div>
+                <div class="col-xs-3">
+                    <label for="ex3">Comment</label>
+                    {!! Form::text('comment', '', ['class' => 'form-control comment','data-inventory-id' => $work_order_inventory->id,'data-field' => 'comment','id' => 'comment']) !!}
+                </div>
+            </div>
+
+            {!! Form::hidden('equipment_work_order_inventory_id', '',['id' => 'equipment_work_order_inventory_id']) !!}
+            
+            <button type="button" onclick="saveTime()" class="btn btn-success">Add Time</button>
+         </form>
+
+         <br>
+
+         <div class="box box-warning">
+            <div class="box-header with-border">
+                <h3 class="box-title">Existing Times</h3>
+            </div>
+            
+            <div class="box-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Start Time</th>
+                            <th>End Time</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer">
+            Footer
+            </div>
+            <!-- /.box-footer-->
+         </div>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!--End of Times Modal -->
+
+
 
 
   <script>
@@ -247,15 +315,27 @@
       
       $('[data-toggle="popover"]').popover(); 
 
-      $(".date").flatpickr({
+      inventory_time_pickers = $(".date").flatpickr({
         enableTime: true,
         dateFormat: "Y-m-d H:i:S",
         altInput: true,
         altFormat: "M j, Y h:i K",
-        onChange: function(selectedDates, dateStr, instance) {
-            update_field(instance.element.dataset.inventoryId,instance.element.dataset.field,dateStr)
+        onClose: function(selectedDates, dateStr, instance) {
+            console.log(instance.element.dataset.field);
+            if(instance.element.dataset.field == 'end_time')
+            {
+                if(moment(dateStr).isBefore($("#start_time").val()))
+                {
+                    instance.clear();
+                    alert('End time has to be a value earlier than start time.');
+                }
+
+
+            }
         },
       });
+
+
 
     var start_time_picker = $("#shift_start_time").flatpickr({
         enableTime: true,
@@ -294,31 +374,6 @@
 
       //save comment box
 
-      $('.comment').keypress(function () {
-
-        var inventory_id = $(this).attr('data-inventory-id');
-        var field = $(this).attr('data-field');
-        var value = $(this).val();
-
-        // If a timer was already started, clear it.
-        if (timeoutId) clearTimeout(timeoutId);
-
-        // Set timer that will save comment when it fires.
-        timeoutId = setTimeout(function () {
-            update_field(inventory_id,field,value);
-        }, 1500);
-     });
-
-     //status
-
-     $('select').change(function(){
-
-        var inventory_id = $(this).attr('data-inventory-id');
-        var field = $(this).attr('data-field');
-        var value = $(this).val();
-        update_field(inventory_id,field,value);
-
-     });
 
      //inventory info
 
@@ -415,6 +470,173 @@
 
 
   }
+
+  function openTimesModal(work_order_inventory_id)
+  {
+        $('#times-modal #equipment_work_order_inventory_id').val(work_order_inventory_id);
+
+        populateTimes(work_order_inventory_id);
+
+        $('#times-modal').modal('show');
+  }
+
+    function saveTime()
+    {
+        var is_form_verified = true;
+        var work_order_inventory_id = $('#times-modal #equipment_work_order_inventory_id').val();
+
+        $("#times-modal .form-control").each(function() {
+
+            if(!this.value) {
+                alert("All fields are required!");
+                is_form_verified = false;
+                return 0;
+            }
+        });
+
+        if(is_form_verified)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '{{ url("work-orders/".$work_order->id."/inventory/") }}/'+work_order_inventory_id+'/time',
+                data: { 
+                    '_token' : '{{ csrf_token() }}', 
+                    'start_time' : $('#times-modal #start_time').val(), 
+                    'end_time' : $('#times-modal #end_time').val(), 
+                    'comment' : $('#times-modal #comment').val(),
+                    'equipment_work_order_status_id' : $('#times-modal #equipment_work_order_status_id').val(),
+                    'user_id' : user_id
+                    },
+                
+                beforeSend:function()
+                {
+                    dialog = bootbox.dialog({
+                        message: '<p class="text-center">Saving</p>',
+                        closeButton: false
+                    });
+
+                },
+                
+                success:function(data)
+                {
+                    if(data.status == 'success')
+                    {
+                        dialog.modal('hide');
+                        $('#times-modal #comment').val('');
+                        $('#times-modal #equipment_work_order_status_id').val('');
+                        populateTimes(work_order_inventory_id);
+
+                    }
+                },
+
+                complete:function()
+                {
+                    $('.overlay').remove();
+                },
+
+                error:function()
+                {
+                    // failed request; give feedback to user
+                }
+            });
+
+
+        }
+
+    }
+
+    function populateTimes(work_order_inventory_id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '{{ url("equipment/pm/work-orders/".$work_order->id."/inventory/fetch-times") }}',
+            data: { '_token' : '{{ csrf_token() }}', 'work_order_inventory_id' : work_order_inventory_id },
+            
+            beforeSend:function()
+            {
+                // dialog = bootbox.dialog({
+                //     message: '<p class="text-center">Fetching Times</p>',
+                //     closeButton: false
+                // });
+
+            },
+            
+            success:function(data)
+            {
+                if(data.status == 'success')
+                {
+                    $('#times-modal table tbody').html('');
+
+                    var html = '';
+
+
+                    $.each(data.work_order_inventory_times, function(index, value) {
+
+                        var delete_button_state = (value.user.id == user_id) ? '' : 'disabled';
+
+                        html += `<tr id="${value.id}_time_tr">
+                                    <td><small class="label bg-blue"><i class="fa fa-user"></i> ${value.user.name}</small> ${value.work_order_status.name}</td>
+                                    <td>${moment(value.start_time).format("MMM D YYYY, h:mm a")}</td>
+                                    <td>${moment(value.end_time).format("MMM D YYYY, h:mm a")}</td>
+                                    <td>${value.comment}</td>
+                                    <td><button ${delete_button_state} class="btn btn-danger btn-xs" onclick="deleteInventoryTime('${value.id}','${work_order_inventory_id}')"><span class="glyphicon glyphicon-trash"></span></button></td>
+                                </tr>`;
+                    });
+
+                    $('#times-modal table tbody').append(html);
+
+                }
+            },
+
+            complete:function()
+            {
+                $('.overlay').remove();
+            },
+
+            error:function()
+            {
+                // failed request; give feedback to user
+            }
+        });
+
+    }
+
+    function deleteInventoryTime(inventory_time_id,work_order_inventory_id)
+    {
+        bootbox.confirm("Are you sure you want to delete this inventory time?", function(result)
+        { 
+            if(result == 1)
+            {
+                $.ajax({
+                    type: 'POST',
+                    url: '/work-orders/'+work_order_id+'/inventory/'+work_order_inventory_id+'/time/delete',
+                    data: { '_token' : '{{ csrf_token() }}','inventory_time_id': inventory_time_id},
+                    beforeSend:function()
+                    {
+                        $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                    },
+                    success:function(data)
+                    {
+                        if(data.status == 'success')
+                        {
+                            $('#'+inventory_time_id+'_time_tr').remove();
+                        }
+
+                    },
+                    error:function(data)
+                    {
+
+                    },
+                    complete: function(data)
+                    {
+                        $('.overlay').remove();
+                    }
+                });
+            }
+        });
+    }
+
+
 
   </script>
 @endsection

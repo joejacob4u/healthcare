@@ -30,7 +30,7 @@ class WorkOrderShiftController extends Controller
 
     private function update_inventory_work_orders($work_order_id, $start_time, $end_time)
     {
-        $work_order_inventories = WorkOrderInventory::where('equipment_work_order_id', $work_order_id)->where('equipment_work_order_status_id', 1)->where('start_time', '')->where('end_time', '')->get();
+        $work_order_inventories = WorkOrderInventory::doesntHave('workOrderInventoryTimes')->where('equipment_work_order_id', $work_order_id)->get();
         
         //only for inventories that are compliant and have not yet have start/end time set
 
@@ -47,11 +47,11 @@ class WorkOrderShiftController extends Controller
             $interval = intval((($diff->days * 24 * 60) + ($diff->h * 60) + $diff->i) / count($work_order_inventories));
 
             while ($startTime < $endTime) {
-                $times[] = ['start_time' => $startTime->format('Y-m-d H:i:s'),'end_time' => $startTime->modify('+'.$interval.' minutes')->format('Y-m-d H:i:s'),'user_id' => Auth::user()->id];
+                $times[] = ['start_time' => $startTime->format('Y-m-d H:i:s'),'end_time' => $startTime->modify('+'.$interval.' minutes')->format('Y-m-d H:i:s'),'user_id' => Auth::user()->id,'equipment_work_order_status_id' => 1];
             }
 
             foreach ($work_order_inventories as $key => $work_order_inventory) {
-                $work_order_inventory->update($times[$key]);
+                $work_order_inventory->workOrderInventoryTimes()->create($times[$key]);
             }
         }
     }

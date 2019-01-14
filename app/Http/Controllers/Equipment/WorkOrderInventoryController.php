@@ -8,6 +8,7 @@ use App\Equipment\WorkOrder;
 use App\Equipment\WorkOrderStatus;
 use App\Equipment\WorkOrderInventory;
 use Auth;
+use App\Equipment\WorkOrderInventoryTime;
 
 class WorkOrderInventoryController extends Controller
 {
@@ -91,5 +92,11 @@ class WorkOrderInventoryController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function fetchTimes(Request $request, $work_order_id)
+    {
+        $work_order_inventory_times = WorkOrderInventoryTime::with('user')->with('workOrderStatus')->where('equipment_work_order_inventory_id', $request->work_order_inventory_id)->latest()->get();
+        return response()->json(['status' => 'success','work_order_inventory_times' => $work_order_inventory_times]);
     }
 }
