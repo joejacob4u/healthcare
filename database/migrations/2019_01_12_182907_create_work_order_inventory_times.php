@@ -43,7 +43,7 @@ class CreateWorkOrderInventoryTimes extends Migration
             $table->string('end_time');
             $table->string('comment');
             $table->unsignedInteger('equipment_work_order_status_id');
-            $table->foreign('equipment_work_order_status_id', 'ewos_id')->references('id')->on('equipment_work_order_statuses')->onDelete('cascade');
+            $table->foreign('equipment_work_order_status_id', 'iewos_id')->references('id')->on('equipment_work_order_statuses')->onDelete('cascade');
             $table->timestamps();
         });
 
