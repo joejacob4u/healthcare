@@ -107,7 +107,6 @@ class InventoryController extends Controller
             WorkOrderInventory::insert([
                 'equipment_work_order_id' => $work_order->id,
                 'equipment_inventory_id' => $inventory_id,
-                'equipment_work_order_status_id' => 2,
             ]);
         }
     }
