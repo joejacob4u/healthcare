@@ -52,7 +52,6 @@
              </span>
            </a>
            <ul class="treeview-menu">
-             <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
               <li style="white-space: pre-line;"><a href="{{url('admin/maintenance/work-order-audit')}}"><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
            </ul>
        </li>
@@ -103,6 +102,7 @@
               </span>
             </a>
             <ul class="treeview-menu">
+               <li style="white-space: pre-line;"><a href="{{url('admin/work-order/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
               <li style="white-space: pre-line;"><a href="{{url('admin/work/assignees')}}"><i class="fa fa-circle-o"></i>Assignees</a></li>
             </ul>
         </li>

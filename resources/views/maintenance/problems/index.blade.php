@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Maintenance Trades')
-@section('page_description','Manage maintenance trades.')
+@section('page_title','Work Order Problems')
+@section('page_description','Manage problems.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -16,11 +16,16 @@
           <h3 class="box-title">Problems for {{$trade->name}}</h3>
         </div>
         <div class="box-body">
-            <form class="form-inline" role="form" method="POST" action="/admin/maintenance/trades/{{$trade->id}}/problems">
+            <form class="form-inline" role="form" method="POST" action="/admin/work-order/trades/{{$trade->id}}/problems">
                 <div class="form-group">
                     <label for="name">Maintenance Trade Problem</label>
                     <input type="text" class="form-control" name="name" id="name" placeholder="Enter trade problem">
                 </div>
+                <div class="form-group">
+                    <label for="system_tier_id">Priority</label>
+                    {!! Form::select('priority',['0' => 'Please Select','1st' => '1st Priority','2nd' => '2nd Priority','3rd' => '3rd Priority','4th' => '4th Priority','stat' => 'Stat'], $value = '', ['class' => 'form-control','id' => 'priority']) !!}
+                </div>
+
 
                 {{ csrf_field() }}
                 <button type="submit" class="btn btn-success">Add</button>
@@ -39,12 +44,16 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Priority</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
                         <th>Name</th>
+                        <th>Priority</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
@@ -52,6 +61,8 @@
                   @foreach($trade->problems as $problem)
                     <tr id="tr-{{$problem->id}}">
                         <td>{{$problem->name}}</td>
+                        <td>{{$problem->priority}}</td>
+                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning edit-btn','data-problem-id' => $problem->id,'data-name' => $problem->name, 'data-priority' => $problem->priority]) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteProblem('.$problem->id.')']) !!}</td>
                     </tr>
                   @endforeach
@@ -65,6 +76,37 @@
       <!-- /.box-footer-->
     </div>
 
+        <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Problem</h4>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/work-order/problems/save" method="post">
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" name="name" id="name" placeholder="Enter trade">
+            </div>
+            <div class="form-group">
+                <label for="priority">Priority:</label>
+                {!! Form::select('priority',['0' => 'Please Select','1st' => '1st Priority','2nd' => '2nd Priority','3rd' => '3rd Priority','4th' => '4th Priority','stat' => 'Stat'], $value = '', ['class' => 'form-control','id' => 'priority']) !!}
+            </div>
+            <button type="submit" class="btn btn-success">Edit</button>
+            {!! Form::hidden('problem_id','',['id' => 'problem_id']) !!}
+            {!! csrf_field() !!}
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
     <script>
 
@@ -76,7 +118,7 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/maintenance/problems/delete') }}',
+                    url: '{{ url('admin/work-order/problems/delete') }}',
                     data: { '_token' : '{{ csrf_token() }}', 'problem_id': problem_id},
                     beforeSend:function()
                     {
@@ -99,6 +141,14 @@
           });
 
       }
+
+      $('.edit-btn').click(function(){
+          $('#editModal #name').val($(this).attr('data-name'));
+          $('#editModal #problem_id').val($(this).attr('data-problem-id'));
+          $('#editModal #priority').val($(this).attr('data-priority'));
+          $('#editModal').modal('show');
+      });
+
 
     </script>
 

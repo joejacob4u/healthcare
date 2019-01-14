@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Maintenance;
+namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Maintenance\Trade;
-use App\Maintenance\Problem;
+use App\Equipment\Trade;
+use App\Equipment\Problem;
 
 class ProblemsController extends Controller
 {
@@ -18,7 +18,8 @@ class ProblemsController extends Controller
     public function store(Request $request, $trade_id)
     {
         $this->validate($request, [
-            'name' => 'required'
+            'name' => 'required',
+            'priority' => 'not_in:0'
         ]);
 
         $trade = Trade::find($trade_id);
@@ -27,6 +28,21 @@ class ProblemsController extends Controller
             return back()->with('success', 'New problem added.');
         }
     }
+
+    public function save(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'priority' => 'not_in:0'
+        ]);
+
+        $problem = Problem::find($request->problem_id);
+
+        if ($problem->update($request->except(['problem_id']))) {
+            return back()->with('success', 'Problem updated!');
+        }
+    }
+
 
     public function delete(Request $request)
     {

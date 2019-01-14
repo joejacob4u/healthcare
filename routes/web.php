@@ -253,13 +253,16 @@ Route::post('admin/equipment/maintenance-requirement/delete', 'Equipment\Mainten
 
 //Maintenance routes
 
-Route::get('admin/maintenance/trades', 'Maintenance\TradeController@index');
-Route::post('admin/maintenance/trades', 'Maintenance\TradeController@store');
-Route::post('admin/maintenance/trades/delete', 'Maintenance\TradeController@delete');
+Route::get('admin/work-order/trades', 'Equipment\TradeController@index');
+Route::get('admin/work-order/trades/{trade_id}/edit', 'Equipment\TradeController@edit');
+Route::post('admin/work-order/trades', 'Equipment\TradeController@store');
+Route::post('admin/work-order/trades/save', 'Equipment\TradeController@save');
+Route::post('admin/work-order/trades/delete', 'Equipment\TradeController@delete');
 
-Route::get('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@index');
-Route::post('admin/maintenance/trades/{trade_id}/problems', 'Maintenance\ProblemsController@store');
-Route::post('admin/maintenance/problems/delete', 'Maintenance\ProblemsController@delete');
+Route::get('admin/work-order/trades/{trade_id}/problems', 'Equipment\ProblemsController@index');
+Route::post('admin/work-order/trades/{trade_id}/problems', 'Equipment\ProblemsController@store');
+Route::post('admin/work-order/problems/save', 'Equipment\ProblemsController@save');
+Route::post('admin/work-order/problems/delete', 'Equipment\ProblemsController@delete');
 
 
 Route::get('admin/maintenance/work-order-audit', 'Maintenance\WorkOrderAuditController@index');
