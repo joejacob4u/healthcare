@@ -52,6 +52,7 @@ class CreateWorkOrderInventoryTimes extends Migration
             $table->dropColumn('start_time');
             $table->dropColumn('end_time');
             $table->dropColumn('comment');
+            $table->dropForeign('ewos_id');
             $table->dropColumn('equipment_work_order_status_id');
         });
     }
