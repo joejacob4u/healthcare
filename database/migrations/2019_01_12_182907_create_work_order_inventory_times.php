@@ -29,6 +29,9 @@ class CreateWorkOrderInventoryTimes extends Migration
             ['name' => 'Beyond Capable Maintenance']
         ]);
 
+        Schema::enableForeignKeyConstraints();
+
+
 
         Schema::create('equipment_work_order_inventory_times', function (Blueprint $table) {
             $table->increments('id');
@@ -51,10 +54,6 @@ class CreateWorkOrderInventoryTimes extends Migration
             $table->dropColumn('comment');
             $table->dropColumn('equipment_work_order_status_id');
         });
-
-
-
-        Schema::enableForeignKeyConstraints();
     }
 
     /**
