@@ -9,6 +9,11 @@ use App\Equipment\Problem;
 
 class ProblemsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('master')->except(['fetchProblems']);
+    }
+
     public function index($trade_id)
     {
         $trade = Trade::find($trade_id);
@@ -47,5 +52,11 @@ class ProblemsController extends Controller
     public function delete(Request $request)
     {
         Problem::destroy($request->problem_id);
+    }
+
+    public function fetchProblems(Request $request)
+    {
+        $trade = Trade::find($request->trade_id);
+        return response()->json(['status' => 'success','problems' => $trade->problems]);
     }
 }

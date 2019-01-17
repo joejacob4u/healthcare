@@ -61,7 +61,11 @@
                 <a href="#" id="change_building_button" class="btn btn-default btn-flat">Set/Change Building</a>
               </div>
               <div class="pull-right">
-                <a href="{{url('logout')}}" class="btn btn-default btn-flat">Sign out</a>
+                @if(Auth::guard('admin')->check())
+                  <a href="{{url('admin/logout')}}" class="btn btn-default btn-flat">Sign out</a>
+                @else
+                  <a href="{{url('logout')}}" class="btn btn-default btn-flat">Sign out</a>
+                @endif
               </div>
             </li>
           </ul>

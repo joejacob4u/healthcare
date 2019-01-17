@@ -26,7 +26,7 @@ class EOPStatusController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin');
+        $this->middleware('system_admin')->except(['fetchRooms']);
     }
 
     public function index($eop_id)

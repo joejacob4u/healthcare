@@ -51,7 +51,7 @@
 
     @foreach($work_order->equipment->assetCategory->eops as $eop)
 
-    <a href="#" class="list-group-item  list-group-item-info">
+    <a href="#" class="list-group-item active list-group-item-info">
         <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
         <p>{{$eop->text}}</p>
     </a>
@@ -67,7 +67,7 @@
     <div class="box-header with-border">
         <h3 class="box-title">Shifts</h3>
         <div class="box-tools pull-right">
-            <button class="btn btn-success" data-toggle="modal" data-target="#shift-modal"><span class="glyphicon glyphicon-plus"></span> Add Shift</button>
+            <button class="btn btn-success" data-toggle="modal" onclick="openShift()"><span class="glyphicon glyphicon-plus"></span> Add Shift</button>
         </div>
     </div>
     <div class="box-body">
@@ -102,7 +102,7 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
-        Adding a shift will split time between 'Complete and Complaint' inventories below
+        Adding a shift will split time between 'Non - Complete and Complaint' inventories below
     </div>
     <!-- /.box-footer-->
 </div>
@@ -138,7 +138,7 @@
                       <td>{{$work_order_inventory->workOrderStatus()}}</td>
                       <td>{{$work_order_inventory->inventory->name}}<button data-inventory = "{{json_encode($work_order_inventory->inventory)}}" data-room="{{$work_order_inventory->inventory->room->room_number}}" class="btn btn-link btn-xs inventory-info"><span class="glyphicon glyphicon-info-sign"></span></button></td>
                       <td>{{$work_order_inventory->avgTime()}} ({{$work_order_inventory->duration()}}) mins</td>
-                      <td><button onclick="openTimesModal({{$work_order_inventory->id}})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-time"></span> Times</button></td>
+                      <td><button onclick="openTimesModal({{$work_order_inventory->id}})" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-time"></span> Input Status / Times</button></td>
                     </tr>
 
                   @endforeach
@@ -216,7 +216,12 @@
          <div class="form-group">
             <label for="usr">End Time:</label>
             <input type="text" class="form-control" id="shift_end_time">
+         </div>                    
+          <div class="form-group">
+            <label for="usr">Inventory:</label>
+            {!! Form::select('work_order_inventory_id', [], '', ['class' => 'form-control selectpicker','id' => 'work_order_inventory_id','multiple' => true]); !!}
          </div>
+
         </div>
         <div class="modal-footer">
           <button type="button" onclick="saveShift()" class="btn btn-success">Add Shift</button>
@@ -320,8 +325,14 @@
         dateFormat: "Y-m-d H:i:S",
         altInput: true,
         altFormat: "M j, Y h:i K",
+        onOpen : function(selectedDates, dateStr, instance) {
+            if(instance.element.dataset.field == 'end_time')
+            {
+                instance.setDate($("#start_time").val());
+            }
+        },
+
         onClose: function(selectedDates, dateStr, instance) {
-            console.log(instance.element.dataset.field);
             if(instance.element.dataset.field == 'end_time')
             {
                 if(moment(dateStr).isBefore($("#start_time").val()))
@@ -329,8 +340,6 @@
                     instance.clear();
                     alert('End time has to be a value earlier than start time.');
                 }
-
-
             }
         },
       });
@@ -429,13 +438,15 @@
   {
       var shift_start_time = $('#shift_start_time').val();
       var shift_end_time = $('#shift_end_time').val();
+      var inventories = $('#work_order_inventory_id').val();
+      console.log(inventories);
 
       if(shift_start_time && shift_end_time)
       {
             $.ajax({
                 type: 'POST',
                 url: '{{ url("equipment/pm/work-orders/".$work_order->id."/shift/add") }}',
-                data: { '_token' : '{{ csrf_token() }}', 'start_time' : shift_start_time, 'end_time' : shift_end_time, 'user_id' : user_id },
+                data: { '_token' : '{{ csrf_token() }}', 'start_time' : shift_start_time, 'end_time' : shift_end_time, 'user_id' : user_id, 'work_order_inventory_id' : inventories },
                 
                 beforeSend:function()
                 {
@@ -634,6 +645,69 @@
                 });
             }
         });
+    }
+
+    function openShift()
+    {
+        $.ajax({
+            type: 'POST',
+            url: '{{ url("equipment/pm/work-orders/".$work_order->id."/shift/inventories") }}',
+            data: { '_token' : '{{ csrf_token() }}'},
+            
+            beforeSend:function()
+            {
+                dialog = bootbox.dialog({
+                    message: '<p class="text-center">Loading</p>',
+                    closeButton: false
+                });
+
+            },
+            
+            success:function(data)
+            {
+                if(data.status == 'success')
+                {
+                    var html = '';
+
+                    $('#shift-modal #work_order_inventory_id').html('');
+
+                    $.each(data.inventories, function(index, value) {
+                        var is_compliant = false;
+                        
+                        $.each(value.work_order_inventory_times, function(wo_index, wo_value) {
+                            if(wo_value.equipment_work_order_status_id == 1){
+                                is_compliant = true;
+                            }
+                        });
+
+                        if(!is_compliant)
+                        {
+                            html += `<option value="${value.id}">${value.inventory.name}</option>`;
+                        }
+
+                    });
+
+                    $('#shift-modal #work_order_inventory_id').append(html);
+
+                    $('#work_order_inventory_id').selectpicker('refresh');
+
+                    dialog.modal('hide');
+                    $('#shift-modal').modal('show');
+                }
+            },
+
+            complete:function()
+            {
+                $('.overlay').remove();
+            },
+
+            error:function()
+            {
+                // failed request; give feedback to user
+            }
+        });
+
+        
     }
 
 

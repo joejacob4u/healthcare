@@ -10,6 +10,7 @@ use DateTime;
 use DateInterval;
 use DatePeriod;
 use Auth;
+use App\Equipment\Inventory;
 
 class WorkOrderShiftController extends Controller
 {
@@ -22,15 +23,15 @@ class WorkOrderShiftController extends Controller
     {
         $work_order = WorkOrder::find($work_order_id);
 
-        if ($work_order_shift = $work_order->shifts()->create($request->all())) {
-            $this->update_inventory_work_orders($work_order_id, $work_order_shift->start_time, $work_order_shift->end_time);
+        if ($work_order_shift = $work_order->shifts()->create($request->except(['work_order_inventory_id']))) {
+            $this->update_inventory_work_orders($work_order_id, $request->work_order_inventory_id, $work_order_shift->start_time, $work_order_shift->end_time);
             return response()->json(['status' => 'success']);
         }
     }
 
-    private function update_inventory_work_orders($work_order_id, $start_time, $end_time)
+    private function update_inventory_work_orders($work_order_id, $work_order_inventories, $start_time, $end_time)
     {
-        $work_order_inventories = WorkOrderInventory::doesntHave('workOrderInventoryTimes')->where('equipment_work_order_id', $work_order_id)->get();
+        $work_order_inventories = WorkOrderInventory::whereIn('id', $work_order_inventories)->get();
         
         //only for inventories that are compliant and have not yet have start/end time set
 
@@ -54,5 +55,12 @@ class WorkOrderShiftController extends Controller
                 $work_order_inventory->workOrderInventoryTimes()->create($times[$key]);
             }
         }
+    }
+
+    public function inventories($work_order_id)
+    {
+        $inventories = WorkOrderInventory::with('inventory')->where('equipment_work_order_id', $work_order_id)->with('workOrderInventoryTimes')->get();
+
+        return response()->json(['status' => 'success','inventories' => $inventories]);
     }
 }

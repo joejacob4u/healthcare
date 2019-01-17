@@ -440,7 +440,7 @@
                     });
 
                     $('#department_id').append(html);
-                    $('##department_id').selectpicker('render');
+                    $('#department_id').selectpicker('render');
                 },
                 complete:function()
                 {

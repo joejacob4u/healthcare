@@ -13,7 +13,7 @@ class BuildingController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin');
+        $this->middleware('system_admin')->except(['fetchDepartments']);
     }
     
     public function index($site_id)

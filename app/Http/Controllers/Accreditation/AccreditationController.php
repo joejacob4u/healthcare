@@ -20,7 +20,7 @@ class AccreditationController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('user')->except(['fetchManyStandardLabels','setAccreditationRequirement']);
+        $this->middleware('user')->except(['fetchManyStandardLabels','setAccreditationRequirement','fetchBuildings','fetchSites']);
         $this->middleware('master')->only('fetchManyStandardLabels');
     }
 

@@ -261,6 +261,7 @@ Route::post('admin/work-order/trades/delete', 'Equipment\TradeController@delete'
 
 Route::get('admin/work-order/trades/{trade_id}/problems', 'Equipment\ProblemsController@index');
 Route::post('admin/work-order/trades/{trade_id}/problems', 'Equipment\ProblemsController@store');
+Route::post('work-order/trades/fetch-problems', 'Equipment\ProblemsController@fetchProblems');
 Route::post('admin/work-order/problems/save', 'Equipment\ProblemsController@save');
 Route::post('admin/work-order/problems/delete', 'Equipment\ProblemsController@delete');
 
@@ -329,7 +330,7 @@ Route::post('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory
 Route::get('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory/edit/{inventory_id}', 'Equipment\InventoryController@edit');
 Route::post('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory/edit/{inventory_id}', 'Equipment\InventoryController@save');
 Route::post('equipment/inventory/delete', 'Equipment\InventoryController@delete');
-
+Route::post('equipment/inventory/fetch-for-building', 'Equipment\InventoryController@fetchInventoriesByBuilding');
 
 //User equipment routes
 
@@ -353,8 +354,10 @@ Route::post('work-orders/{work_order_id}/inventory/{work_order_inventory_id}/tim
 
 //work order shift
 Route::post('equipment/pm/work-orders/{work_order_id}/shift/add', 'Equipment\WorkOrderShiftController@add');
+Route::post('equipment/pm/work-orders/{work_order_id}/shift/inventories', 'Equipment\WorkOrderShiftController@inventories');
 
-
+//demand work order request form
+Route::get('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@form');
 
 Route::get('cron/test', 'Accreditation\EOPSubmissionDateController@submissionDateCron');
 
@@ -444,7 +447,7 @@ Route::group(['middleware' => ['auth']], function () {
 Route::group(['prefix' => 'admin'], function () {
     Route::get('/login', 'AdminAuth\LoginController@showLoginForm');
     Route::post('/login', 'AdminAuth\LoginController@login');
-    Route::post('/logout', 'AdminAuth\LoginController@logout');
+    Route::get('/logout', 'AdminAuth\LoginController@logout');
 
     Route::get('/register', 'AdminAuth\RegisterController@showRegistrationForm');
     Route::post('/register', 'AdminAuth\RegisterController@register');

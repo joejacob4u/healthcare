@@ -20,7 +20,7 @@ class InventoryController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('system_admin');
+        $this->middleware('system_admin')->except(['fetchInventoriesByBuilding']);
     }
 
     public function index($equipment_id, $baseline_date_id)
@@ -109,5 +109,19 @@ class InventoryController extends Controller
                 'equipment_inventory_id' => $inventory_id,
             ]);
         }
+    }
+
+    public function fetchInventoriesByBuilding(Request $request)
+    {
+        $equipments = Equipment::where('building_id', $request->building_id)->get();
+        $inventories = [];
+
+        foreach ($equipments as $equipment) {
+            foreach ($equipment->inventories as $inventory) {
+                $inventories[] = $inventory;
+            }
+        }
+
+        return response()->json(['status' => 'success','inventories' => $inventories]);
     }
 }

@@ -9,6 +9,11 @@ use App\SystemTier;
 
 class TradeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('master');
+    }
+
     public function index()
     {
         $trades = Trade::get();
