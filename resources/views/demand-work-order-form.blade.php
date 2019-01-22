@@ -95,6 +95,13 @@
             {!! Form::select('work_order_problem_id', [], '', ['class' => 'form-control selectpicker','id' => 'work_order_problem_id','data-live-search' => "true"]); !!}
         </div>
 
+        <div class="form-group" id="priority-div">
+            <label for="priority">Priority:</label>
+            {!! Form::select('priority',['0' => 'Please Select','1st' => '1st Priority','2nd' => '2nd Priority','3rd' => '3rd Priority','4th' => '4th Priority','stat' => 'Stat'], $value = '', ['class' => 'form-control','id' => 'priority']) !!}
+            <span class="help-block"></span>
+        </div>
+
+
         <div class="form-group">
             {!! Form::label('comment', 'Comment:', ['class' => 'control-label']) !!}
             {!! Form::textarea('comment', Request::old('comment'), ['class' => 'form-control','id' => 'comment','rows' => '3']) !!}
@@ -201,10 +208,16 @@
     $('#inventory-checkbox').change(function(){
         if(this.checked){
             $('#inventory-div').show();
+            $('#inventory_id').selectpicker('val', 0);
         }
         else{
             $('#inventory-div').hide();
-            $('#inventory_id').val('0');
+            $('#inventory_id').selectpicker('val', 0);
+            $('#department_id').prop('disabled',false);
+            $('#room_id').prop('disabled',false);
+            $('#department_id').selectpicker('render');
+            $('#room_id').selectpicker('render');
+
         }
     });
 
@@ -253,11 +266,17 @@
     $("#inventory_id").change(function(){
         $('#department_id').val($('#inventory_id option:selected').attr('data-department-id')).change();
         $('#department_id').selectpicker('refresh');
+        $('#department_id').prop('disabled',true);
         
         window.setTimeout(function(){
             $('#room_id').val($('#inventory_id option:selected').attr('data-room-id')).change();
             $('#room_id').selectpicker('refresh');
+            $('#room_id').prop('disabled',true);
         }, 1500);
+
+        
+        
+
     });
 
 
@@ -319,7 +338,7 @@
                     var html = '<option value="0">Select Problem</option>';
 
                     $.each(data.problems, function(index, value) {
-                        html += '<option value="'+value.id+'">'+value.name+'</option>';
+                        html += '<option value="'+value.id+'" data-priority="'+value.priority+'">'+value.name+'</option>';
                     });
 
                     $('#work_order_problem_id').append(html);
@@ -337,6 +356,33 @@
 
         }
 
+    });
+
+    $('#work_order_problem_id').change(function(){
+
+        var priority = $('#work_order_problem_id option:selected').attr('data-priority');
+        $('#priority').val(priority);
+        $('#priority-div').addClass('has-warning');
+        $('#priority-div .help-block').html('Pre-determined Priority : '+$('#priority option:selected').text());
+    });
+
+    $('#priority').change(function(){
+
+        var priority = $('#priority').val();
+        var existing_text;
+
+        if(priority != $('#work_order_problem_id option:selected').attr('data-priority'))
+        {
+            existing_text = $('#priority-div .help-block').html();
+            $('#priority-div .help-block').html(existing_text+'<br>Are you sure this priority is needed above the standard priority? Senior leadership will be notified of the increased urgency over other issues to make sure it obtains the needed attention for resolution.');
+        }
+        else
+        {
+            var priority = $('#work_order_problem_id option:selected').attr('data-priority');
+            $('#priority').val(priority);
+            $('#priority-div').addClass('has-warning');
+            $('#priority-div .help-block').html('Pre-determined Priority : '+$('#priority option:selected').text());
+        }
     });
 
       // fetch departments via building
