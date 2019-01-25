@@ -22,8 +22,8 @@
                     <input type="text" class="form-control" name="name" id="name" placeholder="Enter trade problem">
                 </div>
                 <div class="form-group">
-                    <label for="system_tier_id">Priority</label>
-                    {!! Form::select('priority',['0' => 'Please Select','1st' => '1st Priority','2nd' => '2nd Priority','3rd' => '3rd Priority','4th' => '4th Priority','stat' => 'Stat'], $value = '', ['class' => 'form-control','id' => 'priority']) !!}
+                    <label for="work_order_priority_id">Priority</label>
+                    {!! Form::select('work_order_priority_id',$work_order_priorities->prepend('Please Select',0), $value = '', ['class' => 'form-control','id' => 'work_order_priority_id']) !!}
                 </div>
 
 
@@ -61,8 +61,8 @@
                   @foreach($trade->problems as $problem)
                     <tr id="tr-{{$problem->id}}">
                         <td>{{$problem->name}}</td>
-                        <td>{{$problem->priority}}</td>
-                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning edit-btn','data-problem-id' => $problem->id,'data-name' => $problem->name, 'data-priority' => $problem->priority]) !!}</td>
+                        <td>@if(!empty($problem->priority->name)){{$problem->priority->name}} @else Not Set @endif</td>
+                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning edit-btn','data-problem-id' => $problem->id,'data-name' => $problem->name, 'data-priority' => (!empty($problem->priority->name)) ? $problem->priority->id : 0]) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteProblem('.$problem->id.')']) !!}</td>
                     </tr>
                   @endforeach
@@ -92,7 +92,7 @@
             </div>
             <div class="form-group">
                 <label for="priority">Priority:</label>
-                {!! Form::select('priority',['0' => 'Please Select','1st' => '1st Priority','2nd' => '2nd Priority','3rd' => '3rd Priority','4th' => '4th Priority','stat' => 'Stat'], $value = '', ['class' => 'form-control','id' => 'priority']) !!}
+                {!! Form::select('work_order_priority_id',$work_order_priorities->prepend('Please Select',0), $value = '', ['class' => 'form-control','id' => 'work_order_priority_id']) !!}
             </div>
             <button type="submit" class="btn btn-success">Edit</button>
             {!! Form::hidden('problem_id','',['id' => 'problem_id']) !!}

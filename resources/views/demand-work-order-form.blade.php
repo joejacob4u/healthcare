@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/bower_components/dropzone/dist/dropzone.css">
+
   <!-- Theme style -->
   <link rel="stylesheet" href="/bower_components/AdminLTE/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -25,6 +27,8 @@
   <!--[if lt IE 9]>
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+
   <![endif]-->
 
   <!-- Google Font -->
@@ -44,7 +48,7 @@
   <div class="login-box-body">
     <p class="login-box-msg">Fill this form out to submit request</p>
 
-    <form action="../../index2.html" method="post">
+    {!! Form::open(['url' => 'demand-work-order/'.$healthsystem_id.'/new', 'class' => '']) !!}
         <div class="form-group">
             {!! Form::label('requester_name', 'Requester Name:', ['class' => 'control-label']) !!}
             {!! Form::text('requester_name', Request::old('requester_name'), ['class' => 'form-control','id' => 'requester_name']) !!}
@@ -76,8 +80,8 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('department_id', 'Department:', ['class' => 'control-label']) !!}
-            {!! Form::select('department_id', [], '', ['class' => 'form-control selectpicker','id' => 'department_id','data-live-search' => "true"]); !!}
+            {!! Form::label('building_department_id', 'Department:', ['class' => 'control-label']) !!}
+            {!! Form::select('building_building_department_id', [], '', ['class' => 'form-control selectpicker','id' => 'building_department_id','data-live-search' => "true"]); !!}
         </div>
 
         <div class="form-group">
@@ -95,9 +99,9 @@
             {!! Form::select('work_order_problem_id', [], '', ['class' => 'form-control selectpicker','id' => 'work_order_problem_id','data-live-search' => "true"]); !!}
         </div>
 
-        <div class="form-group" id="priority-div">
-            <label for="priority">Priority:</label>
-            {!! Form::select('priority',['0' => 'Please Select','1st' => '1st Priority','2nd' => '2nd Priority','3rd' => '3rd Priority','4th' => '4th Priority','stat' => 'Stat'], $value = '', ['class' => 'form-control','id' => 'priority']) !!}
+        <div class="form-group" id="work_order_priority_id-div">
+            <label for="work_order_priority_id">Priority:</label>
+            {!! Form::select('work_order_priority_id',$work_order_priorities->prepend('Please Select',0), $value = '', ['class' => 'form-control','id' => 'work_order_priority_id']) !!}
             <span class="help-block"></span>
         </div>
 
@@ -107,6 +111,12 @@
             {!! Form::textarea('comment', Request::old('comment'), ['class' => 'form-control','id' => 'comment','rows' => '3']) !!}
         </div>
 
+        <div class="form-group">
+            {!! Form::label('attachments_path', 'Attachments (Optional)', ['class' => 'control-label']) !!}
+            {!! HTML::dropzone('attachments_path','demand_work_orders/'.$healthsystem_id,'false') !!}
+        </div>
+
+
 
 
 
@@ -114,11 +124,11 @@
       <div class="row">
         <!-- /.col -->
         <div class="col-xs-4">
-          <button type="submit" class="btn btn-primary btn-block btn-flat">Submit</button>
+          <button type="button" onclick="validateForm()" class="btn btn-primary btn-block btn-flat">Submit</button>
         </div>
         <!-- /.col -->
       </div>
-    </form>
+    {!! Form::close() !!}
 
 </div>
 <!-- /.login-box -->
@@ -128,6 +138,11 @@
   <script src="{{ asset ("/bower_components/bootstrap/dist/js/bootstrap.min.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/AdminLTE/dist/js/app.min.js") }}" type="text/javascript"></script>
   <script src="{{ asset ("/bower_components/bootstrap-select/dist/js/bootstrap-select.min.js") }}" type="text/javascript"></script>
+  <script src="{{ asset ("/bower_components/dropzone/dist/dropzone.js") }}" type="text/javascript"></script>
+  <script>
+    Dropzone.autoDiscover = false;
+  </script>
+
 <script>
     $("#hco_id").change(function(){
         
@@ -213,9 +228,9 @@
         else{
             $('#inventory-div').hide();
             $('#inventory_id').selectpicker('val', 0);
-            $('#department_id').prop('disabled',false);
+            $('#building_department_id').prop('disabled',false);
             $('#room_id').prop('disabled',false);
-            $('#department_id').selectpicker('render');
+            $('#building_department_id').selectpicker('render');
             $('#room_id').selectpicker('render');
 
         }
@@ -264,9 +279,9 @@
       });
 
     $("#inventory_id").change(function(){
-        $('#department_id').val($('#inventory_id option:selected').attr('data-department-id')).change();
-        $('#department_id').selectpicker('refresh');
-        $('#department_id').prop('disabled',true);
+        $('#building_department_id').val($('#inventory_id option:selected').attr('data-department-id')).change();
+        $('#building_department_id').selectpicker('refresh');
+        $('#building_department_id').prop('disabled',true);
         
         window.setTimeout(function(){
             $('#room_id').val($('#inventory_id option:selected').attr('data-room-id')).change();
@@ -280,7 +295,7 @@
     });
 
 
-    $("#department_id").change(function(){
+    $("#building_department_id").change(function(){
 
         if($(this).val() != 0)
         {
@@ -338,7 +353,7 @@
                     var html = '<option value="0">Select Problem</option>';
 
                     $.each(data.problems, function(index, value) {
-                        html += '<option value="'+value.id+'" data-priority="'+value.priority+'">'+value.name+'</option>';
+                        html += '<option value="'+value.id+'" data-work_order_priority_id="'+value.priority_id+'">'+value.name+'</option>';
                     });
 
                     $('#work_order_problem_id').append(html);
@@ -360,28 +375,29 @@
 
     $('#work_order_problem_id').change(function(){
 
-        var priority = $('#work_order_problem_id option:selected').attr('data-priority');
-        $('#priority').val(priority);
-        $('#priority-div').addClass('has-warning');
-        $('#priority-div .help-block').html('Pre-determined Priority : '+$('#priority option:selected').text());
+        var work_order_priority_id = $('#work_order_problem_id option:selected').attr('data-work_order_priority_id');
+        $('#work_order_priority_id').val(work_order_priority_id);
+        $('#work_order_priority_id-div').addClass('has-warning');
+        $('#work_order_priority_id-div .help-block').html('Pre-determined Priority : '+$('#work_order_priority_id option:selected').text());
     });
 
-    $('#priority').change(function(){
+    $('#work_order_priority_id').change(function(){
 
-        var priority = $('#priority').val();
+        var work_order_priority_id = $('#work_order_priority_id').val();
         var existing_text;
 
-        if(priority != $('#work_order_problem_id option:selected').attr('data-priority'))
+        if(work_order_priority_id != $('#work_order_problem_id option:selected').attr('data-work_order_priority_id'))
         {
-            existing_text = $('#priority-div .help-block').html();
-            $('#priority-div .help-block').html(existing_text+'<br>Are you sure this priority is needed above the standard priority? Senior leadership will be notified of the increased urgency over other issues to make sure it obtains the needed attention for resolution.');
+            existing_text = $('#work_order_priority_id-div .help-block').html();
+            $('#work_order_priority_id-div .help-block').html('');
+            $('#work_order_priority_id-div .help-block').html(existing_text+'<br>Are you sure this work_order_priority_id is needed above the standard work_order_priority_id? Senior leadership will be notified of the increased urgency over other issues to make sure it obtains the needed attention for resolution.');
         }
         else
         {
-            var priority = $('#work_order_problem_id option:selected').attr('data-priority');
-            $('#priority').val(priority);
-            $('#priority-div').addClass('has-warning');
-            $('#priority-div .help-block').html('Pre-determined Priority : '+$('#priority option:selected').text());
+            var work_order_priority_id = $('#work_order_problem_id option:selected').attr('data-work_order_priority_id');
+            $('#work_order_priority_id').val(work_order_priority_id);
+            $('#work_order_priority_id-div').addClass('has-warning');
+            $('#work_order_priority_id-div .help-block').html('Pre-determined Priority : '+$('#work_order_priority_id option:selected').text());
         }
     });
 
@@ -401,7 +417,7 @@
                 },
                 success:function(data)
                 {
-                    $('#department_id').html('');
+                    $('#building_department_id').html('');
 
                     var html = '<option value="0">Select Department</option>';
 
@@ -409,8 +425,8 @@
                         html += '<option value="'+value.id+'">'+value.name+'</option>';
                     });
 
-                    $('#department_id').append(html);
-                    $('#department_id').selectpicker('refresh');
+                    $('#building_department_id').append(html);
+                    $('#building_department_id').selectpicker('refresh');
                 },
                 complete:function()
                 {
@@ -424,6 +440,34 @@
 
         }
         
+      }
+
+      function validateForm()
+      {
+          $(".form-control[aria-label!='Search']").not('.bootstrap-select').each(function(index,elem){
+            
+            if($(this).val() && $(this).val() != 0)
+            {
+            }
+            else
+            {
+                if($(this).attr('name') == 'inventory_id' && !$('#inventory-checkbox').is(':checked'))
+                {
+
+                }
+                else if($(this).attr('name') == 'comment')
+                {
+
+                }
+                else
+                {
+                    alert($(this).closest(".form-group").find("label").html()+' must be entered.');
+                    return false;
+                }
+            }
+          });
+          
+            $("form").submit();
       }
 
 

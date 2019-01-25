@@ -14,4 +14,9 @@ class Problem extends Model
     {
         return $this->belongsTo('App\Equipment\Trade', 'work_order_trade_id');
     }
+
+    public function priority()
+    {
+        return $this->belongsTo('App\Equipment\WorkOrderPriority', 'work_order_priority_id');
+    }
 }

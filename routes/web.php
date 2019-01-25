@@ -358,6 +358,7 @@ Route::post('equipment/pm/work-orders/{work_order_id}/shift/inventories', 'Equip
 
 //demand work order request form
 Route::get('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@form');
+Route::post('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@store');
 
 Route::get('cron/test', 'Accreditation\EOPSubmissionDateController@submissionDateCron');
 

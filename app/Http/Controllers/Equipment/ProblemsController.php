@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\Trade;
 use App\Equipment\Problem;
+use App\Equipment\WorkOrderPriority;
 
 class ProblemsController extends Controller
 {
@@ -17,14 +18,15 @@ class ProblemsController extends Controller
     public function index($trade_id)
     {
         $trade = Trade::find($trade_id);
-        return view('maintenance.problems.index', ['trade' => $trade]);
+        $work_order_priorities = WorkOrderPriority::pluck('name', 'id');
+        return view('maintenance.problems.index', ['trade' => $trade,'work_order_priorities' => $work_order_priorities]);
     }
 
     public function store(Request $request, $trade_id)
     {
         $this->validate($request, [
             'name' => 'required',
-            'priority' => 'not_in:0'
+            'work_order_priority_id' => 'not_in:0'
         ]);
 
         $trade = Trade::find($trade_id);
@@ -38,7 +40,7 @@ class ProblemsController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'priority' => 'not_in:0'
+            'work_order_priority_id' => 'not_in:0'
         ]);
 
         $problem = Problem::find($request->problem_id);
