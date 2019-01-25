@@ -58,7 +58,7 @@ class ProblemsController extends Controller
 
     public function fetchProblems(Request $request)
     {
-        $trade = Trade::find($request->trade_id);
-        return response()->json(['status' => 'success','problems' => $trade->problems]);
+        $problems = Problem::with('priority')->where('work_order_trade_id', $request->trade_id)->get();
+        return response()->json(['status' => 'success','problems' => $problems]);
     }
 }

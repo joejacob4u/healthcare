@@ -35,6 +35,7 @@ class AddImagePathToDemandWorkOrders extends Migration
             $table->foreign('work_order_priority_id')->references('id')->on('work_order_priorities')->onDelete('cascade');
             $table->string('attachments_path')->after('work_order_priority_id');
             $table->dropForeign(['inventory_id']);
+            $table->string('comments')->after('attachments_path');
         });
     }
 

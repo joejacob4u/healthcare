@@ -46,6 +46,8 @@
   </div>
   <!-- /.login-logo -->
   <div class="login-box-body">
+    @include('layouts.partials.success')
+
     <p class="login-box-msg">Fill this form out to submit request</p>
 
     {!! Form::open(['url' => 'demand-work-order/'.$healthsystem_id.'/new', 'class' => '']) !!}
@@ -81,7 +83,7 @@
 
         <div class="form-group">
             {!! Form::label('building_department_id', 'Department:', ['class' => 'control-label']) !!}
-            {!! Form::select('building_building_department_id', [], '', ['class' => 'form-control selectpicker','id' => 'building_department_id','data-live-search' => "true"]); !!}
+            {!! Form::select('building_department_id', [], '', ['class' => 'form-control selectpicker','id' => 'building_department_id','data-live-search' => "true"]); !!}
         </div>
 
         <div class="form-group">
@@ -107,13 +109,13 @@
 
 
         <div class="form-group">
-            {!! Form::label('comment', 'Comment:', ['class' => 'control-label']) !!}
-            {!! Form::textarea('comment', Request::old('comment'), ['class' => 'form-control','id' => 'comment','rows' => '3']) !!}
+            {!! Form::label('comments', 'Comment:', ['class' => 'control-label']) !!}
+            {!! Form::textarea('comments', Request::old('comments'), ['class' => 'form-control','id' => 'comments','rows' => '3']) !!}
         </div>
 
         <div class="form-group">
             {!! Form::label('attachments_path', 'Attachments (Optional)', ['class' => 'control-label']) !!}
-            {!! HTML::dropzone('attachments_path','demand_work_orders/'.$healthsystem_id,'false') !!}
+            {!! HTML::dropzone('attachments_path','demand_work_orders/'.$healthsystem_id.'/'.time(),'false') !!}
         </div>
 
 
@@ -353,7 +355,7 @@
                     var html = '<option value="0">Select Problem</option>';
 
                     $.each(data.problems, function(index, value) {
-                        html += '<option value="'+value.id+'" data-work_order_priority_id="'+value.priority_id+'">'+value.name+'</option>';
+                        html += '<option value="'+value.id+'" data-work_order_priority_id="'+value.priority.id+'" data-work_order_priority_text="'+value.priority.name+'">'+value.name+'</option>';
                     });
 
                     $('#work_order_problem_id').append(html);
@@ -388,16 +390,26 @@
 
         if(work_order_priority_id != $('#work_order_problem_id option:selected').attr('data-work_order_priority_id'))
         {
-            existing_text = $('#work_order_priority_id-div .help-block').html();
-            $('#work_order_priority_id-div .help-block').html('');
-            $('#work_order_priority_id-div .help-block').html(existing_text+'<br>Are you sure this work_order_priority_id is needed above the standard work_order_priority_id? Senior leadership will be notified of the increased urgency over other issues to make sure it obtains the needed attention for resolution.');
+            var is_step_up = $('#work_order_problem_id option:selected').attr('data-work_order_priority_id') - work_order_priority_id;
+            if(is_step_up > 1)
+            {
+                existing_text = $('#work_order_priority_id-div .help-block').html();
+                $('#work_order_priority_id-div .help-block').html('');
+                $('#work_order_priority_id-div .help-block').html(existing_text+'<br>Are you sure this priority is needed above the standard priority? Senior leadership will be notified of the increased urgency over other issues to make sure it obtains the needed attention for resolution.');
+            }
+            else
+            {
+                $('#work_order_priority_id').val(work_order_priority_id);
+                $('#work_order_priority_id-div').addClass('has-warning');
+                $('#work_order_priority_id-div .help-block').html('Pre-determined Priority : '+$('#work_order_problem_id option:selected').attr('data-work_order_priority_text'));
+
+            }
         }
         else
         {
-            var work_order_priority_id = $('#work_order_problem_id option:selected').attr('data-work_order_priority_id');
             $('#work_order_priority_id').val(work_order_priority_id);
             $('#work_order_priority_id-div').addClass('has-warning');
-            $('#work_order_priority_id-div .help-block').html('Pre-determined Priority : '+$('#work_order_priority_id option:selected').text());
+            $('#work_order_priority_id-div .help-block').html('Pre-determined Priority : '+$('#work_order_problem_id option:selected').attr('data-work_order_priority_text'));
         }
     });
 
@@ -455,7 +467,7 @@
                 {
 
                 }
-                else if($(this).attr('name') == 'comment')
+                else if($(this).attr('name') == 'comments')
                 {
 
                 }

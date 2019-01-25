@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Regulatory\HCO;
 use App\Equipment\Trade;
 use App\Equipment\WorkOrderPriority;
+use App\Equipment\DemandWorkOrder;
 
 class DemandWorkOrderController extends Controller
 {
@@ -24,6 +25,8 @@ class DemandWorkOrderController extends Controller
 
     public function store(Request $request)
     {
-        dd($request);
+        if (DemandWorkOrder::create($request->all())) {
+            return back()->with('success', 'Demand work order created!');
+        }
     }
 }
