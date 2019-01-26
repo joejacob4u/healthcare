@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\Trade;
 use App\Equipment\Problem;
-use App\Equipment\PreventiveMaintenanceWorkOrderPriority;
+use App\Equipment\WorkOrderPriority;
 
 class ProblemsController extends Controller
 {
