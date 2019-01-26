@@ -230,8 +230,10 @@
         else{
             $('#inventory-div').hide();
             $('#inventory_id').selectpicker('val', 0);
-            $('#building_department_id').prop('disabled',false);
-            $('#room_id').prop('disabled',false);
+            //$('#building_department_id').prop('readonly',false);
+            enableAll('building_department_id');
+            enableAll('room_id');
+            //$('#room_id').prop('readonly',false);
             $('#building_department_id').selectpicker('render');
             $('#room_id').selectpicker('render');
 
@@ -282,13 +284,15 @@
 
     $("#inventory_id").change(function(){
         $('#building_department_id').val($('#inventory_id option:selected').attr('data-department-id')).change();
+        enableAllExcept('building_department_id',$('#inventory_id option:selected').attr('data-department-id'))
         $('#building_department_id').selectpicker('refresh');
-        $('#building_department_id').prop('disabled',true);
+        //$('#building_department_id').prop('readonly',true);
         
         window.setTimeout(function(){
             $('#room_id').val($('#inventory_id option:selected').attr('data-room-id')).change();
+            enableAllExcept('room_id',$('#inventory_id option:selected').attr('data-room-id'));
             $('#room_id').selectpicker('refresh');
-            $('#room_id').prop('disabled',true);
+            //$('#room_id').prop('readonly',true);
         }, 1500);
 
         
@@ -480,6 +484,27 @@
           });
           
             $("form").submit();
+      }
+
+
+      function enableAllExcept(selector,value)
+      {
+          $('#'+selector).each(function(){
+                $('option').each(function() {
+                    if($(this).val() != value) {
+                        $(this).attr('disabled', true);
+                    }
+                });
+            });
+      }
+
+      function enableAll(selector)
+      {
+          $('#'+selector).each(function(){
+                $('option').each(function() {
+                    $(this).attr('disabled', false);
+                });
+            });
       }
 
 
