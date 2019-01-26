@@ -145,7 +145,7 @@
                   @foreach($demand_work_orders as $work_order)
                     <tr>
                       <td>{{$work_order->requester_name}} ({{$work_order->requester_email}})</td>
-                      <td>@if($work_order->inventory_id != 0){{$work_order->inventory->name}} ({{$work_order->inventory->equipment->name}}) @else 'N/A' @endif</td>
+                      <td>@if($work_order->inventory_id != 0){{$work_order->inventory->name}} ({{$work_order->inventory->baselineDate->equipment->name}}) @else 'N/A' @endif</td>
                       <td>{{$work_order->department->name}} ({{$work_order->room->room_number}})</td>
                       <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
                       <td>{{$work_order->priority->name}}</td>
