@@ -19,7 +19,7 @@ class WorkOrderInventory extends Model
 
     public function workOrder()
     {
-        return $this->belongsTo('App\Equipment\WorkOrder', 'equipment_work_order_id');
+        return $this->belongsTo('App\Equipment\PreventiveMaintenanceWorkOrder', 'equipment_work_order_id');
     }
 
     public function workOrderInventoryTimes()

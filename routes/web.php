@@ -332,14 +332,17 @@ Route::post('equipment/{equipment_id}/baseline-date/{baseline_date_id}/inventory
 Route::post('equipment/inventory/delete', 'Equipment\InventoryController@delete');
 Route::post('equipment/inventory/fetch-for-building', 'Equipment\InventoryController@fetchInventoriesByBuilding');
 
+//Work Orders Page for PM and DW
+Route::get('equipment/work-orders', 'Equipment\WorkOrderController@index');
+
 //User equipment routes
 
 Route::get('equipment/view', 'Equipment\EquipmentController@equipmentView');
-Route::get('equipment/pm/work-orders', 'Equipment\WorkOrderController@index');
-Route::get('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\WorkOrderController@update');
-Route::post('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\WorkOrderController@save');
-Route::post('equipment/work-orders/fetch', 'Equipment\WorkOrderController@fetch');
-Route::post('equipment/work-orders/status', 'Equipment\WorkOrderController@saveStatus');
+Route::get('equipment/pm/work-orders', 'Equipment\PreventiveMaintenanceWorkOrderController@index');
+Route::get('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\PreventiveMaintenanceWorkOrderController@update');
+Route::post('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\PreventiveMaintenanceWorkOrderController@save');
+Route::post('equipment/work-orders/fetch', 'Equipment\PreventiveMaintenanceWorkOrderController@fetch');
+Route::post('equipment/work-orders/status', 'Equipment\PreventiveMaintenanceWorkOrderController@saveStatus');
 
 Route::get('equipment/pm/work-orders/{work_order_id}/inventory', 'Equipment\WorkOrderInventoryController@index');
 Route::post('equipment/pm/work-orders/{work_order_id}/inventory/update', 'Equipment\WorkOrderInventoryController@update');

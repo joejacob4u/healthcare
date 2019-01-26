@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','Equipments')
-@section('page_description','Preventive Maintenance')
+@section('page_title','Work Orders')
+@section('page_description','Preventive Maintenance and Demand Work Orders')
 
 @section('content')
 @include('layouts.partials.success')
@@ -41,14 +41,28 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Preventive Maintenance for Equipments in <strong>{{session('building_name')}}</strong></h3>
+        <h3 class="box-title">Work Orders for <strong>{{session('building_name')}}</strong></h3>
 
         <div class="box-tools pull-right">
           <div class="pull-left"><a href="{{url('equipment/download')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-save"></span> Download</a></div>
         </div>
       </div>
       <div class="box-body">
-                <table id="example" class="table table-striped" type="custom">
+
+        <ul class="nav nav-tabs">
+          <li class="active"><a data-toggle="tab" href="#my-work-orders">My Work Orders</a></li>
+          <li><a data-toggle="tab" href="#pm-work-orders">PM Work Orders</a></li>
+          <li><a data-toggle="tab" href="#demand-work-orders">Demand Work Orders</a></li>
+        </ul>
+
+        <div class="tab-content">
+
+          <div id="my-work-orders" class="tab-pane fade in active">
+            <center><p>Work in Progress</p></center>
+          </div>
+
+          <div id="pm-work-orders" class="tab-pane fade">
+              <table id="example" class="table table-striped" type="custom">
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -76,7 +90,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($work_orders->sortByDesc('work_order_date') as $work_order)
+                  @foreach($pm_work_orders->sortByDesc('work_order_date') as $work_order)
                     @if($work_order->hasInventories())
                     <tr>
                       <td>{{$work_order->equipment->category->name}}</td>
@@ -93,10 +107,63 @@
                   @endforeach
                 </tbody>
             </table>
+
+            {{ $pm_work_orders->fragment('pm-work-orders')->links() }}
+
+          </div>
+
+          <div id="demand-work-orders" class="tab-pane fade">
+
+              <table id="demand-work-order-table" class="table table-striped" type="custom">
+                <thead>
+                    <tr>
+                        <th>Requester Name</th>
+                        <th>Inventory</th>
+                        <th>Location</th>
+                        <th>Issue</th>
+                        <th>Priority</th>
+                        <th>Reported At</th>
+                        <th>Avg Time Needed / Actual Duration</th>
+                        <th>Status</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Requester Name</th>
+                        <th>Inventory</th>
+                        <th>Location</th>
+                        <th>Issue</th>
+                        <th>Priority</th>
+                        <th>Reported At</th>
+                        <th>Avg Time Needed / Actual Duration</th>
+                        <th>Status</th>
+                        <th>View</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                  @foreach($demand_work_orders as $work_order)
+                    <tr>
+                      <td>{{$work_order->requester_name}} ({{$work_order->requester_email}})</td>
+                      <td>@if($work_order->inventory_id != 0){{$work_order->inventory->name}} ({{$work_order->inventory->equipment->name}}) @else 'N/A' @endif</td>
+                      <td>{{$work_order->department->name}} ({{$work_order->room->room_number}})</td>
+                      <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
+                      <td>{{$work_order->priority->name}}</td>
+                      <td>{{$work_order->created_at->toDayDateTimeString()}}</td>
+                      <td>N/A</td>
+                      <td>N/A</td>
+                      <td>{!! link_to('#','View',['class' => 'btn-xs btn-info']) !!}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+            </table>
+          </div>
+
+        </div>
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
-        Footer
+        
       </div>
       <!-- /.box-footer-->
     </div>
@@ -114,9 +181,6 @@
         mode: "range",
     });
 
-      $('table').DataTable( {
-        "order": [[ 5, "desc" ]]
-    } );
 
     
   });

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\Equipment;
 use App\Equipment\BaselineDate;
-use App\Equipment\WorkOrder;
+use App\Equipment\PreventiveMaintenanceWorkOrder;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -145,7 +145,7 @@ class BaselineDateController extends Controller
         //save work order dates
 
         foreach ($work_order_dates as $work_order_date) {
-            WorkOrder::create([
+            PreventiveMaintenanceWorkOrder::create([
                 'name' => 'Work Order for '.date('F j, Y', strtotime($work_order_date)),
                 'work_order_date' => $work_order_date,
                 'building_id' => session('building_id'),

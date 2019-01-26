@@ -13,8 +13,8 @@ use App\Equipment\IncidentHistory;
 use App\Equipment\Redundancy;
 use App\Equipment\Inventory;
 use App\Regulatory\Room;
-use App\Equipment\WorkOrder;
-use App\Equipment\WorkOrderInventory;
+use App\Equipment\PreventiveMaintenanceWorkOrder;
+use App\Equipment\PreventiveMaintenanceWorkOrderInventory;
 
 class InventoryController extends Controller
 {
@@ -101,7 +101,7 @@ class InventoryController extends Controller
 
     private function create_work_order_inventories($inventory_id, $baseline_date_id)
     {
-        $work_orders = WorkOrder::where('baseline_date_id', $baseline_date_id)->get();
+        $work_orders = PreventiveMaintenanceWorkOrder::where('baseline_date_id', $baseline_date_id)->get();
 
         foreach ($work_orders as $work_order) {
             WorkOrderInventory::insert([

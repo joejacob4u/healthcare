@@ -4,9 +4,9 @@ namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WorkOrder extends Model
+class PreventiveMaintenanceWorkOrder extends Model
 {
-    protected $table = 'equipment_work_orders';
+    protected $table = 'preventive_maintenance_work_orders';
 
     protected $guarded = ['id'];
 

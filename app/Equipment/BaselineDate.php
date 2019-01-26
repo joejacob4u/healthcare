@@ -26,7 +26,7 @@ class BaselineDate extends Model
 
     public function workOrders()
     {
-        return $this->hasMany('App\Equipment\WorkOrder', 'baseline_date_id');
+        return $this->hasMany('App\Equipment\PreventiveMaintenanceWorkOrder', 'baseline_date_id');
     }
 
     public function user()

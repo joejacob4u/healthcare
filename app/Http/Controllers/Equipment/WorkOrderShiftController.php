@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Equipment\WorkOrder;
-use App\Equipment\WorkOrderInventory;
+use App\Equipment\PreventiveMaintenanceWorkOrder;
+use App\Equipment\PreventiveMaintenanceWorkOrderInventory;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -21,7 +21,7 @@ class WorkOrderShiftController extends Controller
 
     public function add(Request $request, $work_order_id)
     {
-        $work_order = WorkOrder::find($work_order_id);
+        $work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
 
         if ($work_order_shift = $work_order->shifts()->create($request->except(['work_order_inventory_id']))) {
             $this->update_inventory_work_orders($work_order_id, $request->work_order_inventory_id, $work_order_shift->start_time, $work_order_shift->end_time);

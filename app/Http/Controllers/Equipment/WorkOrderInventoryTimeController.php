@@ -4,8 +4,8 @@ namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Equipment\WorkOrderInventoryTime;
-use App\Equipment\WorkOrderInventory;
+use App\Equipment\PreventiveMaintenanceWorkOrderInventoryTime;
+use App\Equipment\PreventiveMaintenanceWorkOrderInventory;
 
 class WorkOrderInventoryTimeController extends Controller
 {

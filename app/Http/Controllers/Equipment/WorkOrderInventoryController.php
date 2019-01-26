@@ -4,11 +4,11 @@ namespace App\Http\Controllers\Equipment;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Equipment\WorkOrder;
+use App\Equipment\PreventiveMaintenanceWorkOrder;
 use App\Equipment\WorkOrderStatus;
-use App\Equipment\WorkOrderInventory;
+use App\Equipment\PreventiveMaintenanceWorkOrderInventory;
 use Auth;
-use App\Equipment\WorkOrderInventoryTime;
+use App\Equipment\PreventiveMaintenanceWorkOrderInventoryTime;
 
 class WorkOrderInventoryController extends Controller
 {
@@ -19,7 +19,7 @@ class WorkOrderInventoryController extends Controller
      */
     public function index($work_order_id)
     {
-        $work_order = WorkOrder::find($work_order_id);
+        $work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
         $work_order_statuses = WorkOrderStatus::pluck('name', 'id');
         return view('equipment.preventive-maintenance.inventory', ['work_order' => $work_order, 'work_order_statuses' => $work_order_statuses]);
     }

@@ -13,7 +13,7 @@ use App\Equipment\Equipment;
 use App\Equipment\MaintenanceRequirement;
 use App\Biomed\MissionCriticality;
 use App\Equipment\IncidentHistory;
-use App\Equipment\WorkOrder;
+use App\Equipment\PreventiveMaintenanceWorkOrder;
 use Carbon\Carbon;
 use App\Equipment\Inventory;
 

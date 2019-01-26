@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Regulatory\HCO;
 use App\Equipment\Trade;
-use App\Equipment\WorkOrderPriority;
+use App\Equipment\PreventiveMaintenanceWorkOrderPriority;
 use App\Equipment\DemandWorkOrder;
 
 class DemandWorkOrderController extends Controller

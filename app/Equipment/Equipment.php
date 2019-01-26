@@ -49,7 +49,7 @@ class Equipment extends Model
 
     public function workOrders()
     {
-        return $this->hasMany('App\Equipment\WorkOrder', 'equipment_id');
+        return $this->hasMany('App\Equipment\PreventiveMaintenanceWorkOrder', 'equipment_id');
     }
 
     public function lastWorkOrderStatus()
