@@ -489,21 +489,17 @@
 
       function enableAllExcept(selector,value)
       {
-          $('#'+selector).each(function(){
-                $('option').each(function() {
-                    if($(this).val() != value) {
-                        $(this).attr('disabled', true);
-                    }
-                });
+            $('#'+selector+' option').each(function() {
+                if($(this).val() != value) {
+                    $(this).attr('disabled', true);
+                }
             });
       }
 
       function enableAll(selector)
       {
-          $('#'+selector).each(function(){
-                $('option').each(function() {
-                    $(this).attr('disabled', false);
-                });
+            $('#'+selector+' option').each(function() {
+                $(this).attr('disabled', false);
             });
       }
 
