@@ -46,7 +46,7 @@ class AdminClientController extends Controller
 
       if(Client::create($request->all()))
       {
-        return redirect('admin/admin/clients')->with('success','The client has been added!');
+        return redirect('admin/clients')->with('success','The client has been added!');
 
       }
     }
@@ -74,7 +74,7 @@ class AdminClientController extends Controller
 
       if($client->update($request->all()))
       {
-        return redirect('admin/admin/clients')->with('success','The client has been updated!');
+        return redirect('admin/clients')->with('success','The client has been updated!');
       }
     }
 

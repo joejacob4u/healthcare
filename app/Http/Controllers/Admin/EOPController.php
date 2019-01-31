@@ -8,6 +8,7 @@ use App\Regulatory\StandardLabel;
 use App\Regulatory\EOP;
 use App\Regulatory\SubCOP;
 use App\Regulatory\Accreditation;
+use App\Equipment\Problem;
 
 class EOPController extends Controller
 {
@@ -22,7 +23,8 @@ class EOPController extends Controller
         $standard_label = StandardLabel::find($standard_label);
         $accreditations = Accreditation::pluck('name', 'id');
         $cops = SubCOP::pluck('label', 'id');
-        return view('admin.eop.add', ['standard_label' => $standard_label,'cops' => $cops->prepend('No COPs', 'no_cops'),'occupancy_types' => $this->occupancy_types(),'accreditations' => $accreditations]);
+        $problems = Problem::get()->pluck('full_name', 'id');
+        return view('admin.eop.add', ['standard_label' => $standard_label,'cops' => $cops->prepend('No COPs', 'no_cops'),'occupancy_types' => $this->occupancy_types(),'accreditations' => $accreditations,'problems' => $problems]);
     }
 
     public function store(Request $request, $standard_label)
@@ -57,7 +59,16 @@ class EOPController extends Controller
                 $eop->subCOPs()->saveMany($aCops);
             }
 
-            return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP created successfully');
+            if (!empty($request->problems)) {
+                foreach ($request->problems as $problem) {
+                    $aProblems[] = Problem::find($problem);
+                }
+
+                $eop->problems()->saveMany($aProblems);
+            }
+
+
+            return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP created successfully');
         }
     }
 
@@ -67,7 +78,8 @@ class EOPController extends Controller
         $eop = EOP::find($eop);
         $cops = SubCOP::pluck('label', 'id');
         $accreditations = Accreditation::pluck('name', 'id');
-        return view('admin.eop.edit', ['standard_label' => $standard_label, 'eop' => $eop,'cops' => $cops->prepend('No COPs', 'no_cops'),'occupancy_types' => $this->occupancy_types(),'accreditations' => $accreditations]);
+        $problems = Problem::get()->pluck('full_name', 'id');
+        return view('admin.eop.edit', ['standard_label' => $standard_label, 'eop' => $eop,'cops' => $cops->prepend('No COPs', 'no_cops'),'occupancy_types' => $this->occupancy_types(),'accreditations' => $accreditations,'problems' => $problems]);
     }
 
     public function save(Request $request, $standard_label, $eop)
@@ -94,16 +106,25 @@ class EOPController extends Controller
 
             $eop->accreditations()->sync($aAccreditations);
 
+            if (!empty($request->problems)) {
+                foreach ($request->problems as $problem) {
+                    $aProblems[] = Problem::find($problem)->id;
+                }
+
+                if ($eop->problems()->sync($aProblems)) {
+                }
+            }
+
             if (!empty($request->cops)) {
                 foreach ($request->cops as $cop) {
                     $aCops[] = SubCOP::find($cop)->id;
                 }
 
                 if ($eop->subCOPs()->sync($aCops)) {
-                    return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
+                    return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
                 }
             } else {
-                return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
+                return redirect('admin/standard-label/'.$standard_label.'/eop')->with('success', 'EOP saved successfully');
             }
         }
     }
@@ -111,7 +132,7 @@ class EOPController extends Controller
     public function delete($standard_label, $eop)
     {
         if (EOP::destroy($eop)) {
-            return redirect('admin/admin/standard-label/'.$standard_label.'/eop')->with('error', 'EOP deleted successfully');
+            return redirect('admin/standard-label/'.$standard_label.'/eop')->with('error', 'EOP deleted successfully');
         }
     }
 

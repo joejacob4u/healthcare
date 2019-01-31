@@ -44,6 +44,12 @@ class EOP extends Model
         return $this->hasMany('App\Regulatory\EOPDocumentSubmissionDate', 'eop_id');
     }
 
+    public function problems()
+    {
+        return $this->belongsToMany('App\Equipment\Problem', 'eop_problem', 'eop_id', 'work_order_problem_id');
+    }
+
+
     public function getSubmissionDates()
     {
         return EOPDocumentSubmissionDate::where('building_id', session('building_id'))->where('accreditation_id', session('accreditation_id'))->where('eop_id', $this->id)->get();

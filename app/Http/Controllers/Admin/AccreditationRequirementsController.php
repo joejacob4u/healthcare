@@ -38,7 +38,7 @@ class AccreditationRequirementsController extends Controller
         {
             if($accreditation_requirement->accreditations()->saveMany($aAccreditation))
             {
-               return redirect('admin/admin/accreditation-requirements')->with('success','Accreditation Requirement created!');
+               return redirect('admin/accreditation-requirements')->with('success','Accreditation Requirement created!');
             }
         }
     }
@@ -72,7 +72,7 @@ class AccreditationRequirementsController extends Controller
         {
             if($accreditation_requirement->accreditations()->sync($aAccreditation))
             {
-               return redirect('admin/admin/accreditation-requirements')->with('success','Accreditation Requirement updated!');
+               return redirect('admin/accreditation-requirements')->with('success','Accreditation Requirement updated!');
             }
         }
     }
@@ -81,7 +81,7 @@ class AccreditationRequirementsController extends Controller
     {
         if(AccreditationRequirement::destroy($id))
         {
-            return redirect('admin/admin/accreditation-requirements')->with('success','Accreditation Requirement deleted!');
+            return redirect('admin/accreditation-requirements')->with('success','Accreditation Requirement deleted!');
         }
     }
 

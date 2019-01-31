@@ -21,7 +21,7 @@ class StandardLabelController extends Controller
     public function filter(Request $request)
     {
         if (!is_numeric($request->accreditation_requirement)) {
-            return redirect('admin/admin/standard-label');
+            return redirect('admin/standard-label');
         }
 
         $accreditations = Accreditation::pluck('name', 'id');
@@ -38,7 +38,7 @@ class StandardLabelController extends Controller
         }
 
         if (!isset($filtered_standard_labels)) {
-            return redirect('admin/admin/standard-label')->with('warning', 'Filter returned no matches.');
+            return redirect('admin/standard-label')->with('warning', 'Filter returned no matches.');
         }
 
         return view('admin.standard-label.index', ['standard_labels' => $filtered_standard_labels,'accreditation_requirements' => $accreditation_requirements, 'accreditation_requirement' => $request->accreditation_requirement,'accreditations' => $accreditations,'accreditation' => $request->accreditation]);
@@ -66,7 +66,7 @@ class StandardLabelController extends Controller
 
         if ($standard_label = StandardLabel::create($request->all())) {
             if ($standard_label->accreditations()->saveMany($aAccreditations)) {
-                return redirect('admin/admin/standard-label')->with('success', 'Standard Label created!');
+                return redirect('admin/standard-label')->with('success', 'Standard Label created!');
             }
         }
     }
@@ -109,7 +109,7 @@ class StandardLabelController extends Controller
 
         if ($standard_label->update($request->all())) {
             if ($standard_label->accreditations()->sync($aAccreditations)) {
-                return redirect('admin/admin/standard-label')->with('success', 'Standard Label updated!');
+                return redirect('admin/standard-label')->with('success', 'Standard Label updated!');
             }
         }
     }
@@ -117,7 +117,7 @@ class StandardLabelController extends Controller
     public function delete($id)
     {
         if (StandardLabel::destroy($id)) {
-            return redirect('admin/admin/standard-label')->with('success', 'Standard Label deleted!');
+            return redirect('admin/standard-label')->with('success', 'Standard Label deleted!');
         }
     }
 

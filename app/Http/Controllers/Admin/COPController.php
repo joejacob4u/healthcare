@@ -28,7 +28,7 @@ class COPController extends Controller
 
     if(COP::create($request->all()))
     {
-      return redirect('admin/admin/cop')->with('success','COP has been created!');
+      return redirect('admin/cop')->with('success','COP has been created!');
     }
   }
 
@@ -49,7 +49,7 @@ class COPController extends Controller
 
     if($cop->update($request->all()))
     {
-      return redirect('admin/admin/cop')->with('success','COP has been updated!');
+      return redirect('admin/cop')->with('success','COP has been updated!');
     }
   }
 

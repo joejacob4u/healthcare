@@ -36,7 +36,7 @@ class SubCOPController extends Controller
 
       if($sub_cop = $cop->subCOPs()->create($request->all()))
       {
-        return redirect('admin/admin/cop/'.$cop->id.'/subcop/')->with('success','SubCOP has been created!');
+        return redirect('admin/cop/'.$cop->id.'/subcop/')->with('success','SubCOP has been created!');
       }
     }
 
@@ -59,7 +59,7 @@ class SubCOPController extends Controller
 
       if($sub_cop->update($request->all()))
       {
-        return redirect('admin/admin/cop/'.$cop_id.'/subcop')->with('success','SubCOP has been updated!');
+        return redirect('admin/cop/'.$cop_id.'/subcop')->with('success','SubCOP has been updated!');
       }
     }
 
