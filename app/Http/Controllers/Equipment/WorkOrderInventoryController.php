@@ -21,7 +21,7 @@ class WorkOrderInventoryController extends Controller
     {
         $work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
         $work_order_statuses = WorkOrderStatus::pluck('name', 'id');
-        return view('equipment.preventive-maintenance.inventory', ['work_order' => $work_order, 'work_order_statuses' => $work_order_statuses]);
+        return view('equipment.work-order.inventory', ['work_order' => $work_order, 'work_order_statuses' => $work_order_statuses]);
     }
 
     /**

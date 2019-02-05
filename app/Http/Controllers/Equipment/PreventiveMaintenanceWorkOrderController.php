@@ -29,14 +29,14 @@ class PreventiveMaintenanceWorkOrderController extends Controller
             $query->where('building_id', session('building_id'));
         })->pluck('name', 'id');
 
-        return view('equipment.preventive-maintenance.index', ['pm_work_orders' => $pm_work_orders,'equipments' => $equipments]);
+        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders,'equipments' => $equipments]);
     }
 
     public function update($work_order_id)
     {
         $work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
         $work_order_statuses = WorkOrderStatus::whereNotIn('id', $work_order->workOrderStatuses->pluck('id')->toArray())->pluck('name', 'id');
-        return view('equipment.preventive-maintenance.update', ['work_order' => $work_order,'work_order_statuses' => $work_order_statuses]);
+        return view('equipment.work-order.update', ['work_order' => $work_order,'work_order_statuses' => $work_order_statuses]);
     }
 
     public function fetch(Request $request)

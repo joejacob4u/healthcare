@@ -363,6 +363,13 @@ Route::post('equipment/pm/work-orders/{work_order_id}/shift/inventories', 'Equip
 Route::get('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@form');
 Route::post('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@store');
 
+//demand work order user routes
+Route::get('equipment/demand-work-orders/{demand_work_order_id}', 'Equipment\DemandWorkOrderController@show');
+Route::post('equipment/demand-work-orders/{demand_work_order_id}/shift', 'Equipment\DemandWorkOrderShiftController@store');
+Route::post('equipment/demand-work-orders/{demand_work_order_id}/shift/delete', 'Equipment\DemandWorkOrderShiftController@delete');
+
+
+
 Route::get('cron/test', 'Accreditation\EOPSubmissionDateController@submissionDateCron');
 
 

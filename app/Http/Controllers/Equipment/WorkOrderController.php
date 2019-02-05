@@ -30,7 +30,7 @@ class WorkOrderController extends Controller
             $query->where('building_id', session('building_id'));
         })->pluck('name', 'id');
 
-        return view('equipment.preventive-maintenance.index', ['pm_work_orders' => $pm_work_orders,'demand_work_orders' => $demand_work_orders,'equipments' => $equipments]);
+        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders,'demand_work_orders' => $demand_work_orders,'equipments' => $equipments]);
 
     }
 

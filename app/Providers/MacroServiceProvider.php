@@ -2,7 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class MacroServiceProvider extends ServiceProvider {
+class MacroServiceProvider extends ServiceProvider
+{
 
     /**
      * Bootstrap the application services.
@@ -13,6 +14,7 @@ class MacroServiceProvider extends ServiceProvider {
     {
         require base_path() . '/resources/macros/dropzone.php';
         require base_path() . '/resources/macros/calendar.php';
+        require base_path() . '/resources/macros/attachments.php';
     }
 
     /**
@@ -24,5 +26,4 @@ class MacroServiceProvider extends ServiceProvider {
     {
         //
     }
-
 }

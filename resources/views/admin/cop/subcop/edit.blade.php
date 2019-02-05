@@ -74,7 +74,7 @@
 
             $.ajax({
               type: 'POST',
-              url: '{{ asset('admin/subcop/delete') }}',
+              url: '{{ url('admin/subcop/delete') }}',
               data: { '_token' : '{{ csrf_token() }}', 'id': id },
               beforeSend:function()
               {
