@@ -344,13 +344,13 @@ Route::post('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\Preven
 Route::post('equipment/work-orders/fetch', 'Equipment\PreventiveMaintenanceWorkOrderController@fetch');
 Route::post('equipment/work-orders/status', 'Equipment\PreventiveMaintenanceWorkOrderController@saveStatus');
 
-Route::get('equipment/pm/work-orders/{work_order_id}/inventory', 'Equipment\WorkOrderInventoryController@index');
-Route::post('equipment/pm/work-orders/{work_order_id}/inventory/update', 'Equipment\WorkOrderInventoryController@update');
+Route::get('equipment/pm/work-orders/{work_order_id}/inventory', 'Equipment\PreventiveMaintenanceWorkOrderInventoryController@index');
+Route::post('equipment/pm/work-orders/{work_order_id}/inventory/update', 'Equipment\PreventiveMaintenanceWorkOrderInventoryController@update');
 
-Route::post('equipment/pm/work-orders/{work_order_id}/inventory/fetch-times', 'Equipment\WorkOrderInventoryController@fetchTimes');
+Route::post('equipment/pm/work-orders/{work_order_id}/inventory/fetch-times', 'Equipment\PreventiveMaintenanceWorkOrderInventoryController@fetchTimes');
 
-Route::post('work-orders/{work_order_id}/inventory/{work_order_inventory_id}/time', 'Equipment\WorkOrderInventoryTimeController@store');
-Route::post('work-orders/{work_order_id}/inventory/{work_order_inventory_id}/time/delete', 'Equipment\WorkOrderInventoryTimeController@delete');
+Route::post('work-orders/{work_order_id}/inventory/{work_order_inventory_id}/time', 'Equipment\PreventiveMaintenanceWorkOrderInventoryTimeController@store');
+Route::post('work-orders/{work_order_id}/inventory/{work_order_inventory_id}/time/delete', 'Equipment\PreventiveMaintenanceWorkOrderInventoryTimeController@delete');
 
 
 

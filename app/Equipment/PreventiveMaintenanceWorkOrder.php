@@ -33,7 +33,7 @@ class PreventiveMaintenanceWorkOrder extends Model
 
     public function workOrderInventories()
     {
-        return $this->hasMany('App\Equipment\WorkOrderInventory', 'equipment_work_order_id');
+        return $this->hasMany('App\Equipment\PreventiveMaintenanceWorkOrderInventory', 'equipment_work_order_id');
     }
 
     public function shifts()
@@ -55,8 +55,8 @@ class PreventiveMaintenanceWorkOrder extends Model
         $statuses = [];
         
         foreach ($this->workOrderInventories as $inventory) {
-            if (!$inventory->workOrderInventoryTimes->isEmpty()) {
-                $statuses[] = $inventory->workOrderInventoryTimes->last()->workOrderStatus->id;
+            if (!$inventory->PreventiveMaintenanceWorkOrderInventoryTimes->isEmpty()) {
+                $statuses[] = $inventory->PreventiveMaintenanceWorkOrderInventoryTimes->last()->workOrderStatus->id;
             }
         }
 
@@ -72,8 +72,8 @@ class PreventiveMaintenanceWorkOrder extends Model
         //check if all inventories under that work order are compliant
 
         foreach ($this->workOrderInventories as $inventory) {
-            if (!$inventory->workOrderInventoryTimes->isEmpty()) {
-                if ($inventory->workOrderInventoryTimes->last()->workOrderStatus->id != 1) {
+            if (!$inventory->PreventiveMaintenanceWorkOrderInventoryTimes->isEmpty()) {
+                if ($inventory->PreventiveMaintenanceWorkOrderInventoryTimes->last()->workOrderStatus->id != 1) {
                     return false;
                 }
             } else {
@@ -92,8 +92,8 @@ class PreventiveMaintenanceWorkOrder extends Model
 
         foreach ($this->baselineDate->workOrders as $workOrder) {
             if ($workOrder->isComplete()) {
-                foreach ($workOrder->workOrderInventories as $workOrderInventory) {
-                    $avgDuration += $workOrderInventory->avgTime();
+                foreach ($workOrder->workOrderInventories as $PreventiveMaintenanceWorkOrderInventory) {
+                    $avgDuration += $PreventiveMaintenanceWorkOrderInventory->avgTime();
                 }
                 
                 $count++;
@@ -113,8 +113,8 @@ class PreventiveMaintenanceWorkOrder extends Model
         $duration = 0;
 
         if ($this->isComplete()) {
-            foreach ($this->workOrderInventories as $workOrderInventory) {
-                $duration += $workOrderInventory->duration();
+            foreach ($this->workOrderInventories as $PreventiveMaintenanceWorkOrderInventory) {
+                $duration += $PreventiveMaintenanceWorkOrderInventory->duration();
                 $count++;
             }
         }

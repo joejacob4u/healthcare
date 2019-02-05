@@ -104,7 +104,7 @@ class InventoryController extends Controller
         $work_orders = PreventiveMaintenanceWorkOrder::where('baseline_date_id', $baseline_date_id)->get();
 
         foreach ($work_orders as $work_order) {
-            WorkOrderInventory::insert([
+            PreventiveMaintenanceWorkOrderInventory::insert([
                 'equipment_work_order_id' => $work_order->id,
                 'equipment_inventory_id' => $inventory_id,
             ]);

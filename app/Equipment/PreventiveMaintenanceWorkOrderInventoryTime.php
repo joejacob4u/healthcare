@@ -4,15 +4,15 @@ namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
 
-class WorkOrderInventoryTime extends Model
+class PreventiveMaintenanceWorkOrderInventoryTime extends Model
 {
     protected $table = 'equipment_work_order_inventory_times';
 
     protected $guarded = ['id'];
 
-    public function workOrderInventory()
+    public function PreventiveMaintenanceWorkOrderInventory()
     {
-        return $this->belongsTo('App\Equipment\WorkOrderInventory', 'equipment_work_order_inventory_id');
+        return $this->belongsTo('App\Equipment\PreventiveMaintenanceWorkOrderInventory', 'equipment_work_order_inventory_id');
     }
 
     public function user()

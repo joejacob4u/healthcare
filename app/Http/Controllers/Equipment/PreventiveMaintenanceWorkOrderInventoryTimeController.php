@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Equipment\PreventiveMaintenanceWorkOrderInventoryTime;
 use App\Equipment\PreventiveMaintenanceWorkOrderInventory;
 
-class WorkOrderInventoryTimeController extends Controller
+class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
 {
     public function __construct()
     {
@@ -20,16 +20,16 @@ class WorkOrderInventoryTimeController extends Controller
 
     public function store(Request $request, $work_order_id, $work_order_inventory_id)
     {
-        $work_order_inventory = WorkOrderInventory::find($work_order_inventory_id);
+        $work_order_inventory = PreventiveMaintenanceWorkOrderInventory::find($work_order_inventory_id);
 
-        if ($work_order_inventory->workOrderInventoryTimes()->create($request->all())) {
+        if ($work_order_inventory->PreventiveMaintenanceWorkOrderInventoryTimes()->create($request->all())) {
             return response()->json(['status' => 'success']);
         }
     }
 
     public function delete(Request $request)
     {
-        if (WorkOrderInventoryTime::destroy($request->inventory_time_id)) {
+        if (PreventiveMaintenanceWorkOrderInventoryTime::destroy($request->inventory_time_id)) {
             return response()->json(['status' => 'success']);
         }
     }

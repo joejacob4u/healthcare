@@ -710,6 +710,10 @@
         
     }
 
+    $("#times-modal").on('hide.bs.modal', function(){
+        location.reload();
+    });
+
 
 
   </script>
