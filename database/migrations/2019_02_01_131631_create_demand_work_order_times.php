@@ -24,7 +24,7 @@ class CreateDemandWorkOrderTimes extends Migration
             $table->string('comment');
             $table->string('attachment');
             $table->unsignedInteger('equipment_work_order_status_id');
-            $table->foreign('equipment_work_order_status_id', 'iewos_id')->references('id')->on('equipment_work_order_statuses')->onDelete('cascade');
+            $table->foreign('equipment_work_order_status_id', 'dmiewos_id')->references('id')->on('equipment_work_order_statuses')->onDelete('cascade');
             $table->timestamps();
         });
     }
