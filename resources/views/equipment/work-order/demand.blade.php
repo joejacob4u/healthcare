@@ -19,7 +19,7 @@
 </ol>
 
 <div class="callout callout-info">
-    <h4>Demand Work Order for {{$demand_work_order->identifier}}</h4><br/>
+    <h4>Demand Work Order for WO# : {{$demand_work_order->identifier}}</h4><br/>
 
     <div class="row">
         <div class="col-sm-6"><strong>Requester Name : </strong> {{$demand_work_order->requester_name}}</div>
@@ -46,59 +46,67 @@
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Shifts for {{$demand_work_order->identifier}}</h3> 
+        <h3 class="box-title">Status Timeline for WO# : {{$demand_work_order->identifier}}</h3> 
         <div class="box-tools pull-right">
-            <button class="btn btn-success" data-toggle="modal" onclick="openShift()"><span class="glyphicon glyphicon-plus"></span> Add Shift</button>
+            <button class="btn btn-success" data-toggle="modal" onclick="openShift()"><span class="glyphicon glyphicon-plus"></span> Add Status</button>
         </div>
     </div>
     <div class="box-body">
-        <table id="example" class="table table-striped" type="custom">
-                <thead>
-                    <tr>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>User</th>
-                        <th>Status</th>
-                        <th>Comments/Attachments</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>User</th>
-                        <th>Status</th>
-                        <th>Comments/Attachments</th>
-                        <th>Delete</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                  @foreach($demand_work_order->shifts->sortByDesc('created_at') as $shift)
-                    @if(!empty($shift->start_time) && !empty($shift->end_time))
-                    <tr>
-                      <td>{{$shift->start_time->toDayDateTimeString()}}</td>
-                      <td>{{$shift->end_time->toDayDateTimeString()}}</td>
-                      <td>{{$shift->user->name}}</td>
-                      <td>{{$shift->status->name}}</td>
-                      <td>{!! link_to('#','Comments/Attachments',['class' => 'btn-xs btn-warning','data-toggle' => 'collapse','data-target' => '#collapse_'.$shift->id]) !!}</td>
-                      <td>{!! link_to('#','Delete',['class' => 'delete-btn btn-xs btn-danger','data-shift-id' => $shift->id]) !!}</td>
-                    </tr>
-                    <tr><td colspan="6">
-                        <div id="collapse_{{$shift->id}}" class="panel-collapse panel-info collapse">
-                            <div class="panel-heading"><strong>Comments and Attachments</strong> </div>
-                            <div class="panel-body">
-                                <h4>Comment:</h4>
-                                <p>{{$shift->comment}}</p><br>
-                                {!! HTML::attachments($shift->attachment) !!}
-                            </div>
-                        </div></td>
-                    </tr>
-                    @endif
+        <ul class="timeline">
+            @foreach($demand_work_order->shifts->sortByDesc('start_time') as $shift)
+            <!-- timeline time label -->
+            <li class="time-label">
+                  <span class="bg-red">
+                    {{$shift->start_time->format('F j, Y g:i a')}} to {{$shift->end_time->format('F j, Y g:i a')}}
+                  </span>
+            </li>
+            <!-- /.timeline-label -->
+            <!-- timeline item -->
+            <li>
+              <i class="fa fa-check-square-o bg-blue"></i>
 
-                  @endforeach
-                </tbody>
-            </table>
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> {{$shift->created_at->format('F j, Y g:i a')}}</span>
+
+                <h3 class="timeline-header"><a href="#">{{$shift->user->name}}</a> marked this as <strong>{{$shift->status->name}}</strong></h3>
+
+                <div class="timeline-body">
+                    {{$shift->comment}}
+                </div>
+                <div class="timeline-footer">
+                    {!! link_to('#','Delete',['class' => 'delete-btn btn-xs btn-danger','data-shift-id' => $shift->id]) !!}
+                </div>
+              </div>
+            </li>
+            <!-- END timeline item -->
+            <!-- timeline item -->
+            @php $files = Storage::disk('s3')->files($shift->attachment); @endphp
+            @if(count($files) > 0)
+            <li>
+              <i class="fa fa-paperclip bg-purple"></i>
+
+              <div class="timeline-item">
+                <span class="time"><i class="fa fa-clock-o"></i> {{$shift->created_at->format('F j, Y g:i a')}}</span>
+
+                <h3 class="timeline-header"><a href="#">{{$shift->user->name}}</a> attached files</h3>
+
+                <div class="timeline-body">
+                    @foreach($files as $file)
+                        @if(in_array(pathinfo(basename($file), PATHINFO_EXTENSION),['jpg','png','jpeg']))
+                            <a href="{{config('filesystems.disks.s3.url').$file}}" target="_blank"><img width="150" height="100" src="{{config('filesystems.disks.s3.url').$file}}" alt="..." class="margin"></a>
+                        @else
+                            <a href="{{config('filesystems.disks.s3.url').$file}}" target="_blank"><img src="http://placehold.it/150x100&text={{basename($file)}}&fontsize=14&bold" alt="..." class="margin"></a>
+                        @endif
+                    @endforeach
+                </div>
+              </div>
+            </li>
+            @endif
+
+            <!-- END timeline item -->
+            <!-- timeline time label -->
+            @endforeach
+          </ul>
     </div>
     <!-- /.box-body -->
     <div class="box-footer">

@@ -50,29 +50,6 @@
 
     <script>
 
-    var question_count = {{ $system_tier->workOrderQuestionnaires->max('id') }};
-
-    function addQuestion()
-    {
-        question_count++;
-
-        var html = `<div class="row" id="question_${question_count}">
-                        <div class="col-xs-10">
-                            <input type="text" class="form-control input-sm" name="questions[]" id="question_${question_count}" placeholder="Question">
-                        </div>
-                        <div class="col-xs-1">
-                            <button class="btn btn-danger btn-xs" type="button" onclick="deleteQuestion(${question_count})"><span class="glyphicon glyphicon-remove"></span></button>
-                        </div>
-                    </div>`;
-
-        $('#question-box').append(html);
-
-    }
-
-    function deleteQuestion(id)
-    {
-        $('#question_'+id).remove();
-    }
 
 
 </script>

@@ -10,7 +10,7 @@ class DemandWorkOrderShift extends Model
 
     protected $guarded = ['id'];
 
-    protected $dates = ['start_time','end_time'];
+    protected $dates = ['start_time','end_time','created_at'];
 
     public function demandWorkOrder()
     {
