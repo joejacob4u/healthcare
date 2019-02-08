@@ -53,6 +53,35 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('days', 'Days', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]"  value="sunday">Sunday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="monday">Monday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="tuesday">Tuesday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="wednesday">Wednesday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="thursday">Thursday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="friday">Friday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="saturday">Saturday
+                        </label>
+                    </div>
+                </div>
+
+
+
                 <div class="box box-primary">
                     <div class="box-header with-border">
                     <h3 class="box-title">Add block out period</h3>

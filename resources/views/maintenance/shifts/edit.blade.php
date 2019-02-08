@@ -53,6 +53,34 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('days', 'Days', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="sunday" @if(in_array('sunday',$shift->days)) checked  @endif>Sunday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="monday" @if(in_array('monday',$shift->days)) checked  @endif>Monday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="tuesday" @if(in_array('tuesday',$shift->days)) checked  @endif>Tuesday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="wednesday" @if(in_array('wednesday',$shift->days)) checked  @endif>Wednesday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="thursday" @if(in_array('thursday',$shift->days)) checked  @endif>Thursday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="friday" @if(in_array('friday',$shift->days)) checked  @endif>Friday
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" name="days[]" value="saturday" @if(in_array('saturday',$shift->days)) checked  @endif>Saturday
+                        </label>
+                    </div>
+                </div>
+
+
                 <div class="box box-primary">
                     <div class="box-header with-border">
                     <h3 class="box-title">Add block out period</h3>

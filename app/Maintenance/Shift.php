@@ -10,6 +10,8 @@ class Shift extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = ['days' => 'array'];
+
 
     /**
      * periods

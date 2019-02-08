@@ -33,7 +33,8 @@ class ShiftsController extends Controller
             'hco_id' => 'required|exists:hco,id',
             'name' => 'required',
             'start_time' => 'required',
-            'end_time' => 'required'
+            'end_time' => 'required',
+            'days' => 'required'
         ]);
 
         if ($shift = Shift::create($request->except(['period_start_time','period_end_time','period_description']))) {
