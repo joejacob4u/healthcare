@@ -91,6 +91,30 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('is_islm', 'Is ISLM:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('is_islm', ['0' => 'No','1' => 'Yes'], Request::old('is_islm'), ['class' => 'form-control','id' => 'is_islm']) !!}
+                    </div>
+                </div>
+
+                <div class="islm form-group" style="display:none;">
+                    {!! Form::label('is_islm_shift', 'Correct ISLM during Shift ?:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('is_islm_shift', ['0' => 'No','1' => 'Yes'], Request::old('is_islm_shift'), ['class' => 'form-control','id' => 'is_islm_shift']) !!}
+                    </div>
+                </div>
+
+                <div class="islm form-group" style="display:none;">
+                  {!! Form::label('islm_hours_threshold', 'ISLM Hours Threshold:', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                        {!! Form::select('islm_hours_threshold', ['0' => 'No Threshold'] + range(0,100), Request::old('islm_hours_threshold'), ['class' => 'form-control','id' => 'islm_hours_threshold']) !!}
+                  </div>
+                </div>
+
+
+
+
 
 
                 <!-- Submit Button -->
@@ -111,5 +135,43 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+    <script>
+        $('#is_islm').change(function(){
+            if($(this).val() == 1){
+                $('.islm').show();
+            }else{
+                $('.islm').hide();
+                $('#is_islm_shift').val(0);
+                $('#islm_hours_threshold').val(0);
+            }
+        });
+
+        $('#is_islm_shift').change(function(){
+            if($(this).val() == 1){
+                enableAllExcept('islm_hours_threshold',0)
+            }else{
+                enableAll('islm_hours_threshold');
+            }
+        });
+
+     function enableAllExcept(selector,value)
+      {
+            $('#'+selector+' option').each(function() {
+                if($(this).val() != value) {
+                    $(this).attr('disabled', true);
+                }
+            });
+      }
+
+      function enableAll(selector)
+      {
+            $('#'+selector+' option').each(function() {
+                $(this).attr('disabled', false);
+            });
+      }
+
+
+    </script>
 
 @endsection

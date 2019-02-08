@@ -44,6 +44,24 @@
 
 </div>
 
+@if(count($demand_work_order->problem->eops) > 0)
+
+<div class="callout callout-info">
+    <h4>EOP</h4>
+
+    @foreach($demand_work_order->problem->eops as $eop)
+
+    <a href="#" class="list-group-item active list-group-item-info">
+        <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
+        <p>{{$eop->text}}</p>
+    </a>
+
+    @endforeach
+</div>
+
+@endif
+
+
 <div class="box">
     <div class="box-header with-border">
         <h3 class="box-title">Status Timeline for WO# : {{$demand_work_order->identifier}}</h3> 
