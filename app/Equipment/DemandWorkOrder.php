@@ -30,6 +30,11 @@ class DemandWorkOrder extends Model
         return $this->belongsTo('App\Regulatory\HCO', 'hco_id');
     }
 
+    public function site()
+    {
+        return $this->belongsTo('App\Regulatory\Site', 'site_id');
+    }
+
     public function department()
     {
         return $this->belongsTo('App\Regulatory\BuildingDepartment', 'building_department_id');

@@ -26,4 +26,29 @@ class DemandWorkOrderShift extends Model
     {
         return $this->belongsTo('App\User', 'user_id');
     }
+
+    public function setEndTimeAttribute($date)
+    {
+        return $this->attributes['end_time'] = \Carbon\Carbon::parse($date, session('timezone'))->setTimezone('UTC');
+    }
+
+    public function setStartTimeAttribute($date)
+    {
+        return $this->attributes['start_time'] = \Carbon\Carbon::parse($date, session('timezone'))->setTimezone('UTC');
+    }
+
+    public function getEndTimeAttribute($date)
+    {
+        return \Carbon\Carbon::parse($date, 'UTC')->setTimezone(session('timezone'));
+    }
+
+    public function getStartTimeAttribute($date)
+    {
+        return \Carbon\Carbon::parse($date, 'UTC')->setTimezone(session('timezone'));
+    }
+
+    public function getCreatedAtAttribute($date)
+    {
+        return \Carbon\Carbon::parse($date, 'UTC')->setTimezone(session('timezone'));
+    }
 }
