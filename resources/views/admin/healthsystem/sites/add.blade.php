@@ -46,6 +46,14 @@
                   </div>
               </div>
 
+                <div class="form-group">
+                  {!! Form::label('timezone', 'Timezone', ['class' => 'col-lg-2 control-label']) !!}
+                  <div class="col-lg-10">
+                      {!! Form::select('timezone', ['America/Puerto_Rico'=>'AST','America/New_York'=>'EDT','America/Chicago'=>'CDT','America/Boise'=>'MDT','America/Phoenix'=>'MST','America/Los_Angeles'=>'PDT','America/Juneau'=>'AKDT','Pacific/Honolulu'=>'HST','Pacific/Guam'=>'ChST','Pacific/Samoa'=>'SST','Pacific/Wake'=>'WAKT'], '', ['class' => 'form-control selectpicker','id' => 'timezone','multiple' => false]); !!}
+                  </div>
+              </div>
+
+
 
 
                 <!-- Submit Button -->

@@ -16,7 +16,7 @@ class EOP extends Model
 {
     protected $table = 'eop';
     
-    protected $fillable = ['name','standard_label_id','documentation','frequency','risk','risk_assessment','text','occupancy_type','is_islm','islm_hours_threshold','is_islm_shift'];
+    protected $fillable = ['name','standard_label_id','documentation','frequency','risk','risk_assessment','text','occupancy_type','is_ilsm','islm_hours_threshold','is_ilsm_shift'];
 
     public function standardLabel()
     {

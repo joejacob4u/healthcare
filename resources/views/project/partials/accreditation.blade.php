@@ -1,9 +1,9 @@
 {!! Form::open(['url' => 'projects/accreditation/edit/'.$project->id, 'class' => 'form-horizontal']) !!}
 
 <div class="form-group">
-    {!! Form::label('is_islm_required', 'Interim Life Safety Measures (ILSM) ', ['class' => 'col-lg-2 control-label']) !!}
+    {!! Form::label('is_ilsm_required', 'Interim Life Safety Measures (ILSM) ', ['class' => 'col-lg-2 control-label']) !!}
     <div class="col-lg-10">
-        {!! Form::select('is_islm_required', ['0' => 'No', '1' => 'Yes'],$project->is_islm_required, ['placeholder' => 'Select Yes/No','class' => 'form-control']); !!}
+        {!! Form::select('is_ilsm_required', ['0' => 'No', '1' => 'Yes'],$project->is_ilsm_required, ['placeholder' => 'Select Yes/No','class' => 'form-control']); !!}
     </div>
 </div>
 

@@ -73,6 +73,10 @@ class AccreditationController extends Controller
         Session::put('site_name', $site->name);
         Session::put('hco_name', $hco->facility_name);
 
+        if (!empty($site->timezone)) {
+            Session::put('timezone', $site->timezone);
+        }
+
 
         return redirect('accreditation/dashboard');
     }

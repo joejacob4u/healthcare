@@ -18,7 +18,13 @@ class DemandWorkOrderShiftController extends Controller
     {
         $demand_work_order = DemandWorkOrder::find($demand_work_order_id);
 
-        if ($demand_work_order->shifts()->create($request->all())) {
+        if ($shift = $demand_work_order->shifts()->create($request->all())) {
+            if ($shift->status->name == 'Complete and Compliant') {
+                if ($this->is_ilsm($shift)) {
+                    $demand_work_order->update(['is_islm' => 1]);
+                }
+            }
+            
             return response()->json(['status' => 'success']);
         }
     }
@@ -28,5 +34,36 @@ class DemandWorkOrderShiftController extends Controller
         if (DemandWorkOrderShift::destroy($request->shift_id)) {
             return response()->json(['status' => 'success']);
         }
+    }
+
+    private function is_ilsm(DemandWorkOrderShift $shift)
+    {
+        if (count($shift->demandWorkOrder->problem->eops) > 0) {
+            foreach ($shift->demandWorkOrder->problem->eops as $eop) {
+
+                //check for ilsm first
+                if ($eop->is_ilsm) {
+                    //if ilsm , lets check for shift first
+                    if ($eop->is_ilsm_shift) {
+                        //lets get matching shift for the demand order
+                        $corresponding_shift = $shift->demandWorkOrder->getMaintenanceShift();
+
+                        if ($corresponding_shift !== false) {
+                            if (str_replace(':', '', $corresponding_shift->end_time) < str_replace(':', '', date('H:i:s', strtotime($shift->end_time)))) {
+                                return true;
+                            }
+                        }
+                    } elseif (!empty($eop->ilsm_hours_threshold)) {
+                        $allowed_date = $shift->demandWorkOrder->created_at->addHours($eop->ilsm_hours_threshold);
+
+                        if ($allowed_date->lessThan($shift->end_time)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }

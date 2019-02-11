@@ -3,6 +3,7 @@
 namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Maintenance\Shift;
 
 class DemandWorkOrder extends Model
 {
@@ -22,6 +23,11 @@ class DemandWorkOrder extends Model
     public function inventory()
     {
         return $this->belongsTo('App\Equipment\Inventory', 'inventory_id');
+    }
+
+    public function hco()
+    {
+        return $this->belongsTo('App\Regulatory\HCO', 'hco_id');
     }
 
     public function department()
@@ -63,5 +69,29 @@ class DemandWorkOrder extends Model
         } else {
             return 'Pending';
         }
+    }
+
+    public function getMaintenanceShift()
+    {
+        $day = strtolower(strftime('%A', strtotime($this->created_at)));
+        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%'.$day.'%')->get();
+        
+        foreach ($maintenance_shifts as $maintenance_shift) {
+            $start_time = str_replace(':', '', $maintenance_shift->start_time);
+            $end_time = str_replace(':', '', $maintenance_shift->end_time);
+            $demand_work_order_time = str_replace(':', '', $this->created_at);
+            
+            if ($end_time > $start_time) {
+                if ($start_time <= $demand_work_order_time && $end_time >= $demand_work_order_time) {
+                    return $maintenance_shift;
+                }
+            } else {
+                if ($start_time >= $demand_work_order_time && $end_time >= $demand_work_order_time) {
+                    return $maintenance_shift;
+                }
+            }
+        }
+
+        return false;
     }
 }

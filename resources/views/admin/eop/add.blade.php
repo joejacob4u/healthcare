@@ -92,16 +92,16 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('is_islm', 'Is ISLM:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('is_ilsm', 'Is ISLM:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('is_islm', ['0' => 'No','1' => 'Yes'], Request::old('is_islm'), ['class' => 'form-control','id' => 'is_islm']) !!}
+                        {!! Form::select('is_ilsm', ['0' => 'No','1' => 'Yes'], Request::old('is_ilsm'), ['class' => 'form-control','id' => 'is_ilsm']) !!}
                     </div>
                 </div>
 
                 <div class="islm form-group" style="display:none;">
-                    {!! Form::label('is_islm_shift', 'Correct ISLM during Shift ?:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('is_ilsm_shift', 'Correct ISLM during Shift ?:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('is_islm_shift', ['0' => 'No','1' => 'Yes'], Request::old('is_islm_shift'), ['class' => 'form-control','id' => 'is_islm_shift']) !!}
+                        {!! Form::select('is_ilsm_shift', ['0' => 'No','1' => 'Yes'], Request::old('is_ilsm_shift'), ['class' => 'form-control','id' => 'is_ilsm_shift']) !!}
                     </div>
                 </div>
 
@@ -137,17 +137,17 @@
     </div>
 
     <script>
-        $('#is_islm').change(function(){
+        $('#is_ilsm').change(function(){
             if($(this).val() == 1){
                 $('.islm').show();
             }else{
                 $('.islm').hide();
-                $('#is_islm_shift').val(0);
+                $('#is_ilsm_shift').val(0);
                 $('#islm_hours_threshold').val(0);
             }
         });
 
-        $('#is_islm_shift').change(function(){
+        $('#is_ilsm_shift').change(function(){
             if($(this).val() == 1){
                 enableAllExcept('islm_hours_threshold',0)
             }else{
