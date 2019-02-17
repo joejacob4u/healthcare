@@ -308,6 +308,14 @@ Route::get('admin/biomed/equipment-users', 'Biomed\EquipmentUsersController@inde
 Route::post('admin/biomed/equipment-users', 'Biomed\EquipmentUsersController@store');
 Route::post('admin/biomed/equipment-users/delete', 'Biomed\EquipmentUsersController@delete');
 
+Route::get('admin/ilsms', 'Equipment\IlsmController@index');
+Route::post('admin/ilsms', 'Equipment\IlsmController@store');
+Route::post('admin/ilsms/edit', 'Equipment\IlsmController@update');
+Route::post('admin/ilsms/delete', 'Equipment\IlsmController@destroy');
+
+
+
+
 //System Admin Equipment Routes
 
 Route::get('equipment', 'Equipment\EquipmentController@index');

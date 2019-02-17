@@ -84,7 +84,7 @@ class DemandWorkOrder extends Model
         foreach ($maintenance_shifts as $maintenance_shift) {
             $start_time = str_replace(':', '', $maintenance_shift->start_time);
             $end_time = str_replace(':', '', $maintenance_shift->end_time);
-            $demand_work_order_time = str_replace(':', '', $this->created_at);
+            $demand_work_order_time = str_replace(':', '', $this->created_at->format('H:i:s'));
             
             if ($end_time > $start_time) {
                 if ($start_time <= $demand_work_order_time && $end_time >= $demand_work_order_time) {

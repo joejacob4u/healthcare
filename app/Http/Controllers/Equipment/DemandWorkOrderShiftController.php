@@ -21,7 +21,7 @@ class DemandWorkOrderShiftController extends Controller
         if ($shift = $demand_work_order->shifts()->create($request->all())) {
             if ($shift->status->name == 'Complete and Compliant') {
                 if ($this->is_ilsm($shift)) {
-                    $demand_work_order->update(['is_islm' => 1]);
+                    $demand_work_order->update(['is_ilsm_probable' => 1]);
                 }
             }
             
@@ -49,7 +49,9 @@ class DemandWorkOrderShiftController extends Controller
                         $corresponding_shift = $shift->demandWorkOrder->getMaintenanceShift();
 
                         if ($corresponding_shift !== false) {
-                            if (str_replace(':', '', $corresponding_shift->end_time) < str_replace(':', '', date('H:i:s', strtotime($shift->end_time)))) {
+                            $corresponding_shift_time = \Carbon\Carbon::parse($shift->demandWorkOrder->created_at->format('Y-m-d').' '.$corresponding_shift->end_time);
+
+                            if ($corresponding_shift_time->lessThan($shift->end_time)) {
                                 return true;
                             }
                         }

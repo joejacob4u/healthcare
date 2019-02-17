@@ -104,6 +104,7 @@
             <ul class="treeview-menu">
                <li style="white-space: pre-line;"><a href="{{url('admin/work-order/trades')}}"><i class="fa fa-circle-o"></i>Trades</a></li>
               <li style="white-space: pre-line;"><a href="{{url('admin/work/assignees')}}"><i class="fa fa-circle-o"></i>Assignees</a></li>
+              <li style="white-space: pre-line;"><a href="{{url('admin/ilsms')}}"><i class="fa fa-circle-o"></i>ILSMs</a></li>
             </ul>
         </li>
 
