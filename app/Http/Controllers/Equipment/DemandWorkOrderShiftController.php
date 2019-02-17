@@ -19,10 +19,8 @@ class DemandWorkOrderShiftController extends Controller
         $demand_work_order = DemandWorkOrder::find($demand_work_order_id);
 
         if ($shift = $demand_work_order->shifts()->create($request->all())) {
-            if ($shift->status->name == 'Complete and Compliant') {
-                if ($this->is_ilsm($shift)) {
-                    $demand_work_order->update(['is_ilsm_probable' => 1]);
-                }
+            if ($this->is_ilsm($shift)) {
+                $demand_work_order->update(['is_ilsm_probable' => 1]);
             }
             
             return response()->json(['status' => 'success']);

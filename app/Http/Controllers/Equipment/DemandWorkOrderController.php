@@ -37,4 +37,25 @@ class DemandWorkOrderController extends Controller
             return back()->with('success', 'Demand work order created!');
         }
     }
+
+    public function preAssessment(Request $request)
+    {
+        $this->validate($request, [
+            'question_1' => 'required',
+        ]);
+
+        $is_ilsm = false;
+
+        $demand_work_order = DemandWorkOrder::find($request->demand_work_order_id);
+
+        //Will this work restrict EGRESS from the affected space?
+
+        if ($request->question_1 == 1 || $request->question_3 == 1) {
+            $demand_work_order->update(['is_ilsm' => 1,'is_ilsm_probable' => 0]);
+        } else {
+            $demand_work_order->update(['is_ilsm' => 0,'is_ilsm_probable' => 1]);
+        }
+
+        return redirect('/equipment/work-orders#demand-work-orders');
+    }
 }

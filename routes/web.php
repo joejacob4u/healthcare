@@ -203,9 +203,6 @@ Route::get('admin/system-tier/edit/{system_tier_id}', 'Admin\SystemTierControlle
 Route::post('admin/system-tier/edit/{system_tier_id}', 'Admin\SystemTierController@update');
 
 
-
-
-
 //Equipment Routes
 
 Route::get('admin/equipment/categories', 'Equipment\CategoriesController@index');
@@ -244,10 +241,6 @@ Route::post('admin/equipment/redundancy/delete', 'Equipment\RedundancyController
 Route::get('admin/equipment/maintenance-requirement', 'Equipment\MaintenanceRequirementsController@index');
 Route::post('admin/equipment/maintenance-requirement', 'Equipment\MaintenanceRequirementsController@store');
 Route::post('admin/equipment/maintenance-requirement/delete', 'Equipment\MaintenanceRequirementsController@delete');
-
-
-
-
 
 
 
@@ -375,6 +368,9 @@ Route::post('equipment/pm/work-orders/{work_order_id}/shift/inventories', 'Equip
 Route::get('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@form');
 Route::post('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@store');
 
+Route::post('equipment/demand-work-orders/pre-assessment', 'Equipment\DemandWorkOrderController@preAssessment');
+
+
 //demand work order user routes
 Route::get('equipment/demand-work-orders/{demand_work_order_id}', 'Equipment\DemandWorkOrderController@show');
 Route::post('equipment/demand-work-orders/{demand_work_order_id}/shift', 'Equipment\DemandWorkOrderShiftController@store');
@@ -382,42 +378,8 @@ Route::post('equipment/demand-work-orders/{demand_work_order_id}/shift/delete', 
 
 
 
+
 Route::get('cron/test', 'Accreditation\EOPSubmissionDateController@submissionDateCron');
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

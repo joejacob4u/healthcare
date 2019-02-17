@@ -145,7 +145,7 @@
                       <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
                       <td>{{$work_order->priority->name}}</td>
                       <td>{{$work_order->created_at->setTimezone(session('timezone'))->toDayDateTimeString()}}</td>
-                      <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-red"><i class="fa fa-exclamation-triangle"></i>ILSM Probable</small> @endif</td>
+                      <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM</small> @endif</td>
                       <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
                   @endforeach
@@ -161,6 +161,42 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+        <!-- Edit Modal -->
+    <div class="modal fade" id="ilsm-probable-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">ILSM Pre-Assessment</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/equipment/demand-work-orders/pre-assessment" method="post">
+              <div class="form-group">
+                  <label for="question_1">Will this work restrict EGRESS from the affected space?</label>
+                  {!! Form::select('question_1', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'question_1','multiple' => false]); !!}
+              </div>
+              <div class="form-group" id="question2_div" style="display:none;">
+                  <label for="question_2">Is the equipment, component, etc., part of a building LIFE SAFETY system ?</label>
+                  {!! Form::select('question_2', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'question_2','multiple' => false]); !!}
+              </div>
+              <div class="form-group" id="question3_div" style="display:none;">
+                  <label for="question_3">Is the activity in a Patient Care Area or will it affect a Patient Care Area ?</label>
+                  {!! Form::select('question_3', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'question_2','multiple' => false]); !!}
+              </div>
+
+              <button type="submit" class="btn btn-success">Submit</button>
+              {!! Form::hidden('demand_work_order_id','',['id' => 'demand_work_order_id']) !!}
+              {!! csrf_field() !!}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
 
   <script>
@@ -190,5 +226,35 @@
         window.location.href = "/equipment/pm/work-orders?equipment_id="+equipment_id+"&from="+date_ranges[0].trim()+"&to="+date_ranges[1].trim(); 
       }
     });
+
+
+  $('.ilsm-probable').click(function(){
+    $('#ilsm-probable-modal #demand_work_order_id').val($(this).attr('data-work-order-id'));
+    $('#ilsm-probable-modal').modal('show');
+  });
+
+  $('#ilsm-probable-modal #question_1').change(function(){
+    if($(this).val() == 0){
+      $('#question2_div').show();
+    }
+    else
+    {
+      $('#question2_div').hide();
+    }
+  });
+
+  $('#ilsm-probable-modal #question_2').change(function(){
+    if($(this).val() == 1){
+      $('#question3_div').show();
+    }
+    else
+    {
+      $('#question3_div').hide();
+    }
+  });
+
+
+
+    
   </script>
 @endsection
