@@ -20,7 +20,7 @@ class IlsmController extends Controller
     public function index()
     {
         $ilsms = Ilsm::get();
-        return view('equipment.ilsm.index', ['ilsms' => $ilsms]);
+        return view('admin.ilsm.index', ['ilsms' => $ilsms]);
     }
 
     /**

@@ -4,8 +4,8 @@
 @parent
 
 @endsection
-@section('page_title','ILSMS')
-@section('page_description','Manage ilsms trades.')
+@section('page_title','ILSMs')
+@section('page_description','Manage ilsms.')
 
 @section('content')
 @include('layouts.partials.success')
@@ -35,7 +35,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing Maintenance Trades</h3>
+        <h3 class="box-title">Existing ILSMs</h3>
 
       </div>
       <div class="box-body">
@@ -44,6 +44,7 @@
                     <tr>
                         <th>Label</th>
                         <th>Description</th>
+                        <th>Checklists</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -52,6 +53,7 @@
                     <tr>
                         <th>Label</th>
                         <th>Description</th>
+                        <th>Checklists</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -61,6 +63,7 @@
                     <tr id="tr-{{$ilsm->id}}">
                         <td>{{$ilsm->label}}</td>
                         <td>{{$ilsm->description}}</td>
+                        <td>{!! link_to('/admin/ilsm/'.$ilsm->id.'/checklists','Checklists ('.$ilsm->checklists->count().')',['class' => 'btn-xs btn-primary']) !!}</td>
                         <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning edit-btn','data-ilsm-id' => $ilsm->id,'data-label' => $ilsm->label, 'data-description' => $ilsm->description]) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIlsm('.$ilsm->id.')']) !!}</td>
                     </tr>
