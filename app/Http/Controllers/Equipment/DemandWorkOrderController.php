@@ -53,7 +53,7 @@ class DemandWorkOrderController extends Controller
         if ($request->question_1 == 1 || $request->question_3 == 1) {
             $demand_work_order->update(['is_ilsm' => 1,'is_ilsm_probable' => 0]);
         } else {
-            $demand_work_order->update(['is_ilsm' => 0,'is_ilsm_probable' => 1]);
+            $demand_work_order->update(['is_ilsm' => 0,'is_ilsm_probable' => 0]);
         }
 
         return redirect('/equipment/work-orders#demand-work-orders');
