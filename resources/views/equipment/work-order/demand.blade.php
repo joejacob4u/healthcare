@@ -61,6 +61,29 @@
 
 @endif
 
+@if($demand_work_order->is_ilsm_pre_assessment_completed)
+
+    <div class="callout callout-warning">
+        <h4>ILSM Pre Assessment : (Status => @if($demand_work_order->is_ilsm) ILSM Required @else No ILSM Required @endif)</h4>
+
+        <div class="row">
+            <div class="col-sm-6">Will this work restrict EGRESS from the affected space?</div>
+            <div class="col-sm-6">@if($demand_work_order->ilsm_preassessment_question_1) Yes @else No @endif</div>
+        </div><br/>
+
+        <div class="row">
+            <div class="col-sm-6">Is the equipment, component, etc., part of a building LIFE SAFETY system ?</div>
+            <div class="col-sm-6">@if(empty($demand_work_order->ilsm_preassessment_question_2)) N/A @elseif($demand_work_order->ilsm_preassessment_question_2) Yes @else No @endif</div>
+        </div><br/>
+
+        <div class="row">
+            <div class="col-sm-6">Is the activity in a Patient Care Area or will it affect a Patient Care Area ?</div>
+            <div class="col-sm-6">@if(empty($demand_work_order->ilsm_preassessment_question_3)) N/A @elseif($demand_work_order->ilsm_preassessment_question_3) Yes @else No @endif</div>
+        </div>
+    </div>
+
+@endif
+
 
 <div class="box">
     <div class="box-header with-border">

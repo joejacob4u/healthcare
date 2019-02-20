@@ -173,16 +173,16 @@
           <div class="modal-body">
             <form action="/equipment/demand-work-orders/pre-assessment" method="post">
               <div class="form-group">
-                  <label for="question_1">Will this work restrict EGRESS from the affected space?</label>
-                  {!! Form::select('question_1', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'question_1','multiple' => false]); !!}
+                  <label for="ilsm_preassessment_question_1">Will this work restrict EGRESS from the affected space?</label>
+                  {!! Form::select('ilsm_preassessment_question_1', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_1','multiple' => false]); !!}
               </div>
               <div class="form-group" id="question2_div" style="display:none;">
-                  <label for="question_2">Is the equipment, component, etc., part of a building LIFE SAFETY system ?</label>
-                  {!! Form::select('question_2', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'question_2','multiple' => false]); !!}
+                  <label for="ilsm_preassessment_question_2">Is the equipment, component, etc., part of a building LIFE SAFETY system ?</label>
+                  {!! Form::select('ilsm_preassessment_question_2', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_2','multiple' => false]); !!}
               </div>
               <div class="form-group" id="question3_div" style="display:none;">
-                  <label for="question_3">Is the activity in a Patient Care Area or will it affect a Patient Care Area ?</label>
-                  {!! Form::select('question_3', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'question_2','multiple' => false]); !!}
+                  <label for="ilsm_preassessment_question_3">Is the activity in a Patient Care Area or will it affect a Patient Care Area ?</label>
+                  {!! Form::select('ilsm_preassessment_question_3', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_3','multiple' => false]); !!}
               </div>
 
               <button type="submit" class="btn btn-success">Submit</button>
@@ -233,7 +233,7 @@
     $('#ilsm-probable-modal').modal('show');
   });
 
-  $('#ilsm-probable-modal #question_1').change(function(){
+  $('#ilsm-probable-modal #ilsm_preassessment_question_1').change(function(){
     if($(this).val() == 0){
       $('#question2_div').show();
     }
@@ -243,7 +243,7 @@
     }
   });
 
-  $('#ilsm-probable-modal #question_2').change(function(){
+  $('#ilsm-probable-modal #ilsm_preassessment_question_2').change(function(){
     if($(this).val() == 1){
       $('#question3_div').show();
     }

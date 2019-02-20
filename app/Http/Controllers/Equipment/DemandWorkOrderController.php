@@ -41,19 +41,25 @@ class DemandWorkOrderController extends Controller
     public function preAssessment(Request $request)
     {
         $this->validate($request, [
-            'question_1' => 'required',
+            'ilsm_preassessment_question_1' => 'required',
+            'ilsm_preassessment_question_2' => 'required_if:ilsm_preassessment_question_1,0',
+            'ilsm_preassessment_question_3' => 'required_if:ilsm_preassessment_question_2,1'
         ]);
 
-        $is_ilsm = false;
+        $flags = ['is_ilsm' => 0,'is_ilsm_probable' => 0];
 
         $demand_work_order = DemandWorkOrder::find($request->demand_work_order_id);
 
-        if ($request->question_1 == 1 || $request->question_3 == 1) {
-            $demand_work_order->update(['is_ilsm' => 1,'is_ilsm_probable' => 0]);
+        if ($request->ilsm_preassessment_question_1 == 1 || $request->ilsm_preassessment_question_3 == 1) {
+            $flags = ['is_ilsm' => 1,'is_ilsm_probable' => 0,'is_ilsm_pre_assessment_completed' => 1];
         } else {
-            $demand_work_order->update(['is_ilsm' => 0,'is_ilsm_probable' => 0]);
+            $flags = ['is_ilsm' => 0,'is_ilsm_probable' => 0,'is_ilsm_pre_assessment_completed' => 1];
         }
 
-        return redirect('/equipment/work-orders#demand-work-orders');
+        $request->request->add($flags);
+
+        if ($demand_work_order->update($request->except(['demand_work_order_id']))) {
+            return redirect('/equipment/demand-work-orders/'.$demand_work_order->id);
+        }
     }
 }
