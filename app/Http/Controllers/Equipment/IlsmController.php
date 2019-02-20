@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Equipment;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\Ilsm;
+use App\Equipment\IlsmQuestion;
 
 class IlsmController extends Controller
 {
@@ -20,7 +21,8 @@ class IlsmController extends Controller
     public function index()
     {
         $ilsms = Ilsm::get();
-        return view('admin.ilsm.index', ['ilsms' => $ilsms]);
+        $ilsm_questions = IlsmQuestion::get();
+        return view('admin.ilsm.index', ['ilsms' => $ilsms,'ilsm_questions' => $ilsm_questions]);
     }
 
     /**

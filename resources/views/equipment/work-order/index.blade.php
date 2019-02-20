@@ -145,7 +145,7 @@
                       <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
                       <td>{{$work_order->priority->name}}</td>
                       <td>{{$work_order->created_at->setTimezone(session('timezone'))->toDayDateTimeString()}}</td>
-                      <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM</small> @endif</td>
+                      <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @endif</td>
                       <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
                   @endforeach

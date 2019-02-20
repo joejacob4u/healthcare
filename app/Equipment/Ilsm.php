@@ -10,8 +10,8 @@ class Ilsm extends Model
 
     protected $fillable = ['label','description'];
 
-    public function checklists()
+    public function questions()
     {
-        return $this->hasMany('App\Equipment\IlsmChecklist', 'ilsm_id');
+        return $this->belongsToMany('App\Equipment\IlsmQuestion', 'ilsm-ilsm_question', 'ilsm_id');
     }
 }

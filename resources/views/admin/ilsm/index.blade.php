@@ -11,72 +11,143 @@
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
-    <div class="box box-primary">
+  <ul class="nav nav-pills">
+    <li class="active"><a data-toggle="pill" href="#ilsms">ILSMs</a></li>
+    <li><a data-toggle="pill" href="#ilsm-questions">ILSM Questions</a></li>
+  </ul>
+
+  <div class="tab-content">
+    
+    <div id="ilsms" class="tab-pane fade in active">
+      <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Add ILSM</h3>
+          </div>
+          <div class="box-body">
+              <form class="form" role="form" method="POST" action="{{url('admin/ilsms')}}">
+                  <div class="form-group">
+                      <label for="name">ILSM Label</label>
+                      <input type="text" class="form-control" name="label" id="label" placeholder="Enter label">
+                  </div>
+                  <div class="form-group">
+                      <label for="description">Description</label>
+                      {!! Form::textarea('description', '', ['class' => 'form-control','id' => 'description','rows' => 3]); !!}
+                  </div>
+
+                  {{ csrf_field() }}
+                  <button type="submit" class="btn btn-success">Add</button>
+              </form>
+          </div>
+          <!-- /.box-body -->
+        </div>
+
+      <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Add ILSM</h3>
+          <h3 class="box-title">Existing ILSMs</h3>
+
         </div>
         <div class="box-body">
-            <form class="form" role="form" method="POST" action="{{url('admin/ilsms')}}">
-                <div class="form-group">
-                    <label for="name">ILSM Label</label>
-                    <input type="text" class="form-control" name="label" id="label" placeholder="Enter label">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    {!! Form::textarea('description', '', ['class' => 'form-control','id' => 'description','rows' => 3]); !!}
-                </div>
-
-                {{ csrf_field() }}
-                <button type="submit" class="btn btn-success">Add</button>
-            </form>
+          <table id="example" class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>Label</th>
+                          <th>Description</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                      </tr>
+                  </thead>
+                  <tfoot>
+                      <tr>
+                          <th>Label</th>
+                          <th>Description</th>
+                          <th>Edit</th>
+                          <th>Delete</th>
+                      </tr>
+                  </tfoot>
+                  <tbody>
+                    @foreach($ilsms as $ilsm)
+                      <tr id="tr-{{$ilsm->id}}">
+                          <td>{{$ilsm->label}}</td>
+                          <td>{{$ilsm->description}}</td>
+                          <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning edit-btn','data-ilsm-id' => $ilsm->id,'data-label' => $ilsm->label, 'data-description' => $ilsm->description]) !!}</td>
+                          <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIlsm('.$ilsm->id.')']) !!}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+              </table>
         </div>
         <!-- /.box-body -->
+        <div class="box-footer">
+          Footer
+        </div>
+        <!-- /.box-footer-->
+      </div>
+  </div>
+
+  <div id="ilsm-questions" class="tab-pane fade in">
+        <div class="box box-primary">
+          <div class="box-header with-border">
+            <h3 class="box-title">Add ILSM Question</h3>
+          </div>
+          <div class="box-body">
+              <form class="form" role="form" method="POST" action="{{url('admin/ilsm/questions')}}">
+                  <div class="form-group">
+                      <label for="name">ILSM Question</label>
+                      <input type="text" class="form-control" name="question" id="question" placeholder="Enter question">
+                  </div>
+                  <div class="form-group">
+                      <label for="ilsms">ILSM</label>
+                      {!! Form::select('ilsms[]', $ilsms->pluck('label','id'), '', ['class' => 'form-control selectpicker','id' => 'ilsms','multiple' => true]); !!}
+                  </div>
+
+                  {{ csrf_field() }}
+                  <button type="submit" class="btn btn-success">Add</button>
+              </form>
+          </div>
+          <!-- /.box-body -->
+        </div>
+
+      <div class="box">
+        <div class="box-header with-border">
+          <h3 class="box-title">Existing ILSM Questions</h3>
+
+        </div>
+        <div class="box-body">
+          <table id="example" class="table table-striped">
+                  <thead>
+                      <tr>
+                          <th>Question</th>
+                          <th>ILSMs</th>
+                          <th>Delete</th>
+                      </tr>
+                  </thead>
+                  <tfoot>
+                      <tr>
+                          <th>Question</th>
+                          <th>ILSMs</th>
+                          <th>Delete</th>
+                      </tr>
+                  </tfoot>
+                  <tbody>
+                    @foreach($ilsm_questions as $ilsm_question)
+                      <tr id="tr-question-{{$ilsm_question->id}}">
+                          <td>{{$ilsm_question->question}}</td>
+                          <td>{{$ilsm_question->ilsms->implode('label', ', ')}}</td>
+                          <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIlsmQuestion('.$ilsm_question->id.')']) !!}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+              </table>
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer">
+          Footer
+        </div>
+        <!-- /.box-footer-->
       </div>
 
-    <div class="box">
-      <div class="box-header with-border">
-        <h3 class="box-title">Existing ILSMs</h3>
+  </div>
 
-      </div>
-      <div class="box-body">
-        <table id="example" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Label</th>
-                        <th>Description</th>
-                        <th>Checklists</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Label</th>
-                        <th>Description</th>
-                        <th>Checklists</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                  @foreach($ilsms as $ilsm)
-                    <tr id="tr-{{$ilsm->id}}">
-                        <td>{{$ilsm->label}}</td>
-                        <td>{{$ilsm->description}}</td>
-                        <td>{!! link_to('/admin/ilsm/'.$ilsm->id.'/checklists','Checklists ('.$ilsm->checklists->count().')',['class' => 'btn-xs btn-primary']) !!}</td>
-                        <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning edit-btn','data-ilsm-id' => $ilsm->id,'data-label' => $ilsm->label, 'data-description' => $ilsm->description]) !!}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIlsm('.$ilsm->id.')']) !!}</td>
-                    </tr>
-                  @endforeach
-                </tbody>
-            </table>
-      </div>
-      <!-- /.box-body -->
-      <div class="box-footer">
-        Footer
-      </div>
-      <!-- /.box-footer-->
-    </div>
 
         <!-- Edit Modal -->
   <div class="modal fade" id="editModal" role="dialog">
@@ -147,6 +218,42 @@
           });
 
       }
+
+      function deleteIlsmQuestion(ilsm_question_id)
+      {
+          bootbox.confirm("Are you sure you want to delete?", function(result)
+          { 
+             if(result == 1)
+             {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('admin/ilsm/question/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'ilsm_question_id': ilsm_question_id},
+                    beforeSend:function()
+                    {
+                        $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                    },
+                    success:function(data)
+                    {
+                      if(data.status == 'success')
+                      {
+                          $('#tr-question-'+ilsm_question_id).remove();
+                      }
+                    },
+                    complete:function()
+                    {
+                        $('.overlay').remove();
+                    },
+                    error:function()
+                    {
+                        // failed request; give feedback to user
+                    }
+                });
+             } 
+          });
+
+      }
+
 
       $('.edit-btn').click(function(){
           $('#editModal #label').val($(this).attr('data-label'));

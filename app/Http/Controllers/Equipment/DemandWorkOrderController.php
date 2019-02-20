@@ -48,8 +48,6 @@ class DemandWorkOrderController extends Controller
 
         $demand_work_order = DemandWorkOrder::find($request->demand_work_order_id);
 
-        //Will this work restrict EGRESS from the affected space?
-
         if ($request->question_1 == 1 || $request->question_3 == 1) {
             $demand_work_order->update(['is_ilsm' => 1,'is_ilsm_probable' => 0]);
         } else {
