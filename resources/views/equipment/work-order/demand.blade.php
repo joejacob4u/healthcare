@@ -64,7 +64,7 @@
 @if($demand_work_order->is_ilsm_pre_assessment_completed)
 
     <div class="callout callout-warning">
-        <h4>ILSM Pre Assessment : (Status => @if($demand_work_order->is_ilsm) ILSM Required @else No ILSM Required @endif)</h4>
+        <h4>ILSM Pre Assessment  : (Status => @if($demand_work_order->is_ilsm) ILSM Required @else No ILSM Required @endif, Completed By : @if(!empty($demand_work_order->ilsm_preassessment_user_id)) $demand_work_order->ilsmPreAssessmentCompletedUser->name @endif)</h4>
 
         <div class="row">
             <div class="col-sm-6">Will this work restrict EGRESS from the affected space?</div>

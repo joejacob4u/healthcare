@@ -13,7 +13,7 @@
 
 <ol class="breadcrumb">
     <li><a href="/admin/ilsms">ILSMs</a></li>
-    <li class="active">Checklists</li>
+    <li class="active">Checklist Questions</li>
 </ol>
 
 
@@ -22,11 +22,11 @@
           <h3 class="box-title">Add ILSM Checklist Question for {{$ilsm->label}}</h3>
         </div>
         <div class="box-body">
-            <form class="form" role="form" method="POST" action="{{url('admin/ilsm/'.$ilsm->id.'/checklists')}}">
+            <form class="form" role="form" method="POST" action="{{url('admin/ilsm/'.$ilsm->id.'/checklist-questions')}}">
                 <div class="form-group">
                     <label for="question">ILSM Checklkist Question</label>
                     <input type="text" class="form-control" name="question" id="question" placeholder="Enter question">
-                    <p class="help-block">The answers will be <i>Yes</i>, <i>No</i>, <i>N/A</i> or free input</p>
+                    <p class="help-block">The answers will be <i>Yes</i>, <i>No</i>, <i>N/A</i> and free input</p>
                 </div>
                 {{ csrf_field() }}
                 <button type="submit" class="btn btn-success">Add</button>
@@ -37,7 +37,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Existing ILSMs for {{$ilsm->label}}</h3>
+        <h3 class="box-title">Existing Checklist Questions for {{$ilsm->label}}</h3>
 
       </div>
       <div class="box-body">
@@ -55,10 +55,10 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($ilsm->checklists as $checklist)
-                    <tr id="tr-{{$checklist->id}}">
-                        <td>{{$checklist->question}}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIlsmChecklist('.$checklist->id.')']) !!}</td>
+                  @foreach($ilsm->ilsmChecklistQuestions as $question)
+                    <tr id="tr-{{$question->id}}">
+                        <td>{{$question->question}}</td>
+                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIlsmChecklistQuestion('.$question->id.')']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -75,7 +75,7 @@
 
     <script>
 
-      function deleteIlsmChecklist(ilsm_checklist_id)
+      function deleteIlsmChecklistQuestion(ilsm_checklist_question_id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -83,8 +83,8 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/ilsm/checklists/delete') }}',
-                    data: { '_token' : '{{ csrf_token() }}', 'ilsm_checklist_id': ilsm_checklist_id},
+                    url: '{{ url('admin/ilsm/checklist-questions/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'ilsm_checklist_question_id': ilsm_checklist_question_id},
                     beforeSend:function()
                     {
                         $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
@@ -93,7 +93,7 @@
                     {
                       if(data.status == 'success')
                       {
-                          $('#tr-'+ilsm_checklist_id).remove();
+                          $('#tr-'+ilsm_checklist_question_id).remove();
                       }
                     },
                     complete:function()

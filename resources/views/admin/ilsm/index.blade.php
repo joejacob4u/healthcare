@@ -34,6 +34,17 @@
                       {!! Form::textarea('description', '', ['class' => 'form-control','id' => 'description','rows' => 3]); !!}
                   </div>
 
+                  <div class="form-group">
+                    <div class="col-sm-6">
+                      <label for="frequency">Frequency</label>
+                      {!! Form::select('frequency', ['' => 'Please Select','one-time' => 'One Time','shift' => 'Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly'], '', ['class' => 'form-control selectpicker','id' => 'frequency','multiple' => false]); !!}
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="attachment_required">Attachment Required</label>
+                      {!! Form::select('attachment_required', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control selectpicker','id' => 'attachment_required','multiple' => false]); !!}
+                    </div>
+                  </div><br>
+
                   {{ csrf_field() }}
                   <button type="submit" class="btn btn-success">Add</button>
               </form>
@@ -52,6 +63,9 @@
                       <tr>
                           <th>Label</th>
                           <th>Description</th>
+                          <th>Frequency</th>
+                          <th>Attachment Required</th>
+                          <th>Checklist Questions</th>
                           <th>Edit</th>
                           <th>Delete</th>
                       </tr>
@@ -60,6 +74,9 @@
                       <tr>
                           <th>Label</th>
                           <th>Description</th>
+                          <th>Frequency</th>
+                          <th>Attachment Required</th>
+                          <th>Checklist Questions</th>
                           <th>Edit</th>
                           <th>Delete</th>
                       </tr>
@@ -69,6 +86,9 @@
                       <tr id="tr-{{$ilsm->id}}">
                           <td>{{$ilsm->label}}</td>
                           <td>{{$ilsm->description}}</td>
+                          <td>{{$ilsm->frequency}}</td>
+                          <td>@if($ilsm->attachment_required) Yes @else No @endif</td>
+                          <td>{!! link_to('/admin/ilsm/'.$ilsm->id.'/checklist-questions','Checklist',['class' => 'btn-xs btn-info']) !!}</td>
                           <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-warning edit-btn','data-ilsm-id' => $ilsm->id,'data-label' => $ilsm->label, 'data-description' => $ilsm->description]) !!}</td>
                           <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteIlsm('.$ilsm->id.')']) !!}</td>
                       </tr>
@@ -99,6 +119,18 @@
                       <label for="ilsms">ILSM</label>
                       {!! Form::select('ilsms[]', $ilsms->pluck('label','id'), '', ['class' => 'form-control selectpicker','id' => 'ilsms','multiple' => true]); !!}
                   </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6">
+                      <label for="frequency">Frequency</label>
+                      {!! Form::select('frequency', ['' => 'Please Select','one-time' => 'One Time','shift' => 'Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly'], '', ['class' => 'form-control selectpicker','id' => 'frequency','multiple' => false]); !!}
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="attachment_required">Attachment Required</label>
+                      {!! Form::select('attachment_required', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control selectpicker','id' => 'attachment_required','multiple' => false]); !!}
+                    </div>
+                  </div>
+
 
                   {{ csrf_field() }}
                   <button type="submit" class="btn btn-success">Add</button>
@@ -167,6 +199,18 @@
                     <label for="description">Description</label>
                     {!! Form::textarea('description', '', ['class' => 'form-control','id' => 'description','rows' => 3]); !!}
                 </div>
+
+                  <div class="form-group">
+                    <div class="col-sm-6">
+                      <label for="frequency">Frequency</label>
+                      {!! Form::select('frequency', ['' => 'Please Select','one-time' => 'One Time','shift' => 'Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly'], '', ['class' => 'form-control selectpicker','id' => 'frequency','multiple' => false]); !!}
+                    </div>
+                    <div class="col-sm-6">
+                      <label for="attachment_required">Attachment</label>
+                      {!! Form::select('attachment_required', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control selectpicker','id' => 'attachment_required','multiple' => false]); !!}
+                    </div>
+                  </div>
+
 
                 {!! Form::hidden('ilsm_id', 'val',['id' => 'ilsm_id']) !!}
 

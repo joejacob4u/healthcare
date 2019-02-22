@@ -306,10 +306,16 @@ Route::post('admin/ilsms', 'Equipment\IlsmController@store');
 Route::post('admin/ilsms/edit', 'Equipment\IlsmController@update');
 Route::post('admin/ilsms/delete', 'Equipment\IlsmController@destroy');
 
-//ilsm checklists
+//ilsm questions
 Route::get('admin/ilsm/questions', 'Equipment\IlsmChecklistController@index');
 Route::post('admin/ilsm/questions', 'Equipment\IlsmQuestionController@store');
 Route::post('admin/ilsm/question/delete', 'Equipment\IlsmQuestionController@delete');
+
+//ilsm checklist questions
+Route::get('admin/ilsm/{ilsm_id}/checklist-questions', 'Equipment\IlsmChecklistQuestionController@index');
+Route::post('admin/ilsm/{ilsm_id}/checklist-questions', 'Equipment\IlsmChecklistQuestionController@store');
+Route::post('admin/ilsm/checklist-questions/delete', 'Equipment\IlsmChecklistQuestionController@delete');
+
 
 
 

@@ -185,6 +185,8 @@
                   {!! Form::select('ilsm_preassessment_question_3', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_3','multiple' => false]); !!}
               </div>
 
+              {!! Form::hidden('ilsm_preassessment_user_id', Auth::user()->id,['id' => 'ilsm_preassessment_user_id']) !!}
+
               <button type="submit" class="btn btn-success">Submit</button>
               {!! Form::hidden('demand_work_order_id','',['id' => 'demand_work_order_id']) !!}
               {!! csrf_field() !!}

@@ -15,6 +15,8 @@ class DemandWorkOrder extends Model
 
     protected $appends = ['identifier'];
 
+    protected $casts = ['ilsm_question_answers' => 'array'];
+
     public function priority()
     {
         return $this->belongsTo('App\Equipment\WorkOrderPriority', 'work_order_priority_id');
@@ -58,6 +60,11 @@ class DemandWorkOrder extends Model
     public function shifts()
     {
         return $this->hasMany('App\Equipment\DemandWorkOrderShift', 'demand_work_order_id');
+    }
+
+    public function ilsmPreAssessmentCompletedUser()
+    {
+        return $this->belongsTo('App\User', 'ilsm_preassessment_user_id');
     }
 
     //accessor for work order identifier

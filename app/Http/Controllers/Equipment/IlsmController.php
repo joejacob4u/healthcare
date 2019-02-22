@@ -45,7 +45,9 @@ class IlsmController extends Controller
     {
         $this->validate($request, [
             'label' => 'required|unique:ilsms,label',
-            'description' => 'required'
+            'description' => 'required',
+            'frequency' => 'required',
+            'attachment_required' => 'required'
         ]);
 
         if (Ilsm::create($request->all())) {
@@ -86,7 +88,9 @@ class IlsmController extends Controller
     {
         $this->validate($request, [
             'label' => 'required',
-            'description' => 'required'
+            'description' => 'required',
+            'frequency' => 'required',
+            'attachment_required' => 'required'
         ]);
 
         $ilsm = Ilsm::find($request->ilsm_id);
