@@ -20,7 +20,7 @@ class DemandWorkOrderShiftController extends Controller
 
         if ($shift = $demand_work_order->shifts()->create($request->all())) {
             if ($this->is_ilsm($shift)) {
-                $demand_work_order->update(['is_ilsm_probable' => 1]);
+                $demand_work_order->ilsmAssessment()->update(['ilsm_assessment_status_id' => 1]);
             }
             
             return response()->json(['status' => 'success']);

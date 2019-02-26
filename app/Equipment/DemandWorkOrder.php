@@ -13,9 +13,7 @@ class DemandWorkOrder extends Model
 
     protected $dates = ['created_at'];
 
-    protected $appends = ['identifier'];
-
-    protected $casts = ['ilsm_question_answers' => 'array'];
+    protected $appends = ['identifier','is_ilsm_probable','is_ilsm'];
 
     public function priority()
     {
@@ -62,9 +60,9 @@ class DemandWorkOrder extends Model
         return $this->hasMany('App\Equipment\DemandWorkOrderShift', 'demand_work_order_id');
     }
 
-    public function ilsmPreAssessmentCompletedUser()
+    public function ilsmAssessment()
     {
-        return $this->belongsTo('App\User', 'ilsm_preassessment_user_id');
+        return $this->hasOne('App\Equipment\IlsmAssessment', 'demand_work_order_id');
     }
 
     //accessor for work order identifier
@@ -73,6 +71,27 @@ class DemandWorkOrder extends Model
     {
         return 'DM-'.unixtojd($this->created_at->timestamp).'-'.$this->id;
     }
+
+    //accessor for ilsm probable
+
+    public function getIsIlsmProbableAttribute()
+    {
+        if ($this->ilsmAssessment->ilsm_assessment_status_id == '1') {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getIsIlsmAttribute()
+    {
+        if (in_array($this->ilsmAssessment->ilsm_assessment_status_id, [3,4,5,6])) {
+            return true;
+        }
+
+        return false;
+    }
+
 
     public function status()
     {

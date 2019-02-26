@@ -53,6 +53,7 @@
           <li class="active"><a data-toggle="tab" href="#my-work-orders">My Work Orders</a></li>
           <li><a data-toggle="tab" href="#pm-work-orders">PM Work Orders</a></li>
           <li><a data-toggle="tab" href="#demand-work-orders">Demand Work Orders</a></li>
+          <li><a data-toggle="tab" href="#ilsm-assessments">ILSM Assessments</a></li>
         </ul>
 
         <div class="tab-content">
@@ -153,6 +154,41 @@
             </table>
           </div>
 
+          <div id="ilsm-assessments" class="tab-pane fade">
+            <table id="ilsm-assessment-table" class="table table-striped" type="custom">
+                <thead>
+                    <tr>
+                        <th>Demand WO</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Demand WO</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
+                        <th>Status</th>
+                        <th>View</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                  @foreach($ilsm_assessments as $ilsm_assessment)
+                    <tr>
+                      <td>{{$ilsm_assessment->demandWorkOrder->identifier}}</td>
+                      <td>@if(!empty($ilsm_assessment->start_time)) $ilsm_assessment->start_time->toFormattedDateString()  @else N/A  @endif</td>
+                      <td>@if(!empty($ilsm_assessment->end_time)) $ilsm_assessment->end_time->toFormattedDateString()  @else N/A  @endif</td>
+                      <td>{{$ilsm_assessment->status->name}}</td>
+                      <td>{!! link_to('/equipment/ilsm-assessment/'.$ilsm_assessment->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
+                    </tr>
+                  @endforeach
+                </tbody>
+            </table>
+            {{ $ilsm_assessments->fragment('ilsm-assessments')->links() }}
+          </div>
+
         </div>
       </div>
       <!-- /.box-body -->
@@ -171,19 +207,13 @@
             <h4 class="modal-title">ILSM Pre-Assessment</h4>
           </div>
           <div class="modal-body">
-            <form action="/equipment/demand-work-orders/pre-assessment" method="post">
-              <div class="form-group">
-                  <label for="ilsm_preassessment_question_1">Will this work restrict EGRESS from the affected space?</label>
-                  {!! Form::select('ilsm_preassessment_question_1', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_1','multiple' => false]); !!}
-              </div>
-              <div class="form-group" id="question2_div" style="display:none;">
-                  <label for="ilsm_preassessment_question_2">Is the equipment, component, etc., part of a building LIFE SAFETY system ?</label>
-                  {!! Form::select('ilsm_preassessment_question_2', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_2','multiple' => false]); !!}
-              </div>
-              <div class="form-group" id="question3_div" style="display:none;">
-                  <label for="ilsm_preassessment_question_3">Is the activity in a Patient Care Area or will it affect a Patient Care Area ?</label>
-                  {!! Form::select('ilsm_preassessment_question_3', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_3','multiple' => false]); !!}
-              </div>
+            <form action="/equipment/ilsm-assessment/pre-assessment" method="post">
+              @foreach($ilsm_preassessment_questions as $key => $question)
+                <div class="form-group" @if($key != 1) style="display:none;" @endif id="question{{$key}}_div">
+                    <label for="ilsm_preassessment_question_{{$key}}">{{$question}}</label>
+                    {!! Form::select('ilsm_preassessment_question_answers['.$key.']', ['' => 'Please Select','1' => 'Yes','0' => 'No'], '', ['class' => 'form-control','id' => 'ilsm_preassessment_question_'.$key,'multiple' => false]); !!}
+                </div>
+              @endforeach
 
               {!! Form::hidden('ilsm_preassessment_user_id', Auth::user()->id,['id' => 'ilsm_preassessment_user_id']) !!}
 

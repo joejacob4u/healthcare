@@ -374,7 +374,13 @@ Route::post('equipment/pm/work-orders/{work_order_id}/shift/inventories', 'Equip
 Route::get('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@form');
 Route::post('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrderController@store');
 
-Route::post('equipment/demand-work-orders/pre-assessment', 'Equipment\DemandWorkOrderController@preAssessment');
+//ilsm routes
+
+Route::post('equipment/ilsm-assessment/pre-assessment', 'Equipment\IlsmAssessmentController@ilsmPreAssessment');
+Route::get('equipment/ilsm-assessment/{ilsm_assessment_id}', 'Equipment\IlsmAssessmentController@view');
+Route::post('equipment/ilsm-assessment/ilsm-questions', 'Equipment\IlsmAssessmentController@ilsmQuestions');
+
+
 
 
 //demand work order user routes
