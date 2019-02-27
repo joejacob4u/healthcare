@@ -379,6 +379,9 @@ Route::post('demand-work-order/{healthsystem_id}/new', 'Equipment\DemandWorkOrde
 Route::post('equipment/ilsm-assessment/pre-assessment', 'Equipment\IlsmAssessmentController@ilsmPreAssessment');
 Route::get('equipment/ilsm-assessment/{ilsm_assessment_id}', 'Equipment\IlsmAssessmentController@view');
 Route::post('equipment/ilsm-assessment/ilsm-questions', 'Equipment\IlsmAssessmentController@ilsmQuestions');
+Route::post('equipment/ilsm-assessment/ilsm-question-approve', 'Equipment\IlsmAssessmentController@ilsmQuestionApprove');
+Route::post('equipment/ilsm-assessment/ilsm-checklist', 'Equipment\IlsmAssessmentController@ilsmChecklist');
+
 
 
 

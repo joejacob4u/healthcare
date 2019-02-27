@@ -42,8 +42,41 @@ class IlsmAssessment extends Model
         return $this->belongsTo('App\User', 'ilsm_preassessment_user_id');
     }
 
+    public function ilsmQuestionApprovalUser()
+    {
+        return $this->belongsTo('App\User', 'ilsm_approve_user_id');
+    }
+
     public function questionUser()
     {
         return $this->belongsTo('App\User', 'ilsm_question_user_id');
+    }
+
+    public function checklists()
+    {
+        return $this->hasMany('App\Equipment\IlsmChecklist','ilsm_assessment_id');
+    }
+
+    public function isChecklistComplete()
+    {
+        if($this->checklists()->where('is_answered',0)->orWhere('is_compliant',0)->count() > 0)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function applicableIlsms()
+    {
+        $applicable_ilsms = [];
+
+        foreach($this->ilsm_question_answers as $key => $answer)
+        {
+            $ilsm_question = \App\Equipment\IlsmQuestion::find($key);
+            if($answer) foreach($ilsm_question->ilsms as $ilsm): array_push($applicable_ilsms, $ilsm->id); endforeach;
+        }
+
+        return array_unique($applicable_ilsms);
     }
 }

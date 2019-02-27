@@ -12,6 +12,7 @@
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
+@include('layouts.partials.warning')
 
 <ol class="breadcrumb">
     <li><a href="{{url('equipment/work-orders')}}#ilsm-assessments">ILSM Assessments</a></li>
@@ -51,11 +52,16 @@
 
 @if(!empty($ilsm_assessment->ilsm_question_answers))
     <div class="callout callout-info">
-        <button class="btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-ok"></span> Approve</button>
+      @if(!empty($ilsm_assessment->ilsm_preassessment_user_id))
+            <h4 class="pull-right">Approved By :{{$ilsm_assessment->ilsmQuestionApprovalUser->name}}</h4>
+      @else
+            <button data-toggle="modal" data-target="#ilsm-question-approve-modal" class="btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-ok"></span> Approve</button>
+      @endif
         <h4>ILSM Questions  : (Completed By : {{$ilsm_assessment->questionUser->name}})</h4>
+        @php $ilsm_ids = []; @endphp
         @foreach($ilsm_assessment->ilsm_question_answers as $key => $answer)
             <div class="row">
-                @php $ilsm_question = \App\Equipment\IlsmQuestion::find($key); @endphp
+                @php $ilsm_question = \App\Equipment\IlsmQuestion::find($key); if($answer) foreach($ilsm_question->ilsms as $ilsm): array_push($ilsm_ids, $ilsm->id); endforeach  @endphp
                 <div class="col-sm-6">{{ $ilsm_question->question}}</div>
                 <div class="col-sm-6">@if($answer) <strong>Yes</strong> ({{$ilsm_question->ilsms->implode('label',',')}}) @else <strong>No</strong> @endif</div>
             </div><br/>
@@ -69,6 +75,104 @@
             </div><br/>
     </div>
 @endif
+
+@if(!empty($ilsm_ids))
+
+    <div class="box box-info collapsed-box">
+        <div class="box-header with-border">
+          <h3 class="box-title">ILSM Reference (Expand to see above {{count(array_unique($ilsm_ids))}} applicable ilsm descriptions)</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+            </button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" style="">
+          <div class="table-responsive">
+            <table class="table no-margin">
+              <thead>
+              <tr>
+                <th>ILSM</th>
+                <th>Description</th>
+              </tr>
+              </thead>
+              <tbody>
+                @php $ilsms = \App\Equipment\Ilsm::whereIn('id',$ilsm_ids)->get(); @endphp
+                @foreach($ilsms as $ilsm)
+                <tr>
+                  <td>{{$ilsm->label}}</td>
+                  <td>{{$ilsm->description}}</td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+          <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix" style="">
+        </div>
+        <!-- /.box-footer -->
+      </div>
+  @endif
+
+  @if(!empty($ilsm_assessment->end_date))
+
+  <div class="callout callout-warning">
+    <h4>ILSM Questions Approved By :{{$ilsm_assessment->ilsmQuestionApprovalUser->name}}</h4>
+
+    <p><strong>Start Date : </strong>{{$ilsm_assessment->start_date->toFormattedDateString()}} to <strong>Approx End Date : </strong>{{$ilsm_assessment->end_date->toFormattedDateString()}}</p>
+    <button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span> Adjust End Date</button>
+  </div>
+
+  @endif
+
+  @if($ilsm_assessment->checklists->isNotEmpty())
+        <div class="box box-warning">
+        <div class="box-header with-border">
+          <h3 class="box-title">ILSM Checklists ({{$ilsm_assessment->checklists->count()}})</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body" style="">
+          <div class="table-responsive">
+            <table class="table no-margin">
+              <thead>
+              <tr>
+                <th>ILSM</th>
+                <th>Date</th>
+                <th>Completed</th>
+                <th>Compliant</th>
+                <th>Checklist</th>
+              </tr>
+              </thead>
+              <tbody>
+                @foreach($ilsm_assessment->checklists as $checklist)
+                <tr>
+                  <td>{{$checklist->ilsm->label}}</td>
+                  <td>{{$checklist->date->toFormattedDateString()}}</td>
+                  <td>@if($checklist->is_answered) Yes @else No @endif</td>
+                  <td>@if($checklist->is_compliant) Yes @else No @endif</td>
+                  <td>{!! link_to('#','Checklist',['class' => 'btn-xs btn-info checklist-btn','data-checklist-questions' => json_encode($checklist->ilsm->ilsmChecklistQuestions),'data-attachment-required' => $checklist->ilsm->attachment_required,'data-checklist-id' => $checklist->id]) !!}</td>
+                </tr>
+                @endforeach
+              </tbody>
+            </table>
+          </div>
+          <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix" style="">
+        </div>
+        <!-- /.box-footer -->
+      </div>
+
+
+  @endif
 
     <!-- ILSM Question Modal -->
     <div class="modal fade" id="ilsm-question-modal" role="dialog">
@@ -101,11 +205,128 @@
       </div>
     </div>
 
+        <!-- ILSM Question Confirmation Modal -->
+    <div class="modal fade" id="ilsm-question-approve-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">ILSM Question Approval</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/equipment/ilsm-assessment/ilsm-question-approve" method="post">
+                <div class="form-group">
+                    <label for="">Mark these question answers as approved and pick an approx end date for checklist completion.</label>
+                    {!! Form::text('end_date', $value = '', ['class' => 'form-control date','id' => 'end_date','placeholder' => 'Select Approx. End Date']) !!}
+                </div>
+              
+              {!! Form::hidden('ilsm_assessment_status_id', '5',['id' => 'ilsm_assessment_status_id']) !!}
+              {!! Form::hidden('start_date', date('Y-m-d'),['id' => 'start_date']) !!}
+              {!! Form::hidden('ilsm_assessment_id', $ilsm_assessment->id,['id' => 'ilsm_assessment_id']) !!}
+              {!! Form::hidden('ilsm_approve_user_id', Auth::user()->id,['id' => 'ilsm_approve_user_id']) !!}
+
+
+              <button type="submit" class="btn btn-success">Submit</button>
+              {!! csrf_field() !!}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+            <!-- ILSM Checklist Modal -->
+    <div class="modal fade" id="ilsm-checklist-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">ILSM Checklist</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/equipment/ilsm-assessment/ilsm-checklist" method="post">
+                <div id="form-questions">
+                </div>
+              
+              {!! Form::hidden('ilsm_checklist_id', '',['id' => 'ilsm_checklist_id']) !!}
+              {!! Form::hidden('answers[attachment]', '',['id' => 'ilsm_checklist_attachment']) !!}
+              {!! Form::hidden('ilsm_assessment_id', $ilsm_assessment->id,['id' => 'ilsm_assessment_id']) !!}
+
+              <button type="submit" class="btn btn-success">Submit</button>
+              {!! csrf_field() !!}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
 
 
 
   <script>
 
+  $(".date").flatpickr({
+        enableTime: false,
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "M j, Y",
+  });
+
+  $('.checklist-btn').click(function(){
+
+    var questions = JSON.parse($(this).attr('data-checklist-questions'));
+
+    $('#ilsm-checklist-modal #form-questions').html('');
+    $('#ilsm-checklist-modal #ilsm_checklist_id').val($(this).attr('data-checklist-id'));
+
+    var html = '';
+
+    $.each(questions, function(key, value) {
+      html += `<div class="form-group">
+                    <label for="">${value.question}</label>
+                    <select class="form-control" id="checklist-question-${value.id}" name="answers[${value.id}][answer]">
+                      <option>Please Select</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                      <option value="n/a">N/A</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" rows="3" placeholder="Comment" id="checklist-question-comment-${value.id}" name="answers[${value.id}][comment] cols="50"></textarea>
+                </div>`;
+    });
+
+    if($(this).attr('data-attachment-required') == '1')
+    {
+        var directory = 'ilsm/checklist/'+$(this).attr('data-checklist-id')+'/attachment';
+        html += '<div id="dropzone_'+$(this).attr('data-checklist-id')+'" class="dropzone"></div>';
+        $('#ilsm_checklist_attachment').val(directory);
+    }
+
+    $('#ilsm-checklist-modal #form-questions').append(html);
+    $('#ilsm-checklist-modal').modal('show');
+
+    if($(this).attr('data-attachment-required') == '1')
+    {
+        $('#dropzone_'+$(this).attr('data-checklist-id')).dropzone({ 
+          url: "/dropzone/upload",
+          init: function() {
+                this.on('sending', function(file, xhr, formData){
+                    formData.append('_token', $('meta[name=\"csrf-token\"]').attr('content'));
+                    formData.append('folder', directory);
+                });
+          }
+        });
+
+    }
+  });
 
   </script>
 @endsection
