@@ -157,7 +157,14 @@
                   <td>{{$checklist->date->toFormattedDateString()}}</td>
                   <td>@if($checklist->is_answered) Yes @else No @endif</td>
                   <td>@if($checklist->is_compliant) Yes @else No @endif</td>
-                  <td>{!! link_to('#','Checklist',['class' => 'btn-xs btn-info checklist-btn','data-checklist-questions' => json_encode($checklist->ilsm->ilsmChecklistQuestions),'data-attachment-required' => $checklist->ilsm->attachment_required,'data-checklist-id' => $checklist->id]) !!}</td>
+                  @if($checklist->is_answered)
+                      <td>
+                        {!! link_to('#','Answers',['class' => 'btn-xs btn-link answers','data-checklist-questions' => json_encode($checklist->ilsm->ilsmChecklistQuestions),'data-checklist-answers' => json_encode($checklist->answers),'data-attachment-required' => $checklist->ilsm->attachment_required,'data-checklist-id' => $checklist->id,'data-attachments' => json_encode($checklist->attachments)]) !!}
+                        {!! link_to('#','Re-Attempt',['class' => 'btn-xs btn-link checklist-btn','data-checklist-questions' => json_encode($checklist->ilsm->ilsmChecklistQuestions),'data-attachment-required' => $checklist->ilsm->attachment_required,'data-checklist-id' => $checklist->id]) !!}
+                      </td>
+                  @else
+                      <td>{!! link_to('#','Checklist',['class' => 'btn-xs btn-info checklist-btn','data-checklist-questions' => json_encode($checklist->ilsm->ilsmChecklistQuestions),'data-attachment-required' => $checklist->ilsm->attachment_required,'data-checklist-id' => $checklist->id]) !!}</td>
+                  @endif
                 </tr>
                 @endforeach
               </tbody>

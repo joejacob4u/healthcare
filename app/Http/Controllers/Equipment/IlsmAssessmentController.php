@@ -89,6 +89,7 @@ class IlsmAssessmentController extends Controller
             }
 
             if ($key != 'attachment' and $answer['answer'] == 'no') {
+                dd($answer);
                 $is_compliant = 0;
             }
         }
