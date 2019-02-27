@@ -51,10 +51,10 @@
 
 @endif
 
-
 @if(!empty($ilsm_assessment->ilsm_question_answers))
     <div class="callout callout-info">
-      @if(!empty($ilsm_assessment->ilsm_preassessment_user_id))
+
+      @if(!empty($ilsm_assessment->ilsm_approve_user_id))
             <h4 class="pull-right">Approved By :{{$ilsm_assessment->ilsmQuestionApprovalUser->name}}</h4>
       @else
             <button data-toggle="modal" data-target="#ilsm-question-approve-modal" class="btn btn-success btn-sm pull-right"><span class="glyphicon glyphicon-ok"></span> Approve</button>
