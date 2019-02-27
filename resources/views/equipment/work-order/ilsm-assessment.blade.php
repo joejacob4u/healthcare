@@ -19,6 +19,7 @@
     <li>ILSM Assessment for {{$ilsm_assessment->demandWorkOrder->identifier}}</li>
 </ol>
 
+
 @if(count($ilsm_assessment->demandWorkOrder->problem->eops) > 0)
 
 <div class="callout callout-info">
@@ -50,6 +51,7 @@
 
 @endif
 
+
 @if(!empty($ilsm_assessment->ilsm_question_answers))
     <div class="callout callout-info">
       @if(!empty($ilsm_assessment->ilsm_preassessment_user_id))
@@ -76,7 +78,8 @@
     </div>
 @endif
 
-@if(!empty($ilsm_ids))
+
+@if(isset($ilsm_ids) and !empty($ilsm_ids))
 
     <div class="box box-info collapsed-box">
         <div class="box-header with-border">
@@ -117,7 +120,7 @@
       </div>
   @endif
 
-  @if(!empty($ilsm_assessment->end_date))
+  @if(!empty($ilsm_assessment->ilsm_approve_user_id))
 
   <div class="callout callout-warning">
     <h4>ILSM Questions Approved By :{{$ilsm_assessment->ilsmQuestionApprovalUser->name}}</h4>
@@ -127,6 +130,7 @@
   </div>
 
   @endif
+
 
   @if($ilsm_assessment->checklists->isNotEmpty())
         <div class="box box-warning">
