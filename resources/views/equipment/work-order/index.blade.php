@@ -178,10 +178,10 @@
                   @foreach($ilsm_assessments as $ilsm_assessment)
                     <tr>
                       <td>{{$ilsm_assessment->demandWorkOrder->identifier}}</td>
-                      <td>@if(!empty($ilsm_assessment->start_time)) $ilsm_assessment->start_time->toFormattedDateString()  @else N/A  @endif</td>
-                      <td>@if(!empty($ilsm_assessment->end_time)) $ilsm_assessment->end_time->toFormattedDateString()  @else N/A  @endif</td>
+                      <td>@if(in_array($ilsm_assessment->ilsm_assessment_status_id,[4,5,6,7])) {{$ilsm_assessment->start_date->toFormattedDateString()}}  @else N/A  @endif</td>
+                      <td>@if(in_array($ilsm_assessment->ilsm_assessment_status_id,[4,5,6,7])) {{$ilsm_assessment->end_date->toFormattedDateString()}}  @else N/A  @endif</td>
                       <td>{{$ilsm_assessment->status->name}}</td>
-                      <td>{!! link_to('/equipment/ilsm-assessment/'.$ilsm_assessment->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
+                      <td>@if(!in_array($ilsm_assessment->ilsm_assessment_status_id,[1,2,8])){!! link_to('/equipment/ilsm-assessment/'.$ilsm_assessment->id,'View',['class' => 'btn-xs btn-info']) !!}@endif</td>
                     </tr>
                   @endforeach
                 </tbody>

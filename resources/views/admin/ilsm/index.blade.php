@@ -37,7 +37,7 @@
                   <div class="form-group">
                     <div class="col-sm-6">
                       <label for="frequency">Frequency</label>
-                      {!! Form::select('frequency', ['' => 'Please Select','one-time' => 'One Time','shift' => 'Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','quarterly-shift' => 'Quarterly Shift'], '', ['class' => 'form-control selectpicker','id' => 'frequency','multiple' => false]); !!}
+                      {!! Form::select('frequency', ['' => 'Please Select','one-time' => 'One Time','shift' => 'One Time per Shift','daily-per-shift' => 'Daily Per Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','quarterly-shift' => 'Quarterly per Shift'], '', ['class' => 'form-control selectpicker','id' => 'frequency','multiple' => false]); !!}
                     </div>
                     <div class="col-sm-6">
                       <label for="attachment_required">Attachment Required</label>
@@ -123,7 +123,7 @@
                   <div class="form-group">
                     <div class="col-sm-6">
                       <label for="frequency">Frequency</label>
-                      {!! Form::select('frequency', ['' => 'Please Select','one-time' => 'One Time','shift' => 'Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','quarterly-shift' => 'Quarterly Shift'], '', ['class' => 'form-control selectpicker','id' => 'frequency','multiple' => false]); !!}
+                      {!! Form::select('frequency', ['' => 'Please Select','one-time' => 'One Time','shift' => 'One Time per Shift','daily-per-shift' => 'Daily Per Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','quarterly-shift' => 'Quarterly per Shift'], '', ['class' => 'form-control selectpicker','id' => 'frequency','multiple' => false]); !!}
                     </div>
                     <div class="col-sm-6">
                       <label for="attachment_required">Attachment Required</label>

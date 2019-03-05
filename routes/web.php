@@ -381,9 +381,7 @@ Route::get('equipment/ilsm-assessment/{ilsm_assessment_id}', 'Equipment\IlsmAsse
 Route::post('equipment/ilsm-assessment/ilsm-questions', 'Equipment\IlsmAssessmentController@ilsmQuestions');
 Route::post('equipment/ilsm-assessment/ilsm-question-approve', 'Equipment\IlsmAssessmentController@ilsmQuestionApprove');
 Route::post('equipment/ilsm-assessment/ilsm-checklist', 'Equipment\IlsmAssessmentController@ilsmChecklist');
-
-
-
+Route::post('equipment/ilsm-assessment/ilsm-adjust-enddate', 'Equipment\IlsmAssessmentController@adjustEndDate');
 
 
 //demand work order user routes

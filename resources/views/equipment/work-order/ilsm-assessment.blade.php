@@ -126,7 +126,7 @@
     <h4>ILSM Questions Approved By :{{$ilsm_assessment->ilsmQuestionApprovalUser->name}}</h4>
 
     <p><strong>Start Date : </strong>{{$ilsm_assessment->start_date->toFormattedDateString()}} to <strong>Approx End Date : </strong>{{$ilsm_assessment->end_date->toFormattedDateString()}}</p>
-    <button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-pencil"></span> Adjust End Date</button>
+    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#ilsm-enddate-modal"><span class="glyphicon glyphicon-pencil"></span> Adjust End Date</button>
   </div>
 
   @endif
@@ -149,6 +149,8 @@
               <tr>
                 <th>ILSM</th>
                 <th>Date</th>
+                <th>Shift</th>
+                <th>User</th>
                 <th>Completed</th>
                 <th>Compliant</th>
                 <th>Checklist</th>
@@ -159,6 +161,8 @@
                 <tr>
                   <td>{{$checklist->ilsm->label}}</td>
                   <td>{{$checklist->date->toFormattedDateString()}}</td>
+                  <td>@if(!empty($checklist->shift_id)){{$checklist->shift->name}}@else N/A @endif</td>
+                  <td>@if(!empty($checklist->user_id)){{$checklist->user->name}}@else N/A @endif</td>
                   <td>@if($checklist->is_answered) Yes @else No @endif</td>
                   <td>@if($checklist->is_compliant) Yes @else No @endif</td>
                   @if($checklist->is_answered)
@@ -233,6 +237,7 @@
               
               {!! Form::hidden('ilsm_assessment_status_id', '5',['id' => 'ilsm_assessment_status_id']) !!}
               {!! Form::hidden('start_date', date('Y-m-d'),['id' => 'start_date']) !!}
+              {!! Form::hidden('user_id', Auth::user()->id,['id' => 'user_id']) !!}
               {!! Form::hidden('ilsm_assessment_id', $ilsm_assessment->id,['id' => 'ilsm_assessment_id']) !!}
               {!! Form::hidden('ilsm_approve_user_id', Auth::user()->id,['id' => 'ilsm_approve_user_id']) !!}
 
@@ -264,6 +269,57 @@
               {!! Form::hidden('ilsm_checklist_id', '',['id' => 'ilsm_checklist_id']) !!}
               {!! Form::hidden('answers[attachment]', '',['id' => 'ilsm_checklist_attachment']) !!}
               {!! Form::hidden('ilsm_assessment_id', $ilsm_assessment->id,['id' => 'ilsm_assessment_id']) !!}
+              {!! Form::hidden('user_id', Auth::user()->id,['id' => 'user_id']) !!}
+
+              <button type="submit" class="btn btn-success">Submit</button>
+              {!! csrf_field() !!}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- ILSM answer Modal -->
+    <div class="modal fade" id="ilsm-answer-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">ILSM Checklist Answers</h4>
+          </div>
+          <div class="modal-body">
+                <div id="form-answers">
+                </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Adjust end date Modal -->
+    <div class="modal fade" id="ilsm-enddate-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">ILSM Checklist</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/equipment/ilsm-assessment/ilsm-adjust-enddate" method="post">
+                <div class="form-group">
+                    <label for="">Adjust end date for the ILSM Assessment</label>
+                    {!! Form::text('end_date', $value = '', ['class' => 'form-control date','id' => 'end_date','placeholder' => 'Select Approx. End Date']) !!}
+                </div>
+              
+              {!! Form::hidden('ilsm_assessment_id', $ilsm_assessment->id,['id' => 'ilsm_assessment_id']) !!}
+              {!! Form::hidden('user_id', Auth::user()->id,['id' => 'user_id']) !!}
+
 
               <button type="submit" class="btn btn-success">Submit</button>
               {!! csrf_field() !!}
@@ -281,14 +337,29 @@
 
 
 
-  <script>
 
-  $(".date").flatpickr({
+  <script>
+  var s3_url = '{{env("S3_URL")}}';
+
+  $("#ilsm-question-approve-modal .date").flatpickr({
         enableTime: false,
         dateFormat: "Y-m-d",
         altInput: true,
         altFormat: "M j, Y",
   });
+
+  @if($ilsm_assessment->end_date)
+
+    $("#ilsm-enddate-modal .date").flatpickr({
+        enableTime: false,
+        dateFormat: "Y-m-d",
+        altInput: true,
+        altFormat: "M j, Y",
+        minDate: "{{$ilsm_assessment->end_date->format('Y-m-d')}}"
+  });
+
+  @endif
+
 
   $('.checklist-btn').click(function(){
 
@@ -337,6 +408,63 @@
         });
 
     }
+  });
+
+  $('.answers').click(function(){
+
+    var questions = JSON.parse($(this).attr('data-checklist-questions'));
+    var answers = JSON.parse($(this).attr('data-checklist-answers'));
+
+    $('#ilsm-answer-modal #form-answers').html('');
+
+    var html = '';
+
+    $.each(questions, function(key, value) {
+      html += `<div class="form-group">
+                    <label for="">${value.question}</label>
+                    <select class="form-control" id="checklist-question-${value.id}" name="answers[${value.id}][answer]">
+                      <option>Please Select</option>
+                      <option value="yes">Yes</option>
+                      <option value="no">No</option>
+                      <option value="n/a">N/A</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                  <textarea class="form-control" rows="3" placeholder="Comment" id="checklist-question-comment-${value.id}" name="answers[${value.id}][comment] cols="50"></textarea>
+                </div>`;
+    });
+
+    $('#ilsm-answer-modal #form-answers').append(html);
+
+    var attachment_html = '';
+
+    if($(this).attr('data-attachment-required') == 1)
+    {
+        var attachment_list = '';
+        var attachments = JSON.parse($(this).attr('data-attachments'));
+        $.each(attachments, function(key, value) {
+          attachment_list += `<a href="${value}" target="_blank" class="list-group-item">${key}</a>`;
+        });
+
+        attachment_html = `<div class="list-group">
+          <a href="#" class="list-group-item active">Attachments</a>
+          ${attachment_list}
+        </div>`;
+    }
+
+    $('#ilsm-answer-modal #form-answers').append(attachment_html);
+
+
+
+    $.each(answers, function(key, value) {
+      $('#ilsm-answer-modal #checklist-question-'+key).val(value.answer);
+      $('#ilsm-answer-modal #checklist-question-'+key).prop('disabled',true);
+      $('#ilsm-answer-modal #checklist-question-comment-'+key).val(value.comment);
+      $('#ilsm-answer-modal #checklist-question-comment-'+key).prop('disabled',true);
+    });
+
+    $('#ilsm-answer-modal').modal('show');
+
   });
 
   </script>

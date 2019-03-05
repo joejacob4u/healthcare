@@ -9,7 +9,7 @@ class IlsmChecklist extends Model
 {
     protected $table = 'ilsm_checklists';
 
-    protected $fillable = ['ilsm_assessment_id','ilsm_id','answers','is_answered','is_compliant','date'];
+    protected $fillable = ['ilsm_assessment_id','ilsm_id','answers','is_answered','is_compliant','date','shift_id','user_id'];
 
     protected $casts = ['answers' => 'array'];
 
@@ -25,6 +25,16 @@ class IlsmChecklist extends Model
     public function ilsmAssessment()
     {
         return $this->belongsTo('App\Equipment\IlsmAssessment', 'ilsm_assessment_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo('App\User', 'user_id');
+    }
+
+    public function shift()
+    {
+        return $this->belongsTo('App\Maintenance\Shift', 'shift_id');
     }
 
     // public function setIsCompliantAttribute()
