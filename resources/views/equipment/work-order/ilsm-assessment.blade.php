@@ -397,7 +397,7 @@
         altFormat: "M j, Y",
   });
 
-  @if($ilsm_assessment->end_date)
+  @if($ilsm_assessment->ilsm_assessment_status_id == 5)
 
     $("#ilsm-enddate-modal .date").flatpickr({
         enableTime: false,
