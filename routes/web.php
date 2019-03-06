@@ -382,6 +382,7 @@ Route::post('equipment/ilsm-assessment/ilsm-questions', 'Equipment\IlsmAssessmen
 Route::post('equipment/ilsm-assessment/ilsm-question-approve', 'Equipment\IlsmAssessmentController@ilsmQuestionApprove');
 Route::post('equipment/ilsm-assessment/ilsm-checklist', 'Equipment\IlsmAssessmentController@ilsmChecklist');
 Route::post('equipment/ilsm-assessment/ilsm-adjust-enddate', 'Equipment\IlsmAssessmentController@adjustEndDate');
+Route::post('equipment/ilsm-assessment/ilsm-sign-off', 'Equipment\IlsmAssessmentController@signOff');
 
 
 //demand work order user routes

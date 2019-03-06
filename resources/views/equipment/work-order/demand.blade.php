@@ -70,6 +70,7 @@
                 <div class="col-sm-6">@if($answer) Yes @else No @endif</div>
             </div><br/>
         @endforeach
+        {!! link_to('equipment/ilsm-assessment/'.$demand_work_order->ilsmAssessment->id,'Go To ILSM Assessment',['class' => 'btn-xs btn-info']) !!}
     </div>
 
 @endif

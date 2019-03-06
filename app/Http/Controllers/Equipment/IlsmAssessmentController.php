@@ -128,6 +128,15 @@ class IlsmAssessmentController extends Controller
         }
     }
 
+    public function signOff(Request $request)
+    {
+        $ilsm_assessment = IlsmAssessment::find($request->ilsm_assessment_id);
+
+        if ($ilsm_assessment->update($request->all())) {
+            return back();
+        }
+    }
+
     private function createChecklists(IlsmAssessment $ilsm_assessment, $user_id)
     {
         $existing_checklists = $ilsm_assessment->checklists;

@@ -19,6 +19,13 @@
     <li>ILSM Assessment for {{$ilsm_assessment->demandWorkOrder->identifier}}</li>
 </ol>
 
+  @if($ilsm_assessment->ilsm_assessment_status_id == 7)
+    <div class="callout callout-success">
+      <h4>ILSM Assessment Completed and Compliant (Verified By : {{$ilsm_assessment->signOffUser->name}})</h4>
+    </div>
+  @endif
+
+
 
 @if(count($ilsm_assessment->demandWorkOrder->problem->eops) > 0)
 
@@ -38,6 +45,7 @@
 @endif
 
 
+
 @if(!empty($ilsm_assessment->ilsm_preassessment_question_answers))
     <div class="callout callout-warning">
         <h4>ILSM Pre Assessment  : (Status => @if($ilsm_assessment->demandWorkOrder->is_ilsm) ILSM Required @else No ILSM Required @endif, Completed By : {{$ilsm_assessment->preAssessmentUser->name}})</h4>
@@ -50,6 +58,7 @@
     </div>
 
 @endif
+
 
 @if(!empty($ilsm_assessment->ilsm_question_answers))
     <div class="callout callout-info">
@@ -120,15 +129,24 @@
       </div>
   @endif
 
+
   @if(!empty($ilsm_assessment->ilsm_approve_user_id))
 
   <div class="callout callout-warning">
     <h4>ILSM Questions Approved By :{{$ilsm_assessment->ilsmQuestionApprovalUser->name}}</h4>
 
     <p><strong>Start Date : </strong>{{$ilsm_assessment->start_date->toFormattedDateString()}} to <strong>Approx End Date : </strong>{{$ilsm_assessment->end_date->toFormattedDateString()}}</p>
-    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#ilsm-enddate-modal"><span class="glyphicon glyphicon-pencil"></span> Adjust End Date</button>
+    @if($ilsm_assessment->ilsm_assessment_status_id == 5)<button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#ilsm-enddate-modal"><span class="glyphicon glyphicon-pencil"></span> Adjust End Date</button>@endif
   </div>
 
+  @endif
+
+  @if($ilsm_assessment->ilsm_assessment_status_id == 6)
+
+  <div class="callout callout-success">
+    <h4>ILSM Checklist Completed - Awaiting Close Out</h4>
+    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#ilsm-signoff-modal"><span class="glyphicon glyphicon-check"></span> Sign Off</button>  
+  </div>
   @endif
 
 
@@ -252,6 +270,37 @@
         </div>
       </div>
     </div>
+
+    <!-- ILSM Sign Off Modal -->
+    <div class="modal fade" id="ilsm-signoff-modal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">ILSM Sign Off</h4>
+          </div>
+          <div class="modal-body">
+            <form action="/equipment/ilsm-assessment/ilsm-sign-off" method="post">
+                <div class="form-group">
+                    <label for="">Mark this ILSM Assessment as complete and compliant.</label>
+                </div>
+              
+              {!! Form::hidden('ilsm_assessment_status_id', '7',['id' => 'ilsm_assessment_status_id']) !!}
+              {!! Form::hidden('ilsm_sign_off_user_id', Auth::user()->id,['id' => 'ilsm_sign_off_user_id']) !!}
+              {!! Form::hidden('ilsm_assessment_id', $ilsm_assessment->id,['id' => 'ilsm_assessment_id']) !!}
+
+
+              <button type="submit" class="btn btn-success">Confirm</button>
+              {!! csrf_field() !!}
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
 
             <!-- ILSM Checklist Modal -->
     <div class="modal fade" id="ilsm-checklist-modal" role="dialog">

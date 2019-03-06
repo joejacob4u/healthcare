@@ -52,6 +52,12 @@ class IlsmAssessment extends Model
         return $this->belongsTo('App\User', 'ilsm_question_user_id');
     }
 
+    public function signOffUser()
+    {
+        return $this->belongsTo('App\User', 'ilsm_sign_off_user_id');
+    }
+
+
     public function checklists()
     {
         return $this->hasMany('App\Equipment\IlsmChecklist','ilsm_assessment_id');

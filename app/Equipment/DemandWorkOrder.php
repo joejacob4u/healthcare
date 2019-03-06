@@ -13,7 +13,7 @@ class DemandWorkOrder extends Model
 
     protected $dates = ['created_at'];
 
-    protected $appends = ['identifier','is_ilsm_probable','is_ilsm'];
+    protected $appends = ['identifier','is_ilsm_probable','is_ilsm','is_ilsm_complete'];
 
     public function priority()
     {
@@ -91,6 +91,16 @@ class DemandWorkOrder extends Model
 
         return false;
     }
+
+    public function getIsIlsmCompleteAttribute()
+    {
+        if (in_array($this->ilsmAssessment->ilsm_assessment_status_id, [7])) {
+            return true;
+        }
+
+        return false;
+    }
+
 
 
     public function status()
