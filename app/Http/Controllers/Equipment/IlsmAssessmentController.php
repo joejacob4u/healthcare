@@ -141,6 +141,16 @@ class IlsmAssessmentController extends Controller
     {
         $existing_checklists = $ilsm_assessment->checklists;
 
+        //first delete any existing ilsms if date is higher than end date
+
+        if ($existing_checklists->isNotEmpty()) {
+            $exceeded_checklists = $existing_checklists->where('date', '>', $ilsm_assessment->end_date);
+            
+            foreach ($exceeded_checklists as $checklist) {
+                IlsmChecklist::destroy($checklist->id);
+            }
+        }
+
         //loop thru each question answer first
         foreach ($ilsm_assessment->applicableIlsms() as $ilsm_id) {
             $ilsm = Ilsm::find($ilsm_id);
@@ -194,8 +204,6 @@ class IlsmAssessmentController extends Controller
                     }
                 }
             } else {
-                $ar = ['' => 'Please Select','one-time' => 'One Time','shift' => 'One Time per Shift','daily-per-shift' => 'Daily Per Shift','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','quarterly-shift' => 'Quarterly per Shift'];
-
                 if ($ilsm->frequency == 'shift') {
                     //do for one day but for all shifts
                     $day = strtolower(strftime('%A', strtotime('+1 day')));

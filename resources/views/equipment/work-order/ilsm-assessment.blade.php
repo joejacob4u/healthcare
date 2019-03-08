@@ -25,6 +25,15 @@
     </div>
   @endif
 
+  @if($ilsm_assessment->ilsm_assessment_status_id == 6)
+
+    <div class="callout callout-success">
+      <h4>ILSM Checklist Completed - Awaiting Close Out</h4>
+      <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#ilsm-signoff-modal"><span class="glyphicon glyphicon-check"></span> Sign Off</button>  
+    </div>
+  @endif
+
+
 
 
 @if(count($ilsm_assessment->demandWorkOrder->problem->eops) > 0)
@@ -141,13 +150,6 @@
 
   @endif
 
-  @if($ilsm_assessment->ilsm_assessment_status_id == 6)
-
-  <div class="callout callout-success">
-    <h4>ILSM Checklist Completed - Awaiting Close Out</h4>
-    <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#ilsm-signoff-modal"><span class="glyphicon glyphicon-check"></span> Sign Off</button>  
-  </div>
-  @endif
 
 
   @if($ilsm_assessment->checklists->isNotEmpty())
@@ -167,6 +169,7 @@
               <tr>
                 <th>ILSM</th>
                 <th>Date</th>
+                <th>Frequency</th>
                 <th>Shift</th>
                 <th>User</th>
                 <th>Completed</th>
@@ -175,10 +178,11 @@
               </tr>
               </thead>
               <tbody>
-                @foreach($ilsm_assessment->checklists as $checklist)
+                @foreach($ilsm_assessment->checklists->sortBy('date') as $checklist)
                 <tr>
                   <td>{{$checklist->ilsm->label}}</td>
                   <td>{{$checklist->date->toFormattedDateString()}}</td>
+                  <td>{{$checklist->ilsm->frequency}}</td>
                   <td>@if(!empty($checklist->shift_id)){{$checklist->shift->name}}@else N/A @endif</td>
                   <td>@if(!empty($checklist->user_id)){{$checklist->user->name}}@else N/A @endif</td>
                   <td>@if($checklist->is_answered) Yes @else No @endif</td>
@@ -404,7 +408,7 @@
         dateFormat: "Y-m-d",
         altInput: true,
         altFormat: "M j, Y",
-        minDate: "{{$ilsm_assessment->end_date->format('Y-m-d')}}"
+        minDate: "{{$ilsm_assessment->start_date->format('Y-m-d')}}"
   });
 
   @endif
@@ -437,7 +441,7 @@
     if($(this).attr('data-attachment-required') == '1')
     {
         var directory = 'ilsm/checklist/'+$(this).attr('data-checklist-id')+'/attachment';
-        html += '<div id="dropzone_'+$(this).attr('data-checklist-id')+'" class="dropzone"></div>';
+        html += '<label for="">Attachment is Required</label><div id="dropzone_'+$(this).attr('data-checklist-id')+'" class="dropzone"></div>';
         $('#ilsm_checklist_attachment').val(directory);
     }
 
