@@ -193,6 +193,13 @@ Route::post('rooms/delete', 'Frontend\RoomController@destroy');
 
 
 //end Healthsystem management routes
+Route::get('admin/roles', 'Admin\RolesController@index');
+Route::get('admin/roles/{role}/permissions', 'Admin\RolesController@showPermissions');
+Route::post('admin/roles/{role}/permissions', 'Admin\RolesController@savePermissions');
+
+
+
+//Admin Roles and Permissions
 
 //Admin System Tiers
 
