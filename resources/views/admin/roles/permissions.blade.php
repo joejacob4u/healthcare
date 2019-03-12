@@ -45,8 +45,27 @@
         </div>
         <div class="row">
             <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="view.dm-workorders" @if(in_array('view.dm-workorders',$role->permissions)) checked @endif> View DM Work Orders</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="addstatus.dm-workorders" @if(in_array('addstatus.dm-workorders',$role->permissions)) checked @endif> Add Status to DM Work Orders</div>
             <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="complete.dm-workorders" @if(in_array('complete.dm-workorders',$role->permissions)) checked @endif> Complete DM Work Orders</div>
         </div>
+        <div class="row">
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="view.equipment" @if(in_array('view.equipment',$role->permissions)) checked @endif> View Equipment</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="add.equipment" @if(in_array('add.equipment',$role->permissions)) checked @endif> Add Equipment</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="edit.equipment" @if(in_array('edit.equipment',$role->permissions)) checked @endif> Edit Equipment</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="delete.equipment" @if(in_array('delete.equipment',$role->permissions)) checked @endif> Delete Equipment</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="view.ilsm" @if(in_array('view.ilsm',$role->permissions)) checked @endif> View ILSM</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="preassessment.ilsm" @if(in_array('preassessment.ilsm',$role->permissions)) checked @endif> Preassessment ILSM</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="checklist.ilsm" @if(in_array('checklist.ilsm',$role->permissions)) checked @endif> ILSM Checklists</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="approve.ilsm" @if(in_array('approve.ilsm',$role->permissions)) checked @endif> Approve ILSM</div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6"><input type="checkbox" name="permissions[]" value="signoff.ilsm" @if(in_array('signoff.ilsm',$role->permissions)) checked @endif> Sign Off ILSM</div>
+        </div>
+
+
+
 
 
 
