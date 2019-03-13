@@ -355,18 +355,7 @@
             <ul class="treeview-menu">
               <li style="white-space: pre-line;"><a href="{{url('equipment/view')}}"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
               <li style="white-space: pre-line;"><a href="{{url('equipment/work-orders')}}"><i class="fa fa-circle-o"></i>Work Orders</a></li>
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i><span>Demand Work Order</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i></span>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>Work Orders</a></li>
-                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>Work Order Audit</a></li>
-                </ul>
-              </li>
+              <li style="white-space: pre-line;"><a href="{{url('facility-maintenance/drawings')}}"><i class="fa fa-circle-o"></i>Drawings</a></li>
             </ul>
           </li>
 

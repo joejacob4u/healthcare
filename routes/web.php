@@ -397,6 +397,14 @@ Route::get('equipment/demand-work-orders/{demand_work_order_id}', 'Equipment\Dem
 Route::post('equipment/demand-work-orders/{demand_work_order_id}/shift', 'Equipment\DemandWorkOrderShiftController@store');
 Route::post('equipment/demand-work-orders/{demand_work_order_id}/shift/delete', 'Equipment\DemandWorkOrderShiftController@delete');
 
+// fm drawing routes
+Route::get('facility-maintenance/drawings', 'Equipment\DrawingsController@index');
+Route::post('facility-maintenance/drawings', 'Equipment\DrawingsController@store');
+Route::get('facility-maintenance/drawings/create', 'Equipment\DrawingsController@create');
+Route::get('facility-maintenance/drawings/{drawing}/edit', 'Equipment\DrawingsController@edit');
+Route::post('facility-maintenance/drawings/{drawing}/edit', 'Equipment\DrawingsController@update');
+Route::post('facility-maintenance/drawings/delete', 'Equipment\DrawingsController@destroy');
+
 
 
 
