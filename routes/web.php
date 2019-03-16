@@ -193,13 +193,24 @@ Route::post('rooms/delete', 'Frontend\RoomController@destroy');
 
 
 //end Healthsystem management routes
+
+//Admin Roles and Permissions
 Route::get('admin/roles', 'Admin\RolesController@index');
 Route::get('admin/roles/{role}/permissions', 'Admin\RolesController@showPermissions');
 Route::post('admin/roles/{role}/permissions', 'Admin\RolesController@savePermissions');
 
+//admin rounding categories and questions
+Route::get('admin/rounding/categories', 'Admin\Rounding\CategoryController@index');
+Route::post('admin/rounding/categories', 'Admin\Rounding\CategoryController@store');
+Route::post('admin/rounding/categories/delete', 'Admin\Rounding\CategoryController@destroy');
 
+Route::get('admin/rounding/categories/{category}/questions', 'Admin\Rounding\QuestionController@index');
+Route::post('admin/rounding/categories/{category}/questions', 'Admin\Rounding\QuestionController@store');
+Route::get('admin/rounding/categories/{category}/questions/create', 'Admin\Rounding\QuestionController@create');
+Route::get('admin/rounding/categories/{category}/questions/{question}/edit', 'Admin\Rounding\QuestionController@edit');
+Route::post('admin/rounding/categories/{category}/questions/{question}/edit', 'Admin\Rounding\QuestionController@update');
+Route::post('admin/rounding/categories/{category}/questions/delete', 'Admin\Rounding\QuestionController@destroy');
 
-//Admin Roles and Permissions
 
 //Admin System Tiers
 

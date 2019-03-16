@@ -61,6 +61,13 @@
             <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="approve.ilsm" @if(in_array('approve.ilsm',$role->permissions)) checked @endif> Approve ILSM</div>
         </div>
         <div class="row">
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="view.drawings" @if(in_array('view.drawings',$role->permissions)) checked @endif> View Drawings</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="add.drawings" @if(in_array('add.drawings',$role->permissions)) checked @endif> Add Drawings</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="edit.drawings" @if(in_array('edit.drawings',$role->permissions)) checked @endif> Edit Drawings</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="delete.drawings" @if(in_array('delete.drawings',$role->permissions)) checked @endif> Delete Drawings</div>
+        </div>
+
+        <div class="row">
             <div class="col-xs-6"><input type="checkbox" name="permissions[]" value="signoff.ilsm" @if(in_array('signoff.ilsm',$role->permissions)) checked @endif> Sign Off ILSM</div>
         </div>
 

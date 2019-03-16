@@ -75,6 +75,8 @@
            </ul>
        </li>
 
+       <li style="white-space: pre-line;"><a href="{{url('admin/rounding/categories')}}"><i class="fa fa-files-o"></i>Rounding</a></li>
+
 
         <li class="treeview">
            <a href="#">
