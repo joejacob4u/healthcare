@@ -11,19 +11,23 @@ class UserRolesSeeder extends Seeder
      */
     public function run()
     {
-      DB::table('roles')->insert([
-        ['name' => 'Master'],
-        ['name' => 'System Admin'],
-        ['name' => 'Admin'],
-        ['name' => 'Facility Manager/Director'],
-        ['name' => 'Maintenance Technician'],
-        ['name' => 'Project Manager/Construction Manager'],
-        ['name' => 'Business Partner'],
-        ['name' => 'Infection Prevention'],
-        ['name' => 'Safety'],
-        ['name' => 'Accreditation'],
-        ['name' => 'Administration'],
-        ['name' => 'Prospect']
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+        DB::table('roles')->truncate();
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
+        DB::table('roles')->insert([
+          ['name' => 'Master'],
+          ['name' => 'System Admin'],
+          ['name' => 'Admin'],
+          ['name' => 'Director of Facilities'],
+          ['name' => 'Facilities Manager'],
+          ['name' => 'Facilities Supervisor'],
+          ['name' => 'Engineering Manager'],
+          ['name' => 'Inventory Manager'],
+          ['name' => 'Maintenance Coordinator'],
+          ['name' => 'Maintenance Technician'],
+          ['name' => 'Engineering Technician'],
+          ['name' => 'Safety Officer']
       ]);
     }
-  }
+}

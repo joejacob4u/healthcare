@@ -24,6 +24,17 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        //System Admins can bypass all gates
+        
+        Gate::before(function ($user, $ability) {
+            if ($user->isSystemAdmin()) {
+                return true;
+            }
+        });
+
+        //other policies are defined below
+
         $this->registerFaciltyMaintenancePolicies();
     }
 

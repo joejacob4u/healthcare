@@ -48,6 +48,12 @@ class User extends Authenticatable
         return (in_array($this->role_id, [2,3])) ? 1 : 0;
     }
 
+    public function isSystemAdmin()
+    {
+        return (in_array($this->role_id, [2])) ? 1 : 0;
+    }
+
+
     public function isVerifier()
     {
         return $this->is_verifier;
