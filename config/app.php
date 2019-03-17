@@ -184,6 +184,7 @@ return [
         Collective\Html\HtmlServiceProvider::class,
         Yajra\Datatables\DatatablesServiceProvider::class,
         App\Providers\MacroServiceProvider::class,
+        Laravel\Tinker\TinkerServiceProvider::class
 
     ],
 
