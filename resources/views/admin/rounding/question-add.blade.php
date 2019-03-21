@@ -137,7 +137,7 @@
                 });
 
                 $('#work_order_trade_id').append(html);
-                $('#work_order_trade_id').selectpicker('render');
+                $('#work_order_trade_id').selectpicker('refresh');
 
            },
            complete:function(){}
@@ -163,7 +163,7 @@
                 });
 
                 $('#work_order_problem_id').append(html);
-                $('#work_order_problem_id').selectpicker('render');
+                $('#work_order_problem_id').selectpicker('refresh');
 
            },
            complete:function(){}
