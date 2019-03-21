@@ -4,27 +4,21 @@
 @parent
 
 @endsection
-@section('page_title','Rounding Categories for Checklist Type '.$checklist_type->name)
-@section('page_description','Manage rounding categories here.')
+@section('page_title','Rounding Checklist Types')
+@section('page_description','Manage rounding checklist types here.')
 
 @section('content')
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
-<ol class="breadcrumb">
-    <li><a href="/admin/rounding/checklist-types"> Checklist Types </a></li>
-    <li class="active">{{$checklist_type->name}} Categories</li>
-</ol>
-
-
       <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Add Rounding Category</h3>
+            <h3 class="box-title">Add Rounding Checklist Type</h3>
           </div>
           <div class="box-body">
-              <form class="form" role="form" method="POST" action="{{url('admin/rounding/checklist-type/'.$checklist_type->id.'/categories')}}">
+              <form class="form" role="form" method="POST" action="{{url('admin/rounding/checklist-types')}}">
                 <div class="form-group">
-                      <label for="name">Category</label>
+                      <label for="name">Checklist Type</label>
                       {!! Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'name']) !!}
                   </div>
                   <div class="form-group">
@@ -39,7 +33,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Rounding Categories</h3>
+        <h3 class="box-title">Rounding Checklist Types</h3>
 
         <div class="box-tools pull-right">
         </div>
@@ -48,24 +42,24 @@
         <table id="example" class="table table-striped">
                 <thead>
                     <tr>
-                        <th>Category</th>
-                        <th>Questions</th>
+                        <th>Checklist Type</th>
+                        <th>Categories</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Category</th>
-                        <th>Questions</th>
+                        <th>Checklist Type</th>
+                        <th>Categories</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($checklist_type->categories as $category)
-                    <tr id="tr-{{$category->id}}">
-                      <td>{{$category->name}}</td>
-                      <td>{!! link_to('admin/rounding/categories/'.$category->id.'/questions','Questions',['class' => 'btn-xs btn-primary']) !!}</td>
-                      <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteRoundingCategory('.$category->id.')']) !!}</td>
+                  @foreach($checklist_types as $checklist_type)
+                    <tr id="tr-{{$checklist_type->id}}">
+                      <td>{{$checklist_type->name}}</td>
+                      <td>{!! link_to('admin/rounding/checklist-type/'.$checklist_type->id.'/categories','Categories',['class' => 'btn-xs btn-primary']) !!}</td>
+                      <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteRoundingChecklistType('.$checklist_type->id.')']) !!}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -79,7 +73,7 @@
     </div>
 
     <script>
-      function deleteRoundingCategory(category_id)
+      function deleteRoundingChecklistType(checklist_type_id)
       {
           bootbox.confirm("Are you sure you want to delete?", function(result)
           { 
@@ -87,8 +81,8 @@
              {
                 $.ajax({
                     type: 'POST',
-                    url: '{{ url('admin/rounding/categories/delete') }}',
-                    data: { '_token' : '{{ csrf_token() }}', 'id': category_id},
+                    url: '{{ url('admin/rounding/checklist-type/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'id': checklist_type_id},
                     beforeSend:function()
                     {
                         $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
@@ -97,7 +91,7 @@
                     {
                       if(data.status == 'success')
                       {
-                          $('#tr-'+category_id).remove();
+                          $('#tr-'+checklist_type_id).remove();
                       }
                     },
                     complete:function()

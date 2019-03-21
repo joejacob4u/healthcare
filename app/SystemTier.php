@@ -19,4 +19,9 @@ class SystemTier extends Model
     {
         return $this->hasMany('App\Equipment\AssetCategory', 'system_tier_id');
     }
+
+    public function trades()
+    {
+        return $this->hasMany('App\Equipment\Trade', 'system_tier_id');
+    }
 }

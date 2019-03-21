@@ -8,7 +8,7 @@ class Question extends Model
 {
     protected $table = 'rounding_questions';
 
-    protected $fillable = ['rounding_category_id','system_tier_id','question','answers','eops'];
+    protected $fillable = ['rounding_category_id','system_tier_id','question','answers','eops','work_order_trade_id','work_order_problem_id','negative_answers'];
 
     protected $casts = ['eops' => 'array','answers' => 'array'];
 
@@ -20,5 +20,15 @@ class Question extends Model
     public function systemTier()
     {
         return $this->belongsTo('App\SystemTier', 'system_tier_id');
+    }
+
+    public function trade()
+    {
+        return $this->belongsTo('App\Equipment\Trade', 'work_order_trade_id');
+    }
+
+    public function problem()
+    {
+        return $this->belongsTo('App\Equipment\Problem', 'work_order_problem_id');
     }
 }

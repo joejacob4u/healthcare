@@ -71,11 +71,6 @@
             <div class="col-xs-6"><input type="checkbox" name="permissions[]" value="signoff.ilsm" @if(in_array('signoff.ilsm',$role->permissions)) checked @endif> Sign Off ILSM</div>
         </div>
 
-
-
-
-
-
       </div>
       <!-- /.box-body -->
       <div class="box-footer">
@@ -87,10 +82,20 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title"><mark>{{$role->name}}</mark> in Accreditation has permission to :</h3>
+        <h3 class="box-title"><mark>{{$role->name}}</mark> in Rounding has permission to :</h3>
       </div>
       <div class="box-body">
-        <center><p>Work in Progress</p></center>
+          <div class="row">
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="view.roundings" @if(in_array('view.roundings',$role->permissions)) checked @endif> View Roundings</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="answer.roundings" @if(in_array('answer.roundings',$role->permissions)) checked @endif> Answer/Comment Roundings</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="edit.roundings" @if(in_array('edit.roundings',$role->permissions)) checked @endif> Edit Roundings</div>
+            <div class="col-xs-3"><input type="checkbox" name="permissions[]" value="delete.roundings" @if(in_array('delete.roundings',$role->permissions)) checked @endif> Delete Roundings</div>
+        </div>
+
+        <div class="row">
+            <div class="col-xs-6"><input type="checkbox" name="permissions[]" value="submit.roundings" @if(in_array('submit.roundings',$role->permissions)) checked @endif> Submit Final Rounding Checklist</div>
+        </div>
+
       </div>
       <!-- /.box-body -->
       <div class="box-footer">

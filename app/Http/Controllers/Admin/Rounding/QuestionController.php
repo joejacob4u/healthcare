@@ -8,6 +8,7 @@ use App\Rounding\Category;
 use App\Regulatory\EOP;
 use App\SystemTier;
 use App\Rounding\Question;
+use App\Equipment\Trade;
 
 class QuestionController extends Controller
 {
@@ -33,6 +34,8 @@ class QuestionController extends Controller
         $this->validate($request, [
             'question' => 'required',
             'system_tier_id' => 'required',
+            'work_order_trade_id' => 'required',
+            'work_order_problem_id' => 'required',
             'answers' => 'required|array',
             'answers.*' => 'required|distinct|min:1'
         ]);
@@ -54,6 +57,8 @@ class QuestionController extends Controller
         $this->validate($request, [
             'question' => 'required',
             'system_tier_id' => 'required',
+            'work_order_trade_id' => 'required',
+            'work_order_problem_id' => 'required',
             'answers' => 'required|array',
             'answers.*' => 'required|distinct|min:1'
         ]);
@@ -68,5 +73,17 @@ class QuestionController extends Controller
         if (Question::find($request->id)->delete()) {
             return response()->json(['status' => 'success']);
         }
+    }
+
+    public function fetchTrades(Request $request)
+    {
+        $system_tier = SystemTier::find($request->system_tier_id);
+        return response()->json(['trades' => $system_tier->trades]);
+    }
+
+    public function fetchProblems(Request $request)
+    {
+        $trade = Trade::find($request->work_order_trade_id);
+        return response()->json(['problems' => $trade->problems]);
     }
 }

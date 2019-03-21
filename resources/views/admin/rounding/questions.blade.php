@@ -11,6 +11,12 @@
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
+<ol class="breadcrumb">
+    <li><a href="/admin/rounding/checklist-type/{{$category->checklist_type_id}}/categories"> Categories </a></li>
+    <li class="active">Questions for {{$category->name}}</li>
+</ol>
+
+
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Rounding Questions for {{$category->name}}</h3>
@@ -45,7 +51,7 @@
                   @foreach($category->questions as $question)
                     <tr id="tr-{{$question->id}}">
                       <td>{{$question->question}}</td>
-                      <td>{!! link_to('#','Answers',['class' => 'btn-xs btn-primary','data-toggle' => "popover", 'title' => "Answers", 'data-trigger' => "click", 'data-content' => implode('<br>',$question->answers),'data-html' => 'true']) !!}</td>
+                      <td>{!! link_to('#','Answers',['class' => 'btn-xs btn-primary','data-toggle' => "popover", 'title' => "Answers", 'data-trigger' => "click", 'data-content' => implode('<br>',$question->answers['answer']),'data-html' => 'true']) !!}</td>
                       <td>{{$question->systemTier->name}}</td>
                       <td>{!! link_to('#','EOP',['class' => 'btn-xs btn-info','data-toggle' => "popover", 'title' => "EOPs", 'data-trigger' => "click", 'data-content' => (!empty($question->eops)) ? \App\Regulatory\EOP::whereIn('id',$question->eops)->get()->implode('text','<br>') : 'N/A','data-html' => 'true']) !!}</td>
                       <td>{!! link_to('admin/rounding/categories/'.$category->id.'/questions/'.$question->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>

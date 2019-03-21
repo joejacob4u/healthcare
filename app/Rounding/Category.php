@@ -14,4 +14,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Rounding\Question', 'rounding_category_id');
     }
+
+    public function checklistType()
+    {
+        return $this->belongsTo('App\Rounding\ChecklistType', 'checklist_type_id');
+    }
 }

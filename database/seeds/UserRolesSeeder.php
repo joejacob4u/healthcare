@@ -27,7 +27,9 @@ class UserRolesSeeder extends Seeder
           ['name' => 'Maintenance Coordinator'],
           ['name' => 'Maintenance Technician'],
           ['name' => 'Engineering Technician'],
-          ['name' => 'Safety Officer']
+          ['name' => 'Safety Officer'],
+          ['name' => 'Rounding Leader'],
+          ['name' => 'Rounding Participant']
       ]);
     }
 }

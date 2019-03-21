@@ -199,9 +199,16 @@ Route::get('admin/roles', 'Admin\RolesController@index');
 Route::get('admin/roles/{role}/permissions', 'Admin\RolesController@showPermissions');
 Route::post('admin/roles/{role}/permissions', 'Admin\RolesController@savePermissions');
 
-//admin rounding categories and questions
-Route::get('admin/rounding/categories', 'Admin\Rounding\CategoryController@index');
-Route::post('admin/rounding/categories', 'Admin\Rounding\CategoryController@store');
+//admin rounding checklist types, categories and questions
+
+Route::get('admin/rounding/checklist-types', 'Admin\Rounding\ChecklistTypeController@index');
+Route::post('admin/rounding/checklist-types', 'Admin\Rounding\ChecklistTypeController@store');
+Route::post('admin/rounding/checklist-type/delete', 'Admin\Rounding\ChecklistTypeController@destroy');
+
+
+
+Route::get('admin/rounding/checklist-type/{checklist_type}/categories', 'Admin\Rounding\CategoryController@index');
+Route::post('admin/rounding/checklist-type/{checklist_type}/categories', 'Admin\Rounding\CategoryController@store');
 Route::post('admin/rounding/categories/delete', 'Admin\Rounding\CategoryController@destroy');
 
 Route::get('admin/rounding/categories/{category}/questions', 'Admin\Rounding\QuestionController@index');
@@ -210,6 +217,8 @@ Route::get('admin/rounding/categories/{category}/questions/create', 'Admin\Round
 Route::get('admin/rounding/categories/{category}/questions/{question}/edit', 'Admin\Rounding\QuestionController@edit');
 Route::post('admin/rounding/categories/{category}/questions/{question}/edit', 'Admin\Rounding\QuestionController@update');
 Route::post('admin/rounding/categories/{category}/questions/delete', 'Admin\Rounding\QuestionController@destroy');
+Route::post('admin/rounding/categories/{category}/questions/fetch-trades', 'Admin\Rounding\QuestionController@fetchTrades');
+Route::post('admin/rounding/categories/{category}/questions/fetch-problems', 'Admin\Rounding\QuestionController@fetchProblems');
 
 
 //Admin System Tiers
