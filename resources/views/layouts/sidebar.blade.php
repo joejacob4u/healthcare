@@ -219,6 +219,9 @@
          </ul>
      </li>
      <li style="white-space: pre-line;"><a href="{{url('healthsystem/hco')}}"><i class="fa fa-circle-o"></i>Manage HCOs</a></li>
+     @if(!empty(session('building_id')))
+      <li style="white-space: pre-line;"><a href="{{url('rounding/config')}}"><i class="fa fa-circle-o"></i>Roundings</a></li>
+     @endif
      <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>

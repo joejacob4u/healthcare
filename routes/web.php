@@ -220,6 +220,20 @@ Route::post('admin/rounding/categories/{category}/questions/delete', 'Admin\Roun
 Route::post('admin/rounding/categories/{category}/questions/fetch-trades', 'Admin\Rounding\QuestionController@fetchTrades');
 Route::post('admin/rounding/categories/{category}/questions/fetch-problems', 'Admin\Rounding\QuestionController@fetchProblems');
 
+//System Admin Rounding Config
+Route::get('rounding/config', 'Rounding\ConfigController@index');
+Route::get('rounding/config/create', 'Rounding\ConfigController@create');
+Route::get('rounding/config/{config}/edit', 'Rounding\ConfigController@edit');
+Route::post('rounding/config/{config}/edit', 'Rounding\ConfigController@update');
+Route::post('rounding/config', 'Rounding\ConfigController@store');
+Route::post('rounding/config/delete', 'Rounding\ConfigController@destroy');
+
+
+
+
+
+
+
 
 //Admin System Tiers
 
