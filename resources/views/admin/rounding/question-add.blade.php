@@ -92,8 +92,6 @@
     var answer_count = 0;
 
     $('#add-btn').click(function(){
-
-        answer_count++;
         
         var answer_field = `<div class="input-group" id="answer-option-${answer_count}">
                                     <div class="input-group-btn">
@@ -105,6 +103,7 @@
                             <div id="answer-negative-${answer_count}"><label><input type="checkbox" name="answers[answer][negative]" value="${answer_count}">Is Negative ?</label></div>`;
 
         $('#answer-box').append(answer_field);
+        answer_count++;
         
     });
 
