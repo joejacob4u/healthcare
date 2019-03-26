@@ -228,8 +228,10 @@ Route::post('rounding/config/{config}/edit', 'Rounding\ConfigController@update')
 Route::post('rounding/config', 'Rounding\ConfigController@store');
 Route::post('rounding/config/delete', 'Rounding\ConfigController@destroy');
 
-
-
+//user rounding routes
+Route::get('roundings', 'Rounding\RoundingController@index');
+Route::get('rounding/{rounding}/questions', 'Rounding\RoundingController@questions');
+Route::post('rounding/{rounding}/questions', 'Rounding\RoundingController@saveQuestions');
 
 
 

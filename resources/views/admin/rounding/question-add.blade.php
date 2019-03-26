@@ -98,9 +98,9 @@
                                         <button type="button" class="remove-answer btn btn-danger" onclick="removeAnswer(${answer_count})">Remove</button>
                                     </div>
                                     <!-- /btn-group -->
-                                    <input name="answers[answer][]" type="text" class="form-control">
+                                    <input name="answers[answers][${answer_count}]" type="text" class="form-control">
                             </div>
-                            <div id="answer-negative-${answer_count}"><label><input type="checkbox" name="answers[answer][negative]" value="${answer_count}">Is Negative ?</label></div>`;
+                            <div id="answer-negative-${answer_count}"><label><input type="checkbox" name="answers[negative]" value="${answer_count}">Is Negative ?</label></div>`;
 
         $('#answer-box').append(answer_field);
         answer_count++;

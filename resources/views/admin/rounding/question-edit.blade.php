@@ -62,16 +62,16 @@
                             </div>
                         </div>
                         <div id="answer-box" class="box-body">
-                            @foreach($question->answers['answer'] as $key => $answer)
+                            @foreach($question->answers['answers'] as $key => $answer)
                                 @if($key !== 'negative')
                                     <div class="input-group" id="answer-option-{{$key}}">
                                         <div class="input-group-btn">
                                             <button type="button" class="remove-answer btn btn-danger" onclick="removeAnswer({{$key}})">Remove</button>
                                         </div>
                                         <!-- /btn-group -->
-                                        <input name="answers[answer][]" type="text" value="{{$answer}}" class="form-control">
+                                        <input name="answers[answers][]" type="text" value="{{$answer}}" class="form-control">
                                     </div>
-                                    <div id="answer-negative-{{$key}}"><label><input type="checkbox" name="answers[answer][negative]" value="{{$key}}" @if($question->answers['answer']['negative'] == $key) checked @endif>Is Negative ?</label></div>
+                                    <div id="answer-negative-{{$key}}"><label><input type="checkbox" name="answers[negative]" value="{{$key}}" @if($question->answers['negative'] == $key) checked @endif>Is Negative ?</label></div>
                                 @endif
                             @endforeach
                         </div>
@@ -104,25 +104,23 @@
 
     <script>
 
-        var answer_count = {{max(array_keys($question->answers['answer']))}};
+        var answer_count = {{max(array_keys($question->answers['answers']))}};
 
     $('#add-btn').click(function(){
-
-        answer_count++;
         
         var answer_field = `<div class="input-group" id="answer-option-${answer_count}">
                                     <div class="input-group-btn">
                                         <button type="button" class="remove-answer btn btn-danger" onclick="removeAnswer(${answer_count})">Remove</button>
                                     </div>
                                     <!-- /btn-group -->
-                                    <input name="answers[answer][]" type="text" class="form-control">
+                                    <input name="answers[answers][${answer_count}]" type="text" class="form-control">
                             </div>
-                            <div id="answer-negative-${answer_count}"><label><input type="checkbox" name="answers[answer][negative]" value="${answer_count}">Is Negative ?</label></div>`;
+                            <div id="answer-negative-${answer_count}"><label><input type="checkbox" name="answers[negative]" value="${answer_count}">Is Negative ?</label></div>`;
 
         $('#answer-box').append(answer_field);
+        answer_count++;
         
     });
-
 
     function removeAnswer(answer_count)
     {

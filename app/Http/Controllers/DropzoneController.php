@@ -7,10 +7,9 @@ use Storage;
 
 class DropzoneController extends Controller
 {
-
     public function upload(Request $request)
     {
-        return $request->file('file')->storeAs($request->folder,$request->file('file')->getClientOriginalName(),'s3');
+        return $request->file('file')->storeAs($request->folder, $request->file('file')->getClientOriginalName(), 's3');
     }
 
     public function populate(Request $request)
@@ -18,10 +17,8 @@ class DropzoneController extends Controller
         $files = Storage::disk('s3')->files($request->directory);
         $results = array();
 
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             $obj['name'] = basename($file);
-            $obj['size'] = Storage::disk('s3')->size(config('filesystems.disks.s3.url').$file);
             $obj['url'] = config('filesystems.disks.s3.url').$file;
             $results[] = $obj;
         }
@@ -30,7 +27,7 @@ class DropzoneController extends Controller
 
     public function delete(Request $request)
     {
-        if(Storage::disk('s3')->exists($request->directory.'/'.$request->file)) {
+        if (Storage::disk('s3')->exists($request->directory.'/'.$request->file)) {
             Storage::disk('s3')->delete($request->directory.'/'.$request->file);
         }
     }

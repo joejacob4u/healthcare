@@ -433,58 +433,8 @@
             </ul>
           </li>
 
-          <li class="treeview" id="healthsystem_tree">
-            <a href="#">
-              <i class="fa fa-circle-o"></i><span> Rounding</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i></span>
-              </span>
-            </a>
-            <ul class="treeview-menu">
-                  <li class="treeview">
-                    <a href="#">
-                      <i class="fa fa-circle-o"></i><span>Patient Safety</span>
-                      <span class="pull-right-container">
-                        <i class="fa fa-angle-left pull-right"></i></span>
-                      </span>
-                    </a>
-                <ul class="treeview-menu">
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Infection Prevention Rounds</a></li>
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Pharmacy Rounds</a></li>
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Quality of Care Rounds</a></li>
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Patient Safety Rounds</a></li>                
-                </ul>
-              </li>
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i><span>Leadership Rounding</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i></span>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>On Internal Customers</a></li>
-                  <li style="white-space: pre-line;"><a href=""><i class="fa fa-circle-o"></i>On Patients</a></li>
-                </ul>
-              </li>
-              <li class="treeview">
-                <a href="#">
-                  <i class="fa fa-circle-o"></i><span>Hourly Rounding</span>
-                  <span class="pull-right-container">
-                    <i class="fa fa-angle-left pull-right"></i></span>
-                  </span>
-                </a>
-                <ul class="treeview-menu">
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Nurse Huddle Meeting</a></li>
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Daily Count</a></li>
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Daily</a></li>
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Weekly Rounding</a></li>
-                  <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Call Light Log</a></li>
-                </ul>
-              </li>
-            </ul>
-          </li>
-        @endif
+        <li style="white-space: pre-line;"><a href="/roundings"><i class="fa fa-circle-o"></i>Roundings</a></li>       
+      @endif
 
 
   </ul>

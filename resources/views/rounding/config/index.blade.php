@@ -26,6 +26,7 @@
                         <th>Checklist Type</th>
                         <th>Frequency</th>
                         <th>Baseline Date</th>
+                        <th>User</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -36,6 +37,7 @@
                         <th>Checklist Type</th>
                         <th>Frequency</th>
                         <th>Baseline Date</th>
+                        <th>User</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -46,7 +48,8 @@
                         <td>{{$config->department->name}}</td>
                         <td>{{$config->checklistType->name}}</td>
                         <td>{{$config->frequency}}</td>
-                        <td>{{ $config->baseline_date->toFormattedDateString() }}</td>
+                        <td>{{ $config->baseline_date->toDayDateTimeString() }}</td>
+                        <td>{{ $config->user->name }}</td>
                         <td>{!! link_to('rounding/config/'.$config->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteRoundingConfig('.$config->id.')']) !!}</td>
                     </tr>

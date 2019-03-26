@@ -44,6 +44,14 @@
                 </div>
 
                 <div class="form-group">
+                    {!! Form::label('user_id', 'User:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                        {!! Form::select('user_id', $users->prepend('Please Select',''), $config->user_id, ['class' => 'form-control selectpicker','id' => 'user_id']) !!}
+                    </div>
+                </div>
+
+
+                <div class="form-group">
                     {!! Form::label('frequency', 'Frequency:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('frequency', ['' => 'Please Select','daily' => 'Daily','weekly' => 'Weekly','monthly' => 'Monthly','quarterly' => 'Quarterly','annually' => 'Annually','semi-annually' => 'Semi-anually','as_needed' => 'As Needed' ,'per_policy' => 'Per Policy','two-years' => 'Two Years', 'three-years' => 'Three Years', 'four-years' => 'Four Years', 'five-years' => 'Five Years', 'six-years' => 'Six Years'], $config->frequency, ['class' => 'form-control selectpicker','id' => 'frequency','data-live-search' => 'true','data-size' => 'false']) !!}
@@ -80,10 +88,10 @@
     <script>
 
     $('.date').flatpickr({
-         enableTime: false,
-         dateFormat: 'Y-m-d',
+         enableTime: true,
+         dateFormat: 'Y-m-d H:i:S',
          altInput: true,
-         altFormat: 'M j, Y',
+         altFormat: 'M j, Y h:i K',
     });
 
     </script>

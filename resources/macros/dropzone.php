@@ -1,28 +1,31 @@
 <?php
 
 HTML::macro('dropzone', function ($field, $directory, $populate = false, $editable = true) {
+    $id_name = str_replace("[", "", $field);
+    $id_name = str_replace("]", "", $id_name);
+    
     return "
     <input type='hidden' name='".$field."' value='".$directory."'>
-    <div id='".$field."' class='dropzone'></div>    <br/>
-    <ul class=\"list-group\" id='".$field."_file_list'>
+    <div id='".$id_name."' class='dropzone'></div>    <br/>
+    <ul class=\"list-group\" id='".$id_name."_file_list'>
         <li class=\"list-group-item list-group-item-info\">File Actions</li>
     </ul>
 
     <script>
     
         document.addEventListener('DOMContentLoaded', function(){
-            var ".$field."_populate = ".$populate.";
+            var ".$id_name."_populate = ".$populate.";
             var s3url = '".env('S3_URL')."';
             var editable = ".$editable.";
         
-            $('#".$field."').dropzone({ 
+            $('#".$id_name."').dropzone({ 
                 url: '/dropzone/upload' ,
                 paramName: 'file',
                 maxFilesize: 4,
                 autoDiscover: false,
                 addRemoveLinks: editable,
                 init: function() {
-                    ".$field."_thisDropzone = this;
+                    ".$id_name."_thisDropzone = this;
                     this.on('sending', function(file, xhr, formData){
                         formData.append('_token', $('meta[name=\"csrf-token\"]').attr('content'));
                         formData.append('folder', '".$directory."');
@@ -31,9 +34,9 @@ HTML::macro('dropzone', function ($field, $directory, $populate = false, $editab
                             //this.emit('thumbnail', file, '/images/document.png');
                         }
     
-                        $('#".$field."_file_list').append('<li class=\"list-group-item\"><span class=\"glyphicon glyphicon-paperclip\"></span> '+file.name+'<a href=\"'+s3url+'$directory/'+file.name+'\" target=\"_blank\" class=\"btn btn-primary btn-xs pull-right\" ><span class=\"glyphicon glyphicon-eye-open\"></span> View</a></li>');
+                        $('#".$id_name."_file_list').append('<li class=\"list-group-item\"><span class=\"glyphicon glyphicon-paperclip\"></span> '+file.name+'<a href=\"'+s3url+'$directory/'+file.name+'\" target=\"_blank\" class=\"btn btn-primary btn-xs pull-right\" ><span class=\"glyphicon glyphicon-eye-open\"></span> View</a></li>');
                     });
-                    if(".$field."_populate)
+                    if(".$id_name."_populate)
                     {                    
                         $.ajax({
                             type: 'POST',
@@ -50,18 +53,18 @@ HTML::macro('dropzone', function ($field, $directory, $populate = false, $editab
                                         
                                         var mockFile = { name: value.name, size: 12345 };
     
-                                        ".$field."_thisDropzone.options.addedfile.call(".$field."_thisDropzone, mockFile);
+                                        ".$id_name."_thisDropzone.options.addedfile.call(".$id_name."_thisDropzone, mockFile);
     
                                         if (value.name.indexOf('.jpg') >= 0 || value.name.indexOf('.png') >= 0)
                                         {
-                                            ".$field."_thisDropzone.options.thumbnail.call(".$field."_thisDropzone, mockFile, value.url);
+                                            ".$id_name."_thisDropzone.options.thumbnail.call(".$id_name."_thisDropzone, mockFile, value.url);
                                         }
                                         else
                                         {
-                                            //".$field."_thisDropzone.options.thumbnail.call(".$field."_thisDropzone, mockFile, '/images/document.png');
+                                            //".$id_name."_thisDropzone.options.thumbnail.call(".$id_name."_thisDropzone, mockFile, '/images/document.png');
                                         }
     
-                                        $('#".$field."_file_list').append('<li class=\"list-group-item\"><span class=\"glyphicon glyphicon-paperclip\"></span> '+value.name+'<a href=\"'+value.url+'\" target=\"_blank\" class=\"btn btn-primary btn-xs pull-right\" ><span class=\"glyphicon glyphicon-eye-open\"></span> View</a></li>');
+                                        $('#".$id_name."_file_list').append('<li class=\"list-group-item\"><span class=\"glyphicon glyphicon-paperclip\"></span> '+value.name+'<a href=\"'+value.url+'\" target=\"_blank\" class=\"btn btn-primary btn-xs pull-right\" ><span class=\"glyphicon glyphicon-eye-open\"></span> View</a></li>');
                                         
                                    });
                
