@@ -87,8 +87,8 @@
         </div>
 
         <div class="form-group">
-            {!! Form::label('room_id', 'Room:', ['class' => 'control-label']) !!}
-            {!! Form::select('room_id', [], '', ['class' => 'form-control','id' => 'room_id','data-live-search' => "true"]); !!}
+            {!! Form::label('rooms', 'Room:', ['class' => 'control-label']) !!}
+            {!! Form::select('rooms[]', [], '', ['class' => 'form-control','id' => 'room_id','data-live-search' => "true",'multiple' => 'true']); !!}
         </div>
 
         <div class="form-group">

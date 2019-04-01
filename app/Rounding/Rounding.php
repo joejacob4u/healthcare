@@ -8,9 +8,7 @@ class Rounding extends Model
 {
     protected $table = 'roundings';
 
-    protected $fillable = ['rounding_config_id','building_id','date','answers','rounding_status_id'];
-
-    protected $casts = ['answers' => 'array'];
+    protected $fillable = ['rounding_config_id','building_id','date','rounding_status_id'];
 
     protected $dates = ['date'];
 
@@ -27,6 +25,11 @@ class Rounding extends Model
     public function status()
     {
         return $this->belongsTo('App\Rounding\Status', 'rounding_status_id');
+    }
+
+    public function findings()
+    {
+        return $this->hasMany('App\Rounding\QuestionFinding', 'rounding_id');
     }
 
     public function setDateAttribute($date)

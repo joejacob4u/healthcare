@@ -40,11 +40,6 @@ class DemandWorkOrder extends Model
         return $this->belongsTo('App\Regulatory\BuildingDepartment', 'building_department_id');
     }
 
-    public function room()
-    {
-        return $this->belongsTo('App\Regulatory\Room', 'room_id');
-    }
-
     public function trade()
     {
         return $this->belongsTo('App\Equipment\Trade', 'work_order_trade_id');
@@ -59,6 +54,12 @@ class DemandWorkOrder extends Model
     {
         return $this->hasMany('App\Equipment\DemandWorkOrderShift', 'demand_work_order_id');
     }
+
+    public function rooms()
+    {
+        return $this->belongsToMany('App\Regulatory\Room', 'demand_work_orders-rooms', 'demand_work_order_id', 'room_id');
+    }
+
 
     public function ilsmAssessment()
     {

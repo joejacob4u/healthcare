@@ -33,8 +33,10 @@ class DemandWorkOrderController extends Controller
 
     public function store(Request $request)
     {
-        if ($demand_work_order = DemandWorkOrder::create($request->all())) {
-
+        if ($demand_work_order = DemandWorkOrder::create($request->except('rooms'))) {
+            if (!empty($request->rooms)) {
+                $demand_work_order->rooms()->sync($request->rooms);
+            }
             //create ilsm assessment record
             if ($demand_work_order->ilsmAssessment()->create(['ilsm_assessment_status_id' => 8])) {
                 return back()->with('success', 'Demand work order created!');

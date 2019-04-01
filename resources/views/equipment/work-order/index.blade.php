@@ -142,7 +142,7 @@
                   @foreach($demand_work_orders as $work_order)
                     <tr>
                       <td>{{$work_order->identifier}}</td>
-                      <td>{{$work_order->department->name}} ({{$work_order->room->room_number}})</td>
+                      <td>{{$work_order->department->name}} ({{$work_order->rooms->implode('room_number', ', ')}})</td>
                       <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
                       <td>{{$work_order->priority->name}}</td>
                       <td>{{$work_order->created_at->setTimezone(session('timezone'))->toDayDateTimeString()}}</td>
