@@ -18,6 +18,7 @@ class RoundingStatusSeeder extends Seeder
         DB::table('rounding_statuses')->insert([
             ['name' => 'Pending'],
             ['name' => 'In Process'],
+            ['name' => 'Under Review'],
             ['name' => 'Complete and Compliant'],
             ['name' => 'Complete with Open Issues']
         ]);

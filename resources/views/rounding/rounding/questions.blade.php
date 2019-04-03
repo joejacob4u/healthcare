@@ -73,13 +73,16 @@
         <!-- /.col -->
       </div>
 
-{!! Form::open(['url' => 'rounding/'.$rounding->id.'/questions', 'class' => '']) !!}
+      @if($rounding->rounding_status_id == 3)
 
-    <div class="form-group">
-        <div class="col-lg-10 col-lg-offset-2">
-            {!! Form::submit('Submit Answers', ['class' => 'btn btn-success pull-right'] ) !!}
-        </div>
-    </div><br>
+      <div class="callout callout-warning">
+        <h4>Under Review</h4>
+
+        <p>Rounding leader will need to verify the findings.</p>
+        <button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span> Verify</button>
+      </div>
+
+      @endif
 
 
 @foreach($rounding->config->checklistType->categories as $category)
@@ -121,7 +124,9 @@
                                   {{$finding->user->name}} has answered <strong>{{$question->answers['answers'][$finding->finding['answer']]}}</strong>
                                   @if(!empty($finding->finding['inventory_id'])) and linked inventory  {{$inventories[$finding->finding['inventory_id']]->name}} @endif
                                   @if(!empty($finding->finding['rooms'])) in rooms  @foreach($finding->finding['rooms'] as $room_id) {{$rooms[$room_id]}}, @endforeach @endif
-                                  @if(!empty($finding->finding['comment'])) commenting <i>{{$finding->finding['comment']}}</i> @endif
+                                  @if(!empty($finding->finding['comment'])) finding <i>{{$finding->finding['comment']}}</i> @endif
+                                  @php $files = Storage::disk('s3')->files($finding->finding['attachment']); @endphp
+                                  @if(count($files) > 0) and has <a class="attachment" data-attachment="{{json_encode($files)}}"> attached {{count($files)}} files.</a> @endif
                           </div>
                         <!-- /.comment-text -->
                         </div>
@@ -148,7 +153,6 @@
     </div>
 
 
-{!! Form::close()  !!}
 
 <!-- Positive Answer Modal -->
 <div id="answerModal" class="modal fade" role="dialog">
@@ -213,6 +217,30 @@
   </div>
 </div>
 
+<!-- Attachment Modal -->
+
+<div id="attachmentModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Attachments</h4>
+      </div>
+      <div class="modal-body">
+        <div class="list-group" id="attachment-list">
+          <a href="#" class="list-group-item active">Attachments</a>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
 
 <script>
@@ -222,6 +250,9 @@ var rounding_id = '{{$rounding->id}}';
 
 var rooms_data = '@php echo json_encode($rooms) @endphp';
 var inventory_data = '@php echo json_encode($inventories) @endphp';
+
+var is_leader = 1;
+var s3url = '{{env('S3_URL')}}';
 
 $('.answer').change(function(){
 
@@ -268,14 +299,16 @@ $('.answer').change(function(){
             });
 
             $('#negative-div').show();
+            $('#answerModal').modal('show');
         }
         else
         {
-
+          //avoid showing model if non=negative answer
+          $(".confirm-finding").trigger("click");
         }
     }
 
-     $('#answerModal').modal('show');
+     
 
 });
 
@@ -391,7 +424,8 @@ $('#inventory-checkbox').change(function(){
              'rounding_id' : rounding_id,
              'question_id' : question_id,
              'user_id' : user_id,
-             'finding' : JSON.stringify(finding)
+             'finding' : JSON.stringify(finding),
+             'is_leader' : is_leader
              },
 
            beforeSend:function(){
@@ -430,7 +464,14 @@ $('#inventory-checkbox').change(function(){
 
                   //comment
 
-                  negative_html += ' and has commented '+$('#comment').val();
+                  negative_html += ' and has finding '+$('#comment').val();
+
+                  //no of attachments 
+
+                  if(data.no_of_files > 0)
+                  {
+                    negative_html += " and has <a class='attachment' data-attachment='"+JSON.stringify(data.files)+"'>attached "+data.no_of_files+" files.</a>";
+                  }
 
               }             
               
@@ -449,9 +490,31 @@ $('#inventory-checkbox').change(function(){
                         </div>`;  
 
                 $('#box-footer-'+question_id).append(main_html);
+
+                if(data.is_finding_complete == 1)
+                {
+                    location.reload();
+                }
            },
            complete:function(){}
         });
+
+    });
+
+    $(document).on('click', '.attachment', function () {
+        
+        var attachments = $(this).attr('data-attachment');
+        $('#attachment-list').html('');
+
+        $('#attachment-list').append('<a href="#" class="list-group-item active">Attachments</a>');
+
+        $.each( JSON.parse(attachments), function( key, value ) {
+            var filename = value.split('\\').pop().split('/').pop();
+            $('#attachment-list').append('<a href="'+s3url+value+'" target="_blank" class="list-group-item">'+filename+'</a>');
+        });
+
+        $('#attachmentModal').modal('show');
+
 
     });
 

@@ -46,11 +46,37 @@ class RoundingController extends Controller
             'rounding_id' => $request->rounding_id,
             'question_id' => $request->question_id,
             'user_id' => $request->user_id,
-            'finding' => json_decode($request->finding, true)
+            'finding' => json_decode($request->finding, true),
+            'is_leader' => $request->is_leader
         ])) {
+            $is_finding_complete = false;
             $finding_data = json_decode($request->finding, true);
             $files = Storage::disk('s3')->files($finding_data['attachment']);
-            return response()->json(['finding' => $finding, 'no_of_files' => count($files)]);
+            
+            if ($rounding->status->id == 1) {
+                $rounding->update(['rounding_status_id' => 2]);
+            }
+
+            if ($this->isFindingComplete($rounding)) {
+                $is_finding_complete = true;
+                $rounding->update(['rounding_status_id' => 3]);
+            }
+
+            return response()->json(['finding' => $finding, 'no_of_files' => count($files),'files' => $files,'is_finding_complete' => $is_finding_complete]);
         }
+    }
+
+    private function isFindingComplete(Rounding $rounding)
+    {
+        foreach ($rounding->config->checklistType->categories as $category) {
+            foreach ($category->questions as $question) {
+                //has to be answerd and by a leader
+                if ($rounding->findings->where('question_id', $question->id)->where('is_leader', 1)->count() < 1) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 }

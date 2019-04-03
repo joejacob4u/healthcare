@@ -9,7 +9,7 @@ class QuestionFinding extends Model
 {
     protected $table = 'rounding_question_findings';
 
-    protected $fillable = ['rounding_id','question_id','user_id','finding'];
+    protected $fillable = ['rounding_id','question_id','user_id','finding','is_leader'];
 
     protected $casts = ['finding' => 'array'];
 
