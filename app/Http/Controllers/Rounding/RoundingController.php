@@ -10,6 +10,7 @@ use App\Regulatory\Room;
 use App\Equipment\Equipment;
 use App\Rounding\QuestionFinding;
 use function GuzzleHttp\json_decode;
+use App\Equipment\DemandWorkOrder;
 
 class RoundingController extends Controller
 {
@@ -40,6 +41,19 @@ class RoundingController extends Controller
         return view('rounding.rounding.questions', ['rounding' => $rounding,'rooms' => $rooms,'inventories' => $inventories]);
     }
 
+    public function deleteFinding(Request $request)
+    {
+        $question_finding = QuestionFinding::find($request->id);
+
+        if ($question_finding->delete()) {
+            if (!empty($question_finding->finding['attachment'])) {
+                Storage::disk('s3')->deleteDirectory($question_finding->finding['attachment']);
+            }
+            
+            return response()->json(['status' => 'success']);
+        }
+    }
+
     public function saveFinding(Request $request, Rounding $rounding)
     {
         if ($finding = QuestionFinding::create([
@@ -66,6 +80,25 @@ class RoundingController extends Controller
         }
     }
 
+    public function verify(Request $request)
+    {
+        $rounding = Rounding::find($request->rounding_id);
+        $is_compliant = true;
+
+        foreach ($rounding->findings->where('is_leader', 1) as $finding) {
+            if ($finding->question->answers['negative'] == $finding->finding['answer']) {
+                $is_compliant = false;
+                //create demand work order
+                $this->createDemandWorkOrder($finding);
+            }
+        }
+
+        //update rounding status
+        $rounding->update(['rounding_status_id' => ($is_compliant) ? 4 : 5]);
+
+        return back();
+    }
+
     private function isFindingComplete(Rounding $rounding)
     {
         foreach ($rounding->config->checklistType->categories as $category) {
@@ -78,5 +111,33 @@ class RoundingController extends Controller
         }
 
         return true;
+    }
+
+    private function createDemandWorkOrder(QuestionFinding $finding)
+    {
+        $data = [
+            'requester_name' => $finding->rounding->config->user->name,
+            'requester_email' => $finding->rounding->config->user->email,
+            'hco_id' => session('hco_id'),
+            'site_id' => session('site_id'),
+            'building_id' => session('building_id'),
+            'inventory_id' => (!empty($finding->finding['inventory_id'])) ? $finding->finding['inventory_id'] : 0,
+            'building_department_id' => $finding->rounding->config->department->id,
+            'work_order_trade_id' => $finding->question->trade->id,
+            'work_order_problem_id' => $finding->question->problem->id,
+            'work_order_priority_id' => $finding->question->problem->work_order_priority_id,
+            'attachments_path' => $finding->finding['attachment'],
+            'comments' => $finding->finding['comment']
+        ];
+
+        if ($demand_work_order = DemandWorkOrder::create($data)) {
+
+            //add rooms to demand work order
+            $demand_work_order->rooms()->sync($finding->finding['rooms']);
+            //init ilsm for work order
+            $demand_work_order->ilsmAssessment()->create(['ilsm_assessment_status_id' => 8]);
+            //link finding to work order
+            $finding->workOrders()->sync([$demand_work_order->id]);
+        }
     }
 }

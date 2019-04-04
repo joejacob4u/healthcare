@@ -232,8 +232,8 @@ Route::post('rounding/config/delete', 'Rounding\ConfigController@destroy');
 Route::get('roundings', 'Rounding\RoundingController@index');
 Route::get('rounding/{rounding}/questions', 'Rounding\RoundingController@questions');
 Route::post('rounding/{rounding}/question/findings', 'Rounding\RoundingController@saveFinding');
-
-
+Route::post('rounding/question/findings/delete', 'Rounding\RoundingController@deleteFinding');
+Route::post('rounding/question/findings/verify', 'Rounding\RoundingController@verify');
 
 
 

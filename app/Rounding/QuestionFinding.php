@@ -4,6 +4,7 @@ namespace App\Rounding;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
+use App\Equipment\DemandWorkOrder;
 
 class QuestionFinding extends Model
 {
@@ -16,6 +17,11 @@ class QuestionFinding extends Model
     public function rounding()
     {
         return $this->belongsTo(Rounding::class, 'rounding_id');
+    }
+
+    public function workOrders()
+    {
+        return $this->belongsToMany(DemandWorkOrder::class, 'rounding_question_finding-work_order', 'rounding_question_finding_id', 'demand_work_order_id');
     }
 
     public function question()

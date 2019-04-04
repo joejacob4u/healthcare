@@ -79,10 +79,32 @@
         <h4>Under Review</h4>
 
         <p>Rounding leader will need to verify the findings.</p>
-        <button class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok"></span> Verify</button>
+        <button class="btn btn-primary btn-xs" data-toggle="modal" data-target="#verifyModal"><span class="glyphicon glyphicon-ok"></span> Verify</button>
       </div>
 
       @endif
+
+      @if($rounding->rounding_status_id == 4)
+
+      <div class="callout callout-success">
+        <h4>This rounding is complete and compliant</h4>
+
+        <p>Rounding leader has verified and this is marked as compliant.</p>
+      </div>
+
+      @endif
+
+      @if($rounding->rounding_status_id == 5)
+
+      <div class="callout callout-danger">
+        <h4>This rounding is complete with Open Issues</h4>
+
+        <p>Rounding leader has verified and there are pending work orders to be compliant.</p>
+      </div>
+
+      @endif
+
+
 
 
 @foreach($rounding->config->checklistType->categories as $category)
@@ -112,7 +134,7 @@
                         
                         @foreach($rounding->findings->where('question_id',$question->id) as $finding)
 
-                        <div class="box-comment">
+                        <div class="box-comment" id="finding_{{$finding->id}}">
                         <!-- User image -->
                         <img class="img-circle img-sm" src="/images/avatar-anonym.png" alt="User Image">
 
@@ -127,6 +149,8 @@
                                   @if(!empty($finding->finding['comment'])) finding <i>{{$finding->finding['comment']}}</i> @endif
                                   @php $files = Storage::disk('s3')->files($finding->finding['attachment']); @endphp
                                   @if(count($files) > 0) and has <a class="attachment" data-attachment="{{json_encode($files)}}"> attached {{count($files)}} files.</a> @endif
+                                  @if($finding->workOrders->count() > 0) <a href="{{url('equipment/demand-work-orders/'.$finding->workOrders->first()->id)}}"><small class="label pull-right bg-orange">Work Order</small></a>  @endif
+                                  <small class="label pull-right bg-red" onclick="deleteFinding('{{$finding->id}}')">Delete</small>
                           </div>
                         <!-- /.comment-text -->
                         </div>
@@ -241,6 +265,32 @@
   </div>
 </div>
 
+<!-- Verify Modal -->
+
+<div id="verifyModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Verify</h4>
+      </div>
+      <div class="modal-body">
+      {!! Form::open(['url' => '/rounding/question/findings/verify', 'class' => 'form-horizontal']) !!}
+          <p>All the findings noted below are verified and ready for submission.</p>
+          {!! Form::hidden('rounding_id', $rounding->id,['id' => '']) !!}
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Confirm</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  {!! Form::close()  !!}
+  </div>
+</div>
+
+
 
 
 <script>
@@ -280,7 +330,7 @@ $('.answer').change(function(){
 
             $('#is_negative').val(1);
 
-            var directory = 'rounding/'+rounding_id+'/question/'+question_id+'/user/'+user_id+'/findings';
+            var directory = 'rounding/'+rounding_id+'/question/'+question_id+'/user/'+user_id+'/findings/'+moment().unix();
             var random_number = Math.floor((Math.random() * 10000) + 1);
             $('#attachment').val(directory);
 
@@ -475,7 +525,7 @@ $('#inventory-checkbox').change(function(){
 
               }             
               
-              var main_html = `<div class="box-comment">
+              var main_html = `<div class="box-comment" id="finding_${data.finding.id}">
                         <!-- User image -->
                         <img class="img-circle img-sm" src="/images/avatar-anonym.png" alt="User Image">
 
@@ -484,12 +534,13 @@ $('#inventory-checkbox').change(function(){
                                 {{auth()->user()->name}}
                                 <span class="text-muted pull-right">${moment().calendar()}</span>
                                 </span><!-- /.username -->
-                            {{auth()->user()->name}} has answered ${answer_text} ${negative_html}
+                            {{auth()->user()->name}} has answered ${answer_text} ${negative_html} <small class="label pull-right bg-red" onclick="deleteFinding(${data.finding.id})">Delete</small>
                         </div>
                         <!-- /.comment-text -->
                         </div>`;  
 
                 $('#box-footer-'+question_id).append(main_html);
+                $('#question_'+question_id).val('');
 
                 if(data.is_finding_complete == 1)
                 {
@@ -517,6 +568,41 @@ $('#inventory-checkbox').change(function(){
 
 
     });
+
+      function deleteFinding(finding_id)
+      {
+          bootbox.confirm("Are you sure you want to delete?", function(result)
+          { 
+             if(result == 1)
+             {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('rounding/question/findings/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'id': finding_id},
+                    beforeSend:function()
+                    {
+                        $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                    },
+                    success:function(data)
+                    {
+                      if(data.status == 'success')
+                      {
+                          $('#finding_'+finding_id).remove();
+                      }
+                    },
+                    complete:function()
+                    {
+                        $('.overlay').remove();
+                    },
+                    error:function()
+                    {
+                        // failed request; give feedback to user
+                    }
+                });
+             } 
+          });
+
+      }
 
     function enableAllExcept(selector,value)
     {
