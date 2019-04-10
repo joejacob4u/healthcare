@@ -41,11 +41,11 @@
                 </tfoot>
                 <tbody>
                   @foreach($equipments as $equipment)
-                    <tr>
+                    <tr id="tr-{{$equipment->id}}">
                       <td>{{$equipment->name}}</td>
                       <td>{{link_to('equipment/'.$equipment->id.'/baseline-dates/','Baseline Dates', ['class' => 'btn-xs btn-info'] )}}</td>
                       <td>{{link_to('equipment/edit/'.$equipment->id,'Edit', ['class' => 'btn-xs btn-warning'] )}}</td>
-                      <td>{{link_to('','Delete', ['class' => 'btn-xs btn-danger'] )}}</td>
+                      <td>{{link_to('#','Delete', ['class' => 'btn-xs btn-danger','onclick' => 'deleteEquipment('.$equipment->id.')'] )}}</td>
                     </tr>
                   @endforeach
                 </tbody>
@@ -62,6 +62,42 @@
   $(document).ready(function(){
      $('[data-toggle="popover"]').popover();
   });
+
+        function deleteEquipment(equipment_id)
+      {
+          bootbox.confirm("Are you sure you want to delete?", function(result)
+          { 
+             if(result == 1)
+             {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ url('equipment/delete') }}',
+                    data: { '_token' : '{{ csrf_token() }}', 'id': equipment_id},
+                    beforeSend:function()
+                    {
+                        $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                    },
+                    success:function(data)
+                    {
+                      if(data.status == 'success')
+                      {
+                          $('#tr-'+equipment_id).remove();
+                      }
+                    },
+                    complete:function()
+                    {
+                        $('.overlay').remove();
+                    },
+                    error:function()
+                    {
+                        // failed request; give feedback to user
+                    }
+                });
+             } 
+          });
+
+      }
+
 
   </script>
 

@@ -369,6 +369,7 @@ Route::get('equipment', 'Equipment\EquipmentController@index');
 Route::get('equipment/create', 'Equipment\EquipmentController@create');
 Route::post('equipment', 'Equipment\EquipmentController@store');
 Route::post('equipment/edit', 'Equipment\EquipmentController@save');
+Route::post('equipment/delete', 'Equipment\EquipmentController@destroy');
 Route::get('equipment/edit/{equipment_id}', 'Equipment\EquipmentController@edit');
 Route::get('equipment/download', 'Equipment\EquipmentController@download');
 

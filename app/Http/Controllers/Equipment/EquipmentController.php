@@ -46,7 +46,7 @@ class EquipmentController extends Controller
         $departments = BuildingDepartment::where('building_id', session('building_id'))->pluck('name', 'id')->prepend('Please select a department', 0);
         $mission_criticalities = MissionCriticality::pluck('name', 'id')->prepend('Please select a criticality', 0);
         $incident_histories = IncidentHistory::pluck('name', 'id')->prepend('Please select a incident history', 0);
-        return view('equipment.equipment.add', ['hcos' => $hcos,'categories' => $categories,'maintenance_requirements' => $maintenance_requirements,'redundancies' => $redundancies,'departments' => $departments,'mission_criticalities' => $mission_criticalities,'incident_histories' => $incident_histories]);
+        return view('equipment.equipment.add', ['hcos' => $hcos, 'categories' => $categories, 'maintenance_requirements' => $maintenance_requirements, 'redundancies' => $redundancies, 'departments' => $departments, 'mission_criticalities' => $mission_criticalities, 'incident_histories' => $incident_histories]);
     }
 
     public function store(Request $request)
@@ -68,7 +68,7 @@ class EquipmentController extends Controller
             'is_manufacturer_supported' => 'required'
         ]);
 
-        if (Equipment::create($request->except(['hco_id','site_id']))) {
+        if (Equipment::create($request->except(['hco_id', 'site_id']))) {
             return redirect('/equipment')->with('success', 'New equipment has been added.');
         }
     }
@@ -83,7 +83,7 @@ class EquipmentController extends Controller
         $departments = BuildingDepartment::where('building_id', session('building_id'))->pluck('name', 'id')->prepend('Please select a department', 0);
         $mission_criticalities = MissionCriticality::pluck('name', 'id')->prepend('Please select a criticality', 0);
         $incident_histories = IncidentHistory::pluck('name', 'id')->prepend('Please select a incident history', 0);
-        return view('equipment.equipment.edit', ['equipment' => $equipment,'hcos' => $hcos,'categories' => $categories,'maintenance_requirements' => $maintenance_requirements,'redundancies' => $redundancies,'departments' => $departments,'mission_criticalities' => $mission_criticalities,'incident_histories' => $incident_histories]);
+        return view('equipment.equipment.edit', ['equipment' => $equipment, 'hcos' => $hcos, 'categories' => $categories, 'maintenance_requirements' => $maintenance_requirements, 'redundancies' => $redundancies, 'departments' => $departments, 'mission_criticalities' => $mission_criticalities, 'incident_histories' => $incident_histories]);
     }
 
     public function save(Request $request)
@@ -97,7 +97,6 @@ class EquipmentController extends Controller
             'manufacturer' => 'required',
             'model_number' => 'required',
             'is_warranty_available' => 'required',
-            'manufacturer_date' => 'required',
             'utilization' => 'required|numeric|min:1|max:100',
             'frequency' => 'required|not_in:0',
             'meet_current_oem_specifications' => 'required',
@@ -110,7 +109,7 @@ class EquipmentController extends Controller
 
         $current_baseline_date = $equipment->baseline_date;
 
-        if ($equipment->update($request->except(['hco_id','site_id','equipment_id']))) {
+        if ($equipment->update($request->except(['hco_id', 'site_id', 'equipment_id']))) {
             if ($current_baseline_date != $request->baseline_date) {
 
                 //delete existing work order dates
@@ -121,11 +120,11 @@ class EquipmentController extends Controller
 
                 if (isset($work_order_dates)) {
                     foreach ($work_order_dates as $work_order_date) {
-    
+
                         //save each work order one by one
-                        
+
                         $equipment->workOrders()->save(new WorkOrder([
-                            'name' => 'Work Order for '.$equipment->name.' for '.Carbon::parse($work_order_date)->toFormattedDateString(),
+                            'name' => 'Work Order for ' . $equipment->name . ' for ' . Carbon::parse($work_order_date)->toFormattedDateString(),
                             'work_order_date' => $work_order_date,
                             'building_id' => session('building_id'),
                             'equipment_id' => $equipment->id,
@@ -134,15 +133,22 @@ class EquipmentController extends Controller
                     }
                 }
             }
-            
+
             return redirect('/equipment')->with('success', 'Equipment has been saved.');
         }
+    }
+
+    public function destroy(Request $request)
+    {
+        if (Equipment::find($request->id)->delete()) {
+                return response()->json(['status' => 'success']);
+            }
     }
 
     public function download()
     {
         $equipments = Equipment::where('building_id', session('building_id'))->get();
-        
+
         $csv = \League\Csv\Writer::createFromFileObject(new \SplTempFileObject());
 
         $csv->insertOne([
@@ -179,39 +185,39 @@ class EquipmentController extends Controller
         foreach ($equipments as $equipment) {
             foreach ($equipment->inventories as $inventory) {
                 $csv->insertOne([
-                $inventory->equipment->name,
-                session('building_name'),
-                $inventory->equipment->assetCategory->category->name,
-                $inventory->equipment->assetCategory->name,
-                $inventory->equipment->description,
-                $inventory->equipment->manufacturer,
-                $inventory->equipment->model_number,
-                $inventory->name,
-                $inventory->serial_number,
-                $inventory->identification_number,
-                $inventory->equipment->preventive_maintenance_procedure,
-                $inventory->redundancy->name,
-                $inventory->missionCriticality->name,
-                $inventory->incidentHistory->name,
-                $inventory->equipment->manufacturer_date,
-                $inventory->equipment->utilization,
-                $inventory->equipment->estimated_replacement_cost,
-                $inventory->equipment->estimated_deferred_maintenance_cost,
-                $inventory->baselineDate->date,
-                $inventory->equipment->maintenanceRequirement->name,
-                $inventory->room->buildingDepartment->name,
-                $inventory->room->room_number,
-                $inventory->USLScore(),
-                $inventory->FCINumber(),
-                $inventory->missionCriticalityRatingScore(),
-                $inventory->EMNumberScore(),
-                $inventory->EMRatingScore(),
-                $inventory->AdjustedEMRScore()
-            ]);
+                    $inventory->equipment->name,
+                    session('building_name'),
+                    $inventory->equipment->assetCategory->category->name,
+                    $inventory->equipment->assetCategory->name,
+                    $inventory->equipment->description,
+                    $inventory->equipment->manufacturer,
+                    $inventory->equipment->model_number,
+                    $inventory->name,
+                    $inventory->serial_number,
+                    $inventory->identification_number,
+                    $inventory->equipment->preventive_maintenance_procedure,
+                    $inventory->redundancy->name,
+                    $inventory->missionCriticality->name,
+                    $inventory->incidentHistory->name,
+                    $inventory->equipment->manufacturer_date,
+                    $inventory->equipment->utilization,
+                    $inventory->equipment->estimated_replacement_cost,
+                    $inventory->equipment->estimated_deferred_maintenance_cost,
+                    $inventory->baselineDate->date,
+                    $inventory->equipment->maintenanceRequirement->name,
+                    $inventory->room->buildingDepartment->name,
+                    $inventory->room->room_number,
+                    $inventory->USLScore(),
+                    $inventory->FCINumber(),
+                    $inventory->missionCriticalityRatingScore(),
+                    $inventory->EMNumberScore(),
+                    $inventory->EMRatingScore(),
+                    $inventory->AdjustedEMRScore()
+                ]);
             }
         }
 
-        $csv->output('equipment_inventories_for_'.session('building_name').'_'.date('Y-m-d:H:i:s').'.csv');
+        $csv->output('equipment_inventories_for_' . session('building_name') . '_' . date('Y-m-d:H:i:s') . '.csv');
         exit;
     }
 }
