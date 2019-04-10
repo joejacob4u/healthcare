@@ -11,6 +11,7 @@ use App\Equipment\Equipment;
 use App\Rounding\QuestionFinding;
 use function GuzzleHttp\json_decode;
 use App\Equipment\DemandWorkOrder;
+use App\Rounding\Question;
 
 class RoundingController extends Controller
 {
@@ -28,7 +29,7 @@ class RoundingController extends Controller
     public function questions(Rounding $rounding)
     {
         $equipments = Equipment::where('building_id', session('building_id'))->get();
-        
+
         $inventories = [];
 
         foreach ($equipments as $equipment) {
@@ -36,9 +37,9 @@ class RoundingController extends Controller
                 $inventories[$inventory->id] = $inventory;
             }
         }
-        
+
         $rooms = Room::where('building_department_id', $rounding->config->department->id)->pluck('room_number', 'id');
-        return view('rounding.rounding.questions', ['rounding' => $rounding,'rooms' => $rooms,'inventories' => $inventories]);
+        return view('rounding.rounding.questions', ['rounding' => $rounding, 'rooms' => $rooms, 'inventories' => $inventories]);
     }
 
     public function deleteFinding(Request $request)
@@ -49,7 +50,7 @@ class RoundingController extends Controller
             if (!empty($question_finding->finding['attachment'])) {
                 Storage::disk('s3')->deleteDirectory($question_finding->finding['attachment']);
             }
-            
+
             return response()->json(['status' => 'success']);
         }
     }
@@ -66,7 +67,7 @@ class RoundingController extends Controller
             $is_finding_complete = false;
             $finding_data = json_decode($request->finding, true);
             $files = Storage::disk('s3')->files($finding_data['attachment']);
-            
+
             if ($rounding->status->id == 1) {
                 $rounding->update(['rounding_status_id' => 2]);
             }
@@ -76,7 +77,30 @@ class RoundingController extends Controller
                 $rounding->update(['rounding_status_id' => 3]);
             }
 
-            return response()->json(['finding' => $finding, 'no_of_files' => count($files),'files' => $files,'is_finding_complete' => $is_finding_complete]);
+            return response()->json(['finding' => $finding, 'no_of_files' => count($files), 'files' => $files, 'is_finding_complete' => $is_finding_complete, 'question' => $finding->question]);
+        }
+    }
+
+    public function editFinding(Request $request, Rounding $rounding)
+    {
+        $finding = QuestionFinding::find($request->finding_id);
+
+        if ($finding->update($request->all())) {
+            $is_finding_complete = false;
+            $finding_data = json_decode($finding, true);
+            $files = Storage::disk('s3')->files($finding_data['attachment']);
+
+            if ($rounding->status->id == 1) {
+                $rounding->update(['rounding_status_id' => 2]);
+            }
+
+            if ($this->isFindingComplete($rounding)) {
+                $is_finding_complete = true;
+                $rounding->update(['rounding_status_id' => 3]);
+            }
+
+
+            return response()->json(['finding' => $finding, 'no_of_files' => count($files), 'files' => $files, 'is_finding_complete' => $is_finding_complete, 'question' => $finding->question]);
         }
     }
 
@@ -85,13 +109,55 @@ class RoundingController extends Controller
         $rounding = Rounding::find($request->rounding_id);
         $is_compliant = true;
 
-        foreach ($rounding->findings->where('is_leader', 1) as $finding) {
-            if ($finding->question->answers['negative'] == $finding->finding['answer']) {
-                $is_compliant = false;
-                //create demand work order
-                $this->createDemandWorkOrder($finding);
+        foreach ($rounding->config->checklistType->categories as $category) {
+            foreach ($category->questions as $question) {
+
+                $findings = $question->findings($rounding->id);
+
+                //lets do non-inventory first
+                if (!empty($findings['non_inventory'])) {
+                    $is_compliant = false;
+                    $data = [];
+                    $data['inventory_id'] = '';
+                    $data['comment'] = implode(',', $findings['non_inventory']['comment']);
+                    $data['attachment_dir'] = '/demand_work_orders/' . $rounding->config->user->id . '/' . $question->id . '/noninventory/' . time() . '/';
+                    $data['rooms'] = $findings['non_inventory']['rooms'];
+
+                    foreach ($findings['non_inventory']['attachment'] as $attachment) {
+                        foreach (Storage::disk('s3')->files($attachment) as $file) {
+                            Storage::disk('s3')->copy($file, $data['attachment_dir'] . basename($file));
+                        }
+                    }
+
+                    //create work order
+                    $this->createDemandWorkOrder($rounding, $question, $data);
+                }
+
+                //lets do one with inventory next
+
+                if (!empty($findings['inventories'])) {
+                    foreach ($findings['inventories'] as $inventory_id => $inventory) {
+                        $is_compliant = false;
+                        $data = [];
+                        $data['inventory_id'] = $inventory_id;
+                        $data['comment'] = implode(',', $inventory['comment']);
+                        $data['attachment_dir'] = '/demand_work_orders/' . $rounding->config->user->id . '/' . $question->id . '/inventory/' . time() . '/';
+                        $data['rooms'] = $inventory['rooms'];
+
+                        foreach ($inventory['attachment'] as $attachment) {
+                            foreach (Storage::disk('s3')->files($attachment) as $file) {
+                                Storage::disk('s3')->copy($file, $data['attachment_dir'] . basename($file));
+                            }
+                        }
+
+                        //create work order
+                        $this->createDemandWorkOrder($rounding, $question, $data);
+                    }
+                }
             }
         }
+
+
 
         //update rounding status
         $rounding->update(['rounding_status_id' => ($is_compliant) ? 4 : 5]);
@@ -113,31 +179,31 @@ class RoundingController extends Controller
         return true;
     }
 
-    private function createDemandWorkOrder(QuestionFinding $finding)
+    private function createDemandWorkOrder(Rounding $rounding, Question $question, $data)
     {
-        $data = [
-            'requester_name' => $finding->rounding->config->user->name,
-            'requester_email' => $finding->rounding->config->user->email,
+        $wo_data = [
+            'requester_name' => $rounding->config->user->name,
+            'requester_email' => $rounding->config->user->email,
             'hco_id' => session('hco_id'),
             'site_id' => session('site_id'),
             'building_id' => session('building_id'),
-            'inventory_id' => (!empty($finding->finding['inventory_id'])) ? $finding->finding['inventory_id'] : 0,
-            'building_department_id' => $finding->rounding->config->department->id,
-            'work_order_trade_id' => $finding->question->trade->id,
-            'work_order_problem_id' => $finding->question->problem->id,
-            'work_order_priority_id' => $finding->question->problem->work_order_priority_id,
-            'attachments_path' => $finding->finding['attachment'],
-            'comments' => $finding->finding['comment']
+            'inventory_id' => (!empty($data['inventory_id'])) ? $data['inventory_id'] : 0,
+            'building_department_id' => $rounding->config->department->id,
+            'work_order_trade_id' => $question->trade->id,
+            'work_order_problem_id' => $question->problem->id,
+            'work_order_priority_id' => $question->problem->work_order_priority_id,
+            'attachments_path' => $data['attachment_dir'],
+            'comments' => $data['comment']
         ];
 
-        if ($demand_work_order = DemandWorkOrder::create($data)) {
+        if ($demand_work_order = DemandWorkOrder::create($wo_data)) {
 
             //add rooms to demand work order
-            $demand_work_order->rooms()->sync($finding->finding['rooms']);
+            $demand_work_order->rooms()->sync($data['rooms']);
             //init ilsm for work order
             $demand_work_order->ilsmAssessment()->create(['ilsm_assessment_status_id' => 8]);
             //link finding to work order
-            $finding->workOrders()->sync([$demand_work_order->id]);
+            $rounding->workOrders()->attach([$demand_work_order->id => ['rounding_question_id' => $question->id]]);
         }
     }
 }

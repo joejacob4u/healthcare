@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\DemandWorkOrder;
 use App\Equipment\DemandWorkOrderShift;
+use App\Rounding\Rounding;
 
 class DemandWorkOrderShiftController extends Controller
 {
@@ -22,7 +23,8 @@ class DemandWorkOrderShiftController extends Controller
             if ($this->is_ilsm($shift)) {
                 $demand_work_order->ilsmAssessment()->update(['ilsm_assessment_status_id' => 1]);
             }
-            
+
+            $this->rounding_question_work_orders($demand_work_order);
             return response()->json(['status' => 'success']);
         }
     }
@@ -47,7 +49,7 @@ class DemandWorkOrderShiftController extends Controller
                         $corresponding_shift = $shift->demandWorkOrder->getMaintenanceShift();
 
                         if ($corresponding_shift !== false) {
-                            $corresponding_shift_time = \Carbon\Carbon::parse($shift->demandWorkOrder->created_at->format('Y-m-d').' '.$corresponding_shift->end_time);
+                            $corresponding_shift_time = \Carbon\Carbon::parse($shift->demandWorkOrder->created_at->format('Y-m-d') . ' ' . $corresponding_shift->end_time);
 
                             if ($corresponding_shift_time->lessThan($shift->end_time)) {
                                 return true;
@@ -65,5 +67,25 @@ class DemandWorkOrderShiftController extends Controller
         }
 
         return false;
+    }
+
+    private function rounding_question_work_orders(DemandWorkOrder $demand_work_order)
+    {
+        //trigger rounding work orders if any
+
+        if ($demand_work_order->roundingQuestions->count() > 0) {
+            $is_compliant = true;
+
+            $rounding = Rounding::find($demand_work_order->roundingQuestions->first()->pivot->rounding_id);
+
+            //loop thru each work order for the rounding
+            foreach ($rounding->workOrders as $work_order) {
+                if ($work_order->status() != 'Complete and Compliant') {
+                    $is_compliant = false;
+                }
+            }
+
+            $rounding->update(['rounding_status_id' => ($is_compliant) ? 4 : 5]);
+        }
     }
 }

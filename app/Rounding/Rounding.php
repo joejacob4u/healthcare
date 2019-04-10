@@ -3,12 +3,13 @@
 namespace App\Rounding;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Equipment\DemandWorkOrder;
 
 class Rounding extends Model
 {
     protected $table = 'roundings';
 
-    protected $fillable = ['rounding_config_id','building_id','date','rounding_status_id'];
+    protected $fillable = ['rounding_config_id', 'building_id', 'date', 'rounding_status_id'];
 
     protected $dates = ['date'];
 
@@ -30,6 +31,11 @@ class Rounding extends Model
     public function findings()
     {
         return $this->hasMany('App\Rounding\QuestionFinding', 'rounding_id');
+    }
+
+    public function workOrders()
+    {
+        return $this->belongsToMany(DemandWorkOrder::class, 'rounding_question-work_order', 'rounding_id', 'work_order_id')->withPivot(['rounding_question_id']);
     }
 
     public function setDateAttribute($date)

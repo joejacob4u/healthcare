@@ -10,18 +10,13 @@ class QuestionFinding extends Model
 {
     protected $table = 'rounding_question_findings';
 
-    protected $fillable = ['rounding_id','question_id','user_id','finding','is_leader'];
+    protected $fillable = ['rounding_id', 'question_id', 'user_id', 'finding', 'is_leader'];
 
     protected $casts = ['finding' => 'array'];
 
     public function rounding()
     {
         return $this->belongsTo(Rounding::class, 'rounding_id');
-    }
-
-    public function workOrders()
-    {
-        return $this->belongsToMany(DemandWorkOrder::class, 'rounding_question_finding-work_order', 'rounding_question_finding_id', 'demand_work_order_id');
     }
 
     public function question()

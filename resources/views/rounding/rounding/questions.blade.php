@@ -126,11 +126,29 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        {!! Form::select('answers['.$question->id.'][answer]', ['' => 'Please Select'] + $question->answers['answers'], Request::old('answers['.$question->id.'][answer]'), ['class' => 'form-control answer','id' => 'question_'.$question->id,'data-negative' => $question->answers['negative'],'data-question-id' => $question->id]) !!}
+                        {!! Form::select('answers['.$question->id.'][answer]', ['' => 'Please Select'] + $question->answers['answers'], Request::old('answers['.$question->id.'][answer]'), ['class' => 'form-control answer','id' => 'question_'.$question->id,'data-negative' => $question->answers['negative'],'data-question-id' => $question->id,'disabled' => (in_array($rounding->rounding_status_id,[4,5])) ? true : false]) !!}
+                        
+                        @if($rounding->workOrders->count() > 0)
+                          <div class="attachment-pushed">
+                            <h4 class="attachment-heading">Work Orders</h4>
+                                @foreach($rounding->workOrders as $work_order)
+                                  @if($work_order->pivot->rounding_question_id == $question->id)
+                                    @if($work_order->status() == 'Complete and Compliant') 
+                                      <a href="{{url('equipment/demand-work-orders/'.$work_order->id)}}" target="_blank"><small class="label bg-green">WO #{{$work_order->id}}</small></a>
+                                    @else
+                                      <a href="{{url('equipment/demand-work-orders/'.$work_order->id)}}" target="_blank"><small class="label bg-red">WO #{{$work_order->id}}</small></a>
+                                    @endif
+                                  @endif
+                                @endforeach
+                          </div>
+                        @endif
+
                         <span class="pull-right text-muted">{{$rounding->findings->where('question_id',$question->id)->count()}} findings</span>
                     </div>
                     <!-- /.box-body -->
+
                     <div id="box-footer-{{$question->id}}" class="box-footer box-comments">
+
                         
                         @foreach($rounding->findings->where('question_id',$question->id) as $finding)
 
@@ -149,8 +167,10 @@
                                   @if(!empty($finding->finding['comment'])) finding <i>{{$finding->finding['comment']}}</i> @endif
                                   @php $files = Storage::disk('s3')->files($finding->finding['attachment']); @endphp
                                   @if(count($files) > 0) and has <a class="attachment" data-attachment="{{json_encode($files)}}"> attached {{count($files)}} files.</a> @endif
-                                  @if($finding->workOrders->count() > 0) <a href="{{url('equipment/demand-work-orders/'.$finding->workOrders->first()->id)}}"><small class="label pull-right bg-orange">Work Order</small></a>  @endif
-                                  <small class="label pull-right bg-red" onclick="deleteFinding('{{$finding->id}}')">Delete</small>
+                                  @if(!in_array($rounding->rounding_status_id,[4,5]))
+                                    <br>@if($finding->finding['answer'] == $question->answers['negative'])<button data-question-id="{{$question->id}}" data-negative="{{$question->answers['negative']}}" data-finding="{{json_encode($finding->finding)}}" data-answer-text="{{$question->answers['answers'][$finding->finding['answer']]}}" data-files="{{json_encode($files)}}" data-finding-id="{{$finding->id}}" class="btn btn-link btn-xs edit-btn"><span class="glyphicon glyphicon-pencil"></span></button>@endif
+                                    <button onclick="deleteFinding('{{$finding->id}}')" class="btn btn-link btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
+                                  @endif
                           </div>
                         <!-- /.comment-text -->
                         </div>
@@ -231,6 +251,9 @@
         <input type="hidden" id="rounding_id" name="rounding_id" value="{{$rounding->id}}">
         <input type="hidden" id="user_id" name="user_id" value="{{auth()->user()->id}}">
         <input type="hidden" id="is_negative" name="is_negative" value="">
+        <input type="hidden" id="is_edit" name="is_edit" value="0">
+        <input type="hidden" id="finding_id" name="finding_id" value="">
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary confirm-finding">Confirm</button>
@@ -240,6 +263,8 @@
 
   </div>
 </div>
+
+
 
 <!-- Attachment Modal -->
 
@@ -308,6 +333,7 @@ $('.answer').change(function(){
 
    
     $('#negative-div').hide();
+    $('#is_edit').val(0);
 
     if($(this).val())
     {
@@ -461,21 +487,33 @@ $('#inventory-checkbox').change(function(){
         var rounding_id = $('#rounding_id').val();
         var question_id = $('#question_id').val();
         var answer_text = $('#answer_text').val();
+        var finding_id;
 
         $('#answerModal').modal('hide');
 
         $('#question_'.question_id).val('');
 
+        if($('#is_edit').val() == 1)
+        {
+            finding_id = $('#finding_id').val();
+            $('#finding_'+finding_id).remove();
+        }
+        else
+        {
+            finding_id = 0;
+        }
+
         $.ajax({
            type: 'POST',
-           url: '{{ url('rounding/'.$rounding->id.'/question/findings') }}',
+           url: ($('#is_edit').val() == 1) ? '{{ url('rounding/'.$rounding->id.'/question/findings/edit') }}' : '{{ url('rounding/'.$rounding->id.'/question/findings') }}',
            data: { 
              '_token' : '{{ csrf_token() }}',
              'rounding_id' : rounding_id,
              'question_id' : question_id,
              'user_id' : user_id,
              'finding' : JSON.stringify(finding),
-             'is_leader' : is_leader
+             'is_leader' : is_leader,
+             'finding_id' : finding_id
              },
 
            beforeSend:function(){
@@ -483,6 +521,8 @@ $('#inventory-checkbox').change(function(){
            },
            success:function(data)
            { 
+
+             console.log(data);
               var negative_html = '';
 
               if($('#is_negative').val() == 1)
@@ -523,6 +563,15 @@ $('#inventory-checkbox').change(function(){
                     negative_html += " and has <a class='attachment' data-attachment='"+JSON.stringify(data.files)+"'>attached "+data.no_of_files+" files.</a>";
                   }
 
+                  if(data.finding.finding.answer == data.question.answers.negative)
+                  {
+                      edit_btn = `<button data-question-id="${data.finding.question_id}" data-negative="${data.question.answers.negative}" data-finding='${JSON.stringify(data.finding)}' data-answer-text="${answer_text}" data-files="${data.files}" data-finding-id="${data.finding.id}" class="btn btn-link btn-xs edit-btn"><span class="glyphicon glyphicon-pencil"></span></button>`;
+                  }
+                  else
+                  {
+                      edit_btn = ``;
+                  }
+
               }             
               
               var main_html = `<div class="box-comment" id="finding_${data.finding.id}">
@@ -534,7 +583,9 @@ $('#inventory-checkbox').change(function(){
                                 {{auth()->user()->name}}
                                 <span class="text-muted pull-right">${moment().calendar()}</span>
                                 </span><!-- /.username -->
-                            {{auth()->user()->name}} has answered ${answer_text} ${negative_html} <small class="label pull-right bg-red" onclick="deleteFinding(${data.finding.id})">Delete</small>
+                            {{auth()->user()->name}} has answered <strong>${answer_text}</strong> ${negative_html} <br>
+                            ${edit_btn}
+                            <button onclick="deleteFinding(${data.finding.id})" class="btn btn-link btn-xs"><span class="glyphicon glyphicon-trash"></span></button> 
                         </div>
                         <!-- /.comment-text -->
                         </div>`;  
@@ -603,6 +654,116 @@ $('#inventory-checkbox').change(function(){
           });
 
       }
+
+    $(document).on('click', '.edit-btn', function () 
+    {
+      $('#negative-div').hide();
+
+      var data = JSON.parse($(this).attr('data-finding'));
+      var answer_text = $(this).attr('data-answer-text');
+      var question_id = $(this).attr('data-answer-text');
+      var files = $(this).attr('data-files');
+      var finding_id = $(this).attr('data-finding-id');
+
+      $('#finding_id').val(finding_id);
+      
+      $('#is_edit').val(1);
+
+      if(data.answer)
+      {
+          $('#answer-text').html('You have answered <strong>'+answer_text+'</strong> for this question.');
+          
+          var question_id = $(this).attr('data-question-id');
+
+          $('#answer').val(data.answer);
+          $('#question_id').val(question_id);
+          $('#is_negative').val(0);
+          $('#answer_text').val(answer_text);
+
+          if(data.answer == $(this).attr('data-negative'))
+          {
+              $('#rooms').selectpicker('val',data.rooms);
+              $('#comment').val(data.comment);
+
+              if(data.hasOwnProperty('inventory_id'))
+              {
+                  $('#inventory-checkbox').prop('checked',true);
+                  $('#inventory-checkbox').change();
+                  $('#inventory_id').selectpicker('val',data.inventory_id);
+              }
+              else
+              {
+                $('#inventory-checkbox').prop('checked',true);
+                $('#inventory_id').selectpicker('val','');
+              }
+              
+
+              $('#is_negative').val(1);
+
+              var directory = data.attachment;
+              var random_number = Math.floor((Math.random() * 10000) + 1);
+              $('#attachment').val(directory);
+
+              $('.dropzone').remove();
+              $('.dropzone-div').append('<div id="" class="dropzone"></div>');
+              $('.dropzone').attr('id','dropzone_'+random_number);
+
+               $('#dropzone_'+random_number).dropzone({ 
+                  url: "/dropzone/upload",
+                  addRemoveLinks: 'editable',
+                  init: function() {
+                  dropzone_instance = this;
+                  this.on('sending', function(file, xhr, formData){
+                      formData.append('_token', $('meta[name=\"csrf-token\"]').attr('content'));
+                      formData.append('folder', directory);
+                  });
+                  this.on('removedfile', function(file) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '/dropzone/delete',
+                            data: {file: file.name,directory:'" . $directory . "', _token: $('meta[name=\"csrf-token\"]').attr('content')},
+                            dataType: 'html',
+                            success: function(data){
+    
+                            }
+                        });
+    
+                    });
+
+                    $.each( JSON.parse(files), function( key, value ) {
+                        
+                        var mockFile = { name: value, size: 12345 };
+                        
+                        dropzone_instance.options.addedfile.call(dropzone_instance,mockFile);
+
+                        if (value.indexOf('.jpg') >= 0 || value.indexOf('.png') >= 0)
+                        {
+                          dropzone_instance.options.thumbnail.call(dropzone_instance,mockFile,s3url+value);
+                        }
+                        else
+                        {
+                          dropzone_instance.options.thumbnail.call(dropzone_instance,mockFile,'/images/document.png');
+                        }
+                    });              
+
+
+                }
+              });
+
+
+          }
+          else
+          {
+            //avoid showing model if non=negative answer
+            //$(".confirm-finding").trigger("click");
+          }
+
+        $('#negative-div').show();
+        $('#answerModal').modal('show');
+
+      }
+
+    });
 
     function enableAllExcept(selector,value)
     {

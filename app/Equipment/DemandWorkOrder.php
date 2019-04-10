@@ -4,6 +4,7 @@ namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Maintenance\Shift;
+use App\Rounding\Question;
 
 class DemandWorkOrder extends Model
 {
@@ -13,7 +14,7 @@ class DemandWorkOrder extends Model
 
     protected $dates = ['created_at'];
 
-    protected $appends = ['identifier','is_ilsm_probable','is_ilsm','is_ilsm_complete'];
+    protected $appends = ['identifier', 'is_ilsm_probable', 'is_ilsm', 'is_ilsm_complete'];
 
     public function priority()
     {
@@ -60,6 +61,11 @@ class DemandWorkOrder extends Model
         return $this->belongsToMany('App\Regulatory\Room', 'demand_work_orders-rooms', 'demand_work_order_id', 'room_id');
     }
 
+    public function roundingQuestions()
+    {
+        return $this->belongsToMany(Question::class, 'rounding_question-work_order', 'work_order_id', 'rounding_question_id')->withPivot(['rounding_id']);
+    }
+
 
     public function ilsmAssessment()
     {
@@ -70,7 +76,7 @@ class DemandWorkOrder extends Model
 
     public function getIdentifierAttribute()
     {
-        return 'DM-'.unixtojd($this->created_at->timestamp).'-'.$this->id;
+        return 'DM-' . unixtojd($this->created_at->timestamp) . '-' . $this->id;
     }
 
     //accessor for ilsm probable
@@ -86,7 +92,7 @@ class DemandWorkOrder extends Model
 
     public function getIsIlsmAttribute()
     {
-        if (in_array($this->ilsmAssessment->ilsm_assessment_status_id, [3,4,5,6])) {
+        if (in_array($this->ilsmAssessment->ilsm_assessment_status_id, [3, 4, 5, 6])) {
             return true;
         }
 
@@ -116,13 +122,13 @@ class DemandWorkOrder extends Model
     public function getMaintenanceShift()
     {
         $day = strtolower(strftime('%A', strtotime($this->created_at)));
-        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%'.$day.'%')->get();
-        
+        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%' . $day . '%')->get();
+
         foreach ($maintenance_shifts as $maintenance_shift) {
             $start_time = str_replace(':', '', $maintenance_shift->start_time);
             $end_time = str_replace(':', '', $maintenance_shift->end_time);
             $demand_work_order_time = str_replace(':', '', $this->created_at->format('H:i:s'));
-            
+
             if ($end_time > $start_time) {
                 if ($start_time <= $demand_work_order_time && $end_time >= $demand_work_order_time) {
                     return $maintenance_shift;
