@@ -522,7 +522,7 @@ $('#inventory-checkbox').change(function(){
            success:function(data)
            { 
 
-             console.log(data);
+              var edit_btn;
               var negative_html = '';
 
               if($('#is_negative').val() == 1)
@@ -562,14 +562,15 @@ $('#inventory-checkbox').change(function(){
                   {
                     negative_html += " and has <a class='attachment' data-attachment='"+JSON.stringify(data.files)+"'>attached "+data.no_of_files+" files.</a>";
                   }
+                  
 
                   if(data.finding.finding.answer == data.question.answers.negative)
                   {
-                      edit_btn = `<button data-question-id="${data.finding.question_id}" data-negative="${data.question.answers.negative}" data-finding='${JSON.stringify(data.finding)}' data-answer-text="${answer_text}" data-files="${data.files}" data-finding-id="${data.finding.id}" class="btn btn-link btn-xs edit-btn"><span class="glyphicon glyphicon-pencil"></span></button>`;
+                      negative_html += `<br><button data-question-id="${data.finding.question_id}" data-negative="${data.question.answers.negative}" data-finding='${JSON.stringify(data.finding)}' data-answer-text="${answer_text}" data-files="${data.files}" data-finding-id="${data.finding.id}" class="btn btn-link btn-xs edit-btn"><span class="glyphicon glyphicon-pencil"></span></button>`;
                   }
                   else
                   {
-                      edit_btn = ``;
+                     negative_html += `<br>`;
                   }
 
               }             
@@ -583,8 +584,7 @@ $('#inventory-checkbox').change(function(){
                                 {{auth()->user()->name}}
                                 <span class="text-muted pull-right">${moment().calendar()}</span>
                                 </span><!-- /.username -->
-                            {{auth()->user()->name}} has answered <strong>${answer_text}</strong> ${negative_html} <br>
-                            ${edit_btn}
+                            {{auth()->user()->name}} has answered <strong>${answer_text}</strong> ${negative_html}
                             <button onclick="deleteFinding(${data.finding.id})" class="btn btn-link btn-xs"><span class="glyphicon glyphicon-trash"></span></button> 
                         </div>
                         <!-- /.comment-text -->
@@ -693,7 +693,7 @@ $('#inventory-checkbox').change(function(){
               }
               else
               {
-                $('#inventory-checkbox').prop('checked',true);
+                $('#inventory-checkbox').prop('checked',false);
                 $('#inventory_id').selectpicker('val','');
               }
               

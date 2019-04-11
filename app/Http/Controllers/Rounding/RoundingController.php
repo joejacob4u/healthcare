@@ -85,9 +85,15 @@ class RoundingController extends Controller
     {
         $finding = QuestionFinding::find($request->finding_id);
 
-        if ($finding->update($request->all())) {
+        if ($finding->update([
+            'rounding_id' => $request->rounding_id,
+            'question_id' => $request->question_id,
+            'user_id' => $request->user_id,
+            'finding' => json_decode($request->finding, true),
+            'is_leader' => $request->is_leader
+        ])) {
             $is_finding_complete = false;
-            $finding_data = json_decode($finding, true);
+            $finding_data = json_decode($request->finding, true);
             $files = Storage::disk('s3')->files($finding_data['attachment']);
 
             if ($rounding->status->id == 1) {
