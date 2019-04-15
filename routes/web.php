@@ -205,8 +205,6 @@ Route::get('admin/rounding/checklist-types', 'Admin\Rounding\ChecklistTypeContro
 Route::post('admin/rounding/checklist-types', 'Admin\Rounding\ChecklistTypeController@store');
 Route::post('admin/rounding/checklist-type/delete', 'Admin\Rounding\ChecklistTypeController@destroy');
 
-
-
 Route::get('admin/rounding/checklist-type/{checklist_type}/categories', 'Admin\Rounding\CategoryController@index');
 Route::post('admin/rounding/checklist-type/{checklist_type}/categories', 'Admin\Rounding\CategoryController@store');
 Route::post('admin/rounding/categories/delete', 'Admin\Rounding\CategoryController@destroy');
@@ -219,6 +217,12 @@ Route::post('admin/rounding/categories/{category}/questions/{question}/edit', 'A
 Route::post('admin/rounding/categories/{category}/questions/delete', 'Admin\Rounding\QuestionController@destroy');
 Route::post('admin/rounding/categories/{category}/questions/fetch-trades', 'Admin\Rounding\QuestionController@fetchTrades');
 Route::post('admin/rounding/categories/{category}/questions/fetch-problems', 'Admin\Rounding\QuestionController@fetchProblems');
+
+//admin assessment checklist types, categories and questions
+
+Route::group(['namespace' => 'Admin', 'as' => 'admin'], function () {
+    require(__DIR__ . '/Admin/assessment.php');
+});
 
 //System Admin Rounding Config
 Route::get('rounding/config', 'Rounding\ConfigController@index');

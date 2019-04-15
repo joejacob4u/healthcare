@@ -189,14 +189,6 @@
     </div>
 @endforeach
 
-    <!-- Submit Button -->
-    <div class="form-group">
-        <div class="col-lg-10 col-lg-offset-2">
-            {!! Form::submit('Submit Answers', ['class' => 'btn btn-success pull-right'] ) !!}
-        </div>
-    </div>
-
-
 
 <!-- Positive Answer Modal -->
 <div id="answerModal" class="modal fade" role="dialog">
