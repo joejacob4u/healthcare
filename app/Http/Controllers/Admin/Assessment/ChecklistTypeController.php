@@ -34,6 +34,21 @@ class ChecklistTypeController extends Controller
         }
     }
 
+    public function save(Request $request)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'accreditations' => 'required'
+        ]);
+
+        $checklist_type = ChecklistType::find($request->checklist_type_id);
+
+        if ($checklist_type->update($request->all())) {
+            $checklist_type->accreditations()->sync($request->accreditations);
+            return back()->with('success', 'Checklist type updated.');
+        }
+    }
+
     public function destroy(Request $request)
     {
         if (ChecklistType::find($request->id)->delete()) {

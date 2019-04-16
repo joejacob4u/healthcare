@@ -50,6 +50,7 @@
                         <th>Checklist Type</th>
                         <th>Accreditations</th>
                         <th>Categories</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </thead>
@@ -58,6 +59,7 @@
                         <th>Checklist Type</th>
                         <th>Accreditations</th>
                         <th>Categories</th>
+                        <th>Edit</th>
                         <th>Delete</th>
                     </tr>
                 </tfoot>
@@ -67,6 +69,7 @@
                       <td>{{$checklist_type->name}}</td>
                       <td>{{$checklist_type->accreditations->implode('name',',')}}</td>
                       <td>{!! link_to('admin/assessment/checklist-type/'.$checklist_type->id.'/categories','Categories',['class' => 'btn-xs btn-primary']) !!}</td>
+                      <td>{!! link_to('#','Edit',['class' => 'btn-xs btn-info edit-checklist','data-checklist-id' => $checklist_type->id,'data-name' => $checklist_type->name,'data-accreditations' => $checklist_type->accreditations->pluck('id')]) !!}</td>
                       <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteAssessmentChecklistType('.$checklist_type->id.')']) !!}</td>
                     </tr>
                   @endforeach
@@ -79,6 +82,41 @@
       </div>
       <!-- /.box-footer-->
     </div>
+
+  <!-- Edit Modal -->
+  <div class="modal fade" id="editModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Edit Checklist</h4>
+        </div>
+        <div class="modal-body">
+              <form class="form" role="form" method="POST" action="{{url('admin/assessment/checklist-types/edit')}}">
+                  <div class="form-group">
+                      <label for="name">Checklist Type</label>
+                      {!! Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'name', 'id' => 'name']) !!}
+                  </div>
+                  <div class="form-group">
+                      <label for="name">Accreditation</label>
+                      {!! Form::select('accreditations[]', $accreditations, '', ['class' => 'form-control select-picker','id' => 'edit-accreditations','multiple' => true]); !!}
+                  </div>
+
+                  {!! Form::hidden('checklist_type_id', '',['id' => 'checklist_type_id']) !!}
+
+                  <div class="form-group">
+                        {{ csrf_field() }}
+                        <button type="submit" class="btn btn-success">Update</button>
+                  </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
     <script>
       function deleteAssessmentChecklistType(checklist_type_id)
@@ -115,6 +153,25 @@
           });
 
       }
+
+      //edit checklist
+
+      $('.edit-checklist').click(function(){
+
+
+        var checklist_type_id = $(this).attr('data-checklist-id');
+        var name = $(this).attr('data-name');
+        var accreditations = JSON.parse($(this).attr('data-accreditations'));
+
+        $('#editModal #checklist_type_id').val(checklist_type_id);
+        $('#editModal #name').val(name);
+        $('#editModal #edit-accreditations').val(accreditations);
+        $('#editModal #edit-accreditations').selectpicker('refresh');
+
+        $('#editModal').modal('show');
+
+
+      })
     </script>
 
 @endsection

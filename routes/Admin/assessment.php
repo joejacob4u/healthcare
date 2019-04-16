@@ -3,6 +3,7 @@
 
 Route::get('admin/assessment/checklist-types', 'Assessment\ChecklistTypeController@index');
 Route::post('admin/assessment/checklist-types', 'Assessment\ChecklistTypeController@store');
+Route::post('admin/assessment/checklist-types/edit', 'Assessment\ChecklistTypeController@save');
 Route::post('admin/assessment/checklist-type/delete', 'Assessment\ChecklistTypeController@destroy');
 
 Route::get('admin/assessment/checklist-type/{checklist_type}/categories', 'Assessment\CategoryController@index');
