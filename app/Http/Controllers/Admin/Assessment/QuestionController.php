@@ -40,6 +40,10 @@ class QuestionController extends Controller
             'answers.*' => 'required|distinct|min:1'
         ]);
 
+        if (!isset($request->answers['negative'])) {
+            return back()->with('warning', 'Negative answer needs to be set.');
+        }
+
         if ($category->questions()->create($request->all())) {
             return back()->with('success', 'Question created!');
         }

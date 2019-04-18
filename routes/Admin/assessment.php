@@ -1,9 +1,15 @@
 <?php
 
+//sections
 
-Route::get('admin/assessment/checklist-types', 'Assessment\ChecklistTypeController@index');
-Route::post('admin/assessment/checklist-types', 'Assessment\ChecklistTypeController@store');
-Route::post('admin/assessment/checklist-types/edit', 'Assessment\ChecklistTypeController@save');
+Route::get('admin/assessment/sections', 'Assessment\SectionController@index');
+Route::post('admin/assessment/sections', 'Assessment\SectionController@store');
+Route::post('admin/assessment/sections/delete', 'Assessment\SectionController@destroy');
+
+
+Route::get('admin/assessment/{section}/checklist-types', 'Assessment\ChecklistTypeController@index');
+Route::post('admin/assessment/{section}/checklist-types', 'Assessment\ChecklistTypeController@store');
+Route::post('admin/assessment/{section}/checklist-types/edit', 'Assessment\ChecklistTypeController@save');
 Route::post('admin/assessment/checklist-type/delete', 'Assessment\ChecklistTypeController@destroy');
 
 Route::get('admin/assessment/checklist-type/{checklist_type}/categories', 'Assessment\CategoryController@index');

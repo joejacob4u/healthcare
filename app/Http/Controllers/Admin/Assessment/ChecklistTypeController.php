@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Assessment\ChecklistType;
 use App\Regulatory\Accreditation;
+use App\Assessment\Section;
 
 class ChecklistTypeController extends Controller
 {
@@ -14,27 +15,26 @@ class ChecklistTypeController extends Controller
         $this->middleware('master');
     }
 
-    public function index()
+    public function index(Section $section)
     {
-        $checklist_types = ChecklistType::get();
         $accreditations = Accreditation::pluck('name', 'id');
-        return view('admin.assessment.checklist-type', ['checklist_types' => $checklist_types, 'accreditations' => $accreditations]);
+        return view('admin.assessment.checklist-type', ['section' => $section, 'accreditations' => $accreditations]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request, Section $section)
     {
         $this->validate($request, [
             'name' => 'required',
             'accreditations' => 'required'
         ]);
 
-        if ($checklist_type = ChecklistType::create($request->all())) {
+        if ($checklist_type = $section->checklistTypes()->create($request->all())) {
             $checklist_type->accreditations()->sync($request->accreditations);
             return back()->with('success', 'New checklist type created.');
         }
     }
 
-    public function save(Request $request)
+    public function save(Request $request, Section $section)
     {
         $this->validate($request, [
             'name' => 'required',

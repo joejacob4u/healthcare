@@ -11,12 +11,18 @@
 @include('layouts.partials.success')
 @include('layouts.partials.errors')
 
+<ol class="breadcrumb">
+    <li><a href="/admin/assessment/sections">Sections</a></li>
+    <li class="active">Assessments for {{$section->name}}</li>
+</ol>
+
+
       <div class="box box-primary">
           <div class="box-header with-border">
-            <h3 class="box-title">Add Assessment Checklist Type</h3>
+            <h3 class="box-title">Add Assessment Checklist Type for {{$section->name}}</h3>
           </div>
           <div class="box-body">
-              <form class="form" role="form" method="POST" action="{{url('admin/assessment/checklist-types')}}">
+              <form class="form" role="form" method="POST" action="{{url('admin/assessment/'.$section->id.'/checklist-types')}}">
                   <div class="form-group">
                       <label for="name">Checklist Type</label>
                       {!! Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'name']) !!}
@@ -64,7 +70,7 @@
                     </tr>
                 </tfoot>
                 <tbody>
-                  @foreach($checklist_types as $checklist_type)
+                  @foreach($section->checklistTypes as $checklist_type)
                     <tr id="tr-{{$checklist_type->id}}">
                       <td>{{$checklist_type->name}}</td>
                       <td>{{$checklist_type->accreditations->implode('name',',')}}</td>
@@ -92,7 +98,7 @@
           <h4 class="modal-title">Edit Checklist</h4>
         </div>
         <div class="modal-body">
-              <form class="form" role="form" method="POST" action="{{url('admin/assessment/checklist-types/edit')}}">
+              <form class="form" role="form" method="POST" action="{{url('admin/assessment/'.$section->id.'/checklist-types/edit')}}">
                   <div class="form-group">
                       <label for="name">Checklist Type</label>
                       {!! Form::text('name', '', ['class' => 'form-control', 'placeholder' => 'name', 'id' => 'name']) !!}

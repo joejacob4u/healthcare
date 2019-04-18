@@ -76,7 +76,7 @@
        </li>
 
        <li style="white-space: pre-line;"><a href="{{url('admin/rounding/checklist-types')}}"><i class="fa fa-files-o"></i>Rounding</a></li>
-       <li style="white-space: pre-line;"><a href="{{url('admin/assessment/checklist-types')}}"><i class="fa fa-files-o"></i>Assessments</a></li>
+       <li style="white-space: pre-line;"><a href="{{url('admin/assessment/sections')}}"><i class="fa fa-files-o"></i>Assessments</a></li>
 
 
         <li class="treeview">
@@ -174,21 +174,6 @@
            <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Common Problems</a></li>
            <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Users</a></li>
            <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Biomed Schedule</a></li>
-         </ul>
-     </li>
-     <li class="treeview">
-         <a href="#">
-           <i class="fa fa-files-o"></i>
-           <span>Construction</span>
-           <span class="pull-right-container">
-             <i class="fa fa-angle-left pull-right"></i></span>
-           </span>
-         </a>
-         <ul class="treeview-menu">
-           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prospect Users</a></li>
-           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Project</a></li>
-           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Ranking Questions</a></li>
-           <li style="white-space: pre-line;"><a href="{{url('#')}}"><i class="fa fa-circle-o"></i>Prequalify Form</a></li>
          </ul>
      </li>
      <li class="treeview">
@@ -417,7 +402,8 @@
             </ul>
           </li>
 
-        <li style="white-space: pre-line;"><a href="/roundings"><i class="fa fa-circle-o"></i>Roundings</a></li>       
+        <li style="white-space: pre-line;"><a href="/roundings"><i class="fa fa-circle-o"></i>Roundings</a></li>
+         <li style="white-space: pre-line;"><a href="/assessments"><i class="fa fa-circle-o"></i>Assessments</a></li>        
       @endif
 
 

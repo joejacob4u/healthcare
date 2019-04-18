@@ -224,6 +224,11 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin'], function () {
     require(__DIR__ . '/Admin/assessment.php');
 });
 
+Route::group(['namespace' => 'Admin', 'as' => 'admin'], function () {
+    require(__DIR__ . '/Frontend/assessment.php');
+});
+
+
 //System Admin Rounding Config
 Route::get('rounding/config', 'Rounding\ConfigController@index');
 Route::get('rounding/config/create', 'Rounding\ConfigController@create');
