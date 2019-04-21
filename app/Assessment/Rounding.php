@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Rounding;
+namespace App\Assessment;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Equipment\DemandWorkOrder;
 
 class Rounding extends Model
 {
-    protected $table = 'roundings';
+    protected $table = 'assessments';
 
     protected $fillable = ['rounding_config_id', 'building_id', 'date', 'rounding_status_id'];
 

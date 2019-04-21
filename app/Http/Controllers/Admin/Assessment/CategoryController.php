@@ -23,7 +23,7 @@ class CategoryController extends Controller
     public function store(Request $request, ChecklistType $checklist_type)
     {
         $this->validate($request, [
-            'name' => 'required|unique:rounding_categories,name'
+            'name' => 'required'
         ]);
 
         if ($checklist_type->categories()->create($request->all())) {

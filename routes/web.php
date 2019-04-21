@@ -224,7 +224,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin'], function () {
     require(__DIR__ . '/Admin/assessment.php');
 });
 
-Route::group(['namespace' => 'Admin', 'as' => 'admin'], function () {
+Route::group(['namespace' => 'Frontend', 'as' => 'frontend'], function () {
     require(__DIR__ . '/Frontend/assessment.php');
 });
 
