@@ -36,6 +36,13 @@
                   {!! Form::text('question', Request::old('question'), ['class' => 'form-control', 'placeholder' => 'Enter question']) !!}
               </div>
 
+              <div class="form-group">
+                <label class="checkbox-inline"><input type="checkbox" id="finding-checkbox">Negative Answer triggers an Action Plan Finding.</label>
+              </div>
+
+
+              <div id="work-order-div">
+
                 <div class="form-group">
                     {!! Form::label('system_tier_id', 'System Tier:', ['class' => 'col-lg-2 control-label']) !!}
                       {!! Form::select('system_tier_id', $system_tiers->prepend('Please select',0), Request::old('system_tier_id'), ['class' => 'form-control','id' => 'system_tier_id']) !!}
@@ -49,7 +56,16 @@
 
                 <div class="form-group">
                     {!! Form::label('work_order_problem_id', 'Problem:', ['class' => 'col-lg-2 control-label']) !!}
-                      {!! Form::select('work_order_problem_id', [], Request::old('work_order_problem_id'), ['class' => 'form-control','id' => 'work_order_problem_id']) !!}
+                    {!! Form::select('work_order_problem_id', [], Request::old('work_order_problem_id'), ['class' => 'form-control','id' => 'work_order_problem_id']) !!}
+                </div>
+
+                </div>
+
+                <div id="eop-div" style="display:none">
+                   <div class="form-group">
+                     {!! Form::label('eops', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
+                     {!! Form::select('eops[]', $eops, Request::old('eop_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
+                    </div>
                 </div>
 
                     <div class="box box-info">
@@ -65,10 +81,6 @@
                     </div>
 
 
-                <div class="form-group">
-                    {!! Form::label('eops', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
-                     {!! Form::select('eops[]', $eops->prepend('Please select',0), Request::old('eop_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
-                </div>
 
                 <!-- Submit Button -->
                 <div class="form-group">
@@ -171,8 +183,23 @@
 
   });
 
-
-
+  $('#finding-checkbox').change(function(){
+      
+      if($(this).prop('checked'))
+      {
+          $('#system_tier_id').selectpicker('val',0);
+          $('#work_order_trade_id').val(0);
+          $('#work_order_problem_id').val(0);
+          $('#work-order-div').hide();
+          $('#eop-div').show();
+      }
+      else
+      {
+        $('#work-order-div').show();
+        $('#eop_id').selectpicker('val',0);
+        $('#eop-div').hide();
+      }
+   });
 
     </script>
 

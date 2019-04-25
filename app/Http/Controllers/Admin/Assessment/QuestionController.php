@@ -31,18 +31,27 @@ class QuestionController extends Controller
 
     public function store(Request $request, Category $category)
     {
+
         $this->validate($request, [
             'question' => 'required',
-            'system_tier_id' => 'required',
-            'work_order_trade_id' => 'required',
-            'work_order_problem_id' => 'required',
+            'system_tier_id' => 'required_without:eop_id',
+            'work_order_trade_id' => 'required_without:eops',
+            'work_order_problem_id' => 'required_without:eops',
             'answers' => 'required|array',
-            'answers.*' => 'required|distinct|min:1'
+            'answers.*' => 'required|distinct|min:1',
+            'eops' => 'required_without:system_tier_id'
         ]);
 
         if (!isset($request->answers['negative'])) {
             return back()->with('warning', 'Negative answer needs to be set.');
         }
+
+        if ($request->is_finding) {
+            $request->merge(['system_tier_id' => 0, 'work_order_trade_id' => 0, 'work_order_problem_id' => 0]);
+        } else {
+            $request->merge(['eops' => []]);
+        }
+
 
         if ($category->questions()->create($request->all())) {
             return back()->with('success', 'Question created!');
@@ -60,12 +69,19 @@ class QuestionController extends Controller
     {
         $this->validate($request, [
             'question' => 'required',
-            'system_tier_id' => 'required',
-            'work_order_trade_id' => 'required',
-            'work_order_problem_id' => 'required',
+            'system_tier_id' => 'required_without:eops',
+            'work_order_trade_id' => 'required_without:eops',
+            'work_order_problem_id' => 'required_without:eops',
             'answers' => 'required|array',
-            'answers.*' => 'required|distinct|min:1'
+            'answers.*' => 'required|distinct|min:1',
+            'eops' => 'required_without:system_tier_id'
         ]);
+
+        if ($request->is_finding) {
+            $request->merge(['system_tier_id' => 0, 'work_order_trade_id' => 0, 'work_order_problem_id' => 0]);
+        } else {
+            $request->merge(['eops' => []]);
+        }
 
         if ($question->update($request->all())) {
             return back()->with('success', 'Question updated!');

@@ -12,7 +12,7 @@
 @include('layouts.partials.errors')
 
 <ol class="breadcrumb">
-    <li><a href="/admin/assessment/checklist-types"> Checklist Types </a></li>
+    <li><a href="/admin/assessment/{{$checklist_type->id}}/checklist-types"> Checklist Types </a></li>
     <li class="active">{{$checklist_type->name}} Categories</li>
 </ol>
 

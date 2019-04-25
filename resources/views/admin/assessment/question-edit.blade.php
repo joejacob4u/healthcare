@@ -36,6 +36,11 @@
                   {!! Form::text('question', $question->question, ['class' => 'form-control', 'placeholder' => 'Enter question']) !!}
               </div>
 
+                <div class="form-group">
+                <label class="checkbox-inline"><input type="checkbox" name="is_finding" value="1" id="finding-checkbox" @if($question->system_tier_id == 0) checked @endif>Negative Answer triggers an Action Plan Finding.</label>
+              </div>
+
+                <div id="work-order-div" @if($question->system_tier_id == 0) style="display:none" @else style="display:block" @endif>
 
                 <div class="form-group">
                     {!! Form::label('system_tier_id', 'System Tier:', ['class' => 'col-lg-2 control-label']) !!}
@@ -51,6 +56,18 @@
                     {!! Form::label('work_order_problem_id', 'Problem:', ['class' => 'col-lg-2 control-label']) !!}
                       {!! Form::select('work_order_problem_id', \App\Equipment\Problem::where('work_order_trade_id',$question->work_order_trade_id)->pluck('name','id'), $question->work_order_problem_id, ['class' => 'form-control','id' => 'work_order_problem_id']) !!}
                 </div>
+
+                </div>
+
+                <div id="eop-div" @if($question->system_tier_id == 0) style="display:block" @else style="display:none" @endif>
+
+                    <div class="form-group">
+                        {!! Form::label('eops', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
+                        {!! Form::select('eops[]', $eops->prepend('Please select',0), $question->eops, ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
+                    </div>
+
+                </div>
+
 
 
 
@@ -77,12 +94,6 @@
                         </div>
                         <!-- /.box-body -->
                     </div>
-
-
-                <div class="form-group">
-                    {!! Form::label('eops', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
-                     {!! Form::select('eops[]', $eops->prepend('Please select',0), $question->eops, ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
-                </div>
 
                 <!-- Submit Button -->
                 <div class="form-group">
@@ -184,6 +195,25 @@
       });
 
   });
+
+    $('#finding-checkbox').change(function(){
+      
+      if($(this).prop('checked'))
+      {
+          $('#system_tier_id').selectpicker('val',0);
+          $('#work_order_trade_id').val(0);
+          $('#work_order_problem_id').val(0);
+          $('#work-order-div').hide();
+          $('#eop-div').show();
+      }
+      else
+      {
+        $('#work-order-div').show();
+        $('#eop_id').selectpicker('render');
+        $('#eop-div').hide();
+      }
+   });
+
 
 
 

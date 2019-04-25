@@ -52,7 +52,7 @@
                     <tr id="tr-{{$question->id}}">
                       <td>{{$question->question}}</td>
                       <td>{!! link_to('#','Answers',['class' => 'btn-xs btn-primary','data-toggle' => "popover", 'title' => "Answers", 'data-trigger' => "click", 'data-content' => implode('<br>',$question->answers['answers']),'data-html' => 'true']) !!}</td>
-                      <td>{{$question->systemTier->name}}</td>
+                      <td>@if($question->system_tier_id != 0){{ $question->systemTier->name  }} @else N/A @endif</td>
                       <td>{!! link_to('#','EOP',['class' => 'btn-xs btn-info','data-toggle' => "popover", 'title' => "EOPs", 'data-trigger' => "click", 'data-content' => (!empty($question->eops)) ? \App\Regulatory\EOP::whereIn('id',$question->eops)->get()->implode('text','<br>') : 'N/A','data-html' => 'true']) !!}</td>
                       <td>{!! link_to('admin/assessment/categories/'.$category->id.'/questions/'.$question->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                       <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteQuestion('.$question->id.')']) !!}</td>
