@@ -37,7 +37,7 @@
               </div>
 
               <div class="form-group">
-                <label class="checkbox-inline"><input type="checkbox" id="finding-checkbox">Negative Answer triggers an Action Plan Finding.</label>
+                <label class="checkbox-inline"><input type="checkbox" name="is_finding" value="1" id="finding-checkbox">Negative Answer triggers an Action Plan Finding.</label>
               </div>
 
 
