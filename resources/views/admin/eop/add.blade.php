@@ -87,7 +87,7 @@
                 <div class="form-group">
                     {!! Form::label('problems', 'Problems:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('problems[]', $problems, Request::old('problems'), ['class' => 'form-control selectpicker','placeholder' => 'Please select','multiple' => 'true','data-live-search' => 'true']) !!}
+                        {!! Form::select('problems[]', $problems, Request::old('problems'), ['class' => 'form-control selectpicker','multiple' => 'true','data-live-search' => 'true']) !!}
                     </div>
                 </div>
 
