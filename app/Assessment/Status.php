@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Rounding;
+namespace App\Assessment;
 
 use Illuminate\Database\Eloquent\Model;
 
 class Status extends Model
 {
-    protected $table = 'rounding_statuses';
+    protected $table = 'assessment_statuses';
 }

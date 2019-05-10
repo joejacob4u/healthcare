@@ -1,22 +1,22 @@
 <?php
 
-namespace App\Rounding;
+namespace App\Assessment;
 
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 use App\Equipment\DemandWorkOrder;
 
-class QuestionFinding extends Model
+class QuestionEvaluation extends Model
 {
-    protected $table = 'rounding_question_findings';
+    protected $table = 'assessment_question_evaluations';
 
-    protected $fillable = ['rounding_id', 'question_id', 'user_id', 'finding', 'is_leader'];
+    protected $fillable = ['assessment_id', 'question_id', 'user_id', 'finding', 'is_leader'];
 
     protected $casts = ['finding' => 'array'];
 
-    public function rounding()
+    public function assessment()
     {
-        return $this->belongsTo(Rounding::class, 'rounding_id');
+        return $this->belongsTo(Assessment::class, 'rounding_id');
     }
 
     public function question()
