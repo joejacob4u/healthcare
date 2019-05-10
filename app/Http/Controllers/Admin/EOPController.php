@@ -89,7 +89,6 @@ class EOPController extends Controller
             'documentation' => 'required',
             'frequency' => 'required',
             'risk' => 'required',
-            'occupancy_type' => 'required',
             'accreditations' => 'required|array',
             'accreditations.*' => 'exists:accreditation,id'
         ]);
