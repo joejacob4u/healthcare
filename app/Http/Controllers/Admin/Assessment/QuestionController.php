@@ -34,7 +34,7 @@ class QuestionController extends Controller
 
         $this->validate($request, [
             'question' => 'required',
-            'system_tier_id' => 'required_without:eop_id',
+            'system_tier_id' => 'required_without:eops',
             'work_order_trade_id' => 'required_without:eops',
             'work_order_problem_id' => 'required_without:eops',
             'answers' => 'required|array',
@@ -49,7 +49,7 @@ class QuestionController extends Controller
         if ($request->is_finding) {
             $request->merge(['system_tier_id' => 0, 'work_order_trade_id' => 0, 'work_order_problem_id' => 0]);
         } else {
-            $request->merge(['eops' => []]);
+            $request->merge(['eops' => '']);
         }
 
 

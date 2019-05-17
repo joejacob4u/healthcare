@@ -144,10 +144,10 @@
             <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Mark as Non-Complaint</h4>
+                <h4 class="modal-title">Mark as Non-compliant</h4>
             </div>
             <div class="modal-body">
-                <p><strong>This will mark the documents as non-complaint.</strong></p>
+                <p><strong>This will mark the documents as non-compliant.</strong></p>
                 {!! Form::open(['url' => 'system-admin/accreditation/eop/document/verify']) !!}
                     <div class="form-group">
                         {!! Form::label('comment', 'Comment:', ['class' => 'control-label']) !!}

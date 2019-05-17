@@ -11,7 +11,7 @@ class Question extends Model
 
     protected $fillable = ['assessment_category_id', 'system_tier_id', 'question', 'answers', 'eops', 'work_order_trade_id', 'work_order_problem_id', 'negative_answers'];
 
-    protected $casts = ['eops' => 'array', 'answers' => 'array'];
+    protected $casts = ['answers' => 'array'];
 
     public function category()
     {
@@ -33,9 +33,14 @@ class Question extends Model
         return $this->belongsTo('App\Equipment\Problem', 'work_order_problem_id');
     }
 
-    public function findings($assessment_id)
+    public function eop()
     {
-        $findings = QuestionFinding::where('assessment_id', $assessment_id)->where('question_id', $this->id)->get();
+        return $this->belongsTo('App\Regulatory\EOP', 'eop_id');
+    }
+
+    public function evaluations($assessment_id)
+    {
+        $findings = QuestionEvaluation::where('assessment_id', $assessment_id)->where('question_id', $this->id)->get();
 
         $inventories = [];
         $non_inventory = [];

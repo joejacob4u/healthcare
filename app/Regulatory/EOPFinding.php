@@ -3,6 +3,7 @@
 namespace App\Regulatory;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Assessment\Question;
 
 class EOPFinding extends Model
 {
@@ -34,14 +35,19 @@ class EOPFinding extends Model
         return $this->belongsTo('App\Regulatory\BuildingDepartment', 'department_id');
     }
 
-    public function room()
+    public function rooms()
     {
-        return $this->belongsTo('App\Regulatory\Room', 'room_id');
+        return $this->belongsTo('App\Regulatory\Room', 'eop_finding-room', 'eop_finding_id', 'room_id');
     }
 
     public function lastAssigned()
     {
         return $this->belongsTo('App\User', 'last_assigned_user_id');
+    }
+
+    public function assessmentQuestions()
+    {
+        return $this->belongsToMany(Question::class, 'assessment_question-finding', 'finding_id', 'assessment_question_id')->withPivot(['assessment_id']);
     }
 
     public function statusColor()
@@ -51,11 +57,11 @@ class EOPFinding extends Model
                 return 'danger';
                 break;
 
-            case 'non-complaint':
+            case 'non-compliant':
                 return 'danger';
                 break;
 
-            case 'complaint':
+            case 'compliant':
                 return 'success';
                 break;
 
@@ -70,7 +76,6 @@ class EOPFinding extends Model
             default:
                 return 'primary';
                 break;
-
         }
     }
 

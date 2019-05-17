@@ -61,7 +61,7 @@ class CreateIlsmAssessmentTable extends Migration
             ['name' => 'ILSM Assessment Question Approval'],
             ['name' => 'ILSM Assessment in Progress'],
             ['name' => 'ILSM Assessment Close Out'],
-            ['name' => 'ILSM Complete and Complaint'],
+            ['name' => 'ILSM Complete and compliant'],
             ['name' => 'No ILSM Pre-Assessment Required'],
         ]);
 

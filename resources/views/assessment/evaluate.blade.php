@@ -61,7 +61,7 @@
         <!-- /.col -->
       </div>
 
-      @if($assessment->rounding_status_id == 3)
+      @if($assessment->assessment_status_id == 3)
 
       <div class="callout callout-warning">
         <h4>Under Review</h4>
@@ -72,7 +72,7 @@
 
       @endif
 
-      @if($assessment->rounding_status_id == 4)
+      @if($assessment->assessment_status_id == 4)
 
       <div class="callout callout-success">
         <h4>This rounding is complete and compliant</h4>
@@ -82,7 +82,7 @@
 
       @endif
 
-      @if($assessment->rounding_status_id == 5)
+      @if($assessment->assessment_status_id == 5)
 
       <div class="callout callout-danger">
         <h4>This rounding is complete with Open Issues</h4>
@@ -114,13 +114,13 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">
-                        {!! Form::select('answers['.$question->id.'][answer]', ['' => 'Please Select'] + $question->answers['answers'], Request::old('answers['.$question->id.'][answer]'), ['class' => 'form-control answer','id' => 'question_'.$question->id,'data-negative' => $question->answers['negative'],'data-question-id' => $question->id,'disabled' => (in_array($assessment->rounding_status_id,[4,5])) ? true : false]) !!}
+                        {!! Form::select('answers['.$question->id.'][answer]', ['' => 'Please Select'] + $question->answers['answers'], Request::old('answers['.$question->id.'][answer]'), ['class' => 'form-control answer','data-is-wo' => (empty($question->eops)) ? 1 : 0,'id' => 'question_'.$question->id,'data-negative' => $question->answers['negative'],'data-question-id' => $question->id,'disabled' => (in_array($assessment->assessment_status_id,[4,5])) ? true : false]) !!}
                         
                         @if($assessment->workOrders->count() > 0)
                           <div class="attachment-pushed">
                             <h4 class="attachment-heading">Work Orders</h4>
                                 @foreach($assessment->workOrders as $work_order)
-                                  @if($work_order->pivot->rounding_question_id == $question->id)
+                                  @if($work_order->pivot->assessment_question_id == $question->id)
                                     @if($work_order->status() == 'Complete and Compliant') 
                                       <a href="{{url('equipment/demand-work-orders/'.$work_order->id)}}" target="_blank"><small class="label bg-green">WO #{{$work_order->id}}</small></a>
                                     @else
@@ -130,6 +130,22 @@
                                 @endforeach
                           </div>
                         @endif
+
+                        @if($assessment->eopFindings->count() > 0)
+                          <div class="attachment-pushed">
+                            <h4 class="attachment-heading">EOP Findings</h4>
+                                @foreach($assessment->eopFindings as $eop_finding)
+                                  @if($eop_finding->pivot->assessment_question_id == $question->id)
+                                    @if($eop_finding->status == 'compliant') 
+                                      <a href="{{url('system-admin/accreditation/eop/status/'.$eop_finding->eop_id)}}" target="_blank"><small class="label bg-green">Finding #{{$eop_finding->id}}</small></a>
+                                    @else
+                                      <a href="{{url('system-admin/accreditation/eop/status/'.$eop_finding->eop_id)}}" target="_blank"><small class="label bg-red">Finding #{{$eop_finding->id}}</small></a>
+                                    @endif
+                                  @endif
+                                @endforeach
+                          </div>
+                        @endif
+
 
                         <span class="pull-right text-muted">{{$assessment->evaluations->where('question_id',$question->id)->count()}} findings</span>
                     </div>
@@ -155,8 +171,8 @@
                                   @if(!empty($finding->finding['comment'])) finding <i>{{$finding->finding['comment']}}</i> @endif
                                   @php $files = Storage::disk('s3')->files($finding->finding['attachment']); @endphp
                                   @if(count($files) > 0) and has <a class="attachment" data-attachment="{{json_encode($files)}}"> attached {{count($files)}} files.</a> @endif
-                                  @if(!in_array($assessment->rounding_status_id,[4,5]))
-                                    <br>@if($finding->finding['answer'] == $question->answers['negative'])<button data-question-id="{{$question->id}}" data-negative="{{$question->answers['negative']}}" data-finding="{{json_encode($finding->finding)}}" data-answer-text="{{$question->answers['answers'][$finding->finding['answer']]}}" data-files="{{json_encode($files)}}" data-finding-id="{{$finding->id}}" class="btn btn-link btn-xs edit-btn"><span class="glyphicon glyphicon-pencil"></span></button>@endif
+                                  @if(!in_array($assessment->assessment_status_id,[4,5]))
+                                    <br>@if($finding->finding['answer'] == $question->answers['negative'])<button data-question-id="{{$question->id}}" "data-is-wo" =  "@if(empty($question->eops)) 1 @else 0 @endif" data-negative="{{$question->answers['negative']}}" data-finding="{{json_encode($finding->finding)}}" data-answer-text="{{$question->answers['answers'][$finding->finding['answer']]}}" data-files="{{json_encode($files)}}" data-finding-id="{{$finding->id}}" class="btn btn-link btn-xs edit-btn"><span class="glyphicon glyphicon-pencil"></span></button>@endif
                                     <button onclick="deleteFinding('{{$finding->id}}')" class="btn btn-link btn-xs"><span class="glyphicon glyphicon-trash"></span></button>
                                   @endif
                           </div>
@@ -189,6 +205,11 @@
         <h4 class="modal-title">Answer Confirmation</h4>
       </div>
       <div class="modal-body">
+        <div class="form-group" id="accreditation-div">
+            {!! Form::label('accreditation_id', 'Accreditation (Required):', ['class' => '']) !!}
+            {!! Form::select('accreditation_id', $building->accreditations->pluck('name','id')->prepend('Please Select', 0), '', ['class' => 'form-control selectpicker','id' => 'accreditation_id']); !!}
+        </div>
+
         <p id="answer-text"></p>
         
         <div id="negative-div" style="display:none;">
@@ -233,6 +254,7 @@
         <input type="hidden" id="is_negative" name="is_negative" value="">
         <input type="hidden" id="is_edit" name="is_edit" value="0">
         <input type="hidden" id="finding_id" name="finding_id" value="">
+        <input type="hidden" id="is_wo" name="is_wo" value="">
 
       </div>
       <div class="modal-footer">
@@ -282,7 +304,7 @@
         <h4 class="modal-title">Verify</h4>
       </div>
       <div class="modal-body">
-      {!! Form::open(['url' => '/rounding/question/findings/verify', 'class' => 'form-horizontal']) !!}
+      {!! Form::open(['url' => '/assessment/question/findings/verify', 'class' => 'form-horizontal']) !!}
           <p>All the findings noted below are verified and ready for submission.</p>
           {!! Form::hidden('assessment_id', $assessment->id,['id' => '']) !!}
       </div>
@@ -336,7 +358,18 @@ $('.answer').change(function(){
 
             $('#is_negative').val(1);
 
-            var directory = 'rounding/'+assessment_id+'/question/'+question_id+'/user/'+user_id+'/findings/'+moment().unix();
+            if($(this).attr('data-is-wo') == 1)
+            {
+                $('#accreditation-div').hide();
+                $('#is_wo').val(1);
+            }
+            else
+            {
+                $('#accreditation-div').show();
+                $('#is_wo').val(0);
+            }
+
+            var directory = 'assessment/'+assessment_id+'/question/'+question_id+'/user/'+user_id+'/findings/'+moment().unix();
             var random_number = Math.floor((Math.random() * 10000) + 1);
             $('#attachment').val(directory);
 
@@ -409,6 +442,24 @@ $('#inventory-checkbox').change(function(){
                   alert('Inventory cannot be empty.');
                   return 0;
                 }
+            }
+
+            if($('#is_wo').val() == 0)
+            {
+                if($('#accreditation_id').val())
+                {
+                  finding['accreditation_id'] = $('#accreditation_id').val();
+                }
+                else
+                {
+                  alert('Accreditation cannot be empty.');
+                  return 0;
+                }
+
+            }
+            else
+            {
+
             }
 
               //lets do rooms
@@ -485,7 +536,7 @@ $('#inventory-checkbox').change(function(){
 
         $.ajax({
            type: 'POST',
-           url: ($('#is_edit').val() == 1) ? '{{ url('rounding/'.$assessment->id.'/question/findings/edit') }}' : '{{ url('rounding/'.$assessment->id.'/question/findings') }}',
+           url: ($('#is_edit').val() == 1) ? '{{ url('assessment/'.$assessment->id.'/question/findings/edit') }}' : '{{ url('assessment/'.$assessment->id.'/question/findings') }}',
            data: { 
              '_token' : '{{ csrf_token() }}',
              'assessment_id' : assessment_id,
@@ -648,6 +699,19 @@ $('#inventory-checkbox').change(function(){
       $('#finding_id').val(finding_id);
       
       $('#is_edit').val(1);
+
+      if($(this).attr('data-is-wo') == 1)
+      {
+          $('#accreditation-div').hide();
+          $('#accreditation_id').val(0);
+          $('#is_wo').val(1);
+      }
+      else
+      {
+          $('#accreditation-div').show();
+          $('#accreditation_id').selectpicker('val',data.accreditation_id);
+          $('#is_wo').val(0);
+      }
 
       if(data.answer)
       {

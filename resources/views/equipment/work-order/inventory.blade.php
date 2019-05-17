@@ -102,7 +102,7 @@
     </div>
     <!-- /.box-body -->
     <div class="box-footer">
-        Adding a shift will split time between 'Non - Complete and Complaint' inventories below
+        Adding a shift will split time between 'Non - Complete and compliant' inventories below
     </div>
     <!-- /.box-footer-->
 </div>

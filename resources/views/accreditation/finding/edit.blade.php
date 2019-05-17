@@ -53,9 +53,9 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('room_id', 'Room:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('rooms', 'Room:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                        {!! Form::select('room_id', $finding->department->rooms->pluck('room_number','id'), $finding->room_id, ['class' => 'form-control','id' => 'room_id']) !!}
+                        {!! Form::select('rooms[]', $finding->department->rooms->pluck('room_number','id'), $finding->rooms->pluck('id')->toArray(), ['class' => 'form-control','id' => 'rooms']) !!}
                     </div>
                 </div>
 
@@ -176,7 +176,7 @@
                 },
                 success:function(data)
                 {
-                    $('#room_id').html('');
+                    $('#rooms').html('');
 
                     var html = '<option value="0">Select Room</option>';
 
@@ -184,8 +184,8 @@
                         html += '<option value="'+value.id+'">'+value.room_number+'</option>';
                     });
 
-                    $('#room_id').append(html);
-                    $('#room_id').selectpicker('render');
+                    $('#rooms').append(html);
+                    $('#rooms').selectpicker('render');
                 },
                 complete:function()
                 {

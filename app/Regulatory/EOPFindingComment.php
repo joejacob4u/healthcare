@@ -12,22 +12,21 @@ class EOPFindingComment extends Model
 
     public function finding()
     {
-        return $this->belongsTo('App\Regulatory\EOPFinding','eop_finding_id');
+        return $this->belongsTo('App\Regulatory\EOPFinding', 'eop_finding_id');
     }
 
     public function statusColor()
     {
-        switch($this->status)
-        {
+        switch ($this->status) {
             case 'initial':
                 return 'danger';
                 break;
 
-            case 'non-complaint':
+            case 'non-compliant':
                 return 'danger';
                 break;
 
-            case 'complaint':
+            case 'compliant':
                 return 'success';
                 break;
 
@@ -42,20 +41,19 @@ class EOPFindingComment extends Model
             default:
                 return 'primary';
                 break;
-
         }
     }
 
     public function assignedBy()
     {
-        return $this->belongsTo('App\User','created_by_user_id');
+        return $this->belongsTo('App\User', 'created_by_user_id');
     }
 
     public function building()
     {
         return collect(DB::table('eop_findings')->select('buildings.name')
-                ->leftJoin('eop_finding_comments','eop_findings.id','=','eop_finding_comments.eop_finding_id')
-                ->leftJoin('buildings','eop_findings.building_id','=','buildings.id')
-                ->where('eop_finding_comments.id',$this->id)->first());
+            ->leftJoin('eop_finding_comments', 'eop_findings.id', '=', 'eop_finding_comments.eop_finding_id')
+            ->leftJoin('buildings', 'eop_findings.building_id', '=', 'buildings.id')
+            ->where('eop_finding_comments.id', $this->id)->first());
     }
 }

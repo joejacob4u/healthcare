@@ -64,7 +64,7 @@
                 <div id="eop-div" style="display:none">
                    <div class="form-group">
                      {!! Form::label('eops', 'EOP:', ['class' => 'col-lg-2 control-label']) !!}
-                     {!! Form::select('eops[]', $eops, Request::old('eop_id'), ['class' => 'form-control selectpicker','multiple' => true,'id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
+                     {!! Form::select('eops', $eops->prepend('Please select',0), Request::old('eop_id'), ['class' => 'form-control selectpicker','id' => 'eop_id','data-live-search' => 'true','data-size' => 'false']) !!}
                     </div>
                 </div>
 

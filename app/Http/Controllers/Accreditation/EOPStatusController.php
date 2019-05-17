@@ -21,6 +21,8 @@ use DB;
 use Illuminate\Support\Facades\Input;
 use App\Regulatory\BuildingDepartment;
 use Carbon\Carbon;
+use App\Regulatory\Room;
+use App\Assessment\Assessment;
 
 class EOPStatusController extends Controller
 {
@@ -34,7 +36,7 @@ class EOPStatusController extends Controller
         $eop = EOP::find($eop_id);
         $building = Building::find(session('building_id'));
         $findings = EOPFinding::where('building_id', session('building_id'))->where('eop_id', $eop_id)->where('accreditation_id', session('accreditation_id'))->where('accreditation_requirement_id', session('accreditation_requirement_id'))->orderBy('id', 'desc')->get();
-        return view('accreditation.status', ['eop' => $eop,'building' => $building,'findings' => $findings]);
+        return view('accreditation.status', ['eop' => $eop, 'building' => $building, 'findings' => $findings]);
     }
 
     public function addFinding($eop_id)
@@ -44,10 +46,10 @@ class EOPStatusController extends Controller
         } else {
             $description = '';
         }
-        
+
         $eop = EOP::find($eop_id);
         $building = Building::find(session('building_id'));
-        return view('accreditation.finding.add', ['eop' => $eop,'description' => $description,'building' => $building]);
+        return view('accreditation.finding.add', ['eop' => $eop, 'description' => $description, 'building' => $building]);
     }
 
     public function editFinding($eop_id, $finding_id)
@@ -55,7 +57,7 @@ class EOPStatusController extends Controller
         $finding = EOPFinding::find($finding_id);
         $eop = EOP::find($eop_id);
         $building = Building::find(session('building_id'));
-        return view('accreditation.finding.edit', ['finding' => $finding,'eop' => $eop,'building' => $building]);
+        return view('accreditation.finding.edit', ['finding' => $finding, 'eop' => $eop, 'building' => $building]);
     }
 
     public function saveFinding(Request $request, $eop_id, $finding_id)
@@ -67,13 +69,22 @@ class EOPStatusController extends Controller
             'measure_of_success_date' => 'required',
             'status' => 'required',
             'benefit' => 'required',
-            'activity' => 'not_in:0'
+            'activity' => 'not_in:0',
+            'rooms' => 'required'
         ]);
 
         $finding = EOPFinding::find($finding_id);
 
         if ($finding->update($request->all())) {
-            return redirect('system-admin/accreditation/eop/status/'.$request->eop_id)->with('success', 'Finding saved!');
+            if (!empty($request->rooms)) {
+                foreach ($request->rooms as $room) {
+                    $aRooms[] = Room::find($room)->id;
+                }
+
+                $finding->rooms()->sync($aRooms);
+            }
+
+            return redirect('system-admin/accreditation/eop/status/' . $request->eop_id)->with('success', 'Finding saved!');
         }
     }
 
@@ -86,13 +97,22 @@ class EOPStatusController extends Controller
             'status' => 'required',
             'benefit' => 'required',
             'activity' => 'not_in:0',
-            'room_id' => 'not_in:0',
+            'rooms' => 'required',
             'department_id' => 'not_in:0'
 
         ]);
 
-        if (EOPFinding::create($request->all())) {
-            return redirect('system-admin/accreditation/eop/status/'.$request->eop_id)->with('success', 'New finding added!');
+        if ($eop_finding = EOPFinding::create($request->all())) {
+
+            if (!empty($request->rooms)) {
+                foreach ($request->rooms as $room) {
+                    $aRooms[] = Room::find($room)->id;
+                }
+
+                $eop_finding->rooms()->sync($aRooms);
+            }
+
+            return redirect('system-admin/accreditation/eop/status/' . $request->eop_id)->with('success', 'New finding added!');
         }
     }
 
@@ -103,7 +123,7 @@ class EOPStatusController extends Controller
         $this->changeSession($finding);
         $building = Building::find($finding->building_id);
         $healthsystem_users = User::where('healthsystem_id', Auth::guard('system_user')->user()->healthsystem_id)->pluck('name', 'id')->prepend('Please select a user', '0');
-        return view('accreditation.finding.finding', ['eop' => $eop,'building' => $building,'finding' => $finding,'healthsystem_users' => $healthsystem_users]);
+        return view('accreditation.finding.finding', ['eop' => $eop, 'building' => $building, 'finding' => $finding, 'healthsystem_users' => $healthsystem_users]);
     }
 
     public function createComment(Request $request)
@@ -118,7 +138,11 @@ class EOPStatusController extends Controller
         $finding = EOPFinding::find($request->eop_finding_id);
 
         if (EOPFindingComment::create($request->all())) {
-            $finding->update(['status' => $request->status,'last_assigned_user_id' => (!empty($request->assigned_user_id)) ? $request->assigned_user_id : '']);
+            $finding->update(['status' => $request->status, 'last_assigned_user_id' => (!empty($request->assigned_user_id)) ? $request->assigned_user_id : '']);
+
+            //account for assessments
+            $this->assessment_question_findings($finding);
+
             return back()->with('success', 'Comment has been added!');
         }
     }
@@ -126,7 +150,7 @@ class EOPStatusController extends Controller
     public function getFindingsByUser(Request $request)
     {
         $findings = EOPFindingComment::where('assigned_user_id', Auth::guard('system_user')->user()->id)
-                                        ->where('is_read_by_assigned_user', 0)->latest()->limit($request->limit)->get();
+            ->where('is_read_by_assigned_user', 0)->latest()->limit($request->limit)->get();
     }
 
     public function changeSession($finding)
@@ -150,24 +174,24 @@ class EOPStatusController extends Controller
     public function getActionPlan()
     {
         $findings = DB::table('eop_findings')
-        ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
-        ->join('sites', 'sites.id', '=', 'buildings.site_id')
-        ->join('hco', 'hco.id', '=', 'sites.hco_id')
-        ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
-        ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
-        ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
-        ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
-        ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id', 'buildings.name as building_name', 'buildings.building_id', 'eop_findings.status', 'healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'sites.site_id as site_id', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop.name as eop_name', 'eop.text as eop_text', 'standard_label.label', 'standard_label.text as label_text', 'eop_findings.created_at')
-        ->where('healthsystem.id', Auth::user()->healthsystem_id)
-        ->where('hco.id', session('hco_id'))
-        ->orderBy('eop_findings.updated_at', 'desc');
+            ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
+            ->join('sites', 'sites.id', '=', 'buildings.site_id')
+            ->join('hco', 'hco.id', '=', 'sites.hco_id')
+            ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
+            ->join('eop', 'eop.id', '=', 'eop_findings.eop_id')
+            ->join('standard_label', 'standard_label.id', '=', 'eop.standard_label_id')
+            ->leftJoin('users', 'users.id', '=', 'eop_findings.last_assigned_user_id')
+            ->select('eop_findings.id', 'eop_findings.description', 'eop_findings.eop_id', 'buildings.name as building_name', 'buildings.building_id', 'eop_findings.status', 'healthsystem.healthcare_system', 'hco.facility_name', 'sites.name as site_name', 'sites.site_id as site_id', 'eop_findings.measure_of_success', 'eop_findings.benefit', 'eop_findings.plan_of_action', 'users.name as last_assigned_name', 'eop_findings.measure_of_success_date as due_date', 'eop.name as eop_name', 'eop.text as eop_text', 'standard_label.label', 'standard_label.text as label_text', 'eop_findings.created_at')
+            ->where('healthsystem.id', Auth::user()->healthsystem_id)
+            ->where('hco.id', session('hco_id'))
+            ->orderBy('eop_findings.updated_at', 'desc');
 
         return Datatables::of($findings)
             ->addColumn('site_name', function ($finding) {
-                return $finding->site_name.'(#'.$finding->site_id.')';
+                return $finding->site_name . '(#' . $finding->site_id . ')';
             })
             ->addColumn('building_name', function ($finding) {
-                return $finding->building_name.'(#'.$finding->building_id.')';
+                return $finding->building_name . '(#' . $finding->building_id . ')';
             })
             ->addColumn('last_assigned_name', function ($finding) {
                 return (!empty($finding->last_assigned_name)) ? $finding->last_assigned_name : 'TBD';
@@ -179,7 +203,7 @@ class EOPStatusController extends Controller
                 return $finding->eop_name;
             })
             ->addColumn('eop_text', function ($finding) {
-                return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="EOP Text" data-content="'.$finding->eop_text.'">'.substr($finding->eop_text, 0, 50).'...</a>';
+                return '<a href="#" data-toggle="popover" data-trigger="hover" data-container="body" title="EOP Text" data-content="' . $finding->eop_text . '">' . substr($finding->eop_text, 0, 50) . '...</a>';
             })
             ->addColumn('label', function ($finding) {
                 return $finding->label;
@@ -188,7 +212,7 @@ class EOPStatusController extends Controller
                 return $finding->label_text;
             })
             ->addColumn('finding_button', function ($finding) {
-                return '<a href="/system-admin/accreditation/eop/status/'.$finding->eop_id.'/finding/'.$finding->id.'" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-info-sign"></span> Finding</a>';
+                return '<a href="/system-admin/accreditation/eop/status/' . $finding->eop_id . '/finding/' . $finding->id . '" class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-info-sign"></span> Finding</a>';
             })
             ->addColumn('finding_date', function ($finding) {
                 return Carbon::parse($finding->created_at)->toFormattedDateString();
@@ -250,7 +274,7 @@ class EOPStatusController extends Controller
             $csv->insertOne($finding);
         }
 
-        $csv->output('action_sheet_healthsystem_'.date('Y-m-d:H:i:s').'.csv');
+        $csv->output('action_sheet_healthsystem_' . date('Y-m-d:H:i:s') . '.csv');
         exit;
     }
 
@@ -305,7 +329,7 @@ class EOPStatusController extends Controller
             $csv->insertOne($finding);
         }
 
-        $csv->output('action_sheet_'.$findings->first()->facility_name.'_'.date('Y-m-d:H:i:s').'.csv');
+        $csv->output('action_sheet_' . $findings->first()->facility_name . '_' . date('Y-m-d:H:i:s') . '.csv');
         exit;
     }
 
@@ -313,5 +337,25 @@ class EOPStatusController extends Controller
     {
         $department = BuildingDepartment::find($request->department_id);
         return response()->json(['rooms' => $department->rooms]);
+    }
+
+    private function assessment_question_findings(EOPFinding $finding)
+    {
+        //trigger rounding work orders if any
+
+        if ($finding->assessmentQuestions->count() > 0) {
+            $is_compliant = true;
+
+            $assessment = Assessment::find($finding->assessmentQuestions->first()->pivot->assessment_id);
+
+            //loop thru each work order for the rounding
+            foreach ($assessment->eopFindings as $eop_finding) {
+                if ($eop_finding->status() != 'compliant') {
+                    $is_compliant = false;
+                }
+            }
+
+            $assessment->update(['rounding_status_id' => ($is_compliant) ? 4 : 5]);
+        }
     }
 }
