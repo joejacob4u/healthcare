@@ -37,7 +37,7 @@ class EOPFinding extends Model
 
     public function rooms()
     {
-        return $this->belongsTo('App\Regulatory\Room', 'eop_finding-room', 'eop_finding_id', 'room_id');
+        return $this->belongsToMany('App\Regulatory\Room', 'eop_finding-room', 'eop_finding_id', 'room_id');
     }
 
     public function lastAssigned()

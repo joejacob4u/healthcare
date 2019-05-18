@@ -35,7 +35,7 @@ class Question extends Model
 
     public function eop()
     {
-        return $this->belongsTo('App\Regulatory\EOP', 'eop_id');
+        return $this->belongsTo('App\Regulatory\EOP', 'eops');
     }
 
     public function evaluations($assessment_id)
@@ -60,6 +60,7 @@ class Question extends Model
                         $non_inventory['rooms'][] = $room;
                     }
                     $non_inventory['attachment'][] = $finding->finding['attachment'];
+                    $non_inventory['accreditation_id'][] = (isset($finding->finding['accreditation_id'])) ? $finding->finding['accreditation_id'] : '';
                 }
             }
         }

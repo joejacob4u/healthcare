@@ -205,13 +205,14 @@
         <h4 class="modal-title">Answer Confirmation</h4>
       </div>
       <div class="modal-body">
+
+        <p id="answer-text"></p>
+
         <div class="form-group" id="accreditation-div">
             {!! Form::label('accreditation_id', 'Accreditation (Required):', ['class' => '']) !!}
             {!! Form::select('accreditation_id', $building->accreditations->pluck('name','id')->prepend('Please Select', 0), '', ['class' => 'form-control selectpicker','id' => 'accreditation_id']); !!}
         </div>
 
-        <p id="answer-text"></p>
-        
         <div id="negative-div" style="display:none;">
             <div class="checkbox">
                 <label><input type="checkbox" id="inventory-checkbox" value="">An inventory is associated with this finding</label>
@@ -228,7 +229,7 @@
             </div>
 
             <div class="form-group">
-                {!! Form::label('rooms', 'Rooms (Required):', ['class' => '']) !!}
+                {!! Form::label('rooms', 'Rooms :', ['class' => '']) !!}
                 {!! Form::select('rooms[]', $rooms->prepend('Please Select',''), '', ['class' => 'form-control selectpicker','id' => 'rooms','multiple' => true]); !!}
             </div>
 
@@ -366,6 +367,7 @@ $('.answer').change(function(){
             else
             {
                 $('#accreditation-div').show();
+                $('.checkbox').hide();
                 $('#is_wo').val(0);
             }
 
@@ -479,7 +481,7 @@ $('#inventory-checkbox').change(function(){
                 
               }
 
-              if(finding['rooms'].length == 0)
+              if(finding['rooms'].length == 0 && $('#is_wo').val() == 1)
               {
                   alert('Atleast one room should be selected.');
                   return 0;

@@ -14,6 +14,7 @@ use App\Assessment\QuestionEvaluation;
 use Storage;
 use App\Regulatory\Building;
 use App\Regulatory\EOPFinding;
+use App\Assessment\Question;
 
 class AssessmentController extends Controller
 {
@@ -103,14 +104,13 @@ class AssessmentController extends Controller
                     //create an eop finding
 
                     $findings = $question->evaluations($assessment->id);
-                    dd($findings);
 
                     //lets do non-inventory first
                     if (!empty($findings['non_inventory'])) {
                         $is_compliant = false;
                         $data = [];
                         $data['inventory_id'] = '';
-                        $data['accreditation_id'] = $findings['accreditation_id'];
+                        $data['accreditation_id'] = $findings['non_inventory']['accreditation_id'];
                         $data['comment'] = implode(',', $findings['non_inventory']['comment']);
                         $data['attachment_dir'] = '/finding/' . $assessment->user->id . '/' . $question->id . '/noninventory/' . time() . '/';
                         $data['rooms'] = $findings['non_inventory']['rooms'];
@@ -123,29 +123,6 @@ class AssessmentController extends Controller
 
                         //create work order
                         $this->createEOPFinding($assessment, $question, $data);
-                    }
-
-                    //lets do one with inventory next
-
-                    if (!empty($findings['inventories'])) {
-                        foreach ($findings['inventories'] as $inventory_id => $inventory) {
-                            $is_compliant = false;
-                            $data = [];
-                            $data['inventory_id'] = $inventory_id;
-                            $data['accreditation_id'] = $findings['accreditation_id'];
-                            $data['comment'] = implode(',', $inventory['comment']);
-                            $data['attachment_dir'] = '/finding/' . $assessment->user->id . '/' . $question->id . '/inventory/' . time() . '/';
-                            $data['rooms'] = $inventory['rooms'];
-
-                            foreach ($inventory['attachment'] as $attachment) {
-                                foreach (Storage::disk('s3')->files($attachment) as $file) {
-                                    Storage::disk('s3')->copy($file, $data['attachment_dir'] . basename($file));
-                                }
-                            }
-
-                            //create work order
-                            $this->createEOPFinding($assessment, $question, $data);
-                        }
                     }
                 } else {
                     //create a work order
@@ -257,7 +234,7 @@ class AssessmentController extends Controller
     private function createEOPFinding(Assessment $assessment, Question $question, $data)
     {
         $finding_data = [
-            'accreditation_id' => $data['accreditation_id'],
+            'accreditation_id' => $data['accreditation_id'][0],
             'accreditation_requirement_id' => $question->eop->standardLabel->accreditation_requirement_id,
             'building_id' => session('building_id'),
             'description' => $data['comment'],
@@ -270,8 +247,8 @@ class AssessmentController extends Controller
             'department_id' => $assessment->department->id,
             'potential_to_cause_harm' => '',
             'is_policy_issue' => '',
-            'eop_id' => $assessment->eop_id,
-            'attachment_path' => $data['attachment_dir'],
+            'eop_id' => $question->eop->id,
+            'attachments_path' => $data['attachment_dir'],
             'documents_description' => '',
             'status' => 'initial',
             'created_by_user_id' => $assessment->user->id,
@@ -279,7 +256,10 @@ class AssessmentController extends Controller
 
         if ($eop_finding = EOPFinding::create($finding_data)) {
 
-            $eop_finding->rooms()->sync($data['rooms']);
+            if (!empty($data['rooms'])) {
+                $eop_finding->rooms()->sync($data['rooms']);
+            }
+
             $assessment->eopFindings()->attach([$eop_finding->id => ['assessment_question_id' => $question->id]]);
         }
     }
