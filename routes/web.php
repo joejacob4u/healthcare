@@ -222,6 +222,7 @@ Route::post('admin/rounding/categories/{category}/questions/fetch-problems', 'Ad
 
 Route::group(['namespace' => 'Admin', 'as' => 'admin'], function () {
     require(__DIR__ . '/Admin/assessment.php');
+    require(__DIR__ . '/Admin/tracer.php');
 });
 
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend'], function () {

@@ -77,6 +77,7 @@
 
        <li style="white-space: pre-line;"><a href="{{url('admin/rounding/checklist-types')}}"><i class="fa fa-files-o"></i>Rounding</a></li>
        <li style="white-space: pre-line;"><a href="{{url('admin/assessment/sections')}}"><i class="fa fa-files-o"></i>Assessments</a></li>
+       <li style="white-space: pre-line;"><a href="{{url('admin/tracer/sections')}}"><i class="fa fa-files-o"></i>TRACERS</a></li>
 
 
         <li class="treeview">
