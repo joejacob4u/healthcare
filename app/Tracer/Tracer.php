@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Regulatory\EOPFinding;
 use App\Equipment\DemandWorkOrder;
 
-class Assessment extends Model
+class Tracer extends Model
 {
     protected $table = 'tracers';
 

@@ -404,7 +404,8 @@
           </li>
 
         <li style="white-space: pre-line;"><a href="/roundings"><i class="fa fa-circle-o"></i>Roundings</a></li>
-         <li style="white-space: pre-line;"><a href="/assessments"><i class="fa fa-circle-o"></i>Assessments</a></li>        
+         <li style="white-space: pre-line;"><a href="/assessments"><i class="fa fa-circle-o"></i>Assessments</a></li>
+         <li style="white-space: pre-line;"><a href="/tracers"><i class="fa fa-circle-o"></i>Tracers</a></li>        
       @endif
 
 
