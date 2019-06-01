@@ -14,4 +14,9 @@ class Category extends Model
     {
         return $this->hasMany('App\Equipment\AssetCategory', 'equipment_category_id');
     }
+
+    public function equipments()
+    {
+        return $this->hasMany('App\Equipment\Equipment', 'equipment_category_id');
+    }
 }

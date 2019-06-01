@@ -282,33 +282,6 @@
         @endif
 
         @if(session()->has('building_id'))
-        <li class="treeview">
-         <a href="#">
-           <i class="fa fa-files-o"></i>
-           <span>Assessments</span>
-           <span class="pull-right-container">
-             <i class="fa fa-angle-left pull-right"></i></span>
-           </span>
-         </a>
-         <ul class="treeview-menu">
-            <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Ligature Point Risk Assessment</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Advanced Palliative Care </a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Ambulatory Care Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Behavioral Healthcare Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Comprehensive Cardiac Center Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Critical Access Hospital Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Disease Specific Care Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Home Care Checklist </a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Integrated Care Checklist  </a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Medication Compounding Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Nursing Care Center Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Office Based Surgery Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Palliative Care Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Patient Blood Management Checklist</a></li>
-           <li style="white-space: pre-line;"><a href="#"><i class="fa fa-circle-o"></i>Perinatal Core Checklist</a></li>
-
-         </ul>
-      </li>
           <li class="treeview @if(\Request::is('system-admin/accreditation/*')) active @endif" id="healthsystem_tree">
             <a href="#">
               <i class="fa fa-circle-o"></i><span>Accreditation</span>
@@ -327,27 +300,41 @@
                         <i class="fa fa-angle-left pull-right"></i></span>
                       </span>
                     </a>
-                <ul class="treeview-menu">
-                  @foreach($accreditation->accreditationRequirements as $accreditation_requirement)
-                    <li style="white-space: pre-line;" class="@if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)) active @endif"><a href="{{url('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
-                  @endforeach
-                </ul>
+                  <ul class="treeview-menu">
+                    @foreach($accreditation->accreditationRequirements as $accreditation_requirement)
+                      <li style="white-space: pre-line;" class="@if(\Request::is('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)) active @endif"><a href="{{url('system-admin/accreditation/'.$accreditation->id.'/accreditation_requirement/'.$accreditation_requirement->id)}}"><i class="fa fa-circle-o"></i>{{$accreditation_requirement->name}}</a></li>
+                    @endforeach
+                  </ul>
               </li>
 
               @endforeach
             </ul>
           </li>
-          <li class="treeview" id="healthsystem_tree">
+
+          <li class="" id="">
             <a href="#">
-              <i class="fa fa-circle-o"></i><span> Facility Maintenance</span>
+              <i class="fa fa-circle-o"></i><span>Work Orders</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i></span>
               </span>
             </a>
             <ul class="treeview-menu">
-              <li style="white-space: pre-line;"><a href="{{url('equipment/view')}}"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
-              <li style="white-space: pre-line;"><a href="{{url('equipment/work-orders')}}"><i class="fa fa-circle-o"></i>Work Orders</a></li>
-              <li style="white-space: pre-line;"><a href="{{url('facility-maintenance/drawings')}}"><i class="fa fa-circle-o"></i>Drawings</a></li>
+              @foreach(\App\SystemTier::get() as $system_tier)
+                  <li class="">
+                    <a href="#">
+                      <i class="fa fa-circle-o"></i><span>{{$system_tier->name}}</span>
+                      <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i></span>
+                      </span>
+                    </a>
+                    <ul class="treeview-menu">
+                      <li style="white-space: pre-line;"><a href="{{url('equipment/view/'.$system_tier->id)}}"><i class="fa fa-circle-o"></i>Equipment Inventory</a></li>
+                      <li style="white-space: pre-line;"><a href="{{url('equipment/work-orders/'.$system_tier->id)}}"><i class="fa fa-circle-o"></i>Work Orders</a></li>
+                      <li style="white-space: pre-line;"><a href="{{url('facility-maintenance/drawings')}}"><i class="fa fa-circle-o"></i>Drawings</a></li>
+                    </ul>
+                  </li>
+
+              @endforeach
             </ul>
           </li>
 

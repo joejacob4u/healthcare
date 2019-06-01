@@ -400,11 +400,11 @@ Route::post('equipment/inventory/delete', 'Equipment\InventoryController@delete'
 Route::post('equipment/inventory/fetch-for-building', 'Equipment\InventoryController@fetchInventoriesByBuilding');
 
 //Work Orders Page for PM and DW
-Route::get('equipment/work-orders', 'Equipment\WorkOrderController@index');
+Route::get('equipment/work-orders/{system_tier_id}', 'Equipment\WorkOrderController@index');
 
 //User equipment routes
 
-Route::get('equipment/view', 'Equipment\EquipmentController@equipmentView');
+Route::get('equipment/view/{system_tier_id}', 'Equipment\EquipmentController@equipmentView');
 Route::get('equipment/pm/work-orders', 'Equipment\PreventiveMaintenanceWorkOrderController@index');
 Route::get('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\PreventiveMaintenanceWorkOrderController@update');
 Route::post('equipment/pm/work-orders/update/{work_order_id}', 'Equipment\PreventiveMaintenanceWorkOrderController@save');

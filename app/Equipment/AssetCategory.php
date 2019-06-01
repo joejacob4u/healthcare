@@ -34,4 +34,9 @@ class AssetCategory extends Model
     {
         return $this->belongsTo('App\SystemTier', 'system_tier_id');
     }
+
+    public function equipments()
+    {
+        return $this->hasMany(Equipment::class, 'equipment_asset_category_id');
+    }
 }

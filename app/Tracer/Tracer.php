@@ -14,7 +14,7 @@ class Tracer extends Model
 
     public function status()
     {
-        return $this->belongsTo('App\Rounding\Status', 'tracer_status_id');
+        return $this->belongsTo('App\Tracer\Status', 'tracer_status_id');
     }
 
     public function building()

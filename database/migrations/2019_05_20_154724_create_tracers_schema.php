@@ -86,7 +86,7 @@ class CreateTracersSchema extends Migration
             $table->unsignedInteger('work_order_id');
             $table->foreign('work_order_id')->references('id')->on('demand_work_orders')->onDelete('cascade');
             $table->unsignedInteger('tracer_id');
-            $table->foreign('tracer_id')->references('id')->on('assessments')->onDelete('cascade');
+            $table->foreign('tracer_id')->references('id')->on('tracers')->onDelete('cascade');
         });
 
         Schema::create('tracer_question-finding', function (Blueprint $table) {
@@ -95,14 +95,14 @@ class CreateTracersSchema extends Migration
             $table->unsignedInteger('finding_id');
             $table->foreign('finding_id')->references('id')->on('eop_findings')->onDelete('cascade');
             $table->unsignedInteger('tracer_id');
-            $table->foreign('tracer_id')->references('id')->on('assessments')->onDelete('cascade');
+            $table->foreign('tracer_id')->references('id')->on('tracers')->onDelete('cascade');
         });
 
 
         Schema::create('tracer_question_evaluations', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('tracer_id');
-            $table->foreign('tracer_id')->references('id')->on('assessments')->onDelete('cascade');
+            $table->foreign('tracer_id')->references('id')->on('tracers')->onDelete('cascade');
             $table->unsignedInteger('question_id');
             $table->foreign('question_id')->references('id')->on('tracer_questions')->onDelete('cascade');
             $table->unsignedInteger('user_id');

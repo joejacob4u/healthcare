@@ -137,9 +137,9 @@
                                 @foreach($tracer->eopFindings as $eop_finding)
                                   @if($eop_finding->pivot->tracer_question_id == $question->id)
                                     @if($eop_finding->status == 'compliant') 
-                                      <a href="{{url('system-admin/accreditation/eop/status/'.$eop_finding->eop_id)}}" target="_blank"><small class="label bg-green">Finding #{{$eop_finding->id}}</small></a>
+                                      <a href="{{url('system-admin/accreditation/eop/status/'.$eop_finding->eop_id)}}?accreditation_id={{$tracer->evaluations->where('question_id',$question->id)->first()->finding['accreditation_id']}}" target="_blank"><small class="label bg-green">Finding #{{$eop_finding->id}}</small></a>
                                     @else
-                                      <a href="{{url('system-admin/accreditation/eop/status/'.$eop_finding->eop_id)}}" target="_blank"><small class="label bg-red">Finding #{{$eop_finding->id}}</small></a>
+                                      <a href="{{url('system-admin/accreditation/eop/status/'.$eop_finding->eop_id)}}?accreditation_id={{$tracer->evaluations->where('question_id',$question->id)->first()->finding['accreditation_id']}}" target="_blank"><small class="label bg-red">Finding #{{$eop_finding->id}}</small></a>
                                     @endif
                                   @endif
                                 @endforeach

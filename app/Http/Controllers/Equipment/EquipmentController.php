@@ -16,6 +16,7 @@ use App\Equipment\IncidentHistory;
 use App\Equipment\PreventiveMaintenanceWorkOrder;
 use Carbon\Carbon;
 use App\Equipment\Inventory;
+use App\SystemTier;
 
 class EquipmentController extends Controller
 {
@@ -31,10 +32,19 @@ class EquipmentController extends Controller
         return view('equipment.equipment.index')->with('equipments', $equipments);
     }
 
-    public function equipmentView()
+    public function equipmentView($system_tier_id)
     {
-        $equipments = Equipment::where('building_id', session('building_id'))->get();
-        return view('equipment.equipment.equipment-view')->with('equipments', $equipments);
+        $aEquipments = [];
+
+        $system_tier = SystemTier::find($system_tier_id);
+
+        foreach ($system_tier->assetCategories as $assetCategory) {
+            foreach ($assetCategory->equipments as $equipment) {
+                $aEquipments[] = $equipment;
+            }
+        }
+
+        return view('equipment.equipment.equipment-view')->with('equipments', $aEquipments);
     }
 
     public function create()
@@ -141,8 +151,8 @@ class EquipmentController extends Controller
     public function destroy(Request $request)
     {
         if (Equipment::find($request->id)->delete()) {
-                return response()->json(['status' => 'success']);
-            }
+            return response()->json(['status' => 'success']);
+        }
     }
 
     public function download()

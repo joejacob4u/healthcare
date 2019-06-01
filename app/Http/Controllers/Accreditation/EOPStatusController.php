@@ -33,9 +33,14 @@ class EOPStatusController extends Controller
 
     public function index($eop_id)
     {
+        if (isset($_GET['accreditation_id'])) {
+            Session::put('accreditation_id', $_GET['accreditation_id']);
+        }
+
         $eop = EOP::find($eop_id);
         $building = Building::find(session('building_id'));
-        $findings = EOPFinding::where('building_id', session('building_id'))->where('eop_id', $eop_id)->where('accreditation_id', session('accreditation_id'))->where('accreditation_requirement_id', session('accreditation_requirement_id'))->orderBy('id', 'desc')->get();
+        $findings = EOPFinding::where('building_id', session('building_id'))->where('eop_id', $eop_id)->where('accreditation_id', session('accreditation_id'))->where('accreditation_requirement_id', $eop->accreditation_requirement_id)->orderBy('id', 'desc')->get();
+        dd(session('building_id'));
         return view('accreditation.status', ['eop' => $eop, 'building' => $building, 'findings' => $findings]);
     }
 

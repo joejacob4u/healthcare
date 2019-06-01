@@ -19,7 +19,7 @@
         </div>
       </div>
       <div class="box-body">
-        <table id="example" class="table table-striped">
+        <table id="example" class="table table-striped" type="custom">
                 <thead>
                     <tr>
                         <th>Dept</th>
@@ -27,6 +27,7 @@
                         <th>Checklist Type</th>
                         <th>Date</th>
                         <th>User</th>
+                        <th>Status</th>
                         <th>Evaluate</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -39,6 +40,7 @@
                         <th>Checklist Type</th>
                         <th>Date</th>
                         <th>User</th>
+                        <th>Status</th>
                         <th>Evaluate</th>
                         <th>Edit</th>
                         <th>Delete</th>
@@ -52,8 +54,9 @@
                         <td>{{$tracer->checklistType->name}}</td>
                         <td>{{ $tracer->created_at->toDayDateTimeString() }}</td>
                         <td>{{ $tracer->user->name }}</td>
+                        <td>{{ $tracer->status->name }}</td>
                         <td>{!! link_to('tracer/evaluate/'.$tracer->id,'Evaluate',['class' => 'btn-xs btn-info']) !!}</td>
-                        <td>{!! link_to('rounding/config/'.$tracer->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
+                        <td>{!! link_to('tracer/config/'.$tracer->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteTracerConfig('.$tracer->id.')']) !!}</td>
                     </tr>
                   @endforeach
