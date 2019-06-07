@@ -271,6 +271,8 @@
          </ul>
      </li>
 
+      <li style="white-space: pre-line;"><a href="{{url('system-admin/huddle/configs')}}"><i class="fa fa-circle-o"></i>Huddle</a></li>
+
      @if(session()->has('building_id'))
       <li style="white-space: pre-line;"><a href="{{url('equipment')}}"><i class="fa fa-circle-o"></i>Equipment</a></li>
      @endif

@@ -228,6 +228,7 @@ Route::group(['namespace' => 'Admin', 'as' => 'admin'], function () {
 Route::group(['namespace' => 'Frontend', 'as' => 'frontend'], function () {
     require(__DIR__ . '/Frontend/assessment.php');
     require(__DIR__ . '/Frontend/tracer.php');
+    require(__DIR__ . '/Frontend/huddle.php');
 });
 
 
