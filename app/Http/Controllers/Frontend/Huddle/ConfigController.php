@@ -50,8 +50,23 @@ class ConfigController extends Controller
             'alternative_recorder_of_data_user_id' => 'required'
         ]);
 
-        if ($config = Config::create($request->all())) {
-            $config->reportToCareTeams()->sync($request->care_teams);
+        $care_team = CareTeam::find($request->care_team_id);
+
+        if ($care_team->tier_id == 2) {
+            if (empty(array_diff($request->care_teams, ['']))) {
+                return back()->with('warning', 'You have to select atleast one Report To Care Team');
+            }
+        }
+
+        if ($config = Config::create($request->except(['care_teams']))) {
+
+            if ($care_team->tier_id == 2) {
+                $config->reportToCareTeams()->sync($request->care_teams);
+            } elseif ($care_team->tier_id == 3) {
+                $config->reportToCareTeams()->sync(CareTeam::where('tier_id', 2)->pluck('id'));
+            } elseif ($care_team->tier_id == 6) {
+                $config->reportToCareTeams()->sync(CareTeam::whereIn('tier_id', [5, 4, 3])->pluck('id'));
+            }
             return redirect('system-admin/huddle/configs')->with('success', 'New Huddle Config created!');
         }
     }
@@ -61,7 +76,15 @@ class ConfigController extends Controller
         $hcos = HCO::where('healthsystem_id', session('healthsystem_id'))->pluck('facility_name', 'id');
         $tiers = Tier::pluck('name', 'id');
         $users = \App\User::where('healthsystem_id', session('healthsystem_id'))->pluck('name', 'id');
-        return view('huddle.edit', ['hcos' => $hcos, 'tiers' => $tiers, 'users' => $users, 'huddle_config' => $huddle_config]);
+        $care_teams = CareTeam::pluck('name', 'id');
+
+        $report_to_care_teams = [];
+
+        if ($huddle_config->careTeam->tier->id == 2) {
+            $report_to_care_teams = CareTeam::where('tier_id', 1)->pluck('name', 'id');
+        }
+
+        return view('huddle.edit', ['hcos' => $hcos, 'tiers' => $tiers, 'users' => $users, 'huddle_config' => $huddle_config, 'report_to_care_teams' => $report_to_care_teams, 'care_teams' => $care_teams]);
     }
 
     public function save(Request $request, Config $huddle_config)
@@ -81,7 +104,31 @@ class ConfigController extends Controller
             'alternative_recorder_of_data_user_id' => 'required'
         ]);
 
-        if ($huddle_config->update($request->all())) {
+        $care_team = CareTeam::find($request->care_team_id);
+
+        if ($care_team->tier_id == 2) {
+            if (empty(array_diff($request->care_teams, ['']))) {
+                return back()->with('warning', 'You have to select atleast one Report To Care Team');
+            }
+        }
+
+        if ($huddle_config->update($request->except(['care_teams']))) {
+
+            if ($care_team->tier_id == 2) {
+
+                if ($care_team->tier_id == 2) {
+                    $huddle_config->reportToCareTeams()->sync($request->care_teams);
+                } elseif ($care_team->tier_id == 3) {
+                    $huddle_config->reportToCareTeams()->sync(CareTeam::where('tier_id', 2)->pluck('id'));
+                } elseif ($care_team->tier_id == 6) {
+                    $huddle_config->reportToCareTeams()->sync(CareTeam::whereIn('tier_id', [5, 4, 3])->pluck('id'));
+                }
+
+                if (empty(array_diff($request->care_teams, ['']))) {
+                    return back()->with('warning', 'You have to select atleast one Report To Care Team');
+                }
+            }
+
             return redirect('system-admin/huddle/configs')->with('success', 'Huddle Config updated!');
         }
     }
