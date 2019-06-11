@@ -16,6 +16,11 @@ class Config extends Model
 
     protected $casts = ['schedule' => 'array'];
 
+    public function careTeam()
+    {
+        return $this->belongsTo(CareTeam::class, 'care_team_id');
+    }
+
     public function hco()
     {
         return $this->belongsTo(HCO::class, 'hco_id');
@@ -36,11 +41,6 @@ class Config extends Model
         return $this->belongsTo(BuildingDepartment::class, 'department_id');
     }
 
-    public function tier()
-    {
-        return $this->belongsTo(Tier::class, 'huddle_tier_id');
-    }
-
     public function leader()
     {
         return $this->belongsTo(App\User::class, 'leader_user_id');
@@ -59,5 +59,10 @@ class Config extends Model
     public function alternativeRecorderOfData()
     {
         return $this->belongsTo(App\User::class, 'alternative_recorder_of_data_user_id');
+    }
+
+    public function reportToCareTeams()
+    {
+        return $this->belongsToMany(CareTeam::class, 'huddle_config-huddle_care_team', 'config_id', 'care_team_id');
     }
 }

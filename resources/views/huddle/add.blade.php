@@ -30,12 +30,11 @@
             <fieldset>
 
             <div class="form-group">
-                {!! Form::label('name', 'Care Team Name:', ['class' => 'col-lg-2 control-label']) !!}
+                {!! Form::label('care_team_id', 'Care Team:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::text('name', Request::old('name'), ['class' => 'form-control','id' => 'name']) !!}
+                {!! Form::select('care_team_id', $care_teams->prepend('Please Select',''), Request::old('care_team_id'), ['class' => 'form-control selectpicker','id' => 'care_team_id']); !!}
                 </div>
             </div>
-
 
             <div class="form-group">
                 {!! Form::label('hco_id', 'HCO:', ['class' => 'col-lg-2 control-label']) !!}
@@ -65,12 +64,13 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                {!! Form::label('huddle_tier_id', 'Tier:', ['class' => 'col-lg-2 control-label']) !!}
+            <div class="form-group" id="care-team-div" style="display:none">
+                {!! Form::label('care_teams', 'Report to Care Team(s):', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('huddle_tier_id', $tiers->prepend('Please Select',0), '', ['class' => 'form-control selectpicker','id' => 'huddle_tier_id','data-live-search' => "true"]); !!}
+                {!! Form::select('care_teams[]', [], '', ['class' => 'form-control selectpicker','id' => 'care_teams','data-live-search' => "true", 'multiple' => true]); !!}
                 </div>
             </div>
+
 
             <div class="form-group">
                 {!! Form::label('schedule', 'Schedule', ['class' => 'col-lg-2 control-label']) !!}
@@ -105,6 +105,14 @@
                 {!! Form::text('time', Request::old('time'), ['class' => 'form-control time','id' => 'time']) !!}
                 </div>
             </div>
+
+            <div class="form-group">
+                {!! Form::label('location', 'Location:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::text('location', Request::old('location'), ['class' => 'form-control','id' => 'location']) !!}
+                </div>
+            </div>
+            
 
             <div class="form-group">
                 {!! Form::label('leader_user_id', 'Main Leader:', ['class' => 'col-lg-2 control-label']) !!}
@@ -276,6 +284,67 @@
         });
 
       });
+
+        $("#care_team_id").change(function(){
+        
+        var care_team_id = $("#care_team_id").val();
+
+        if(care_team_id)
+        {
+            $.ajax({
+                type: 'POST',
+                url: '{{ url('system-admin/huddle/configs/fetch/care-teams') }}',
+                data: { '_token' : '{{ csrf_token() }}', 'care_team_id': care_team_id },
+                beforeSend:function()
+                {
+                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+                },
+                success:function(data)
+                {
+                    if(data.user_select == true)
+                    {
+                        $('#care_teams').html('');
+
+                        var html = '<option value="0">Select Care Team</option>';
+
+                        $.each(data.care_teams, function(index, value) {
+                            html += '<option value="'+value.id+'">'+value.name+'</option>';
+                        });
+
+                        $('#care-team-div').show();
+
+                        $('#care_teams').append(html);
+                        $('#care_teams').selectpicker('refresh');
+
+                    }
+                    else
+                    {
+                        $('#care_teams').html('');
+                        $('#care-team-div').hide();
+                        $('#care_teams').selectpicker('val','');
+                    }
+                },
+                complete:function()
+                {
+                    $('.overlay').remove();
+                },
+                error:function()
+                {
+                    // failed request; give feedback to user
+                }
+            });
+
+        }
+        else
+        {
+            $('#care_teams').html('');
+            $('#care-team-div').hide();
+            $('#care_teams').selectpicker('val','');
+        }
+
+
+      });
+
 
 
 

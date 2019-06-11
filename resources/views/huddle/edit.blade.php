@@ -107,6 +107,14 @@
             </div>
 
             <div class="form-group">
+                {!! Form::label('location', 'Location:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::text('location', $huddle_config->location, ['class' => 'form-control','id' => 'location']) !!}
+                </div>
+            </div>
+
+
+            <div class="form-group">
                 {!! Form::label('leader_user_id', 'Main Leader:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
                 {!! Form::select('leader_user_id', $users->prepend('Please Select',0), $huddle_config->leader_user_id, ['class' => 'form-control selectpicker','id' => 'leader_user_id','data-live-search' => "true"]); !!}
