@@ -14,3 +14,4 @@ Route::post('system-admin/huddle/care-teams', 'Huddle\CareTeamController@store')
 Route::get('system-admin/huddle/care-teams/{care_team}/edit', 'Huddle\CareTeamController@edit');
 Route::post('system-admin/huddle/care-teams/{care_team}/edit', 'Huddle\CareTeamController@update');
 Route::post('system-admin/huddle/care-teams/delete', 'Huddle\CareTeamController@delete');
+Route::post('system-admin/huddle/care-teams/fetch-care-teams', 'Huddle\CareTeamController@fetchCareTeams');

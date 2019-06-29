@@ -40,29 +40,4 @@ class Config extends Model
     {
         return $this->belongsTo(BuildingDepartment::class, 'department_id');
     }
-
-    public function leader()
-    {
-        return $this->belongsTo(App\User::class, 'leader_user_id');
-    }
-
-    public function alternativeLeader()
-    {
-        return $this->belongsTo(App\User::class, 'alternative_leader_user_id');
-    }
-
-    public function recorderOfData()
-    {
-        return $this->belongsTo(App\User::class, 'recorder_of_data_user_id');
-    }
-
-    public function alternativeRecorderOfData()
-    {
-        return $this->belongsTo(App\User::class, 'alternative_recorder_of_data_user_id');
-    }
-
-    public function reportToCareTeams()
-    {
-        return $this->belongsToMany(CareTeam::class, 'huddle_config-huddle_care_team', 'config_id', 'care_team_id');
-    }
 }
