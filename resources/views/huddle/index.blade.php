@@ -30,11 +30,6 @@
                 <thead>
                     <tr>
                         <th>Name</th>
-                        <th>HCO</th>
-                        <th>Site</th>
-                        <th>Building</th>
-                        <th>Department</th>
-                        <th>Tier</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -42,10 +37,6 @@
                 <tfoot>
                     <tr>
                         <th>Name</th>
-                        <th>HCO</th>
-                        <th>Site</th>
-                        <th>Building</th>
-                        <th>Department</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -54,10 +45,6 @@
                   @foreach($huddle_configs as $huddle_config)
                     <tr id="tr-config-{{$huddle_config->id}}">
                         <td>{{$huddle_config->careTeam->name}}</td>
-                        <td>{{$huddle_config->hco->facility_name}}</td>
-                        <td>{{$huddle_config->site->name}} ({{$huddle_config->site->site_id}})</td>
-                        <td>{{$huddle_config->building->name}} ({{$huddle_config->building->building_id}})</td>
-                        <td>{{ $huddle_config->department->name }}</td>
                         <td>{!! link_to('system-admin/huddle/configs/'.$huddle_config->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteHuddleConfig('.$huddle_config->id.')']) !!}</td>
                     </tr>
