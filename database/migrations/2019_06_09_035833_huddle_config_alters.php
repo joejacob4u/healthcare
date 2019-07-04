@@ -26,7 +26,6 @@ class HuddleConfigAlters extends Migration
         });
 
         Schema::table('huddle_configs', function (Blueprint $table) {
-            $table->string('location')->after('time');
             $table->dropColumn('name');
             $table->dropForeign(['huddle_tier_id']);
             $table->dropColumn('huddle_tier_id');
