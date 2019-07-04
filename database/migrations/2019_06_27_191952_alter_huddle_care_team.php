@@ -35,7 +35,6 @@ class AlterHuddleCareTeam extends Migration
             $table->dropColumn('site_id');
             $table->dropColumn('building_id');
             $table->dropColumn('department_id');
-            $table->dropColumn('location');
         });
 
 
