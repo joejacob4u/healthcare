@@ -13,6 +13,8 @@ class HuddleConfigAlters extends Migration
      */
     public function up()
     {
+        Schema::dropIfExists('huddle_care_teams');
+
         Schema::create('huddle_care_teams', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
