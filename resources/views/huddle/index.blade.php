@@ -30,6 +30,8 @@
                 <thead>
                     <tr>
                         <th>Name</th>
+                        <th>Schedule</th>
+                        <th>Time</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -37,6 +39,8 @@
                 <tfoot>
                     <tr>
                         <th>Name</th>
+                        <th>Schedule</th>
+                        <th>Time</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -45,6 +49,8 @@
                   @foreach($huddle_configs as $huddle_config)
                     <tr id="tr-config-{{$huddle_config->id}}">
                         <td>{{$huddle_config->careTeam->name}}</td>
+                        <td>{{implode('-',$huddle_config->schedule)}}</td>
+                        <td>{{$huddle_config->time}}</td>
                         <td>{!! link_to('system-admin/huddle/configs/'.$huddle_config->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteHuddleConfig('.$huddle_config->id.')']) !!}</td>
                     </tr>
@@ -77,6 +83,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Tier</th>
+                        <th>Location</th>
+                        <th>Leader</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -85,6 +93,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Tier</th>
+                        <th>Location</th>
+                        <th>Leader</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -93,7 +103,9 @@
                   @foreach($care_teams as $care_team)
                     <tr id="tr-careteam-{{$care_team->id}}">
                         <td>{{$care_team->name}}</td>
-                        <td>{{ $care_team->tier->name }}</td>
+                        <td>{{ $care  _team->tier->name }}</td>
+                        <td>{{$care_team->location}}</td>
+                        <td>{{ $care_team->leader->name }}</td>
                         <td>{!! link_to('system-admin/huddle/care-teams/'.$care_team->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
                         <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteCareTeam('.$care_team->id.')']) !!}</td>
                     </tr>

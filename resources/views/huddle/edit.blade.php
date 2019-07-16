@@ -37,40 +37,6 @@
             </div>
 
 
-            <div class="form-group">
-                {!! Form::label('hco_id', 'HCO:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('hco_id', $hcos->prepend('Please Select',''), $huddle_config->hco_id, ['class' => 'form-control selectpicker','id' => 'hco_id']); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('site_id', 'Site:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('site_id', \App\Regulatory\Site::where('hco_id',$huddle_config->hco_id)->pluck('name','id'), $huddle_config->site_id, ['class' => 'form-control','id' => 'site_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('building_id', 'Building:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('building_id', \App\Regulatory\Building::where('site_id',$huddle_config->site_id)->pluck('name','id'), $huddle_config->building_id, ['class' => 'form-control','id' => 'building_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('department_id', \App\Regulatory\BuildingDepartment::where('building_id',$huddle_config->building_id)->pluck('name','id'), $huddle_config->department_id, ['class' => 'form-control selectpicker','id' => 'department_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group" id="care-team-div" @if($huddle_config->careTeam->tier->id == 2) style="display:block" @else style="display:none" @endif>
-                {!! Form::label('care_teams', 'Report to Care Team(s):', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('care_teams[]', $report_to_care_teams, $huddle_config->reportToCareTeams->pluck('id')->toArray(), ['class' => 'form-control selectpicker','id' => 'care_teams','data-live-search' => "true", 'multiple' => true]); !!}
-                </div>
-            </div>
 
 
             <div class="form-group">
@@ -104,42 +70,6 @@
                 {!! Form::label('time', 'Time:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
                 {!! Form::text('time', $huddle_config->time, ['class' => 'form-control time','id' => 'time']) !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('location', 'Location:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::text('location', $huddle_config->location, ['class' => 'form-control','id' => 'location']) !!}
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                {!! Form::label('leader_user_id', 'Main Leader:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('leader_user_id', $users->prepend('Please Select',0), $huddle_config->leader_user_id, ['class' => 'form-control selectpicker','id' => 'leader_user_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('alternative_leader_user_id', 'Alternative Main Leader:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('alternative_leader_user_id', $users->prepend('Please Select',0), $huddle_config->alternative_leader_user_id, ['class' => 'form-control selectpicker','id' => 'alternative_leader_user_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('recorder_of_data_user_id', 'Recorder of Data:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('recorder_of_data_user_id', $users->prepend('Please Select',0), $huddle_config->recorder_of_data_user_id, ['class' => 'form-control selectpicker','id' => 'recorder_of_data_user_id','data-live-search' => "true"]); !!}
-                </div>
-            </div>
-
-            <div class="form-group">
-                {!! Form::label('alternative_recorder_of_data_user_id', 'Alternative Recorder of Data:', ['class' => 'col-lg-2 control-label']) !!}
-                <div class="col-lg-10">
-                {!! Form::select('alternative_recorder_of_data_user_id', $users->prepend('Please Select',0), $huddle_config->alternative_recorder_of_data_user_id, ['class' => 'form-control selectpicker','id' => 'alternative_recorder_of_data_user_id','data-live-search' => "true"]); !!}
                 </div>
             </div>
 

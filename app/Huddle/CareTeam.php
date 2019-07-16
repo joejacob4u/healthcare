@@ -28,22 +28,22 @@ class CareTeam extends Model
 
     public function leader()
     {
-        return $this->belongsTo(App\User::class, 'leader_user_id');
+        return $this->belongsTo(\App\User::class, 'leader_user_id');
     }
 
     public function alternativeLeader()
     {
-        return $this->belongsTo(App\User::class, 'alternative_leader_user_id');
+        return $this->belongsTo(\App\User::class, 'alternative_leader_user_id');
     }
 
     public function recorderOfData()
     {
-        return $this->belongsTo(App\User::class, 'recorder_of_data_user_id');
+        return $this->belongsTo(\App\User::class, 'recorder_of_data_user_id');
     }
 
     public function alternativeRecorderOfData()
     {
-        return $this->belongsTo(App\User::class, 'alternative_recorder_of_data_user_id');
+        return $this->belongsTo(\App\User::class, 'alternative_recorder_of_data_user_id');
     }
 
     public function hcos()
