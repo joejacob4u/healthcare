@@ -22,6 +22,7 @@
       <div class="box-header with-border">
         <h3 class="box-title">Existing Huddle Configs for {{session('healthsystem_name')}}</h3>
         <div class="box-tools pull-right">
+          <a href="{{url('system-admin/huddle/care-team/create')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Care Team</a>
           <a href="{{url('system-admin/huddle/configs/create')}}" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> Add Huddle Config</a>
         </div>
       </div>
