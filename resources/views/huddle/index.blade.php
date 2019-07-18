@@ -103,7 +103,7 @@
                   @foreach($care_teams as $care_team)
                     <tr id="tr-careteam-{{$care_team->id}}">
                         <td>{{$care_team->name}}</td>
-                        <td>{{ $care  _team->tier->name }}</td>
+                        <td>{{ $care_team->tier->name }}</td>
                         <td>{{$care_team->location}}</td>
                         <td>{{ $care_team->leader->name }}</td>
                         <td>{!! link_to('system-admin/huddle/care-teams/'.$care_team->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
