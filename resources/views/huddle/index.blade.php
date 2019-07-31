@@ -30,7 +30,7 @@
         <table id="config-table" class="table table-striped" type="custom">
                 <thead>
                     <tr>
-                        <th>Name</th>
+                        <th>Care Team</th>
                         <th>Schedule</th>
                         <th>Time</th>
                         <th>Edit</th>
@@ -39,7 +39,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Name</th>
+                        <th>Care Team</th>
                         <th>Schedule</th>
                         <th>Time</th>
                         <th>Edit</th>
