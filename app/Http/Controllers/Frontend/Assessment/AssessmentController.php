@@ -15,6 +15,7 @@ use Storage;
 use App\Regulatory\Building;
 use App\Regulatory\EOPFinding;
 use App\Assessment\Question;
+use App\Equipment\DemandWorkOrder;
 
 class AssessmentController extends Controller
 {

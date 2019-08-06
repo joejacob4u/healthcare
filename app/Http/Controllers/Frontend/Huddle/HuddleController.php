@@ -56,4 +56,16 @@ class HuddleController extends Controller
         $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->get();
         return view('huddle.user.view', ['huddle' => $huddle, 'users' => $users, 'ilsm_assessments' => $ilsm_assessments, 'assessments' => $assessments]);
     }
+
+    public function save(Request $request, Huddle $huddle)
+    {
+        $this->validate($request, [
+            'attendance' => 'required',
+        ]);
+
+        if ($huddle->update($request->except(['attendance']))) {
+            $huddle->users()->sync(array_except($request->attendance, [0, '']));
+            return back()->with('success', 'Huddle saved.');
+        }
+    }
 }

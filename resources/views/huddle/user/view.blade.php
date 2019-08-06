@@ -42,7 +42,7 @@
     </div>
 </div>
 
-{!! Form::open(['url' => 'huddle', 'class' => 'form-horizontal']) !!}
+{!! Form::open(['url' => 'huddle/'.$huddle->id, 'class' => 'form-horizontal']) !!}
 
 
 
@@ -65,29 +65,29 @@
 
     <div class="list-group">
         <a href="#" class="list-group-item active">Capacity</a>
-        <a href="#" class="list-group-item">Number of Available Beds : {{$huddle->no_of_available_beds}}</a>
-        <a href="#" class="list-group-item">Number of Occupied Beds : {{$huddle->no_of_occupied_beds}}</a>
-        <a href="#" class="list-group-item">Number of Out of Commission Beds : {{$huddle->no_of_out_of_commission_beds}}</a>
+        <a href="#" class="list-group-item">Number of Available Beds (%): {{$huddle->no_of_available_beds}}</a>
+        <a href="#" class="list-group-item">Number of Occupied Beds (%) : {{$huddle->no_of_occupied_beds}}</a>
+        <a href="#" class="list-group-item">Number of Out of Commission Beds (%) : {{$huddle->no_of_out_of_commission_beds}}</a>
     </div>
 
     <div class="form-group">
         {!! Form::label('no_of_available_beds', 'Number of Available Beds:', ['class' => 'col-lg-2 control-label']) !!}
         <div class="col-lg-10">
-        {!! Form::text('no_of_available_beds', Request::old('no_of_available_beds'), ['class' => 'form-control','id' => 'no_of_available_beds']) !!}
+        {!! Form::text('no_of_available_beds', $huddle->no_of_available_beds, ['class' => 'form-control','id' => 'no_of_available_beds']) !!}
         </div>
     </div>
 
     <div class="form-group">
         {!! Form::label('no_of_occupied_beds', 'Number of Occupied Beds:', ['class' => 'col-lg-2 control-label']) !!}
         <div class="col-lg-10">
-        {!! Form::text('no_of_occupied_beds', Request::old('no_of_occupied_beds'), ['class' => 'form-control','id' => 'no_of_occupied_beds']) !!}
+        {!! Form::text('no_of_occupied_beds', $huddle->no_of_occupied_beds, ['class' => 'form-control','id' => 'no_of_occupied_beds']) !!}
         </div>
     </div>
 
     <div class="form-group">
         {!! Form::label('no_of_out_of_commission_beds', 'Number of Out of Commission Beds:', ['class' => 'col-lg-2 control-label']) !!}
         <div class="col-lg-10">
-        {!! Form::text('no_of_out_of_commission_beds', Request::old('no_of_out_of_commission_beds'), ['class' => 'form-control','id' => 'no_of_out_of_commission_beds']) !!}
+        {!! Form::text('no_of_out_of_commission_beds', $huddle->no_of_out_of_commission_beds, ['class' => 'form-control','id' => 'no_of_out_of_commission_beds']) !!}
         </div>
     </div>
 

@@ -37,7 +37,7 @@ class WorkOrderController extends Controller
             $pm_work_orders = PreventiveMaintenanceWorkOrder::where('building_id', session('building_id'))->whereIn('equipment_id', $equipment_ids)->where('work_order_date', '<', date('Y-m-d', strtotime('tomorrow')))->orderBy('work_order_date', 'desc')->paginate(15);
         }
 
-        $demand_work_orders = DemandWorkOrder::where('building_id', session('building_id'))->whereIn('equipment_id', $equipment_ids)->orderBy('created_at', 'desc')->paginate(15);
+        $demand_work_orders = DemandWorkOrder::where('building_id', session('building_id'))->orderBy('created_at', 'desc')->paginate(15);
 
         $ilsm_preassessment_questions = IlsmPreassessmentQuestion::pluck('question', 'id');
 

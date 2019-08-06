@@ -24,3 +24,4 @@ Route::get('huddle', 'Huddle\HuddleController@index');
 Route::get('huddle/create', 'Huddle\HuddleController@create');
 Route::post('huddle', 'Huddle\HuddleController@store');
 Route::get('huddle/{huddle}', 'Huddle\HuddleController@view');
+Route::post('huddle/{huddle}', 'Huddle\HuddleController@save');
