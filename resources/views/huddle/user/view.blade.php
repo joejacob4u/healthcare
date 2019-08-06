@@ -120,6 +120,137 @@
     </div>
 @endif
 
+<div class="list-group">
+    <a href="#" class="list-group-item active">ILSM Education</a>
+
+    @if($ilsm_assessments->isEmpty())
+        <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
+    @else
+        <a href="#" class="list-group-item"><span class="label label-success">New Safety Events since last Huddle</span></a>
+        @foreach($ilsm_assessments->where('created_at', \Carbon\Carbon::today()->subDays(1))->sortByDesc('created_at') as $ilsm_assessment)
+            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment #{{$ilsm_assessment->id}}</a>
+        @endforeach
+
+        <a href="#" class="list-group-item"><span class="label label-warning">Open Safety Events</span></a>
+        @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[7])->sortByDesc('created_at') as $ilsm_assessment)
+            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment #{{$ilsm_assessment->id}}</a>
+        @endforeach
+    @endif
+
+</div>
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">Serious Safety Events</a>
+
+    @if($assessments->where('assessment_checklist_type_id',97)->isEmpty())
+        <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
+    @else
+        <a href="#" class="list-group-item"><span class="label label-success">New Serious Safety Events since last Huddle</span></a>
+        @foreach($assessments->where('assessment_checklist_type_id',97)->where('created_at', \Carbon\Carbon::today()->subDays(1))->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+
+        <a href="#" class="list-group-item"><span class="label label-warning">Open Safety Events</span></a>
+        @foreach($assessment->where('assessment_checklist_type_id',97)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $ilsm_assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">ILSM Assessment #{{$ilsm_assessment->id}}</a>
+        @endforeach
+    @endif
+
+</div>
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">Hospital Acquired Infections</a>
+
+    @if($assessments->where('assessment_checklist_type_id',93)->isEmpty())
+        <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
+    @else
+        <a href="#" class="list-group-item"><span class="label label-success">New Hospital Acquired Infections Events since last Huddle</span></a>
+        @foreach($assessments->where('assessment_checklist_type_id',93)->where('created_at', \Carbon\Carbon::today()->subDays(1))->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+
+        <a href="#" class="list-group-item"><span class="label label-warning">Open Hospital Acquired Infections Events</span></a>
+        @foreach($assessment->where('assessment_checklist_type_id',93)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+    @endif
+</div>
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">Downtime of Major Equipment</a>
+
+    @if($assessments->where('assessment_checklist_type_id',92)->isEmpty())
+        <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
+    @else
+        <a href="#" class="list-group-item"><span class="label label-success">New Downtime of Major Equipment Events since last Huddle</span></a>
+        @foreach($assessments->where('assessment_checklist_type_id',92)->where('created_at', \Carbon\Carbon::today()->subDays(1))->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+
+        <a href="#" class="list-group-item"><span class="label label-warning">Open Downtime of Major Equipment Events</span></a>
+        @foreach($assessment->where('assessment_checklist_type_id',92)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+    @endif
+</div>
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">Power Outages</a>
+
+    @if($assessments->where('assessment_checklist_type_id',96)->isEmpty())
+        <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
+    @else
+        <a href="#" class="list-group-item"><span class="label label-success">New Power Outages Events since last Huddle</span></a>
+        @foreach($assessments->where('assessment_checklist_type_id',96)->where('created_at', \Carbon\Carbon::today()->subDays(1))->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+
+        <a href="#" class="list-group-item"><span class="label label-warning">Open Power Outage Events</span></a>
+        @foreach($assessment->where('assessment_checklist_type_id',96)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $ilsm_assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+    @endif
+</div>
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">Patient Harm or Injuries</a>
+
+    @if($assessments->where('assessment_checklist_type_id',94)->isEmpty())
+        <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
+    @else
+        <a href="#" class="list-group-item"><span class="label label-success">Patient Harm or Injuries Events since last Huddle</span></a>
+        @foreach($assessments->where('assessment_checklist_type_id',94)->where('created_at', \Carbon\Carbon::today()->subDays(1))->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+
+        <a href="#" class="list-group-item"><span class="label label-warning">Open Patient Harm or Injuries Events</span></a>
+        @foreach($assessment->where('assessment_checklist_type_id',94)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+    @endif
+</div>	
+
+
+<div class="list-group">
+    <a href="#" class="list-group-item active">Pharmacy Shortage</a>
+
+    @if($assessments->where('assessment_checklist_type_id',95)->isEmpty())
+        <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
+    @else
+        <a href="#" class="list-group-item"><span class="label label-success">New Pharmacy Shortage Events since last Huddle</span></a>
+        @foreach($assessments->where('assessment_checklist_type_id',95)->where('created_at', \Carbon\Carbon::today()->subDays(1))->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+
+        <a href="#" class="list-group-item"><span class="label label-warning">Open Pharmacy Shortage Events</span></a>
+        @foreach($assessment->where('assessment_checklist_type_id',95)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $assessment)
+            <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
+        @endforeach
+    @endif
+</div>
+
+
+
 {!! Form::hidden('recorder_of_data_user_id', Auth::user()->id, ['id' => 'recorder_of_data_user_id']) !!}
 {!! Form::hidden('healthsystem_id', session('healthsystem_id'),['id' => 'healthsystem_id']) !!}
 
