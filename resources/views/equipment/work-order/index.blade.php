@@ -66,6 +66,7 @@
               <table id="example" class="table table-striped" type="custom">
                 <thead>
                     <tr>
+                        <th>Identifier</th>
                         <th>Category</th>
                         <th>Asset Category</th>
                         <th>Description</th>
@@ -79,6 +80,7 @@
                 </thead>
                 <tfoot>
                     <tr>
+                        <th>Identifier</th>
                         <th>Category</th>
                         <th>Asset Category</th>
                         <th>Description</th>
@@ -94,6 +96,7 @@
                   @foreach($pm_work_orders->sortByDesc('work_order_date') as $work_order)
                     @if($work_order->hasInventories())
                     <tr>
+                      <td>{{$work_order->identifier}}</td>
                       <td>{{$work_order->equipment->category->name}}</td>
                       <td>{{$work_order->equipment->assetCategory->name}}</td>
                       <td>{{$work_order->equipment->description}}</td>

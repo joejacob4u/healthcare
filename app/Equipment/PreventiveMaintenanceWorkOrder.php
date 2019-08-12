@@ -3,6 +3,7 @@
 namespace App\Equipment;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Maintenance\Shift;
 
 class PreventiveMaintenanceWorkOrder extends Model
 {
@@ -53,7 +54,7 @@ class PreventiveMaintenanceWorkOrder extends Model
     public function status()
     {
         $statuses = [];
-        
+
         foreach ($this->workOrderInventories as $inventory) {
             if (!$inventory->PreventiveMaintenanceWorkOrderInventoryTimes->isEmpty()) {
                 $statuses[] = $inventory->PreventiveMaintenanceWorkOrderInventoryTimes->last()->workOrderStatus->id;
@@ -95,7 +96,7 @@ class PreventiveMaintenanceWorkOrder extends Model
                 foreach ($workOrder->workOrderInventories as $PreventiveMaintenanceWorkOrderInventory) {
                     $avgDuration += $PreventiveMaintenanceWorkOrderInventory->avgTime();
                 }
-                
+
                 $count++;
             }
         }
@@ -124,5 +125,36 @@ class PreventiveMaintenanceWorkOrder extends Model
         } else {
             return 'n/a';
         }
+    }
+
+    //accessor for work order identifier
+
+    public function getIdentifierAttribute()
+    {
+        return 'PM-' . unixtojd($this->created_at->timestamp) . '-' . $this->id;
+    }
+
+    public function getMaintenanceShift()
+    {
+        $day = strtolower(strftime('%A', strtotime($this->created_at)));
+        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%' . $day . '%')->get();
+
+        foreach ($maintenance_shifts as $maintenance_shift) {
+            $start_time = str_replace(':', '', $maintenance_shift->start_time);
+            $end_time = str_replace(':', '', $maintenance_shift->end_time);
+            $pm_work_order_time = str_replace(':', '', $this->created_at->format('H:i:s'));
+
+            if ($end_time > $start_time) {
+                if ($start_time <= $pm_work_order_time && $end_time >= $pm_work_order_time) {
+                    return $maintenance_shift;
+                }
+            } else {
+                if ($start_time >= $pm_work_order_time && $end_time >= $pm_work_order_time) {
+                    return $maintenance_shift;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -15,14 +15,13 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
     }
 
     public function index()
-    {
-    }
+    { }
 
     public function store(Request $request, $work_order_id, $work_order_inventory_id)
     {
         $work_order_inventory = PreventiveMaintenanceWorkOrderInventory::find($work_order_inventory_id);
 
-        if ($work_order_inventory->PreventiveMaintenanceWorkOrderInventoryTimes()->create($request->all())) {
+        if ($shift_time = $work_order_inventory->PreventiveMaintenanceWorkOrderInventoryTimes()->create($request->all())) {
             return response()->json(['status' => 'success']);
         }
     }
@@ -32,5 +31,38 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
         if (PreventiveMaintenanceWorkOrderInventoryTime::destroy($request->inventory_time_id)) {
             return response()->json(['status' => 'success']);
         }
+    }
+
+    private function is_ilsm(PreventiveMaintenanceWorkOrderInventoryTime $shift_time)
+    {
+        if (count($shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->equipment->assetCategory->eops) > 0) {
+            foreach ($shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->equipment->assetCategory->eops as $eop) {
+
+                //check for ilsm first
+                if ($eop->is_ilsm) {
+                    //if ilsm , lets check for shift first
+                    if ($eop->is_ilsm_shift) {
+                        //lets get matching shift for the demand order
+                        $corresponding_shift  = $shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->getMaintenanceShift();
+
+                        if ($corresponding_shift !== false) {
+                            $corresponding_shift_time = \Carbon\Carbon::parse($shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->created_at->format('Y-m-d') . ' ' . $corresponding_shift->end_time);
+
+                            if ($corresponding_shift_time->lessThan($shift_time->end_time)) {
+                                return true;
+                            }
+                        }
+                    } elseif (!empty($eop->ilsm_hours_threshold)) {
+                        $allowed_date = $shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->created_at->addHours($eop->ilsm_hours_threshold);
+
+                        if ($allowed_date->lessThan($shift_time->end_time)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
 }
