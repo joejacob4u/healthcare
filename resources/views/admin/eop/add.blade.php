@@ -106,7 +106,7 @@
                 </div>
 
                 <div class="islm form-group" style="display:none;">
-                  {!! Form::label('islm_hours_threshold', 'ILSM Hours Threshold:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('islm_hours_threshold', 'Hour Threshold before ILSM is required:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                         {!! Form::select('islm_hours_threshold', ['0' => 'No Threshold'] + range(0,100), Request::old('islm_hours_threshold'), ['class' => 'form-control','id' => 'islm_hours_threshold']) !!}
                   </div>
