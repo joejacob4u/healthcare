@@ -55,6 +55,8 @@ class DemandWorkOrderShiftController extends Controller
                                 return true;
                             }
                         }
+                    } elseif (empty($eop->ilsm_hours_threshold) && !$eop->is_ilsm_shift) {
+                        return true;
                     } elseif (!empty($eop->ilsm_hours_threshold)) {
                         $allowed_date = $shift->demandWorkOrder->created_at->addHours($eop->ilsm_hours_threshold);
 

@@ -90,7 +90,7 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('is_ilsm', 'Is ISLM:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('is_ilsm', 'Is ILSM Required:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('is_ilsm', ['0' => 'No','1' => 'Yes'], $eop->is_ilsm, ['class' => 'form-control','id' => 'is_ilsm']) !!}
                     </div>
@@ -99,14 +99,14 @@
                 
 
                 <div class="islm form-group" @if(!$eop->is_ilsm) style="display:none;" @endif>
-                    {!! Form::label('is_ilsm_shift', 'Correct ISLM during Shift ?:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('is_ilsm_shift', 'Correct during shift, no ILSM required:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('is_ilsm_shift', ['0' => 'No','1' => 'Yes'], $eop->is_ilsm_shift, ['class' => 'form-control','id' => 'is_ilsm_shift']) !!}
                     </div>
                 </div>
 
                 <div class="islm form-group" @if(!$eop->is_ilsm) style="display:none;" @endif>
-                  {!! Form::label('islm_hours_threshold', 'ISLM Hours Threshold:', ['class' => 'col-lg-2 control-label']) !!}
+                  {!! Form::label('islm_hours_threshold', 'ILSM Hour Threshold:', ['class' => 'col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                         {!! Form::select('islm_hours_threshold', ['0' => 'No Threshold'] + range(0,100), $eop->islm_hours_threshold, ['class' => 'form-control','id' => 'islm_hours_threshold']) !!}
                   </div>

@@ -92,14 +92,14 @@
                 </div>
 
                 <div class="form-group">
-                    {!! Form::label('is_ilsm', 'Is ILSM:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('is_ilsm', 'Is ILSM Required:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('is_ilsm', ['0' => 'No','1' => 'Yes'], Request::old('is_ilsm'), ['class' => 'form-control','id' => 'is_ilsm']) !!}
                     </div>
                 </div>
 
                 <div class="islm form-group" style="display:none;">
-                    {!! Form::label('is_ilsm_shift', 'Correct ILSM during Shift ?:', ['class' => 'col-lg-2 control-label']) !!}
+                    {!! Form::label('is_ilsm_shift', 'Correct during shift, no ILSM is required :', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
                         {!! Form::select('is_ilsm_shift', ['0' => 'No','1' => 'Yes'], Request::old('is_ilsm_shift'), ['class' => 'form-control','id' => 'is_ilsm_shift']) !!}
                     </div>
