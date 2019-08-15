@@ -21,7 +21,7 @@ class BaselineDateController extends Controller
 
     public function index($equipment_id)
     {
-        return view('equipment.baseline.index', ['equipment' => Equipment::find($equipment_id),'users' => User::pluck('name', 'id')]);
+        return view('equipment.baseline.index', ['equipment' => Equipment::find($equipment_id), 'users' => User::pluck('name', 'id')]);
     }
 
     public function store(Request $request, $equipment_id)
@@ -34,7 +34,7 @@ class BaselineDateController extends Controller
         $equipment = Equipment::find($equipment_id);
 
         if ($baseline_date = $equipment->baselineDates()->create($request->all())) {
-            
+
             //create work orders for this baseline date
             $this->create_work_orders($equipment, $baseline_date);
 
@@ -123,9 +123,9 @@ class BaselineDateController extends Controller
         $to->modify($future_date_interval);
 
         $interval = new DateInterval($interval);
-        
+
         $periods = new DatePeriod($from, $interval, $to);
-        
+
         $dates = [];
 
         foreach ($periods as $period) {
@@ -145,14 +145,17 @@ class BaselineDateController extends Controller
         //save work order dates
 
         foreach ($work_order_dates as $work_order_date) {
-            PreventiveMaintenanceWorkOrder::create([
-                'name' => 'Work Order for '.date('F j, Y', strtotime($work_order_date)),
+
+            $preventive_maintenance_work_order = PreventiveMaintenanceWorkOrder::create([
+                'name' => 'Work Order for ' . date('F j, Y', strtotime($work_order_date)),
                 'work_order_date' => $work_order_date,
                 'building_id' => session('building_id'),
                 'baseline_date_id' => $baseline_date->id,
                 'equipment_id' => $equipment->id,
                 'is_in_house' => 1
             ]);
+
+            $preventive_maintenance_work_order->ilsmAssessment()->create(['ilsm_assessment_status_id' => 8]);
         }
     }
 }

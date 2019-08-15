@@ -69,7 +69,7 @@ class DemandWorkOrder extends Model
 
     public function ilsmAssessment()
     {
-        return $this->hasOne('App\Equipment\IlsmAssessment', 'demand_work_order_id');
+        return $this->morphOne('App\Equipment\IlsmAssessment', 'work_order');
     }
 
     //accessor for work order identifier

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Equipment;
 
+use App\Equipment\PreventiveMaintenanceWorkOrder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\PreventiveMaintenanceWorkOrderInventoryTime;
@@ -21,7 +22,13 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
     {
         $work_order_inventory = PreventiveMaintenanceWorkOrderInventory::find($work_order_inventory_id);
 
+        $preventive_maintenance_work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
+
         if ($shift_time = $work_order_inventory->PreventiveMaintenanceWorkOrderInventoryTimes()->create($request->all())) {
+            if ($this->is_ilsm($shift_time)) {
+                $preventive_maintenance_work_order->ilsmAssessment()->update(['ilsm_assessment_status_id' => 1]);
+            }
+
             return response()->json(['status' => 'success']);
         }
     }
@@ -52,6 +59,8 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
                                 return true;
                             }
                         }
+                    } elseif (empty($eop->ilsm_hours_threshold) && !$eop->is_ilsm_shift) {
+                        return true;
                     } elseif (!empty($eop->ilsm_hours_threshold)) {
                         $allowed_date = $shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->created_at->addHours($eop->ilsm_hours_threshold);
 

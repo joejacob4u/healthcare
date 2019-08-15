@@ -42,6 +42,12 @@ class PreventiveMaintenanceWorkOrder extends Model
         return $this->hasMany('App\Equipment\WorkOrderShift', 'work_order_id');
     }
 
+    public function ilsmAssessment()
+    {
+        return $this->morphOne('App\Equipment\IlsmAssessment', 'work_order');
+    }
+
+
     public function hasInventories()
     {
         if ($this->workOrderInventories->count() > 0) {

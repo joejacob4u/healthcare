@@ -9,7 +9,8 @@ class IlsmAssessment extends Model
     protected $table = 'ilsm_assessments';
 
     protected $fillable = [
-        'demand_work_order_id',
+        'work_order_id',
+        'work_order_type',
         'ilsm_preassessment_question_answers',
         'ilsm_preassessment_user_id',
         'ilsm_question_answers',
@@ -23,14 +24,14 @@ class IlsmAssessment extends Model
         'ilsm_assessment_status_id'
     ];
 
-    protected $casts = ['ilsm_preassessment_question_answers' => 'array','ilsm_question_answers' => 'array','ilsm_checklist_question_answers' => 'array'];
+    protected $casts = ['ilsm_preassessment_question_answers' => 'array', 'ilsm_question_answers' => 'array', 'ilsm_checklist_question_answers' => 'array'];
 
-    protected $dates = ['start_date','end_date'];
-
-    public function demandWorkOrder()
+    public function work_order()
     {
-        return $this->belongsTo('App\Equipment\DemandWorkOrder', 'demand_work_order_id');
+        return $this->morphTo();
     }
+
+    protected $dates = ['start_date', 'end_date'];
 
     public function status()
     {
@@ -60,13 +61,12 @@ class IlsmAssessment extends Model
 
     public function checklists()
     {
-        return $this->hasMany('App\Equipment\IlsmChecklist','ilsm_assessment_id');
+        return $this->hasMany('App\Equipment\IlsmChecklist', 'ilsm_assessment_id');
     }
 
     public function isChecklistComplete()
     {
-        if($this->checklists()->where('is_answered',0)->orWhere('is_compliant',0)->count() > 0)
-        {
+        if ($this->checklists()->where('is_answered', 0)->orWhere('is_compliant', 0)->count() > 0) {
             return false;
         }
 
@@ -77,10 +77,10 @@ class IlsmAssessment extends Model
     {
         $applicable_ilsms = [];
 
-        foreach($this->ilsm_question_answers as $key => $answer)
-        {
+        foreach ($this->ilsm_question_answers as $key => $answer) {
             $ilsm_question = \App\Equipment\IlsmQuestion::find($key);
-            if($answer) foreach($ilsm_question->ilsms as $ilsm): array_push($applicable_ilsms, $ilsm->id); endforeach;
+            if ($answer) foreach ($ilsm_question->ilsms as $ilsm) : array_push($applicable_ilsms, $ilsm->id);
+            endforeach;
         }
 
         return array_unique($applicable_ilsms);
