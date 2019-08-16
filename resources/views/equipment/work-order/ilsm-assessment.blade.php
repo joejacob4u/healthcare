@@ -6,7 +6,7 @@
 @parent
 
 @endsection
-@section('page_title','ILSM Assessment for '.$ilsm_assessment->demandWorkOrder->identifier)
+@section('page_title','ILSM Assessment for '.$ilsm_assessment->work_order->identifier)
 @section('page_description','Updated on '.$ilsm_assessment->updated_at->toFormattedDateString())
 
 @section('content')
@@ -16,7 +16,7 @@
 
 <ol class="breadcrumb">
     <li><a href="{{url('equipment/work-orders')}}#ilsm-assessments">ILSM Assessments</a></li>
-    <li>ILSM Assessment for {{$ilsm_assessment->demandWorkOrder->identifier}}</li>
+    <li>ILSM Assessment for {{$ilsm_assessment->work_order->identifier}}</li>
 </ol>
 
   @if($ilsm_assessment->ilsm_assessment_status_id == 7)
@@ -36,12 +36,12 @@
 
 
 
-@if(count($ilsm_assessment->demandWorkOrder->problem->eops) > 0)
+@if(count($ilsm_assessment->work_order->problem->eops) > 0)
 
 <div class="callout callout-info">
     <h4>EOP</h4>
 
-    @foreach($ilsm_assessment->demandWorkOrder->problem->eops as $eop)
+    @foreach($ilsm_assessment->work_order->problem->eops as $eop)
 
     <a href="#" class="list-group-item active list-group-item-info">
         <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
@@ -57,7 +57,7 @@
 
 @if(!empty($ilsm_assessment->ilsm_preassessment_question_answers))
     <div class="callout callout-warning">
-        <h4>ILSM Pre Assessment  : (Status => @if($ilsm_assessment->demandWorkOrder->is_ilsm) ILSM Required @else No ILSM Required @endif, Completed By : {{$ilsm_assessment->preAssessmentUser->name}})</h4>
+        <h4>ILSM Pre Assessment  : (Status => @if($ilsm_assessment->work_order->is_ilsm) ILSM Required @else No ILSM Required @endif, Completed By : {{$ilsm_assessment->preAssessmentUser->name}})</h4>
         @foreach($ilsm_assessment->ilsm_preassessment_question_answers as $key => $answer)
             <div class="row">
                 <div class="col-sm-6">{{ \App\Equipment\IlsmPreassessmentQuestion::find($key)->question}}</div>
