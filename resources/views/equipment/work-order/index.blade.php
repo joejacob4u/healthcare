@@ -180,7 +180,7 @@
                 <tbody>
                   @foreach($ilsm_assessments as $ilsm_assessment)
                     <tr>
-                      <td>{{$ilsm_assessment->demandWorkOrder->identifier}}</td>
+                      <td>{{$ilsm_assessment->work_order->identifier}}</td>
                       <td>@if(in_array($ilsm_assessment->ilsm_assessment_status_id,[5,6,7])) {{$ilsm_assessment->start_date->toFormattedDateString()}}  @else N/A  @endif</td>
                       <td>@if(in_array($ilsm_assessment->ilsm_assessment_status_id,[5,6,7])) {{$ilsm_assessment->end_date->toFormattedDateString()}}  @else N/A  @endif</td>
                       <td>{{$ilsm_assessment->status->name}}</td>
