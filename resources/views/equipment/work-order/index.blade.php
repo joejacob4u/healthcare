@@ -187,6 +187,7 @@
                       <td>@if(!in_array($ilsm_assessment->ilsm_assessment_status_id,[1,2,8])){!! link_to('/equipment/ilsm-assessment/'.$ilsm_assessment->id,'View',['class' => 'btn-xs btn-info']) !!}@endif</td>
                     </tr>
                   @endforeach
+                
                 </tbody>
             </table>
             {{ $ilsm_assessments->fragment('ilsm-assessments')->links() }}

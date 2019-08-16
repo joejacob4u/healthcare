@@ -30,7 +30,6 @@ class WorkOrderController extends Controller
             }
         }
 
-
         if (isset($_REQUEST['equipment_id'])) {
             $pm_work_orders = PreventiveMaintenanceWorkOrder::where('building_id', session('building_id'))->where('equipment_id', $_REQUEST['equipment_id'])->whereBetween('work_order_date', [$_REQUEST['from'], $_REQUEST['to']])->orderBy('work_order_date', 'desc')->paginate(15);
         } else {
@@ -41,7 +40,11 @@ class WorkOrderController extends Controller
 
         $ilsm_preassessment_questions = IlsmPreassessmentQuestion::pluck('question', 'id');
 
-        $ilsm_assessments = IlsmAssessment::whereIn('demand_work_order_id', $demand_work_orders->pluck('id'))->paginate(15);
+        $ilsm_assessments = IlsmAssessment::where(function ($query) use ($demand_work_orders) {
+            $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
+        })->where(function ($query) use ($pm_work_orders) {
+            $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
+        })->paginate(50);
 
         $equipments = Equipment::whereHas('workOrders', function ($query) {
             $query->where('building_id', session('building_id'));

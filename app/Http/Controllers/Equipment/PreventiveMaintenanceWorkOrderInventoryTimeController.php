@@ -15,6 +15,8 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
         $this->middleware('user');
     }
 
+
+
     public function index()
     { }
 

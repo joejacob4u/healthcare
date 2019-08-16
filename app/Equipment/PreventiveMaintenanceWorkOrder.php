@@ -163,4 +163,33 @@ class PreventiveMaintenanceWorkOrder extends Model
 
         return false;
     }
+
+    //accessor for ilsm probable
+
+    public function getIsIlsmProbableAttribute()
+    {
+        if ($this->ilsmAssessment->ilsm_assessment_status_id == '1') {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getIsIlsmAttribute()
+    {
+        if (in_array($this->ilsmAssessment->ilsm_assessment_status_id, [3, 4, 5, 6])) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function getIsIlsmCompleteAttribute()
+    {
+        if (in_array($this->ilsmAssessment->ilsm_assessment_status_id, [7])) {
+            return true;
+        }
+
+        return false;
+    }
 }
