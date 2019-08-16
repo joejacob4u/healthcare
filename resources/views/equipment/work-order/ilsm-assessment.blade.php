@@ -104,7 +104,7 @@
           <h3 class="box-title">ILSM Reference (Expand to see above {{count(array_unique($ilsm_ids))}} applicable ilsm descriptions)</h3>
 
           <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+            <button type="button" class="btn btn-box-tool" data-widget="expand"><i class="fa fa-minus"></i>
             </button>
           </div>
         </div>

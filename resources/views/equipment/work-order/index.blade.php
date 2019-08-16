@@ -104,7 +104,7 @@
                       <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
                         <td>{{$work_order->baselineDate->user->name}}</td>
                         <td>{{ $work_order->avgDuration() }} ({{$work_order->duration()}}) mins</td>
-                      <td>{{$work_order->status()}}</td>
+                      <td>{{$work_order->status() @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif}}</td>
                       <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
                     @endif
