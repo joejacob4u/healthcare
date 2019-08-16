@@ -43,7 +43,7 @@ class WorkOrderController extends Controller
         $ilsm_assessments = IlsmAssessment::where(function ($query) use ($demand_work_orders) {
             $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
         })->where(function ($query) use ($pm_work_orders) {
-            $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
+            $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\PreventiveMaintenanceWorkOrder');
         })->paginate(50);
 
         $equipments = Equipment::whereHas('workOrders', function ($query) {

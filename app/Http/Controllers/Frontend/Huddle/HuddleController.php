@@ -40,7 +40,7 @@ class HuddleController extends Controller
             'date' => 'required',
         ]);
 
-        if ($huddle = Huddle::create($request->except(['attendance']))) {
+        if ($huddle = Huddle::create($request->except(['attendance', 'has_no_capacity_constraint']))) {
             $huddle->users()->sync(array_except($request->attendance, [0, '']));
             return redirect('huddle')->with('success', 'New huddle created.');
         }
