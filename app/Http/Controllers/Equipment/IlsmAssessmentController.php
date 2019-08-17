@@ -10,6 +10,7 @@ use App\Equipment\IlsmQuestion;
 use Auth;
 use App\Equipment\Ilsm;
 use App\Equipment\IlsmChecklist;
+use App\Equipment\PreventiveMaintenanceWorkOrder;
 use DateTime;
 use DateInterval;
 use DatePeriod;
@@ -27,23 +28,29 @@ class IlsmAssessmentController extends Controller
     {
         $ilsm_assessment = IlsmAssessment::find($ilsm_assessment_id);
         $ilsm_questions = IlsmQuestion::get();
-        return view('equipment.work-order.ilsm-assessment', ['ilsm_assessment' => $ilsm_assessment,'ilsm_questions' => $ilsm_questions]);
+        return view('equipment.work-order.ilsm-assessment', ['ilsm_assessment' => $ilsm_assessment, 'ilsm_questions' => $ilsm_questions]);
     }
 
     public function ilsmPreAssessment(Request $request)
     {
         $answers = $request->ilsm_preassessment_question_answers;
 
-        $demand_work_order = DemandWorkOrder::find($request->demand_work_order_id);
+        if ($request->work_order_type == 'preventive-maintenance') {
+            $work_order = PreventiveMaintenanceWorkOrder::find($request->work_order_id);
+        } else {
+            $work_order = DemandWorkOrder::find($request->work_order_id);
+        }
+
+
 
         if ($answers[1] == 1 || $answers[3] == 1) {
-            $demand_work_order->ilsmAssessment()->update([
+            $work_order->ilsmAssessment()->update([
                 'ilsm_assessment_status_id' => 3,
                 'ilsm_preassessment_question_answers' => json_encode($answers),
                 'ilsm_preassessment_user_id' => $request->ilsm_preassessment_user_id
             ]);
         } else {
-            $demand_work_order->ilsmAssessment()->update([
+            $work_order->ilsmAssessment()->update([
                 'ilsm_assessment_status_id' => 2,
                 'ilsm_preassessment_question_answers' => json_encode($answers),
                 'ilsm_preassessment_user_id' => $request->ilsm_preassessment_user_id
@@ -61,7 +68,7 @@ class IlsmAssessmentController extends Controller
 
         $ilsm_assessment = IlsmAssessment::find($request->ilsm_assessment_id);
 
-        if ($ilsm_assessment->update(['ilsm_question_answers' => $request->ilsm_question_answers,'ilsm_question_user_id' => Auth::user()->id,'ilsm_assessment_status_id' => 4])) {
+        if ($ilsm_assessment->update(['ilsm_question_answers' => $request->ilsm_question_answers, 'ilsm_question_user_id' => Auth::user()->id, 'ilsm_assessment_status_id' => 4])) {
             return back();
         }
     }
@@ -104,11 +111,11 @@ class IlsmAssessmentController extends Controller
         }
 
 
-        $request->request->add(['is_answered' => 1,'is_compliant' => $is_compliant]);
+        $request->request->add(['is_answered' => 1, 'is_compliant' => $is_compliant]);
 
         if ($ilsm_checklist->update($request->all())) {
             $ilsm_assessment = IlsmAssessment::find($request->ilsm_assessment_id);
-            
+
             if ($ilsm_assessment->isChecklistComplete()) {
                 $ilsm_assessment->update(['ilsm_assessment_status_id' => 6]);
             } else {
@@ -145,7 +152,7 @@ class IlsmAssessmentController extends Controller
 
         if ($existing_checklists->isNotEmpty()) {
             $exceeded_checklists = $existing_checklists->where('date', '>', $ilsm_assessment->end_date);
-            
+
             foreach ($exceeded_checklists as $checklist) {
                 IlsmChecklist::destroy($checklist->id);
             }
@@ -159,7 +166,7 @@ class IlsmAssessmentController extends Controller
             $is_shift = false;
 
 
-            if (!in_array($ilsm->frequency, ['one-time','shift-quarterly','shift'])) {
+            if (!in_array($ilsm->frequency, ['one-time', 'shift-quarterly', 'shift'])) {
                 $is_existant = false;
 
                 switch ($ilsm->frequency) {
@@ -167,17 +174,17 @@ class IlsmAssessmentController extends Controller
                         $interval = 'P1D';
                         $is_existant = true;
                         break;
-        
+
                     case 'weekly':
                         $interval = 'P1W';
                         $is_existant = true;
                         break;
-        
+
                     case 'monthly':
                         $interval = 'P1M';
                         $is_existant = true;
                         break;
-        
+
                     case 'quarterly':
                         $interval = 'P3M';
                         $is_existant = true;
@@ -186,13 +193,13 @@ class IlsmAssessmentController extends Controller
 
                 if ($is_existant) {
                     $from = new DateTime($ilsm_assessment->start_date);
-        
+
                     $to = new DateTime($ilsm_assessment->end_date);
-            
+
                     $interval = new DateInterval($interval);
-                    
+
                     $periods = new DatePeriod($from, $interval, $to);
-            
+
                     foreach ($periods as $period) {
                         if ($existing_checklists->where('ilsm_id', $ilsm->id)->where('ilsm_assessment_id', $ilsm_assessment->id)->where('date', 'like', '%' . $period->format('Y-m-d') . '%')->where('shift_id', 0)->count() < 1) {
                             $dates[] = $period->format('Y-m-d');
@@ -208,7 +215,7 @@ class IlsmAssessmentController extends Controller
                     //do for one day but for all shifts
                     $day = strtolower(strftime('%A', strtotime('+1 day')));
                     //get all maintenance shifts
-                    $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%'.$day.'%')->get();
+                    $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%' . $day . '%')->get();
 
                     foreach ($maintenance_shifts as $maintenance_shift) {
                         $is_shift = true;
@@ -218,20 +225,20 @@ class IlsmAssessmentController extends Controller
 
                 if ($ilsm->frequency == 'daily-per-shift') {
                     $from = new DateTime($ilsm_assessment->start_date);
-        
+
                     $to = new DateTime($ilsm_assessment->end_date);
-            
+
                     $interval = new DateInterval('P1D');
-                    
+
                     $periods = new DatePeriod($from, $interval, $to);
-            
+
                     foreach ($periods as $period) {
                         $date = $period->format('Y-m-d');
                         //do for one day but for all shifts
                         $day = strtolower(strftime('%A', $date));
                         //get all maintenance shifts
 
-                        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%'.$day.'%')->get();
+                        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%' . $day . '%')->get();
 
                         foreach ($maintenance_shifts as $maintenance_shift) {
                             $is_shift = true;
@@ -244,20 +251,20 @@ class IlsmAssessmentController extends Controller
 
                 if ($ilsm->frequency == 'quarterly-per-shift') {
                     $from = new DateTime($ilsm_assessment->start_date);
-        
+
                     $to = new DateTime($ilsm_assessment->end_date);
-            
+
                     $interval = new DateInterval('P3M');
-                    
+
                     $periods = new DatePeriod($from, $interval, $to);
-            
+
                     foreach ($periods as $period) {
                         $date = $period->format('Y-m-d');
                         //do for one day but for all shifts
                         $day = strtolower(strftime('%A', $date));
                         //get all maintenance shifts
 
-                        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%'.$day.'%')->get();
+                        $maintenance_shifts = Shift::where('hco_id', session('hco_id'))->where('days', 'LIKE', '%' . $day . '%')->get();
 
                         foreach ($maintenance_shifts as $maintenance_shift) {
                             $is_shift = true;

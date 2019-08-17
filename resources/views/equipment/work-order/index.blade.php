@@ -104,7 +104,7 @@
                       <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
                         <td>{{$work_order->baselineDate->user->name}}</td>
                         <td>{{ $work_order->avgDuration() }} ({{$work_order->duration()}}) mins</td>
-                      <td>{{$work_order->status() }}@if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                      <td>{{$work_order->status() }}@if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="preventive-maintenance"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
                       <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
                     @endif
@@ -149,7 +149,7 @@
                       <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
                       <td>{{$work_order->priority->name}}</td>
                       <td>{{$work_order->created_at->setTimezone(session('timezone'))->toDayDateTimeString()}}</td>
-                      <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                      <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="demand"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
                       <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
                     </tr>
                   @endforeach
@@ -222,7 +222,8 @@
               {!! Form::hidden('ilsm_preassessment_user_id', Auth::user()->id,['id' => 'ilsm_preassessment_user_id']) !!}
 
               <button type="submit" class="btn btn-success">Submit</button>
-              {!! Form::hidden('demand_work_order_id','',['id' => 'demand_work_order_id']) !!}
+              {!! Form::hidden('work_order_id','',['id' => 'work_order_id']) !!}
+              {!! Form::hidden('work_order_type','',['id' => 'work_order_type']) !!}
               {!! csrf_field() !!}
             </form>
           </div>
@@ -265,7 +266,8 @@
 
 
   $('.ilsm-probable').click(function(){
-    $('#ilsm-probable-modal #demand_work_order_id').val($(this).attr('data-work-order-id'));
+    $('#ilsm-probable-modal #work_order_id').val($(this).attr('data-work-order-id'));
+    $('#ilsm-probable-modal #work_order_type').val($(this).attr('data-work-order-type'));
     $('#ilsm-probable-modal').modal('show');
   });
 
