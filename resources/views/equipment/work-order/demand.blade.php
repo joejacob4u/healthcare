@@ -14,7 +14,7 @@
 @include('layouts.partials.errors')
 
 <ol class="breadcrumb">
-    <li><a href="{{url('equipment/work-orders')}}#demand-work-orders">Work Orders</a></li>
+    <li><a href="{{url('equipment/work-orders/'.$demand_work_order->trade->systemTier->id')}}#demand-work-orders">Work Orders</a></li>
     <li>Demand Work Order {{$demand_work_order->identifier}}</li>
 </ol>
 

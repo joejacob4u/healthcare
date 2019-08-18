@@ -44,10 +44,9 @@
             </div>
 
             <div class="form-group">
-                <div class="col-lg-10 col-sm-offset-2">
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="has_no_capacity_constraint" id="has_no_capacity_constraint"  value="1">This huddle has no capacity constraints
-                    </label>
+                {!! Form::label('has_no_capacity_constraint', 'This huddle has no capacity constraints:', ['class' => 'col-lg-2 control-label']) !!}
+                <div class="col-lg-10">
+                {!! Form::select('has_no_capacity_constraint', ['1' => 'Yes', '0' => 'No']->prepend('Please Select',''), Request::old('has_no_capacity_constraint'), ['class' => 'form-control selectpicker','id' => 'has_no_capacity_constraint']); !!}
                 </div>
             </div>
 
@@ -115,7 +114,7 @@
 
     $('#has_no_capacity_constraint').change(function(){
         
-        if($(this).prop('checked'))
+        if($(this).val() == 1)
         {
             $('#constraint_div').hide();
         }

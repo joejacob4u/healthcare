@@ -109,7 +109,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Preventive Maintenance View for Equipments in <strong>{{session('building_name')}}</strong></h3>
+        <h3 class="box-title">Preventive Maintenance View for Equipment in <strong>{{session('building_name')}}</strong></h3>
 
         <div class="box-tools pull-right">
         </div>

@@ -63,12 +63,16 @@
         </div>
     </div>
 
-    <div class="list-group">
-        <a href="#" class="list-group-item active">Capacity</a>
-        <a href="#" class="list-group-item">Number of Available Beds (%): {{$huddle->no_of_available_beds}}</a>
-        <a href="#" class="list-group-item">Number of Occupied Beds (%) : {{$huddle->no_of_occupied_beds}}</a>
-        <a href="#" class="list-group-item">Number of Out of Commission Beds (%) : {{$huddle->no_of_out_of_commission_beds}}</a>
-    </div>
+    @if($huddle->has_no_capacity_constraint == 0)
+
+        <div class="list-group">
+            <a href="#" class="list-group-item active">Capacity</a>
+            <a href="#" class="list-group-item">Number of Available Beds (%): {{$huddle->no_of_available_beds}}</a>
+            <a href="#" class="list-group-item">Number of Occupied Beds (%) : {{$huddle->no_of_occupied_beds}}</a>
+            <a href="#" class="list-group-item">Number of Out of Commission Beds (%) : {{$huddle->no_of_out_of_commission_beds}}</a>
+        </div>
+
+    @endif
 
     <div class="form-group">
         {!! Form::label('no_of_available_beds', 'Number of Available Beds:', ['class' => 'col-lg-2 control-label']) !!}

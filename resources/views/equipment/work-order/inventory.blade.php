@@ -65,7 +65,7 @@
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Shifts</h3>
+        <h3 class="box-title">Shifts - when multiple people are working on this equipment or multiple shifts are working on this equipment, you can add them in here</h3>
         <div class="box-tools pull-right">
             <button class="btn btn-success" data-toggle="modal" onclick="openShift()"><span class="glyphicon glyphicon-plus"></span> Add Shift</button>
         </div>
@@ -109,7 +109,7 @@
 
     <div class="box">
       <div class="box-header with-border">
-        <h3 class="box-title">Preventive Maintenance View for Equipments in <strong>{{session('building_name')}}</strong></h3>
+        <h3 class="box-title">Preventive Maintenance View for Equipment in <strong>{{session('building_name')}}</strong></h3>
 
         <div class="box-tools pull-right">
         </div>

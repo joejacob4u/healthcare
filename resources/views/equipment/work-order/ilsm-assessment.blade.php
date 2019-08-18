@@ -35,23 +35,46 @@
 
 
 
+@if($ilsm_assessment->work_order->work_order_type == 'App\Equipment\DemandWorkOrder')
+  @if(count($ilsm_assessment->work_order->problem->eops) > 0)
 
-@if(count($ilsm_assessment->work_order->problem->eops) > 0)
+  <div class="callout callout-info">
+      <h4>EOP</h4>
 
-<div class="callout callout-info">
-    <h4>EOP</h4>
+      @foreach($ilsm_assessment->work_order->problem->eops as $eop)
 
-    @foreach($ilsm_assessment->work_order->problem->eops as $eop)
+      <a href="#" class="list-group-item active list-group-item-info">
+          <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
+          <p>{{$eop->text}}</p>
+      </a>
 
-    <a href="#" class="list-group-item active list-group-item-info">
-        <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
-        <p>{{$eop->text}}</p>
-    </a>
+      @endforeach
+  </div>
 
-    @endforeach
-</div>
-
+  @endif
 @endif
+
+
+
+@if($ilsm_assessment->work_order->work_order_type == 'App\Equipment\PreventiveMaintenanceWorkOrder')
+  @if(count($ilsm_assessment->work_order->equipment->assetCategory->eops) > 0)
+
+  <div class="callout callout-info">
+      <h4>EOP</h4>
+
+      @foreach($ilsm_assessment->work_order->equipment->assetCategory->eops as $eop)
+
+      <a href="#" class="list-group-item active list-group-item-info">
+          <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
+          <p>{{$eop->text}}</p>
+      </a>
+
+      @endforeach
+  </div>
+
+  @endif
+@endif
+
 
 
 
