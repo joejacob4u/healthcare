@@ -161,7 +161,7 @@
             <table id="ilsm-assessment-table" class="table table-striped" type="custom">
                 <thead>
                     <tr>
-                        <th>Demand WO</th>
+                        <th>Work Order #</th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Status</th>
@@ -170,7 +170,7 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <th>Demand WO</th>
+                        <th>Work Order #</th>
                         <th>Start Time</th>
                         <th>End Time</th>
                         <th>Status</th>
