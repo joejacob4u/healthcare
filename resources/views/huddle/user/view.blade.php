@@ -155,7 +155,7 @@
         @endforeach
 
         <a href="#" class="list-group-item"><span class="label label-warning">Open Safety Events</span></a>
-        @foreach($assessments->where('assessment_checklist_type_id',97)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $ilsm_assessment)
+        @foreach($assessments->where('assessment_checklist_type_id',97)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $assessment)
             <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">ILSM Assessment #{{$ilsm_assessment->id}}</a>
         @endforeach
     @endif
@@ -210,7 +210,7 @@
         @endforeach
 
         <a href="#" class="list-group-item"><span class="label label-warning">Open Power Outage Events</span></a>
-        @foreach($assessment->where('assessment_checklist_type_id',96)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $ilsm_assessment)
+        @foreach($assessment->where('assessment_checklist_type_id',96)->whereNotIn('assessment_status_id',[4])->sortByDesc('created_at') as $assessment)
             <a href="{{url('/assessment/evaluate/'.$assessment->id)}}" class="list-group-item">Assessment #{{$assessment->id}}</a>
         @endforeach
     @endif
