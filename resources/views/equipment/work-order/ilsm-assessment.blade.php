@@ -14,8 +14,13 @@
 @include('layouts.partials.errors')
 @include('layouts.partials.warning')
 
+
 <ol class="breadcrumb">
-    <li><a href="{{url('equipment/work-orders')}}#ilsm-assessments">ILSM Assessments</a></li>
+    @if($ilsm_assessment->work_order_type == 'App\Equipment\DemandWorkOrder')
+      <li><a href="{{url('equipment/work-orders/'.$ilsm_assessment->work_order->trade->systemTier->id)}}#ilsm-assessments">ILSM Assessments</a></li>
+    @else
+      <li><a href="{{url('equipment/work-orders/'.$ilsm_assessment->work_order->equipment->assetCategory->systemTier->id)}}#ilsm-assessments">ILSM Assessments</a></li>
+    @endif
     <li>ILSM Assessment for {{$ilsm_assessment->work_order->identifier}}</li>
 </ol>
 
@@ -33,6 +38,99 @@
     </div>
   @endif
 
+@if($ilsm_assessment->work_order_type == 'App\Equipment\PreventiveMaintenanceWorkOrder')
+
+  <div class="callout callout-info">
+      <h4>Equipment Info</h4><br/>
+
+      <div class="row">
+          <div class="col-sm-4"><strong>Equipment Name : </strong> {{$ilsm_assessment->work_order->equipment->name}}</div>
+          <div class="col-sm-4"><strong>Manufacturer : </strong> {{$ilsm_assessment->work_order->equipment->manufacturer}}</div>
+          <div class="col-sm-4"><strong>Model Number : </strong> {{$ilsm_assessment->work_order->equipment->model_number}}</div>
+      </div><br/>
+
+      <div class="row">
+          <div class="col-sm-2"><strong>Description</strong> </div>
+          <div class="col-sm-10">{{$ilsm_assessment->work_order->equipment->description}}</div>
+      </div><br/>
+
+      <div class="row">
+          <div class="col-sm-4"><strong>Utilization : </strong> {{$ilsm_assessment->work_order->equipment->utilization}} %</div>
+          <div class="col-sm-4"><strong>Frequency : </strong> {{$ilsm_assessment->work_order->equipment->frequency}}</div>
+          <div class="col-sm-4"><strong>Asset Category : </strong> {{$ilsm_assessment->work_order->equipment->assetCategory->name}}</div>
+      </div><br/>
+
+      <div class="row">
+          <div class="col-sm-2"><strong>PM Procedure</strong> </div>
+          <div class="col-sm-10">{{$ilsm_assessment->work_order->equipment->preventive_maintenance_procedure}}</div>
+      </div>
+  </div>
+
+  @if(count($ilsm_assessment->work_order->equipment->assetCategory->eops) > 0)
+
+  <div class="callout callout-info">
+      <h4>EOP</h4>
+
+      @foreach($ilsm_assessment->work_order->equipment->assetCategory->eops as $eop)
+
+      <a href="#" class="list-group-item active list-group-item-info">
+          <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
+          <p>{{$eop->text}}</p>
+      </a>
+
+      @endforeach
+  </div>
+
+  @endif
+
+@else
+
+  <div class="callout callout-info">
+    <h4>Demand Work Order for WO# : {{$ilsm_assessment->work_order->identifier}}</h4><br/>
+
+    <div class="row">
+        <div class="col-sm-6"><strong>Requester Name : </strong> {{$ilsm_assessment->work_order->requester_name}}</div>
+        <div class="col-sm-6"><strong>Requester E-Mail : </strong> {{$ilsm_assessment->work_order->requester_email}}</div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-sm-2"><strong>Comments</strong> </div>
+        <div class="col-sm-10">{{$ilsm_assessment->work_order->comments}}</div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-sm-4"><strong>Trade : </strong> {{$ilsm_assessment->work_order->trade->name}}</div>
+        <div class="col-sm-4"><strong>Problem : </strong> {{$ilsm_assessment->work_order->problem->name}}</div>
+        <div class="col-sm-4"><strong>Priority : </strong> {{$ilsm_assessment->work_order->priority->name}}</div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-sm-6"><strong>Department : </strong> {{$ilsm_assessment->work_order->department->name}}</div>
+        <div class="col-sm-6"><strong>Room : </strong> {{$ilsm_assessment->work_order->rooms->implode('room_number', ', ')}}</div>
+    </div><br/>
+
+</div>
+
+@if(count($ilsm_assessment->work_order->problem->eops) > 0)
+
+<div class="callout callout-info">
+    <h4>EOP</h4>
+
+    @foreach($ilsm_assessment->work_order->problem->eops as $eop)
+
+    <a href="#" class="list-group-item active list-group-item-info">
+        <h4>{{$eop->standardLabel->label}} - EOP : {{$eop->name}}</h4>
+        <p>{{$eop->text}}</p>
+    </a>
+
+    @endforeach
+</div>
+
+@endif
+
+
+
+@endif
 
 
 @if($ilsm_assessment->work_order->work_order_type == 'App\Equipment\DemandWorkOrder')
@@ -122,7 +220,7 @@
 
 @if(isset($ilsm_ids) and !empty($ilsm_ids))
 
-    <div class="box box-info collapsed-box">
+    <div class="box box-info">
         <div class="box-header with-border">
           <h3 class="box-title">ILSM Reference (Expand to see above {{count(array_unique($ilsm_ids))}} applicable ilsm descriptions)</h3>
 
