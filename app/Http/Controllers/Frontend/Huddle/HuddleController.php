@@ -51,7 +51,7 @@ class HuddleController extends Controller
         $users = User::where('healthsystem_id', session('healthsystem_id'))->pluck('name', 'id');
 
         //calculate all dm ids for that building to fetch ilsm assessments
-        $demand_work_orders = DemandWorkOrder::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->pluck('id');
+        $demand_work_orders = DemandWorkOrder::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id')->toArray())->pluck('id');
         dd($demand_work_orders);
         $ilsm_assessments = IlsmAssessment::whereIn('demand_work_order_id', $demand_work_orders)->where('created_at', '>=', \Carbon\Carbon::today()->subDays(180))->get();
         $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->get();
