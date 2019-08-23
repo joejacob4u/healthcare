@@ -75,7 +75,7 @@
       @if($assessment->assessment_status_id == 4)
 
       <div class="callout callout-success">
-        <h4>This rounding is complete and compliant</h4>
+        <h4>This tracer is complete and compliant</h4>
 
         <p>Rounding leader has verified and this is marked as compliant.</p>
       </div>
