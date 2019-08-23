@@ -140,12 +140,12 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Safety Events since last Huddle</span></a>
-        @foreach($ilsm_assessments->where('created_at', \Carbon\Carbon::today()->subDays(1)) as $ilsm_assessment)
+        @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[1,2,8])->where('created_at', \Carbon\Carbon::today()->subDays(1)) as $ilsm_assessment)
             <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}</a>
         @endforeach
 
         <a href="#" class="list-group-item"><span class="label label-warning">Open Safety Events</span></a>
-        @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[7]) as $ilsm_assessment)
+        @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[1,2,7,8]) as $ilsm_assessment)
             <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}</a>
         @endforeach
     @endif
