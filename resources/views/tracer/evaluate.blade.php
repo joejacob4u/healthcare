@@ -168,7 +168,7 @@
                                   {{$finding->user->name}} has answered <strong>{{$question->answers['answers'][$finding->finding['answer']]}}</strong>
                                   @if(isset($finding->finding['inventory_id']) and !empty($finding->finding['inventory_id'])) and linked inventory  {{$inventories[$finding->finding['inventory_id']]->name}} @endif
                                   @if(isset($finding->finding['rooms']) and !empty($finding->finding['rooms'])) in rooms  @foreach($finding->finding['rooms'] as $room_id) {{$rooms[$room_id]}}, @endforeach @endif
-                                  @if(!empty($finding->finding['comment'])) finding <i>{{$finding->finding['comment']}}</i> @endif
+                                  @if(isset($finding->finding['comment']) and !empty($finding->finding['comment'])) finding <i>{{$finding->finding['comment']}}</i> @endif
                                   @php $files = Storage::disk('s3')->files($finding->finding['attachment']); @endphp
                                   @if(count($files) > 0) and has <a class="attachment" data-attachment="{{json_encode($files)}}"> attached {{count($files)}} files.</a> @endif
                                   @if(!in_array($tracer->tracer_status_id,[4,5]))
