@@ -134,7 +134,6 @@
                             <th>Building</th>
                             <th>Standard Label</th>
                             <th>EOP #</th>
-                            <th>EOP Text</th>
                             <th>Finding Date</th>
                             <th>Finding</th>
                             <th>Status</th>
@@ -146,7 +145,6 @@
                             <th>Building</th>
                             <th>Standard Label</th>
                             <th>EOP #</th>
-                            <th>EOP Text</th>
                             <th>Finding Date</th>
                             <th>Finding</th>
                             <th>Status</th>
@@ -279,7 +277,6 @@ $('#action-plan-table').DataTable({
             {data: 'accreditation', name: 'accreditation'},
             {data: 'standard_label', name: 'standard_label'},
             {data: 'eop_number', name: 'eop_number'},
-            {data: 'eop_text', name: 'eop_text'},
             {data: 'is_baseline_date_set', name: 'is_baseline_date_set'},
             {data: 'documentation_submission_date', name: 'documentation_submission_date'},
             {data: 'status', name: 'status'},
