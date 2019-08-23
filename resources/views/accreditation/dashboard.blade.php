@@ -256,7 +256,6 @@ $('#action-plan-table').DataTable({
             serverSide: true,
             ordering: false,
             pageLength: 100,
-            scrollX: true,
 
         ajax: {
             url: '{{url('system-admin/dashboard/documents/fetch/action-plan')}}',
@@ -268,6 +267,7 @@ $('#action-plan-table').DataTable({
 
         initComplete: function(settings, json) {
             $('[data-toggle="popover"]').popover();
+            $('#document-action-plan-table thead').hide();
         },
 
         columns: [
