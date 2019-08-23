@@ -287,7 +287,6 @@ class EOPStatusController extends Controller
         $findings = DB::table('eop_findings')
             ->join('buildings', 'buildings.id', '=', 'eop_findings.building_id')
             ->join('building_departments', 'building_departments.id', '=', 'eop_findings.department_id')
-            ->join('rooms', 'rooms.id', '=', 'eop_findings.room_id')
             ->join('sites', 'sites.id', '=', 'buildings.site_id')
             ->join('hco', 'hco.id', '=', 'sites.hco_id')
             ->join('healthsystem', 'healthsystem.id', '=', 'hco.healthsystem_id')
@@ -312,7 +311,6 @@ class EOPStatusController extends Controller
             'Building',
             'Building#',
             'Department',
-            'Room',
             'Standard Label',
             'Standard Label Text',
             'EOP Name',

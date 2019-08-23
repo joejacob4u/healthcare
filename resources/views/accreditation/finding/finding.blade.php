@@ -114,7 +114,7 @@ $accreditation_requirement_id = (isset($finding)) ? $finding->accreditation_requ
                     <!-- /.box-header -->
                     <div class="box-body" style="">
                     <p>Department : {{$finding->department->name}}</p>
-                    <p>Room : {{$finding->room->room_number}}</p>
+                    <p>Room : @foreach($finding->rooms as $room){{$room->room_number}}@endforeach</p>
                     </div>
                 <!-- /.box-body -->
                 </div>
