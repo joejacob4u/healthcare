@@ -38,8 +38,9 @@
     </div><br/>
 
     <div class="row">
-        <div class="col-sm-6"><strong>Department : </strong> {{$demand_work_order->department->name}}</div>
-        <div class="col-sm-6"><strong>Room : </strong> {{$demand_work_order->rooms->implode('room_number', ', ')}}</div>
+        <div class="col-sm-4"><strong>Department : </strong> {{$demand_work_order->department->name}}</div>
+        <div class="col-sm-4"><strong>Room : </strong> {{$demand_work_order->rooms->implode('room_number', ', ')}}</div>
+        <div class="col-sm-4"><strong>Inventory : </strong> {{$demand_work_order->inventory->name}}</div>
     </div><br/>
 
 </div>

@@ -39,14 +39,14 @@
             <div class="form-group">
                 {!! Form::label('attendance[]', 'Attendance:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('attendance[]', $users->prepend('Please Select',''), Request::old('attendance'), ['class' => 'form-control selectpicker','id' => 'attendance','multiple' => true]); !!}
+                {!! Form::select('attendance[]', $users, Request::old('attendance'), ['class' => 'form-control selectpicker','id' => 'attendance','multiple' => true]); !!}
                 </div>
             </div>
 
             <div class="form-group">
                 {!! Form::label('has_no_capacity_constraint', 'This huddle has no capacity constraints:', ['class' => 'col-lg-2 control-label']) !!}
                 <div class="col-lg-10">
-                {!! Form::select('has_no_capacity_constraint', ['' => 'Please Select',1 => 'Yes', 0 => 'No'], Request::old('has_no_capacity_constraint'), ['class' => 'form-control selectpicker','id' => 'has_no_capacity_constraint']); !!}
+                {!! Form::select('has_no_capacity_constraint', [1 => 'Yes', 0 => 'No'], Request::old('has_no_capacity_constraint'), ['class' => 'form-control selectpicker','id' => 'has_no_capacity_constraint']); !!}
                 </div>
             </div>
 

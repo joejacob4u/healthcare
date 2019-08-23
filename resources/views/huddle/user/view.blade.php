@@ -42,6 +42,15 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-sm-12">
+        <div class="callout callout-success">
+            <h4>Date and Time : {{$huddle->date->toDayDateTimeString()}}</h4>
+        </div>
+    </div>
+</div>
+
+
 {!! Form::open(['url' => 'huddle/'.$huddle->id, 'class' => 'form-horizontal']) !!}
 
 
@@ -132,12 +141,12 @@
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Safety Events since last Huddle</span></a>
         @foreach($ilsm_assessments->where('created_at', \Carbon\Carbon::today()->subDays(1)) as $ilsm_assessment)
-            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment #{{$ilsm_assessment->id}}</a>
+            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}</a>
         @endforeach
 
         <a href="#" class="list-group-item"><span class="label label-warning">Open Safety Events</span></a>
         @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[7]) as $ilsm_assessment)
-            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment #{{$ilsm_assessment->id}}</a>
+            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}</a>
         @endforeach
     @endif
 

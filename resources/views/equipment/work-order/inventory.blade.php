@@ -41,7 +41,13 @@
     <div class="row">
         <div class="col-sm-2"><strong>PM Procedure</strong> </div>
         <div class="col-sm-10">{{$work_order->equipment->preventive_maintenance_procedure}}</div>
+    </div><br/>
+
+    <div class="row">
+        <div class="col-sm-6"><strong>Department : </strong> @foreach($work_order->equipment->inventories as $inventory){{$inventory->department->name}}@endforeach</div>
+        <div class="col-sm-6"><strong>Room : </strong> @foreach($work_order->equipment->inventories as $inventory){{$inventory->room->room_number}}@endforeach</div>
     </div>
+
 </div>
 
 @if(count($work_order->equipment->assetCategory->eops) > 0)
@@ -65,7 +71,7 @@
 
 <div class="box">
     <div class="box-header with-border">
-        <h3 class="box-title">Shifts - when multiple people are working on this equipment or multiple shifts are working on this equipment, you can add them in here</h3>
+        <h3 class="box-title">Shifts</h3> <h5>When multiple people are working on this equipment or multiple shifts are working on this equipment, you can add them in here</h5>
         <div class="box-tools pull-right">
             <button class="btn btn-success" data-toggle="modal" onclick="openShift()"><span class="glyphicon glyphicon-plus"></span> Add Shift</button>
         </div>

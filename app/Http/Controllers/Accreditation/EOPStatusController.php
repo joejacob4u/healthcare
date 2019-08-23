@@ -79,7 +79,7 @@ class EOPStatusController extends Controller
 
         $finding = EOPFinding::find($finding_id);
 
-        if ($finding->update($request->all())) {
+        if ($finding->update($request->except(['rooms']))) {
             if (!empty($request->rooms)) {
                 foreach ($request->rooms as $room) {
                     $aRooms[] = Room::find($room)->id;
@@ -106,7 +106,7 @@ class EOPStatusController extends Controller
 
         ]);
 
-        if ($eop_finding = EOPFinding::create($request->all())) {
+        if ($eop_finding = EOPFinding::create($request->except(['rooms']))) {
 
             if (!empty($request->rooms)) {
                 foreach ($request->rooms as $room) {

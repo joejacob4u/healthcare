@@ -29,6 +29,12 @@ class Inventory extends Model
         return $this->belongsTo('App\Equipment\Equipment', 'equipment_id');
     }
 
+    public function department()
+    {
+        return $this->belongsTo('App\Regulatory\BuildingDepartment', 'department_id');
+    }
+
+
     public function redundancy()
     {
         return $this->belongsTo('App\Equipment\Redundancy', 'maintenance_redundancy_id');
@@ -72,7 +78,7 @@ class Inventory extends Model
 
         $percentage = 100 - number_format(($equipment_age_in_months / $service_life_in_months) * 100, 0);
 
- 
+
         //lets figure out what category they are in
 
         if ($percentage <= 100 and $percentage >= 76) {
@@ -95,7 +101,7 @@ class Inventory extends Model
         // (Function score + Mission Criticality Score + USL Condition Score + Risk Score + Maint Req Score + Recals and Alerts Score)/3.2
 
         $score = 0;
-        
+
         //calculate score for asset category first
 
         $score += ($this->baselineDate->equipment->assetCategory->physicalRisk->score + $this->baselineDate->equipment->assetCategory->utilityFunction->score);
@@ -108,7 +114,7 @@ class Inventory extends Model
 
         $score += $this->USLScore();
 
-        return number_format($score/3.2, 2);
+        return number_format($score / 3.2, 2);
     }
 
     public function EMNumberScore()

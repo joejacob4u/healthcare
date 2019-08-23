@@ -105,8 +105,9 @@
     </div><br/>
 
     <div class="row">
-        <div class="col-sm-6"><strong>Department : </strong> {{$ilsm_assessment->work_order->department->name}}</div>
-        <div class="col-sm-6"><strong>Room : </strong> {{$ilsm_assessment->work_order->rooms->implode('room_number', ', ')}}</div>
+        <div class="col-sm-4"><strong>Department : </strong> {{$ilsm_assessment->work_order->department->name}}</div>
+        <div class="col-sm-4"><strong>Room : </strong> {{$ilsm_assessment->work_order->rooms->implode('room_number', ', ')}}</div>
+        <div class="col-sm-4"><strong>Inventory : </strong> {{$ilsm_assessment->work_order->inventory->name}}</div>
     </div><br/>
 
 </div>
