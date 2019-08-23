@@ -64,7 +64,6 @@
                             <th>Accreditation</th>
                             <th>Standard Label</th>
                             <th>EOP #</th>
-                            <th>EOP Text</th>
                             <th>Baseline Date Set</th>
                             <th>Document Submission Date</th>
                             <th>Status</th>
@@ -134,6 +133,7 @@
                             <th>Building</th>
                             <th>Standard Label</th>
                             <th>EOP #</th>
+                            <th>EOP Text</th>
                             <th>Finding Date</th>
                             <th>Finding</th>
                             <th>Status</th>
@@ -145,6 +145,7 @@
                             <th>Building</th>
                             <th>Standard Label</th>
                             <th>EOP #</th>
+                            <th>EOP Text</th>
                             <th>Finding Date</th>
                             <th>Finding</th>
                             <th>Status</th>
