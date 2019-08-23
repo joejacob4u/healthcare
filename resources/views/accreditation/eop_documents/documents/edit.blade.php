@@ -13,8 +13,8 @@
 @include('layouts.partials.errors')
 
 <ol class="breadcrumb">
-    <li><a href="{{url('dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-    <li><a href="/system-admin/accreditation/<?php echo session('accreditation_id'); ?>/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>"> Accreditation Requirement</a></li>
+    <li><a href="{{url('accreditation/dashboard')}}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
+    <li><a href="/system-admin/accreditation/{{$submission_date->eop->standardLabel->accreditation_id}}/accreditation_requirement/<?php echo session('accreditation_requirement_id'); ?>"> Accreditation Requirement</a></li>
     <li><a href="/system-admin/accreditation/eop/{{$submission_date->eop->id}}/submission_date/{{$submission_date->id}}/documents"> {{\Carbon\Carbon::parse($submission_date->submission_date)->toFormattedDateString()}}</a></li>
     <li class="active">New Upload</li>
 </ol>
