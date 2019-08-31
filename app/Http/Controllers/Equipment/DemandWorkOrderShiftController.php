@@ -20,8 +20,14 @@ class DemandWorkOrderShiftController extends Controller
         $demand_work_order = DemandWorkOrder::find($demand_work_order_id);
 
         if ($shift = $demand_work_order->shifts()->create($request->all())) {
-            if ($this->is_ilsm($shift)) {
+            if ($this->is_ilsm($shift) && $request->equipment_work_order_status_id != 1) {
                 $demand_work_order->ilsmAssessment()->update(['ilsm_assessment_status_id' => 1]);
+            }
+
+            //if its complete and complaint, update ilsm assessment end time
+
+            if ($request->equipment_work_order_status_id == 1) {
+                $demand_work_order->ilsmAssessment()->update(['end_date' => $request->end_time]);
             }
 
             $this->rounding_question_work_orders($demand_work_order);
@@ -40,7 +46,6 @@ class DemandWorkOrderShiftController extends Controller
     {
         if (count($shift->demandWorkOrder->problem->eops) > 0) {
             foreach ($shift->demandWorkOrder->problem->eops as $eop) {
-
                 //check for ilsm first
                 if ($eop->is_ilsm) {
                     //if ilsm , lets check for shift first
@@ -55,9 +60,9 @@ class DemandWorkOrderShiftController extends Controller
                                 return true;
                             }
                         }
-                    } elseif (empty($eop->ilsm_hours_threshold) && !$eop->is_ilsm_shift) {
+                    } elseif ($eop->ilsm_hours_threshold == 0 && !$eop->is_ilsm_shift) {
                         return true;
-                    } elseif (!empty($eop->ilsm_hours_threshold)) {
+                    } elseif ($eop->ilsm_hours_threshold > 0) {
                         $allowed_date = $shift->demandWorkOrder->created_at->addHours($eop->ilsm_hours_threshold);
 
                         if ($allowed_date->lessThan($shift->end_time)) {

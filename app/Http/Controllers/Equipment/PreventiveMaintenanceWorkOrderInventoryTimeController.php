@@ -31,6 +31,11 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
                 $preventive_maintenance_work_order->ilsmAssessment()->update(['ilsm_assessment_status_id' => 1]);
             }
 
+            //if its complete and compliant, update ilsm assessment end date too
+            if ($request->equipment_work_order_status_id == 1) {
+                $preventive_maintenance_work_order->ilsmAssessment()->update(['end_date' => $request->end_time]);
+            }
+
             return response()->json(['status' => 'success']);
         }
     }
@@ -61,9 +66,9 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
                                 return true;
                             }
                         }
-                    } elseif (empty($eop->ilsm_hours_threshold) && !$eop->is_ilsm_shift) {
+                    } elseif ($eop->ilsm_hours_threshold == 0 && !$eop->is_ilsm_shift) {
                         return true;
-                    } elseif (!empty($eop->ilsm_hours_threshold)) {
+                    } elseif ($eop->ilsm_hours_threshold > 0) {
                         $allowed_date = $shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->created_at->addHours($eop->ilsm_hours_threshold);
 
                         if ($allowed_date->lessThan($shift_time->end_time)) {
