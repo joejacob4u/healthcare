@@ -78,7 +78,7 @@ class PreventiveMaintenanceWorkOrderInventoryController extends Controller
     {
         $work_order_inventory = PreventiveMaintenanceWorkOrderInventory::find($request->inventory_id);
 
-        if ($work_order_inventory->update([$request->field => $request->value,'user_id' => Auth::user()->id])) {
+        if ($work_order_inventory->update([$request->field => $request->value, 'user_id' => Auth::user()->id])) {
             return response()->json(['status' => 'success']);
         }
     }
@@ -97,6 +97,6 @@ class PreventiveMaintenanceWorkOrderInventoryController extends Controller
     public function fetchTimes(Request $request, $work_order_id)
     {
         $work_order_inventory_times = PreventiveMaintenanceWorkOrderInventoryTime::with('user')->with('workOrderStatus')->where('equipment_work_order_inventory_id', $request->work_order_inventory_id)->latest()->get();
-        return response()->json(['status' => 'success','work_order_inventory_times' => $work_order_inventory_times]);
+        return response()->json(['status' => 'success', 'work_order_inventory_times' => $work_order_inventory_times]);
     }
 }

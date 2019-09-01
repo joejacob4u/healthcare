@@ -37,6 +37,11 @@ class Tracer extends Model
         return $this->belongsTo('App\Regulatory\BuildingDepartment', 'building_department_id');
     }
 
+    public function room()
+    {
+        return $this->belongsTo('App\Regulatory\Room', 'room_id');
+    }
+
     public function workOrders()
     {
         return $this->belongsToMany(DemandWorkOrder::class, 'tracer_question-work_order', 'tracer_id', 'work_order_id')->withPivot(['tracer_question_id']);

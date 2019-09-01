@@ -8,6 +8,7 @@ use App\Equipment\PreventiveMaintenanceWorkOrder;
 use Storage;
 use App\Equipment\WorkOrderStatus;
 use App\Equipment\Equipment;
+use App\Equipment\PreventiveMaintenanceWorkOrderInventory;
 
 class PreventiveMaintenanceWorkOrderController extends Controller
 {
@@ -21,22 +22,21 @@ class PreventiveMaintenanceWorkOrderController extends Controller
         if (isset($_REQUEST['equipment_id'])) {
             $pm_work_orders = PreventiveMaintenanceWorkOrder::where('building_id', session('building_id'))->where('equipment_id', $_REQUEST['equipment_id'])->whereBetween('work_order_date', [$_REQUEST['from'], $_REQUEST['to']])->get();
         } else {
-            $pm_work_orders = PreventiveMaintenanceWorkOrder::where('building_id', session('building_id'))->where('work_order_date','<',date('Y-m-d',strtotime('tomorrow')))->get();
+            $pm_work_orders = PreventiveMaintenanceWorkOrder::where('building_id', session('building_id'))->where('work_order_date', '<', date('Y-m-d', strtotime('tomorrow')))->get();
         }
-        
-        
+
         $equipments = Equipment::whereHas('workOrders', function ($query) {
             $query->where('building_id', session('building_id'));
         })->pluck('name', 'id');
 
-        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders,'equipments' => $equipments]);
+        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders, 'equipments' => $equipments]);
     }
 
     public function update($work_order_id)
     {
         $work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
         $work_order_statuses = WorkOrderStatus::whereNotIn('id', $work_order->workOrderStatuses->pluck('id')->toArray())->pluck('name', 'id');
-        return view('equipment.work-order.update', ['work_order' => $work_order,'work_order_statuses' => $work_order_statuses]);
+        return view('equipment.work-order.update', ['work_order' => $work_order, 'work_order_statuses' => $work_order_statuses]);
     }
 
     public function fetch(Request $request)
@@ -61,7 +61,7 @@ class PreventiveMaintenanceWorkOrderController extends Controller
         $work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
 
         if ($work_order->update($request->all())) {
-            return redirect('equipment/pm/work-orders/update/'.$work_order_id)->with('success', 'Work Order Updated!');
+            return redirect('equipment/pm/work-orders/update/' . $work_order_id)->with('success', 'Work Order Updated!');
         }
     }
 
@@ -88,9 +88,9 @@ class PreventiveMaintenanceWorkOrderController extends Controller
         $work_order->update(['is_in_house' => $request->is_in_house]);
 
         $status = WorkOrderStatus::find($request->status);
-            
-        $work_order->workOrderStatuses()->save($status, ['comment' => $request->comment,'attachment' => $request->attachment,'start_time' => $request->start_time,'end_time' => $request->end_time,'user_id' =>$request->user_id]);
-            
-        return redirect('equipment/pm/work-orders/update/'.$request->equipment_work_order_id)->with('success', 'Work Order Updated!');
+
+        $work_order->workOrderStatuses()->save($status, ['comment' => $request->comment, 'attachment' => $request->attachment, 'start_time' => $request->start_time, 'end_time' => $request->end_time, 'user_id' => $request->user_id]);
+
+        return redirect('equipment/pm/work-orders/update/' . $request->equipment_work_order_id)->with('success', 'Work Order Updated!');
     }
 }

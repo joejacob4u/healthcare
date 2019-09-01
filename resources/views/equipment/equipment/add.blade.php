@@ -69,7 +69,7 @@
                   </div>
               </div>
 
-                            <div class="form-group">
+                <div class="form-group">
                   {!! Form::label('manufacturer', 'Manufacturer:', ['class' => 'col-lg-2 col-lg-2 control-label']) !!}
                   <div class="col-lg-10">
                       {!! Form::text('manufacturer', Request::old('manufacturer'), ['class' => 'form-control']) !!}

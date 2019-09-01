@@ -47,8 +47,8 @@
           <div class="pull-left"><a href="{{url('equipment/download')}}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-save"></span> Download</a></div>
         </div>
       </div>
-      <div class="box-body">
 
+      <div class="box-body">
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#my-work-orders">My Work Orders</a></li>
           <li><a data-toggle="tab" href="#pm-work-orders">PM Work Orders</a></li>

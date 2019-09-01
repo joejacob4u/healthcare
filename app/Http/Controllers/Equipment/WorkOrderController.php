@@ -45,7 +45,7 @@ class WorkOrderController extends Controller
             $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
         })->orWhere(function ($query) use ($pm_work_orders) {
             $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\PreventiveMaintenanceWorkOrder');
-        })->paginate(50);
+        })->whereNotIn('ilsm_assessment_status_id', [2, 8])->paginate(50);
 
         $equipments = Equipment::whereHas('workOrders', function ($query) {
             $query->where('building_id', session('building_id'));

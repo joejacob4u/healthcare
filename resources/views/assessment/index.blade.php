@@ -53,8 +53,8 @@
                         <td>{{ $assessment->created_at->toDayDateTimeString() }}</td>
                         <td>{{ $assessment->user->name }}</td>
                         <td>{!! link_to('assessment/evaluate/'.$assessment->id,'Evaluate',['class' => 'btn-xs btn-info']) !!}</td>
-                        <td>{!! link_to('rounding/config/'.$assessment->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}</td>
-                        <td>{!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteRoundingConfig('.$assessment->id.')']) !!}</td>
+                        <td>@if(!in_array($assessment->assessment_status_id,[4,5])){!! link_to('rounding/config/'.$assessment->id.'/edit','Edit',['class' => 'btn-xs btn-warning']) !!}@else N/A @endif</td>
+                        <td>@if(!in_array($assessment->assessment_status_id,[4,5])){!! link_to('#','Delete',['class' => 'btn-xs btn-danger','onclick' => 'deleteRoundingConfig('.$assessment->id.')']) !!}@else N/A @endif</td>
                     </tr>
                   @endforeach
                 </tbody>

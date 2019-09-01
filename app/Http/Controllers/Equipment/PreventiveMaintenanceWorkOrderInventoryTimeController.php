@@ -27,7 +27,7 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
         $preventive_maintenance_work_order = PreventiveMaintenanceWorkOrder::find($work_order_id);
 
         if ($shift_time = $work_order_inventory->PreventiveMaintenanceWorkOrderInventoryTimes()->create($request->all())) {
-            if ($this->is_ilsm($shift_time)) {
+            if (($this->is_ilsm($shift_time) == true) && $request->equipment_work_order_status_id != 1) {
                 $preventive_maintenance_work_order->ilsmAssessment()->update(['ilsm_assessment_status_id' => 1]);
             }
 
@@ -51,7 +51,6 @@ class PreventiveMaintenanceWorkOrderInventoryTimeController extends Controller
     {
         if (count($shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->equipment->assetCategory->eops) > 0) {
             foreach ($shift_time->PreventiveMaintenanceWorkOrderInventory->workOrder->equipment->assetCategory->eops as $eop) {
-
                 //check for ilsm first
                 if ($eop->is_ilsm) {
                     //if ilsm , lets check for shift first

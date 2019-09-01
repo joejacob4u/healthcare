@@ -7,7 +7,7 @@
 
 @endsection
 @section('page_title','Demand Work Order')
-@section('page_description','Created on '.$demand_work_order->created_at->toFormattedDateString())
+@section('page_description','Created on '.$demand_work_order->created_at->toDayDateTimeString())
 
 @section('content')
 @include('layouts.partials.success')
