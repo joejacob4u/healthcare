@@ -195,6 +195,7 @@ class IlsmAssessmentController extends Controller
                     $from = new DateTime($ilsm_assessment->start_date);
 
                     $to = new DateTime($ilsm_assessment->end_date);
+                    $to->add(new DateInterval('P1D'));
 
                     $interval = new DateInterval($interval);
 

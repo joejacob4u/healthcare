@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\DemandWorkOrder;
 use App\Equipment\DemandWorkOrderShift;
+use App\Equipment\IlsmChecklist;
 use App\Rounding\Rounding;
 
 class DemandWorkOrderShiftController extends Controller
@@ -20,6 +21,7 @@ class DemandWorkOrderShiftController extends Controller
         $demand_work_order = DemandWorkOrder::find($demand_work_order_id);
 
         if ($shift = $demand_work_order->shifts()->create($request->all())) {
+
             if (($this->is_ilsm($shift) == true) && $request->equipment_work_order_status_id != 1) {
                 $demand_work_order->ilsmAssessment()->update(['ilsm_assessment_status_id' => 1]);
             }
@@ -27,7 +29,10 @@ class DemandWorkOrderShiftController extends Controller
             //if its complete and complaint, update ilsm assessment end time
 
             if ($request->equipment_work_order_status_id == 1) {
+
                 $demand_work_order->ilsmAssessment()->update(['end_date' => $request->end_time]);
+                //delete all ilsm_checklists if there are checklists beyond end date
+                IlsmChecklist::where('ilsm_assessment_id', $demand_work_order->ilsmAssessment->id)->where('date', '>', $request->end_time)->delete();
             }
 
             $this->rounding_question_work_orders($demand_work_order);

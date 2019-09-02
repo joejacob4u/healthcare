@@ -51,20 +51,6 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                  {!! Form::label('comments', 'Comments:', ['class' => 'col-lg-2 control-label']) !!}
-                  <div class="col-lg-10">
-                      {!! Form::textarea('comments', Request::old('comments'), ['id' => 'comments', 'class' => 'form-control', 'placeholder' => 'Equipment Description (optional)','rows' => 3]) !!}
-                  </div>
-                </div>
-
-                <div class="form-group">
-                    {!! Form::label('is_follow_up', 'Requires Follow Up', ['class' => 'col-lg-2 control-label']) !!}
-                    <div class="col-lg-10">
-                        {!! Form::select('is_follow_up', ['' => 'Please Select','1' => 'Yes','0' => 'No'], Request::old('is_follow_up'), ['class' => 'form-control selectpicker','id' => 'is_follow_up']) !!}
-                    </div>
-                </div>
-
                 {!! Form::hidden('building_id', session('building_id'),['id' => 'building_id']) !!}
                 {!! Form::hidden('tracer_status_id', 1,['id' => 'tracer_status_id']) !!}
                 {!! Form::hidden('user_id', Auth::user()->id,['id' => 'user_id']) !!}
@@ -125,46 +111,6 @@
         }
 
     });
-
-        $("#department_id").change(function(){
-
-        if($(this).val() != 0)
-        {
-                $.ajax({
-                type: 'POST',
-                url: '{{ url('system-admin/accreditation/eop/status/fetch/rooms') }}',
-                data: { '_token' : '{{ csrf_token() }}', 'department_id': $(this).val() },
-                beforeSend:function()
-                {
-                    $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
-                },
-                success:function(data)
-                {
-                    $('#room_id').html('');
-
-                    var html = '<option value="0">Select Room (optional)</option>';
-
-                    $.each(data.rooms, function(index, value) {
-                        html += '<option value="'+value.id+'">'+value.room_number+'</option>';
-                    });
-
-                    $('#room_id').append(html);
-                    $('#room_id').selectpicker('refresh');
-                },
-                complete:function()
-                {
-                    $('.overlay').remove();
-                },
-                error:function()
-                {
-                    // failed request; give feedback to user
-                }
-            });
-
-        }
-        
-      });
-
 
 
     </script>

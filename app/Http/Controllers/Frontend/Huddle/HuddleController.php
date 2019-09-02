@@ -11,6 +11,7 @@ use Auth;
 use App\Equipment\IlsmAssessment;
 use App\Equipment\DemandWorkOrder;
 use App\Assessment\Assessment;
+use App\Assessment\QuestionEvaluation;
 use App\Equipment\BaselineDate;
 use App\Equipment\Inventory;
 use App\Equipment\PreventiveMaintenanceWorkOrder;
@@ -70,8 +71,14 @@ class HuddleController extends Controller
             $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\PreventiveMaintenanceWorkOrder');
         })->paginate(50);
 
-        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->get();
-        return view('huddle.user.view', ['huddle' => $huddle, 'users' => $users, 'ilsm_assessments' => $ilsm_assessments, 'assessments' => $assessments]);
+        //we need to find last huddle to get all assessment question evaluations after last huddle
+
+        $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->orderBy('id', 'DESC')->skip(1)->first();
+
+        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->created_at)->get();
+        $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->orderBy('created_at', 'DESC')->get();
+
+        return view('huddle.user.view', ['huddle' => $huddle, 'users' => $users, 'ilsm_assessments' => $ilsm_assessments, 'assessments' => $assessments, 'assessment_question_evaluations' => $assessment_question_evaluations]);
     }
 
     public function save(Request $request, Huddle $huddle)

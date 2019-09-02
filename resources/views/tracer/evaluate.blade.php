@@ -194,7 +194,7 @@
 @endforeach
 
 
-<!-- Positive Answer Modal -->
+<!-- Negative Answer Modal -->
 <div id="answerModal" class="modal fade" role="dialog">
   <div class="modal-dialog">
 
@@ -266,6 +266,82 @@
 
   </div>
 </div>
+
+
+<!-- Positive Answer Modal -->
+<div id="positiveAnswerModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Answer Confirmation</h4>
+      </div>
+      <div class="modal-body">
+
+        <p id="answer-text"></p>
+
+        <div class="form-group">
+            {!! Form::label('comment', 'Comment (Required):', ['class' => '']) !!}
+            {!! Form::textarea('comment', $value = null, ['class' => 'form-control', 'placeholder' => 'comment','rows' => 3]) !!}
+        </div>
+
+        <div id="negative-div" style="display:none;">
+            
+            <div class="form-group" id="accreditation-div">
+                {!! Form::label('accreditation_id', 'Accreditation (Required):', ['class' => '']) !!}
+                {!! Form::select('accreditation_id', $building->accreditations->pluck('name','id')->prepend('Please Select', 0), '', ['class' => 'form-control selectpicker','id' => 'accreditation_id']); !!}
+            </div>
+
+            <div class="checkbox">
+                <label><input type="checkbox" id="inventory-checkbox" value="">An inventory is associated with this finding</label>
+            </div>
+
+            <div class="form-group" id="inventory-div" style="display:none;">
+                <label for="sel1">Inventory (Required)</label>
+                <select class="form-control" id="inventory_id">
+                    <option value="">Please Select</option>
+                    @foreach($inventories as $inventory)
+                        <option value="{{$inventory->id}}" data-room="{{$inventory->room_id}}">{{$inventory->name}}</option>
+                    @endforeach
+                </select>
+            </div>
+
+            <div class="form-group">
+                {!! Form::label('rooms', 'Rooms :', ['class' => '']) !!}
+                {!! Form::select('rooms[]', $rooms->prepend('Please Select',''), '', ['class' => 'form-control selectpicker','id' => 'rooms','multiple' => true]); !!}
+            </div>
+
+            <div class="form-group dropzone-div">
+                 <input type='hidden' name="attachment" value="">
+                 {!! Form::label('attachment', 'Attachment (Optional):', ['class' => '']) !!}
+                <div id="" class='dropzone'></div>
+            </div>
+
+        </div>
+
+        <input type="hidden" id="answer" name="answer" value="">
+        <input type="hidden" id="answer_text" name="answer_text" value="">
+        <input type="hidden" id="attachment" name="attachment" value="">
+        <input type="hidden" id="question_id" name="question_id" value="">
+        <input type="hidden" id="tracer_id" name="tracer_id" value="{{$tracer->id}}">
+        <input type="hidden" id="user_id" name="user_id" value="{{auth()->user()->id}}">
+        <input type="hidden" id="is_negative" name="is_negative" value="">
+        <input type="hidden" id="is_edit" name="is_edit" value="0">
+        <input type="hidden" id="finding_id" name="finding_id" value="">
+        <input type="hidden" id="is_wo" name="is_wo" value="">
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary confirm-finding">Confirm</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
 
 
 
@@ -395,7 +471,7 @@ $('.answer').change(function(){
         else
         {
           //avoid showing model if non=negative answer
-          $(".confirm-finding").trigger("click");
+          $('#answerModal').modal('show');
         }
     }
 
