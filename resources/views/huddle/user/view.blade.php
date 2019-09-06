@@ -140,7 +140,7 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Safety Events since last Huddle</span></a>
-        @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[1,2,8])) as $ilsm_assessment)
+        @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[1,2,8])>where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $ilsm_assessment)
             <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item">ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}</a>
         @endforeach
 
@@ -159,7 +159,7 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Serious Safety Events since last Huddle</span></a>
-        @foreach($assessments->where('assessment_checklist_type_id',97)) as $assessment)
+        @foreach($assessments->where('assessment_checklist_type_id',97)>where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} </strong></a>
             @endforeach
@@ -176,7 +176,7 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Hospital Acquired Infections Events since last Huddle</span></a>
-        @foreach($assessments->where('assessment_checklist_type_id',93)) as $assessment)
+        @foreach($assessments->where('assessment_checklist_type_id',93)>where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} </strong></a>
             @endforeach
@@ -191,7 +191,7 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Downtime of Major Equipment Events since last Huddle</span></a>
-        @foreach($assessments->where('assessment_checklist_type_id',92)) as $assessment)
+        @foreach($assessments->where('assessment_checklist_type_id',92)>where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} </strong></a>
             @endforeach
@@ -207,7 +207,7 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Power Outages Events since last Huddle</span></a>
-        @foreach($assessments->where('assessment_checklist_type_id',96)) as $assessment)
+        @foreach($assessments->where('assessment_checklist_type_id',96)>where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} </strong></a>
             @endforeach
@@ -223,7 +223,7 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">Patient Harm or Injuries Events since last Huddle</span></a>
-        @foreach($assessments->where('assessment_checklist_type_id',94)) as $assessment)
+        @foreach($assessments->where('assessment_checklist_type_id',94)>where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} </strong></a>
             @endforeach
@@ -239,7 +239,7 @@
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
         <a href="#" class="list-group-item"><span class="label label-success">New Pharmacy Shortage Events since last Huddle</span></a>
-        @foreach($assessments->where('assessment_checklist_type_id',95)) as $assessment)
+        @foreach($assessments->where('assessment_checklist_type_id',95)>where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} </strong></a>
             @endforeach
