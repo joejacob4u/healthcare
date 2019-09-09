@@ -30,6 +30,8 @@ class WorkOrderController extends Controller
             }
         }
 
+
+
         if (isset($_REQUEST['equipment_id'])) {
             $pm_work_orders = PreventiveMaintenanceWorkOrder::where('building_id', session('building_id'))->where('equipment_id', $_REQUEST['equipment_id'])->whereBetween('work_order_date', [$_REQUEST['from'], $_REQUEST['to']])->orderBy('work_order_date', 'desc')->paginate(15);
         } else {

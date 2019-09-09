@@ -13,27 +13,25 @@
 
     <div class="box">
         <div class="box-header with-border">
-          <h3 class="box-title">Search for Equipment</h3>
+          <h3 class="box-title">Search for Work Orders</h3>
 
           <div class="box-tools pull-right">
           </div>
 
         </div>
         <div class="box-body">
-          
-
+          <form class="form-inline" role="form">
+          {{ Form::open(array('url' => 'equipment/work-orders','method' => 'get','class' => 'form-inline')) }}
             <div class="form-group">
-                <div class="col-lg-4">
-                    {!! Form::select('equipment_id',$equipments->prepend('Please select equipment',0), $value = '', ['class' => 'form-control selectpicker','data-live-search' => "true","data-size" => "false",'id' => 'equipment_id']) !!}
-                </div>
-                <div class="col-lg-4">
-                    {!! Form::text('date_range', $value = '', ['class' => 'form-control','id' => 'date_range','placeholder' => 'Select Date Range']) !!}
-                </div>
-                <div class="col-lg-4">
-                    <button class="btn btn-primary" id="search-button"><span class="glyphicon glyphicon-search"></span> Search</button>
-                </div>
+                <label for="name">Work Order #</label>
+                <input type="text" class="form-control" name="work-order-id" placeholder="Work Order Identifier">
             </div>
-
+            <div class="form-group">
+                <label for="email">Date Range (Optional)</label>
+                <input type="text" class="form-control" id="date_range" name="date_range" placeholder="Date Range">
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+          {{ Form::close() }}
         </div>
         <!-- /.box-body -->
         <!-- /.box-footer-->
@@ -49,6 +47,7 @@
       </div>
 
       <div class="box-body">
+
         <ul class="nav nav-tabs">
           <li class="active"><a data-toggle="tab" href="#my-work-orders">My Work Orders</a></li>
           <li><a data-toggle="tab" href="#pm-work-orders">PM Work Orders</a></li>
