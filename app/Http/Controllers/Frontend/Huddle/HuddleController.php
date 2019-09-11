@@ -69,11 +69,11 @@ class HuddleController extends Controller
 
         $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->orderBy('id', 'DESC')->skip(1)->first();
 
-        $ilsm_assessments = IlsmAssessment::where(function ($query) use ($demand_work_orders) {
+        $ilsm_assessments = IlsmAssessment::where('end_date', '>', $last_huddle->created_at)->where(function ($query) use ($demand_work_orders) {
             $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
         })->orWhere(function ($query) use ($pm_work_orders) {
             $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\PreventiveMaintenanceWorkOrder');
-        })->where('end_date', '>', $last_huddle->created_at)->paginate(50);
+        })->paginate(50);
 
 
         $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->created_at)->get();
