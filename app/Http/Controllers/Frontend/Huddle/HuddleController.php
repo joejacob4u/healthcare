@@ -68,7 +68,6 @@ class HuddleController extends Controller
         //we need to find last huddle to get all assessment question evaluations after last huddle
 
         $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->where('date', '<=', $huddle->date)->orderBy('date', 'DESC')->skip(1)->first();
-        $next_immediate_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->where('date', '>=', $huddle->date)->orderBy('date', 'ASC')->first();
 
 
         $ilsm_assessments = IlsmAssessment::where('end_date', '>=', $huddle->date->format('Y-m-d'))->where(function ($query) use ($demand_work_orders) {
@@ -78,8 +77,8 @@ class HuddleController extends Controller
         })->paginate(50);
 
 
-        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->date)->where('created_at', '<=', (isset($next_immediate_huddle->date)) ? $next_immediate_huddle->date : date('+1 year'))->get();
-        $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->where('created_at', '>', $last_huddle->date)->where('created_at', '<=', (isset($next_immediate_huddle->date)) ? $next_immediate_huddle->date : date('+1 year'))->orderBy('created_at', 'DESC')->get();
+        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->date)->where('created_at', '<=', $huddle->date->format('Y-m-d'))->get();
+        $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->where('created_at', '>', $last_huddle->date)->where('created_at', '<=', $huddle->date->format('Y-m-d'))->orderBy('created_at', 'DESC')->get();
 
         return view('huddle.user.view', ['huddle' => $huddle, 'users' => $users, 'ilsm_assessments' => $ilsm_assessments, 'assessments' => $assessments, 'assessment_question_evaluations' => $assessment_question_evaluations]);
     }
