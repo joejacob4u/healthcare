@@ -151,7 +151,8 @@
         @endforeach
 
         <a href="#" class="list-group-item"><span class="label label-danger">ILSMs Affected</span></a>
-        @foreach(ksort($ilsms) as $label => $ilsm)
+        @php ksort($ilsms); @endphp
+        @foreach($ilsms as $label => $ilsm)
             <a href="#" class="list-group-item"><strong>{{$label}}</strong> : {{$ilsm}}</a>
         @endforeach
 
