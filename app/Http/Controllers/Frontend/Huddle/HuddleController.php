@@ -65,15 +65,16 @@ class HuddleController extends Controller
         //calculate all dm ids for that building to fetch ilsm assessments
         $demand_work_orders = DemandWorkOrder::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->get();
 
+        //we need to find last huddle to get all assessment question evaluations after last huddle
+
+        $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->orderBy('id', 'DESC')->skip(1)->first();
+
         $ilsm_assessments = IlsmAssessment::where(function ($query) use ($demand_work_orders) {
             $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
         })->orWhere(function ($query) use ($pm_work_orders) {
             $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\PreventiveMaintenanceWorkOrder');
-        })->paginate(50);
+        })->where('end_date', '>', $last_huddle->created_at)->paginate(50);
 
-        //we need to find last huddle to get all assessment question evaluations after last huddle
-
-        $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->orderBy('id', 'DESC')->skip(1)->first();
 
         $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->created_at)->get();
         $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->orderBy('created_at', 'DESC')->get();
