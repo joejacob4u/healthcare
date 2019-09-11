@@ -139,15 +139,22 @@
     @if($ilsm_assessments->isEmpty())
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
-        <a href="#" class="list-group-item"><span class="label label-success">New Safety Events since last Huddle</span></a>
+        @php $ilsms = []; @endphp
         @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[1,2,8])->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $ilsm_assessment)
-            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item"><h4>ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}. </h4><br><strong> ILSMs Affected : </strong><br>@php $ilsms = []; @endphp @foreach($ilsm_assessment->checklists as $checklist) @if(!in_array($checklist->ilsm->id, $ilsms)) <span class="label label-default">{{$checklist->ilsm->label}} : {{$checklist->ilsm->description}}</span> @php $ilsms[] = $checklist->ilsm->id; @endphp @endif @endforeach</a>
+            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item"><h4>ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}. </h4>@foreach($ilsm_assessment->checklists as $checklist) @if(!in_array($checklist->ilsm->description, $ilsms))  @php $ilsms[$checklist->ilsm->label] = $checklist->ilsm->description; @endphp @endif @endforeach 
+                @if($ilsm_assessment->work_order_type == 'App\Equipment\DemandWorkOrder')
+                    <br><span class="label label-default">Problem : ({{$ilsm_assessment->work_order->problem->trade->name}}) {{$ilsm_assessment->work_order->problem->name}}</span>
+                @else
+                    <br><span class="label label-default">Equipment : ({{$ilsm_assessment->work_order->equipment->name}}) {{$ilsm_assessment->work_order->equipment->description}}</span>
+                @endif 
+            </a>
         @endforeach
 
-        <a href="#" class="list-group-item"><span class="label label-warning">Open Safety Events</span></a>
-        @foreach($ilsm_assessments->whereNotIn('ilsm_assessment_status_id',[1,2,7,8]) as $ilsm_assessment)
-            <a href="{{url('/equipment/ilsm-assessment/'.$ilsm_assessment->id)}}" class="list-group-item"><h4>ILSM Assessment for WO# {{$ilsm_assessment->work_order->identifier}}. </h4><br><strong> ILSMs Affected : </strong><br>@php $ilsms = []; @endphp @foreach($ilsm_assessment->checklists as $checklist) @if(!in_array($checklist->ilsm->id, $ilsms)) <span class="label label-default">{{$checklist->ilsm->label}} : {{$checklist->ilsm->description}}</span> @php $ilsms[] = $checklist->ilsm->id; @endphp @endif @endforeach</a>
+        <a href="#" class="list-group-item"><span class="label label-danger">ILSMs Affected</span></a>
+        @foreach($ilsms as $label => $ilsm)
+            <a href="#" class="list-group-item"><strong>{{$label}}</strong> : {{$ilsm}}</strong></a>
         @endforeach
+
     @endif
 
 </div>
@@ -158,11 +165,10 @@
     @if($assessments->where('assessment_checklist_type_id',97)->isEmpty())
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
-        <a href="#" class="list-group-item"><span class="label label-success">New Serious Safety Events since last Huddle</span></a>
         @foreach($assessments->where('assessment_checklist_type_id',97)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} for question "{{$evaluation->question->question}}"</strong></a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -177,11 +183,10 @@
     @if($assessments->where('assessment_checklist_type_id',93)->isEmpty())
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
-        <a href="#" class="list-group-item"><span class="label label-success">New Hospital Acquired Infections Events since last Huddle</span></a>
         @foreach($assessments->where('assessment_checklist_type_id',93)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} for question "{{$evaluation->question->question}}"</strong></a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -194,11 +199,10 @@
     @if($assessments->where('assessment_checklist_type_id',92)->isEmpty())
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
-        <a href="#" class="list-group-item"><span class="label label-success">New Downtime of Major Equipment Events since last Huddle</span></a>
         @foreach($assessments->where('assessment_checklist_type_id',92)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}}</strong> <i>evaluated</i> {{$evaluation->finding['comment']}} for question "{{$evaluation->question->question}}"</a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -212,11 +216,10 @@
     @if($assessments->where('assessment_checklist_type_id',96)->isEmpty())
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
-        <a href="#" class="list-group-item"><span class="label label-success">New Power Outages Events since last Huddle</span></a>
         @foreach($assessments->where('assessment_checklist_type_id',96)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} for question "{{$evaluation->question->question}}" </strong></a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -230,11 +233,10 @@
     @if($assessments->where('assessment_checklist_type_id',94)->isEmpty())
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
-        <a href="#" class="list-group-item"><span class="label label-success">Patient Harm or Injuries Events since last Huddle</span></a>
         @foreach($assessments->where('assessment_checklist_type_id',94)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} for question "{{$evaluation->question->question}}"</strong></a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -248,11 +250,10 @@
     @if($assessments->where('assessment_checklist_type_id',95)->isEmpty())
         <a href="#" class="list-group-item"><span class="label label-danger">N/A</span></a>
     @else
-        <a href="#" class="list-group-item"><span class="label label-success">New Pharmacy Shortage Events since last Huddle</span></a>
         @foreach($assessments->where('assessment_checklist_type_id',95)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->user->name}} <i>evaluated</i> {{$evaluation->finding['comment']}} for question "{{$evaluation->question->question}}"</strong></a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
