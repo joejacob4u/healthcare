@@ -71,7 +71,7 @@ class HuddleController extends Controller
         $next_immediate_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->where('date', '>=', $huddle->date)->orderBy('date', 'ASC')->first();
 
 
-        $ilsm_assessments = IlsmAssessment::where('end_date', '>=', $huddle->date)->where(function ($query) use ($demand_work_orders) {
+        $ilsm_assessments = IlsmAssessment::where('end_date', '>=', $huddle->date->format('Y-m-d'))->where(function ($query) use ($demand_work_orders) {
             $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
         })->orWhere(function ($query) use ($pm_work_orders) {
             $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\PreventiveMaintenanceWorkOrder');
