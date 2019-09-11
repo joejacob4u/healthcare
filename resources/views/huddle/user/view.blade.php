@@ -168,7 +168,7 @@
         @foreach($assessments->where('assessment_checklist_type_id',97)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->}}</strong> : {{$evaluation->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -186,7 +186,7 @@
         @foreach($assessments->where('assessment_checklist_type_id',93)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->}}</strong> : {{$evaluation->question->->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -202,7 +202,7 @@
         @foreach($assessments->where('assessment_checklist_type_id',92)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->}}</strong> : {{$evaluation->question->->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -219,7 +219,7 @@
         @foreach($assessments->where('assessment_checklist_type_id',96)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->}}</strong> : {{$evaluation->question->->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -236,7 +236,7 @@
         @foreach($assessments->where('assessment_checklist_type_id',94)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->}}</strong> : {{$evaluation->question->->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
@@ -253,7 +253,7 @@
         @foreach($assessments->where('assessment_checklist_type_id',95)->where('created_at', '>',\Carbon\Carbon::today()->subDays(180)) as $assessment)
             @foreach($assessment_question_evaluations->where('assessment_id',$assessment->id) as $evaluation)
                 @if(!empty($evaluation->finding['comment']))
-                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->question}}</strong> : {{$evaluation->question->question->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
+                    <a href="#" class="list-group-item"><strong>{{$evaluation->question->}}</strong> : {{$evaluation->question->->answers['answers'][$evaluation->finding["answer"]]}} <br><strong>{{$evaluation->user->name}} commented {{$evaluation->finding['comment']}}</a>
                 @endif
             @endforeach
         @endforeach
