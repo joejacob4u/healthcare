@@ -70,15 +70,15 @@ class HuddleController extends Controller
         $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->where('created_at', '<=', $huddle->created_at)->orderBy('created_at', 'DESC')->skip(1)->first();
         $next_immediate_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->where('created_at', '>=', $huddle->created_at)->orderBy('created_at', 'ASC')->first();
 
-        $ilsm_assessments = IlsmAssessment::where('end_date', '>', $last_huddle->created_at)->where('end_date', '<=', (isset($next_immediate_huddle->created_at)) ? $next_immediate_huddle->created_at : date('now'))->where(function ($query) use ($demand_work_orders) {
+        $ilsm_assessments = IlsmAssessment::where('end_date', '>', $last_huddle->created_at)->where('end_date', '<=', (isset($next_immediate_huddle->created_at)) ? $next_immediate_huddle->created_at : date('+1 year'))->where(function ($query) use ($demand_work_orders) {
             $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
         })->orWhere(function ($query) use ($pm_work_orders) {
             $query->whereIn('work_order_id', $pm_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\PreventiveMaintenanceWorkOrder');
         })->paginate(50);
 
 
-        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->created_at)->where('created_at', '<=', (isset($next_immediate_huddle->created_at)) ? $next_immediate_huddle->created_at : date('now'))->get();
-        $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->where('created_at', '>', $last_huddle->created_at)->where('created_at', '<=', (isset($next_immediate_huddle->created_at)) ? $next_immediate_huddle->created_at : date('now'))->orderBy('created_at', 'DESC')->get();
+        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->created_at)->where('created_at', '<=', (isset($next_immediate_huddle->created_at)) ? $next_immediate_huddle->created_at : date('+1 year'))->get();
+        $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->where('created_at', '>', $last_huddle->created_at)->where('created_at', '<=', (isset($next_immediate_huddle->created_at)) ? $next_immediate_huddle->created_at : date('+1 year'))->orderBy('created_at', 'DESC')->get();
 
         return view('huddle.user.view', ['huddle' => $huddle, 'users' => $users, 'ilsm_assessments' => $ilsm_assessments, 'assessments' => $assessments, 'assessment_question_evaluations' => $assessment_question_evaluations]);
     }
