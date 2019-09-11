@@ -77,8 +77,8 @@ class HuddleController extends Controller
         })->paginate(50);
 
 
-        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->where('created_at', '>', $last_huddle->date)->where('created_at', '<=', $huddle->date)->get();
-        $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->orderBy('created_at', 'DESC')->get();
+        $assessments = Assessment::whereIn('building_department_id', $huddle->careTeam->departments->pluck('id'))->get();
+        $assessment_question_evaluations = QuestionEvaluation::whereIn('assessment_id', $assessments->pluck('id'))->where('created_at', '>', $last_huddle->date)->where('created_at', '<=', $huddle->date)->orderBy('created_at', 'DESC')->get();
 
         return view('huddle.user.view', ['huddle' => $huddle, 'users' => $users, 'ilsm_assessments' => $ilsm_assessments, 'assessments' => $assessments, 'assessment_question_evaluations' => $assessment_question_evaluations]);
     }
