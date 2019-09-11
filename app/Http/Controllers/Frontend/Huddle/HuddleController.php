@@ -67,7 +67,7 @@ class HuddleController extends Controller
 
         //we need to find last huddle to get all assessment question evaluations after last huddle
 
-        $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->where('created_at', '<=', $huddle->created_at)->orderBy('id', 'DESC')->skip(1)->first();
+        $last_huddle = Huddle::where('care_team_id', $huddle->care_team_id)->where('created_at', '<=', $huddle->created_at)->orderBy('created_at', 'DESC')->skip(1)->first();
 
         $ilsm_assessments = IlsmAssessment::where('end_date', '>', $last_huddle->created_at)->where(function ($query) use ($demand_work_orders) {
             $query->whereIn('work_order_id', $demand_work_orders->pluck('id'))->where('work_order_type', 'App\Equipment\DemandWorkOrder');
