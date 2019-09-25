@@ -24,13 +24,19 @@
           {{ Form::open(array('url' => 'equipment/work-orders','method' => 'get','class' => 'form-inline')) }}
             <div class="form-group">
                 <label for="name">Work Order #</label>
-                <input type="text" class="form-control" name="work-order-id" placeholder="Work Order Identifier">
+                <input type="text" class="form-control" name="work_order_identifier" id="work_order_identifier" placeholder="Work Order Identifier">
             </div>
             <div class="form-group">
                 <label for="email">Date Range (Optional)</label>
                 <input type="text" class="form-control" id="date_range" name="date_range" placeholder="Date Range">
             </div>
             <button type="submit" class="btn btn-primary">Search</button>
+            
+            @if(isset($_GET['search']) and $_GET['search'] == 'true')
+              <a href="{{url()->current()}}" class="btn btn-warning">Reset Search</a>
+            @endif
+
+            {!! Form::hidden('search','true',['id' => 'search']) !!}
           {{ Form::close() }}
         </div>
         <!-- /.box-body -->
