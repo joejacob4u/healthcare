@@ -68,51 +68,6 @@
 
 @endif
 
-
-<div class="box">
-    <div class="box-header with-border">
-        <h3 class="box-title">Shifts</h3> <h5>When multiple people are working on this equipment or multiple shifts are working on this equipment, you can add them in here</h5>
-        <div class="box-tools pull-right">
-            <button class="btn btn-success" data-toggle="modal" onclick="openShift()"><span class="glyphicon glyphicon-plus"></span> Add Shift</button>
-        </div>
-    </div>
-    <div class="box-body">
-        <table id="example" class="table table-striped" type="custom">
-                <thead>
-                    <tr>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>User</th>
-                    </tr>
-                </thead>
-                <tfoot>
-                    <tr>
-                        <th>Start Time</th>
-                        <th>End Time</th>
-                        <th>User</th>
-                    </tr>
-                </tfoot>
-                <tbody>
-                  @foreach($work_order->shifts as $shift)
-                    @if(!empty($shift->start_time) && !empty($shift->end_time))
-                    <tr>
-                      <td>{{$shift->start_time->toDayDateTimeString()}}</td>
-                      <td>{{$shift->end_time->toDayDateTimeString()}}</td>
-                      <td>{{$shift->user->name}}</td>
-                    </tr>
-                    @endif
-
-                  @endforeach
-                </tbody>
-            </table>
-    </div>
-    <!-- /.box-body -->
-    <div class="box-footer">
-        Adding a shift will split time between 'Non - Complete and compliant' inventories below
-    </div>
-    <!-- /.box-footer-->
-</div>
-
     <div class="box">
       <div class="box-header with-border">
         <h3 class="box-title">Preventive Maintenance View for Equipment in <strong>{{session('building_name')}}</strong></h3>
