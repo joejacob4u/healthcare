@@ -40,7 +40,7 @@
     <div class="row">
         <div class="col-sm-4"><strong>Department : </strong> {{$demand_work_order->department->name}}</div>
         <div class="col-sm-4"><strong>Room : </strong> @if(!empty($demand_work_order->rooms)){{$demand_work_order->rooms->implode('room_number', ', ')}}@endif</div>
-        <div class="col-sm-4"><strong>Inventory : </strong> {{$demand_work_order->inventory->name}}</div>
+        <div class="col-sm-4"><strong>Inventory : </strong> @if($demand_work_order->inventory_id != 0){{$demand_work_order->inventory->name}}@else N/A @endif</div>
     </div><br/>
 
 </div>
