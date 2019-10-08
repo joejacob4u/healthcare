@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Equipment;
 
+use App\Equipment\BaselineDate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Equipment\PreventiveMaintenanceWorkOrder;
@@ -9,7 +10,9 @@ use App\Equipment\Equipment;
 use App\Equipment\DemandWorkOrder;
 use App\Equipment\IlsmPreassessmentQuestion;
 use App\Equipment\IlsmAssessment;
+use App\Equipment\WorkOrderStatus;
 use App\SystemTier;
+use Illuminate\Support\Facades\Auth;
 
 class WorkOrderController extends Controller
 {
@@ -30,7 +33,7 @@ class WorkOrderController extends Controller
             }
         }
 
-        if (isset($_GET['work_order_identifier']) and $_GET['search'] == 'true') {
+        if (isset($_GET['work_order_identifier']) and $_GET['search'] == 'true' and empty($_GET['work_order_status'])) {
 
             //determine if its pm or dm
 
@@ -85,6 +88,13 @@ class WorkOrderController extends Controller
             $query->where('building_id', session('building_id'));
         })->pluck('name', 'id');
 
-        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders, 'demand_work_orders' => $demand_work_orders, 'equipments' => $equipments, 'ilsm_preassessment_questions' => $ilsm_preassessment_questions, 'ilsm_assessments' => $ilsm_assessments]);
+        $work_order_statuses = WorkOrderStatus::pluck('name', 'name');
+
+        //lets figure out if current user has pm work orders
+
+        $pm_baseline_date_ids = BaselineDate::whereIn('equipment_id', $equipment_ids)->where('user_id', Auth::user()->id)->pluck('id');
+        $user_pm_work_orders = PreventiveMaintenanceWorkOrder::whereIn('baseline_date_id', $pm_baseline_date_ids)->paginate(15);
+
+        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders, 'demand_work_orders' => $demand_work_orders, 'equipments' => $equipments, 'ilsm_preassessment_questions' => $ilsm_preassessment_questions, 'ilsm_assessments' => $ilsm_assessments, 'work_order_statuses' => $work_order_statuses, 'user_pm_work_orders' => $user_pm_work_orders]);
     }
 }

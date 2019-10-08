@@ -30,6 +30,11 @@
                 <label for="email">Date Range (Optional)</label>
                 <input type="text" class="form-control" id="date_range" name="date_range" placeholder="Date Range">
             </div>
+            <div class="form-group">
+                <label for="email">Status</label>
+                {!! Form::select('work_order_status', $work_order_statuses->prepend('Please Select',''), '', ['class' => 'form-control','id' => 'work_order_status']); !!}
+            </div>
+
             <button type="submit" class="btn btn-primary">Search</button>
             
             @if(isset($_GET['search']) and $_GET['search'] == 'true')
@@ -64,7 +69,44 @@
         <div class="tab-content">
 
           <div id="my-work-orders" class="tab-pane fade in active">
-            <center><p>Work in Progress</p></center>
+                            <table id="example" class="table table-striped" type="custom">
+                <thead>
+                    <tr>
+                        <th>Identifier</th>
+                        <th>Status</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Identifier</th>
+                        <th>Status</th>
+                        <th>View</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                  @foreach($user_pm_work_orders->sortByDesc('id') as $work_order)
+                    @if($work_order->hasInventories())
+                      @if(isset($_GET['work_order_status']) and !empty($_GET['work_order_status']) and $_GET['work_order_status'] == $work_order->status())
+                        <tr>
+                          <td>{{$work_order->identifier}}</td>
+                          <td>{{$work_order->status() }}@if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="preventive-maintenance"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                          <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
+                        </tr>
+                      @elseif(!isset($_GET['work_order_status']))
+                        <tr>
+                          <td>{{$work_order->identifier}}</td>
+                          <td>{{$work_order->status() }}@if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="preventive-maintenance"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                          <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
+                        </tr>
+                        @endif
+                      @endif
+                  @endforeach
+                </tbody>
+            </table>
+
+            {{ $user_pm_work_orders->fragment('pm-work-orders')->links() }}
+
           </div>
 
           <div id="pm-work-orders" class="tab-pane fade">
@@ -100,19 +142,34 @@
                 <tbody>
                   @foreach($pm_work_orders->sortByDesc('work_order_date') as $work_order)
                     @if($work_order->hasInventories())
-                    <tr>
-                      <td>{{$work_order->identifier}}</td>
-                      <td>{{$work_order->equipment->category->name}}</td>
-                      <td>{{$work_order->equipment->assetCategory->name}}</td>
-                      <td>{{$work_order->equipment->description}}</td>
-                      <td>{{$work_order->equipment->frequency}}</td>
-                      <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
-                        <td>{{$work_order->baselineDate->user->name}}</td>
-                        <td>{{ $work_order->avgDuration() }} ({{$work_order->duration()}}) mins</td>
-                      <td>{{$work_order->status() }}@if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="preventive-maintenance"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
-                      <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
-                    </tr>
-                    @endif
+                      @if(isset($_GET['work_order_status']) and !empty($_GET['work_order_status']) and $_GET['work_order_status'] == $work_order->status())
+                        <tr>
+                          <td>{{$work_order->identifier}}</td>
+                          <td>{{$work_order->equipment->category->name}}</td>
+                          <td>{{$work_order->equipment->assetCategory->name}}</td>
+                          <td>{{$work_order->equipment->description}}</td>
+                          <td>{{$work_order->equipment->frequency}}</td>
+                          <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
+                            <td>{{$work_order->baselineDate->user->name}}</td>
+                            <td>{{ $work_order->avgDuration() }} ({{$work_order->duration()}}) mins</td>
+                          <td>{{$work_order->status() }}@if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="preventive-maintenance"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                          <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
+                        </tr>
+                      @elseif(!isset($_GET['work_order_status']))
+                        <tr>
+                          <td>{{$work_order->identifier}}</td>
+                          <td>{{$work_order->equipment->category->name}}</td>
+                          <td>{{$work_order->equipment->assetCategory->name}}</td>
+                          <td>{{$work_order->equipment->description}}</td>
+                          <td>{{$work_order->equipment->frequency}}</td>
+                          <td>{{$work_order->work_order_date->toFormattedDateString()}}</td>
+                            <td>{{$work_order->baselineDate->user->name}}</td>
+                            <td>{{ $work_order->avgDuration() }} ({{$work_order->duration()}}) mins</td>
+                          <td>{{$work_order->status() }}@if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="preventive-maintenance"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                          <td>{!! link_to('equipment/pm/work-orders/'.$work_order->id.'/inventory','View',['class' => 'btn-xs btn-info']) !!}</td>
+                        </tr>
+                        @endif
+                      @endif
                   @endforeach
                 </tbody>
             </table>
@@ -148,15 +205,27 @@
                 </tfoot>
                 <tbody>
                   @foreach($demand_work_orders as $work_order)
-                    <tr>
-                      <td>{{$work_order->identifier}}</td>
-                      <td>{{$work_order->department->name}} ({{$work_order->rooms->implode('room_number', ', ')}})</td>
-                      <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
-                      <td>{{$work_order->priority->name}}</td>
-                      <td>{{$work_order->created_at->setTimezone(session('timezone'))->toDayDateTimeString()}}</td>
-                      <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="demand"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
-                      <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
-                    </tr>
+                    @if(isset($_GET['work_order_status']) and !empty($_GET['work_order_status']) and $_GET['work_order_status'] == $work_order->status())
+                      <tr>
+                        <td>{{$work_order->identifier}}</td>
+                        <td>{{$work_order->department->name}} ({{$work_order->rooms->implode('room_number', ', ')}})</td>
+                        <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
+                        <td>{{$work_order->priority->name}}</td>
+                        <td>{{$work_order->created_at->setTimezone(session('timezone'))->toDayDateTimeString()}}</td>
+                        <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="demand"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                        <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
+                      </tr>
+                      @elseif(!isset($_GET['work_order_status']))
+                        <tr>
+                          <td>{{$work_order->identifier}}</td>
+                          <td>{{$work_order->department->name}} ({{$work_order->rooms->implode('room_number', ', ')}})</td>
+                          <td>{{$work_order->problem->name}} ({{$work_order->trade->name}})</td>
+                          <td>{{$work_order->priority->name}}</td>
+                          <td>{{$work_order->created_at->setTimezone(session('timezone'))->toDayDateTimeString()}}</td>
+                          <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="demand"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                          <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
+                        </tr>
+                    @endif
                   @endforeach
                 </tbody>
             </table>
