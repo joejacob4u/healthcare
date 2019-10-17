@@ -10,6 +10,7 @@ use App\Regulatory\HealthSystem;
 use Mail;
 use App\Regulatory\HCO;
 use App\Regulatory\Building;
+use App\Regulatory\BuildingDepartment;
 use App\Regulatory\Site;
 use Hash;
 
@@ -75,8 +76,9 @@ class UsersController extends Controller
 
         $sites = Site::whereIn('hco_id', $enabled_hcos)->pluck('name', 'id');
         $buildings = Building::whereIn('site_id', $enabled_sites)->pluck('name', 'id');
+        $departments = BuildingDepartment::whereIn('building_id', $buildings->pluck('id'))->get();
 
-        return view('maintenance.users.edit', ['user' => $user, 'healthsystem' => $healthsystem, 'enabled_hcos' => array_unique($enabled_hcos), 'enabled_sites' => array_unique($enabled_sites), 'sites' => $sites, 'buildings' => $buildings]);
+        return view('maintenance.users.edit', ['user' => $user, 'healthsystem' => $healthsystem, 'enabled_hcos' => array_unique($enabled_hcos), 'enabled_sites' => array_unique($enabled_sites), 'sites' => $sites, 'buildings' => $buildings, 'departments' => $departments]);
     }
 
     public function save(Request $request, $id)
