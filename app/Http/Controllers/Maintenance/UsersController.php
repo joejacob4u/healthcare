@@ -92,6 +92,7 @@ class UsersController extends Controller
         $user = User::find($id);
 
         if ($user->update($request->all())) {
+            $user->departments()->sync($request->maintenance_department_id);
             $user->buildings()->sync($request->maintenance_building_id);
             return redirect('admin/maintenance/users')->with('success', 'Maintenance user has been saved!');
         }

@@ -67,6 +67,14 @@
                   </div>
                 </div>
 
+                <div class="form-group">
+                    {!! Form::label('maintenance_department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
+                    <div class="col-lg-10">
+                    {!! Form::select('maintenance_department_id[]', [], '', ['class' => 'form-control selectpicker','id' => 'maintenance_department_id','data-live-search' => "true",'disabled' => true]); !!}
+                    </div>
+                </div>
+
+
 
 
                 {!! Form::hidden('status', $user->status, ['class' => 'form-control']) !!}
@@ -189,6 +197,45 @@
 
 
       });
+
+      $("#maintenance_building_id").change(function(){
+        
+        var building_id = $("#maintenance_building_id").val();
+
+        $.ajax({
+            type: 'POST',
+            url: '{{ url('buildings/fetch/departments') }}',
+            data: { '_token' : '{{ csrf_token() }}', 'building_id': building_id },
+            beforeSend:function()
+            {
+                $('.box').append('<div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>');
+            },
+            success:function(data)
+            {
+                $('#maintenance_department_id').html('');
+
+                var html = '<option value="0">Select Department</option>';
+
+                $.each(data.departments, function(index, value) {
+                    html += '<option value="'+value.id+'">'+value.name+'</option>';
+                });
+
+                $('#maintenance_department_id').append(html);
+                $('#maintenance_department_id').prop('disabled',false);
+                $('#maintenance_department_id').selectpicker('refresh');
+            },
+            complete:function()
+            {
+                $('.overlay').remove();
+            },
+            error:function()
+            {
+                // failed request; give feedback to user
+            }
+        });
+
+      });
+
 
 
     </script>
