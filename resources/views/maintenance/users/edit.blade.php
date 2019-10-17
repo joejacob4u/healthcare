@@ -70,7 +70,7 @@
                 <div class="form-group">
                     {!! Form::label('maintenance_department_id', 'Department:', ['class' => 'col-lg-2 control-label']) !!}
                     <div class="col-lg-10">
-                    {!! Form::select('maintenance_department_id[]', [], $user->departments->pluck('id')->toArray(), ['class' => 'form-control selectpicker','id' => 'maintenance_department_id','data-live-search' => "true",'disabled' => true]); !!}
+                    {!! Form::select('maintenance_department_id[]', [], $user->departments->pluck('id')->toArray(), ['class' => 'form-control selectpicker','id' => 'maintenance_department_id','data-live-search' => "true"]); !!}
                     </div>
                 </div>
 
