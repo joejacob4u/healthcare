@@ -47,15 +47,16 @@ class UsersController extends Controller
         $request->request->add(['password' => Hash::make($password)]);
         $request->request->add(['healthsystem_id' => Auth::user()->healthsystem_id]);
 
-        
+
         if ($user = User::create($request->all())) {
             $user->buildings()->sync($request->maintenance_building_id);
-            
-            Mail::send('email.systemadmin.welcome', ['user' => $user,'password' => $password], function ($m) use ($user) {
+            $user->departments()->sync($request->maintenance_department_id);
+
+            Mail::send('email.systemadmin.welcome', ['user' => $user, 'password' => $password], function ($m) use ($user) {
                 $m->from('hello@healthcare360.com', 'HealthCare360');
                 $m->to($user->email, $user->name)->subject('Welcome to HealthCare360');
             });
-        
+
             return redirect('admin/maintenance/users')->with('success', 'New maintenance user has been added!');
         }
     }
@@ -75,7 +76,7 @@ class UsersController extends Controller
         $sites = Site::whereIn('hco_id', $enabled_hcos)->pluck('name', 'id');
         $buildings = Building::whereIn('site_id', $enabled_sites)->pluck('name', 'id');
 
-        return view('maintenance.users.edit', ['user' => $user,'healthsystem' => $healthsystem,'enabled_hcos' => array_unique($enabled_hcos),'enabled_sites' => array_unique($enabled_sites),'sites' => $sites,'buildings' => $buildings]);
+        return view('maintenance.users.edit', ['user' => $user, 'healthsystem' => $healthsystem, 'enabled_hcos' => array_unique($enabled_hcos), 'enabled_sites' => array_unique($enabled_sites), 'sites' => $sites, 'buildings' => $buildings]);
     }
 
     public function save(Request $request, $id)

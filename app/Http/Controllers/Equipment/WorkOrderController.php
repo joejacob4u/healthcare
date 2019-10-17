@@ -11,6 +11,7 @@ use App\Equipment\DemandWorkOrder;
 use App\Equipment\IlsmPreassessmentQuestion;
 use App\Equipment\IlsmAssessment;
 use App\Equipment\WorkOrderStatus;
+use App\Regulatory\Building;
 use App\SystemTier;
 use Illuminate\Support\Facades\Auth;
 
@@ -95,8 +96,9 @@ class WorkOrderController extends Controller
         //lets figure out if current user has pm work orders
 
         $pm_baseline_date_ids = BaselineDate::whereIn('equipment_id', $equipment_ids)->where('user_id', Auth::user()->id)->pluck('id');
-        $user_pm_work_orders = PreventiveMaintenanceWorkOrder::whereIn('baseline_date_id', $pm_baseline_date_ids)->paginate(15);
+        $user_pm_work_orders = PreventiveMaintenanceWorkOrder::whereIn('baseline_date_id', $pm_baseline_date_ids)->get();
+        $user_dm_work_orders = DemandWorkOrder::whereIn('building_department_id', Auth::user()->departments->pluck('id'))->get();
 
-        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders, 'demand_work_orders' => $demand_work_orders, 'equipments' => $equipments, 'ilsm_preassessment_questions' => $ilsm_preassessment_questions, 'ilsm_assessments' => $ilsm_assessments, 'work_order_statuses' => $work_order_statuses, 'user_pm_work_orders' => $user_pm_work_orders]);
+        return view('equipment.work-order.index', ['pm_work_orders' => $pm_work_orders, 'demand_work_orders' => $demand_work_orders, 'equipments' => $equipments, 'ilsm_preassessment_questions' => $ilsm_preassessment_questions, 'ilsm_assessments' => $ilsm_assessments, 'work_order_statuses' => $work_order_statuses, 'user_pm_work_orders' => $user_pm_work_orders, 'user_dm_work_orders' => $user_dm_work_orders]);
     }
 }

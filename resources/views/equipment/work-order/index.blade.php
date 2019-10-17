@@ -102,11 +102,25 @@
                         @endif
                       @endif
                   @endforeach
+                  @foreach($user_dm_work_orders->sortByDesc('id') as $work_order)
+                    @if(isset($_GET['work_order_status']) and !empty($_GET['work_order_status']) and $_GET['work_order_status'] == $work_order->status())
+                      <tr>
+                        <td>{{$work_order->identifier}}</td>
+                        <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="demand"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                        <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
+                      </tr>
+                      @elseif(!isset($_GET['work_order_status']))
+                        <tr>
+                          <td>{{$work_order->identifier}}</td>
+                          <td>{{$work_order->status()}} @if($work_order->is_ilsm_probable) <small class="label bg-orange ilsm-probable" data-work-order-id="{{$work_order->id}}" data-work-order-type="demand"><i class="fa fa-exclamation-triangle"></i> ILSM Probable</small>@elseif($work_order->is_ilsm) <small class="label bg-red is_ilsm" data-work-order-id="{{$work_order->id}}"><i class="fa fa-times-circle"></i> ILSM Required</small> @elseif($work_order->is_ilsm_complete) <small class="label bg-green is_ilsm_complete"><i class="fa fa-check"></i> ILSM Complete</small> @endif</td>
+                          <td>{!! link_to('/equipment/demand-work-orders/'.$work_order->id,'View',['class' => 'btn-xs btn-info']) !!}</td>
+                        </tr>
+                    @endif
+
+                  @endforeach
+
                 </tbody>
             </table>
-
-            {{ $user_pm_work_orders->fragment('pm-work-orders')->links() }}
-
           </div>
 
           <div id="pm-work-orders" class="tab-pane fade">
